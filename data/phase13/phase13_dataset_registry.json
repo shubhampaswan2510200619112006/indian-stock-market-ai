@@ -1,0 +1,80 @@
+{
+  "total_registered_datasets": 3,
+  "datasets": {
+    "YAHOO_PUBLIC_NIFTY_1M_SAMPLE": [
+      {
+        "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+        "version": "v1",
+        "category": "AUXILIARY_DATASET",
+        "vendor": "Yahoo Finance",
+        "product_name": "yfinance public endpoint",
+        "underlying": "NIFTY 50",
+        "frequency": "1m",
+        "coverage_start": "2026-09-01",
+        "coverage_end": "2026-09-08",
+        "total_records": 2625,
+        "source_file": ".\\data\\phase10a\\intraday\\nsei_1m.csv",
+        "source_checksum": "sha256_public_sample_1m",
+        "schema_version": "phase13_v1",
+        "transformation_version": "raw_tape_v1",
+        "validation_version": "val_v1",
+        "acquisition_timestamp": "2026-09-09T10:46:47.229723+00:00",
+        "license_status": "LICENSE_RESTRICTED",
+        "license_reference": null,
+        "validation_run_id": "VAL-YAHOO_PUBLIC_NIFTY_1M_SAMPLE-20260909104647",
+        "is_quarantined": false,
+        "quarantine_reason": null
+      }
+    ],
+    "YAHOO_PUBLIC_NIFTY_5M_SAMPLE": [
+      {
+        "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+        "version": "v1",
+        "category": "AUXILIARY_DATASET",
+        "vendor": "Yahoo Finance",
+        "product_name": "yfinance public endpoint",
+        "underlying": "NIFTY 50",
+        "frequency": "5m",
+        "coverage_start": "2026-07-10",
+        "coverage_end": "2026-09-08",
+        "total_records": 4425,
+        "source_file": ".\\data\\phase10a\\intraday\\nsei_5m.csv",
+        "source_checksum": "sha256_public_sample_5m",
+        "schema_version": "phase13_v1",
+        "transformation_version": "raw_tape_v1",
+        "validation_version": "val_v1",
+        "acquisition_timestamp": "2026-09-09T10:46:47.385715+00:00",
+        "license_status": "LICENSE_RESTRICTED",
+        "license_reference": null,
+        "validation_run_id": "VAL-YAHOO_PUBLIC_NIFTY_5M_SAMPLE-20260909104647",
+        "is_quarantined": false,
+        "quarantine_reason": null
+      }
+    ],
+    "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE": [
+      {
+        "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+        "version": "v1",
+        "category": "PRODUCTION_DATA",
+        "vendor": "NSE Public Web",
+        "product_name": "Historical F&O Bhavcopy",
+        "underlying": "NIFTY",
+        "frequency": "eod",
+        "coverage_start": "2018-01-01",
+        "coverage_end": "2025-12-31",
+        "total_records": 846,
+        "source_file": ".\\data\\indian_options.db",
+        "source_checksum": "sha256_bhavcopy_db",
+        "schema_version": "phase13_v1",
+        "transformation_version": "raw_tape_v1",
+        "validation_version": "val_v1",
+        "acquisition_timestamp": "2026-09-09T10:46:47.575141+00:00",
+        "license_status": "LICENSE_VERIFIED",
+        "license_reference": null,
+        "validation_run_id": "VAL-NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE-20260909104647",
+        "is_quarantined": false,
+        "quarantine_reason": null
+      }
+    ]
+  }
+}

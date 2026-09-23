@@ -1,0 +1,153 @@
+{
+  "daily_index": {
+    "capability_id": "daily_index",
+    "name": "Daily Index OHLCV (NIFTY 50 / BANKNIFTY)",
+    "available": true,
+    "research_readiness": "READY",
+    "execution_readiness": "NOT_APPLICABLE",
+    "quality_grade": "RESEARCH_READY",
+    "observed_metrics": {
+      "nifty_sessions": 495,
+      "banknifty_sessions": 494,
+      "frequency": "1D",
+      "sample_completeness_pct": 100.0
+    },
+    "provenance": {
+      "source": "NSE Public EOD Archives & Baseline Parquet Store",
+      "retrieval_method": "AUDITED_LOCAL_STORE",
+      "confidence": "HIGH"
+    },
+    "block_reason": null,
+    "required_for_readiness": ">=250 sessions (Satisfied: 495 sessions)"
+  },
+  "cross_sectional_equities": {
+    "capability_id": "cross_sectional_equities",
+    "name": "Cross-Sectional Daily Equity Panels",
+    "available": true,
+    "research_readiness": "READY",
+    "execution_readiness": "NOT_APPLICABLE",
+    "quality_grade": "RESEARCH_READY",
+    "observed_metrics": {
+      "constituents_count": 50,
+      "trading_sessions": 504,
+      "survivorship_risk_flagged": true,
+      "frequency": "1D"
+    },
+    "provenance": {
+      "source": "NSE Bhavcopy / Daily Equity Historical Datasets",
+      "retrieval_method": "AUDITED_LOCAL_STORE",
+      "confidence": "HIGH"
+    },
+    "block_reason": null,
+    "required_for_readiness": ">=50 constituents, >=250 sessions (Satisfied)"
+  },
+  "intraday_1m": {
+    "capability_id": "intraday_1m",
+    "name": "Intraday 1-Minute OHLCV (NIFTY 50 / BANKNIFTY)",
+    "available": true,
+    "research_readiness": "BLOCKED",
+    "execution_readiness": "BLOCKED",
+    "quality_grade": "INSUFFICIENT_HISTORY",
+    "observed_metrics": {
+      "sessions_available": 7,
+      "sessions_required": 250,
+      "coverage_gap_sessions": 243,
+      "frequency": "1m"
+    },
+    "provenance": {
+      "source": "Yahoo Finance Public Chart API (Empirically Audited in Phase 10B)",
+      "retrieval_method": "HISTORICAL_INGESTION",
+      "confidence": "HIGH"
+    },
+    "block_reason": "INSUFFICIENT_VERIFIED_INTRADAY_HISTORY",
+    "required_for_readiness": ">=250 trading sessions (Available: 7 sessions)"
+  },
+  "intraday_5m": {
+    "capability_id": "intraday_5m",
+    "name": "Intraday 5-Minute OHLCV (NIFTY 50 / BANKNIFTY)",
+    "available": true,
+    "research_readiness": "BLOCKED",
+    "execution_readiness": "BLOCKED",
+    "quality_grade": "INSUFFICIENT_HISTORY",
+    "observed_metrics": {
+      "sessions_available": 59,
+      "sessions_required": 250,
+      "coverage_gap_sessions": 191,
+      "frequency": "5m"
+    },
+    "provenance": {
+      "source": "Yahoo Finance Public Chart API (Empirically Audited in Phase 10B)",
+      "retrieval_method": "HISTORICAL_INGESTION",
+      "confidence": "HIGH"
+    },
+    "block_reason": "INSUFFICIENT_VERIFIED_INTRADAY_HISTORY",
+    "required_for_readiness": ">=250 trading sessions (Available: 59 sessions)"
+  },
+  "historical_options_ltp": {
+    "capability_id": "historical_options_ltp",
+    "name": "Historical Options LTP / Settlement / Open Interest",
+    "available": true,
+    "research_readiness": "LIMITED",
+    "execution_readiness": "BLOCKED",
+    "quality_grade": "EOD_LTP_SETTLEMENT",
+    "observed_metrics": {
+      "records_count": 17607,
+      "fields": [
+        "timestamp",
+        "underlying",
+        "expiry",
+        "strike",
+        "option_type",
+        "close",
+        "settle_price",
+        "volume",
+        "open_interest"
+      ],
+      "allows_execution_backtesting": false
+    },
+    "provenance": {
+      "source": "NSE Historical Bhavcopy Derivatives & Options Parquet Store",
+      "retrieval_method": "AUDITED_LOCAL_STORE",
+      "confidence": "HIGH"
+    },
+    "block_reason": "LTP_ONLY_CANNOT_MODEL_SLIPPAGE",
+    "required_for_readiness": "Permitted for theoretical IV / volatility research; strictly blocked for trade execution"
+  },
+  "historical_options_bid_ask": {
+    "capability_id": "historical_options_bid_ask",
+    "name": "Historical Options Executable Bid/Ask Quotes",
+    "available": false,
+    "research_readiness": "BLOCKED",
+    "execution_readiness": "BLOCKED",
+    "quality_grade": "NO_GENUINE_EXECUTABLE_HISTORY",
+    "observed_metrics": {
+      "genuine_paired_quotes": 0,
+      "synthetic_paired_fixtures": 117,
+      "bid_ask_coverage_pct": 0.0
+    },
+    "provenance": {
+      "source": "None (No legitimate vendor acquired yet)",
+      "confidence": "HIGH"
+    },
+    "block_reason": "NO_GENUINE_HISTORICAL_BID_ASK_DATA",
+    "required_for_readiness": "Requires verified Level 2 paired quotes from approved exchange or data redistributor"
+  },
+  "continuous_options_quote_surface": {
+    "capability_id": "continuous_options_quote_surface",
+    "name": "Continuous Options Executable Quote Surface (Level 3/4)",
+    "available": false,
+    "research_readiness": "BLOCKED",
+    "execution_readiness": "BLOCKED",
+    "quality_grade": "BLOCKED",
+    "observed_metrics": {
+      "continuous_surface_pct": 0.0,
+      "quality_level": "LEVEL_0"
+    },
+    "provenance": {
+      "source": "None",
+      "confidence": "HIGH"
+    },
+    "block_reason": "ZERO_CONTINUOUS_EXECUTABLE_SURFACE",
+    "required_for_readiness": "Requires Level 3/4 continuous timestamped Bid/Ask across trading hours and strike spectrum"
+  }
+}

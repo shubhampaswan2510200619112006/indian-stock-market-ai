@@ -1,0 +1,110 @@
+{
+  "manifest_name": "INVESTOR_DEMO_BASELINE_MANIFEST",
+  "version": "17.0.0-INVESTOR-FROZEN",
+  "created_at_utc": "2026-09-23T18:17:00Z",
+  "git_repository_state": {
+    "git_status": "UNVERSIONED_LOCAL_WORKSPACE",
+    "git_commit": "NOT_A_GIT_REPOSITORY",
+    "workspace_path": "c:/Users/91859/OneDrive/Desktop/indian stock market ai"
+  },
+  "test_suite_verification": {
+    "current_total_tests": 658,
+    "passed": 658,
+    "failed": 0,
+    "skipped": 0,
+    "pass_rate_pct": 100.0,
+    "test_duration_seconds": 59.67,
+    "historical_phase_9_9_frozen_tests": 312,
+    "suite_classification": "COMPLETE_CURRENT_REPOSITORY_SUITE"
+  },
+  "database_schema": {
+    "database_file": "data/indian_options.db",
+    "database_engine": "SQLite WAL mode",
+    "table_count": 38,
+    "tables": [
+      "bhavcopy_candles",
+      "bhavcopy_staging",
+      "corporate_actions",
+      "data_lineage",
+      "data_providers",
+      "data_quality_events",
+      "data_quality_logs",
+      "dataset_snapshots",
+      "equity_prices",
+      "fii_dii_flows",
+      "implied_volatility",
+      "ingestion_batches",
+      "instrument_master",
+      "intraday_candles",
+      "live_candles",
+      "live_market_analysis",
+      "live_quotes",
+      "macro_features",
+      "market_calendar",
+      "market_observations",
+      "market_regimes",
+      "news_articles",
+      "options_chain_snapshots",
+      "options_contracts",
+      "options_greeks",
+      "options_quotes",
+      "paper_fills",
+      "paper_orders",
+      "paper_portfolio_snapshots",
+      "paper_positions",
+      "paper_risk_events",
+      "paper_sessions",
+      "paper_trade_journal",
+      "provider_capabilities",
+      "provider_health",
+      "provider_verifications",
+      "technical_features",
+      "underlyings"
+    ],
+    "key_record_counts": {
+      "options_quotes": 25864,
+      "options_contracts": 477,
+      "equity_prices": 1009,
+      "underlyings": 3
+    }
+  },
+  "research_freeze_integrity_hashes": {
+    "data/phase9_7_cost_audit.json": "1dd4fa359d21408a19b635bd5ecec09985209caadac0d9104e88372d2b1da76a",
+    "data/phase9_7_data_audit.json": "a63121b3c1221aa7fe5cfa3b1560bea1fa1ea883f51ff02d4bacd5d472171bcd",
+    "data/phase9_7_execution_audit.json": "b6127e442ae696cb95b55745539e41b3a1ab361731d4c74c92c974e5d4d70d64",
+    "data/phase9_7_leakage_audit.json": "2554b4f96b1faac3b63942a6c3751a36011599959d0b9b8f92786a050b1801e6",
+    "data/phase9_7_phase10_gate.json": "b4c9c9dc8d3b9c8d6bbd2f6fdcefc10699ba4f87ba0855dbb88f572577413a58",
+    "data/phase9_7_revalidation.json": "51dfc2cb7b4b93b54d97ee3d6dbc735fdac8de0694cbe180865c4a8d0bd9c67e",
+    "src/paper_trading/execution_guard.py": "0cba073cfb178237e0174cc6fe71065d8d1e20a28b47f95dee84eef0746811f9",
+    "src/options/pricing.py": "89ff2d5ab037be367f1293e3cd70fd40f42647ae641b56e436e7366101b6267c",
+    "src/options/iv_solver.py": "ee1d092a0b351fc90445272bc876a16fc2e7f2a8b7661b71add5914e09e791d7",
+    "docs/CURRENT_SYSTEM_STATE.md": "87c05b67117f3b0d85545c0ed6f59771de686988bf93dc8625e6e53046685fe8"
+  },
+  "execution_governance_invariants": {
+    "ALLOW_LIVE_EXECUTION": false,
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER": "NONE",
+    "AUTO_PAPER_ORDER_SUBMISSION": "DISABLED",
+    "OPTIONS_EXECUTION": "BLOCKED",
+    "NEW_ALPHA_DISCOVERY": "DISABLED",
+    "PURCHASE_AUTHORIZED": false,
+    "AUTOMATED_VENDOR_CONTACT": false,
+    "PLATFORM_ENGINEERING": "ENABLED"
+  },
+  "options_empirical_truth": {
+    "TOTAL_OPTIONS_QUOTES": 15106,
+    "VALID_PAIRED_BID_ASK_QUOTES": 102,
+    "PAIRED_QUOTE_OBSERVATION_COVERAGE_PCT": 0.68,
+    "CONTINUOUS_EXECUTABLE_SURFACE_COVERAGE_PCT": 0.0,
+    "OPTIONS_EXECUTION_BACKTEST": "BLOCKED",
+    "OPTIONS_PAPER_EXECUTION": "BLOCKED"
+  },
+  "standardized_investor_status": {
+    "SOFTWARE_ENGINEERING": "READY",
+    "INVESTOR_DEMO": "READY",
+    "LIVE_DATA": "PARTIAL",
+    "OPTIONS_RESEARCH": "PARTIAL",
+    "EXECUTION_RESEARCH": "BLOCKED",
+    "STATISTICAL_EVIDENCE": "NO_DEMONSTRATED_EDGE / INSUFFICIENT"
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "manifest_version": "1.0",
+  "generated_at": "2026-09-08T21:45:10.258737+00:00",
+  "phase": "PHASE_9_9_FREEZE",
+  "authoritative_freeze_status": "FROZEN_IMMUTABLE",
+  "documentation_corrections_applied": 3,
+  "numerical_results_changed": 0,
+  "phase_9_7_integrity": {
+    "total_artifacts": 8,
+    "matched_artifacts": 8,
+    "status": "FROZEN_UNTOUCHED",
+    "artifacts": {
+      "data/phase9_7_cost_audit.json": "1dd4fa359d21408a19b635bd5ecec09985209caadac0d9104e88372d2b1da76a",
+      "data/phase9_7_data_audit.json": "a63121b3c1221aa7fe5cfa3b1560bea1fa1ea883f51ff02d4bacd5d472171bcd",
+      "data/phase9_7_execution_audit.json": "b6127e442ae696cb95b55745539e41b3a1ab361731d4c74c92c974e5d4d70d64",
+      "data/phase9_7_leakage_audit.json": "2554b4f96b1faac3b63942a6c3751a36011599959d0b9b8f92786a050b1801e6",
+      "data/phase9_7_phase10_gate.json": "b4c9c9dc8d3b9c8d6bbd2f6fdcefc10699ba4f87ba0855dbb88f572577413a58",
+      "data/phase9_7_revalidation.json": "51dfc2cb7b4b93b54d97ee3d6dbc735fdac8de0694cbe180865c4a8d0bd9c67e",
+      "PHASE_9_7_RESEARCH_INTEGRITY_REPORT.md": "6e96b6c6f0c10ebb8e3ac82144d9d7729add50a8d125504652d3e75f9b5c9e79",
+      "LEAKAGE_AUDIT_REPORT.md": "a892e178beb1c8fa39d8d04a58c98ea552fc1652b3753ff7ccdc4fe4373ff2e8"
+    }
+  },
+  "phase_9_8_frozen_artifacts": [
+    {
+      "artifact_path": "data/phase9_8/research_registry.json",
+      "artifact_type": "DATA_REGISTRY",
+      "sha256": "7ddb21b076f011abd9cfb877d2a730086567a7f8503bde182a974b15ae3a51eb",
+      "modification_timestamp": "2026-09-08T21:43:41.067500+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "data/phase9_8/candidate_results.json",
+      "artifact_type": "EVALUATION_RESULTS",
+      "sha256": "122f71da3429824f02fe6aedd9770a5f17858480190e3cad323294d3bfd78f14",
+      "modification_timestamp": "2026-09-08T21:43:41.075207+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "data/phase9_8/data_quality.json",
+      "artifact_type": "DATA_QUALITY_AUDIT",
+      "sha256": "3ffbdd8171557875eea6522d254a789f56cf90cc2724d9d9f593c64418de7ed0",
+      "modification_timestamp": "2026-09-08T21:43:14.864388+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "data/phase9_8/timing_audit.json",
+      "artifact_type": "TIMING_AUDIT",
+      "sha256": "b435232e503c9e7e9c8de3bd54ca361e4a0158a82bbdc79177ff8d0d634dcad2",
+      "modification_timestamp": "2026-09-08T21:44:47.416371+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "data/phase9_8/multiple_testing.json",
+      "artifact_type": "MULTIPLE_TESTING_AUDIT",
+      "sha256": "285bf4ed22d111b9765130ced98af93045ba577fe9da7be1cd416cef7168974a",
+      "modification_timestamp": "2026-09-08T21:43:41.071484+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "data/phase9_8/final_gate.json",
+      "artifact_type": "FINAL_GATE_DECISION",
+      "sha256": "ff897cbbbb3857241db8627cc8b3bdedc4f70de67b75a58a2651b652a8856446",
+      "modification_timestamp": "2026-09-08T21:44:47.434362+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "reports/phase9_8/PHASE_9_8_RESEARCH_REPORT.md",
+      "artifact_type": "RESEARCH_REPORT",
+      "sha256": "9df6acdec8809ccf0439fd35a2ef00808ad2f1ea293cf9397d00b98cb790edc8",
+      "modification_timestamp": "2026-09-08T21:43:45.421160+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "reports/phase9_8/PHASE_9_8_DATA_QUALITY_REPORT.md",
+      "artifact_type": "DATA_QUALITY_REPORT",
+      "sha256": "ac212d4f5d52e0d04f77f11cc0dd6ab42f2cd4c6775e475fe7c36c4c4f5d919e",
+      "modification_timestamp": "2026-09-08T21:43:45.426560+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "reports/phase9_8/PHASE_9_8_TIMING_AUDIT.md",
+      "artifact_type": "TIMING_REPORT",
+      "sha256": "4cfc79ae4c3af2ea93b7981e4e91b9e84f56a3a213b8372438db0d448da9f140",
+      "modification_timestamp": "2026-09-08T21:43:45.428568+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "reports/phase9_8/PHASE_9_8_MULTIPLE_TESTING_REPORT.md",
+      "artifact_type": "MULTIPLE_TESTING_REPORT",
+      "sha256": "a6f1f4eda9c3c2740fea276a3d91b5e2855b5ecab2c77c7e2e63cf58e98394db",
+      "modification_timestamp": "2026-09-08T21:43:45.430559+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "reports/phase9_8/PHASE_9_8_CANDIDATE_COMPARISON.md",
+      "artifact_type": "CANDIDATE_COMPARISON_REPORT",
+      "sha256": "12653f6f43a16fc07864787a48b309ef088d770de17f7e5b84022a38199f7fdb",
+      "modification_timestamp": "2026-09-08T21:43:45.432576+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "reports/phase9_8/PHASE_9_8_FINAL_GATE.md",
+      "artifact_type": "FINAL_GATE_REPORT",
+      "sha256": "4b353ef932d2c7521fed7f08a8e9a3c4a62036fe3f7d4221173b33312ff24364",
+      "modification_timestamp": "2026-09-08T21:43:45.434096+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    },
+    {
+      "artifact_path": "PHASE_9_8_RESEARCH_REPORT.md",
+      "artifact_type": "ROOT_MIRROR_REPORT",
+      "sha256": "9df6acdec8809ccf0439fd35a2ef00808ad2f1ea293cf9397d00b98cb790edc8",
+      "modification_timestamp": "2026-09-08T21:43:45.424561+00:00",
+      "phase_9_8_version": "9.8-frozen",
+      "phase_9_9_correction_status": "CORRECTED_AND_CONSISTENT",
+      "immutable_numerical_results_status": "100%_VERIFIED_UNCHANGED"
+    }
+  ],
+  "safety_invariants": {
+    "ALLOW_LIVE_EXECUTION": false,
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER": "NONE",
+    "AUTO_PAPER_ORDER_SUBMISSION": "DISABLED",
+    "OPTIONS_EXECUTION": "BLOCKED",
+    "PHASE_10": "NOT_IMPLEMENTED",
+    "PHASE_10_DECISION": "NOT_JUSTIFIED"
+  }
+}

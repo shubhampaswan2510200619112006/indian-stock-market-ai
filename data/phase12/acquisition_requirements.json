@@ -1,0 +1,94 @@
+{
+  "specification_version": "phase12_v1",
+  "generated_at": "2026-09-09T08:39:32.835266+00:00",
+  "governance": {
+    "purchase_authorized": false,
+    "human_decision_required": true,
+    "broker_connection_allowed": false,
+    "live_execution_allowed": false,
+    "paper_automation_allowed": false,
+    "alpha_research_allowed": false,
+    "zero_data_fabrication_rule": "Zero synthetic Bid/Ask prices or continuous quote surfaces may be labeled as exchange observations."
+  },
+  "intraday_requirements": {
+    "target_symbols": [
+      "NIFTY 50",
+      "NIFTY BANK"
+    ],
+    "target_intervals": [
+      "1m",
+      "5m"
+    ],
+    "minimum_sessions_threshold": 250,
+    "preferred_years_target": "3-5 years (~750-1250 sessions)",
+    "required_columns": [
+      "timestamp",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "symbol"
+    ],
+    "session_start_ist": "09:15:00",
+    "session_end_ist": "15:30:00",
+    "timezone": "Asia/Kolkata (+05:30)",
+    "timestamp_precision": "ISO-8601 with timezone or explicit IST minute offset",
+    "substitutions_permitted": false,
+    "substitution_restriction_note": "Substitution of daily or 1-hour bars for 1m/5m intraday data is strictly forbidden."
+  },
+  "options_requirements": {
+    "target_underlyings": [
+      "NIFTY",
+      "BANKNIFTY"
+    ],
+    "required_columns": [
+      "underlying",
+      "contract_id",
+      "expiry",
+      "strike",
+      "option_type",
+      "timestamp",
+      "bid",
+      "ask",
+      "ltp",
+      "volume",
+      "open_interest"
+    ],
+    "preferred_additional_columns": [
+      "bid_qty",
+      "ask_qty",
+      "depth_5",
+      "implied_volatility"
+    ],
+    "paired_quote_continuity_threshold_pct": 70.0,
+    "contract_validation_method": "EXCHANGE_SPEC_AND_CALENDAR_DRIVEN",
+    "contract_validation_note": "Contract validation must evaluate against authoritative exchange contract specifications and market holiday calendars; hardcoding Thursdays or Wednesdays as universal rules is forbidden.",
+    "options_quality_hierarchy": {
+      "LEVEL_0": "NO OPTIONS DATA",
+      "LEVEL_1": "LTP / SETTLEMENT ONLY",
+      "LEVEL_2": "ISOLATED BID/ASK",
+      "LEVEL_3": "CONTINUOUS PAIRED BID/ASK (Execution-Ready for Research)",
+      "LEVEL_4": "DEPTH / ORDER-BOOK CAPABLE"
+    }
+  },
+  "quality_threshold_classifications": {
+    "intraday_minimum_evaluation_threshold": "N >= 250 sessions (PROJECT_RESEARCH_THRESHOLD)",
+    "options_quote_continuity_threshold": "paired_quote_coverage >= 70.0% (PROJECT_RESEARCH_THRESHOLD)",
+    "contract_weekday_rule": "DYNAMIC_EXCHANGE_SPEC (Not hardcoded day)"
+  },
+  "acquisition_decision_framework": {
+    "decision_states": [
+      "READY_NOW",
+      "ACQUISITION_REQUIRED",
+      "VENDOR_CONFIRMATION_REQUIRED",
+      "NOT_AVAILABLE"
+    ],
+    "vendor_quote_status_types": [
+      "VERIFIED_QUOTE",
+      "ESTIMATE",
+      "NOT_PUBLISHED",
+      "REQUIRES_VENDOR_QUOTE"
+    ]
+  }
+}

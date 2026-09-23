@@ -1,0 +1,22 @@
+{
+  "license_records": [
+    {
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+      "vendor": "Yahoo Finance",
+      "license_status": "LICENSE_RESTRICTED",
+      "research_permission": false
+    },
+    {
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+      "vendor": "Yahoo Finance",
+      "license_status": "LICENSE_RESTRICTED",
+      "research_permission": false
+    },
+    {
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "vendor": "NSE Public Web",
+      "license_status": "LICENSE_VERIFIED",
+      "research_permission": true
+    }
+  ]
+}

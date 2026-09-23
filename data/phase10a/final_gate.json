@@ -1,0 +1,118 @@
+{
+  "decision_version": "1.0",
+  "evaluation_timestamp_utc": "2026-09-23T18:15:51.787899+00:00",
+  "phase": "PHASE_10A_DATA_FOUNDATION",
+  "OVERALL_PHASE_10A_STATUS": "PHASE_10A_DATA_PARTIALLY_READY",
+  "track_readiness": {
+    "INTRADAY_RESEARCH_READY": "BLOCKED / INSUFFICIENT_FOR_CONFIRMATORY",
+    "CROSS_SECTIONAL_RESEARCH_READY": "READY",
+    "OPTIONS_EXECUTION_RESEARCH_READY": "BLOCKED"
+  },
+  "gate_counts": {
+    "total_gates": 10,
+    "passed_gates": 8,
+    "failed_gates": 0,
+    "blocked_gates": 2
+  },
+  "safety_invariants": {
+    "ALLOW_LIVE_EXECUTION": false,
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER": "NONE",
+    "AUTO_PAPER_ORDER_SUBMISSION": "DISABLED",
+    "OPTIONS_EXECUTION": "BLOCKED",
+    "NO_ALPHA_RESEARCH": true
+  },
+  "decision_rationale": "Phase 10A achieves PHASE_10A_DATA_PARTIALLY_READY. The Cross-Sectional Daily Equity track is READY (664-669 modern sessions, up to 7,707 full sessions, 100% verified Point-in-Time constituent registry, zero survivorship bias). However, the Intraday Research track is BLOCKED / INSUFFICIENT_FOR_CONFIRMATORY due to provider retention limits on the authorized Yahoo Finance endpoint (< 60 sessions). The Options Execution track remains BLOCKED until genuine timestamped executable Bid/Ask data satisfies execution-data readiness requirements. Zero strategy backtests or alpha optimizations were performed.",
+  "gates": [
+    {
+      "gate_number": 1,
+      "gate_name": "Baseline Freeze Protection",
+      "track": "GOVERNANCE",
+      "requirement": "Phase 9.7 and Phase 9.8/9.9 baselines must remain 100% frozen and verified.",
+      "observed_result": "Phase 9.7: FROZEN; Phase 9.8: FROZEN; Manifest: FROZEN_IMMUTABLE.",
+      "status": "PASS",
+      "evidence_notes": "All historical artifacts verified intact against canonical SHA256 checksums."
+    },
+    {
+      "gate_number": 2,
+      "gate_name": "Market Calendar & Session Boundaries",
+      "track": "CALENDAR",
+      "requirement": "Authoritative exchange calendar for 2024-2026 separating official NSE holidays and Muhurat sessions.",
+      "observed_result": "NSECalendarValidator implemented for 2024-2026; validates regular and special trading sessions.",
+      "status": "PASS",
+      "evidence_notes": "Exchange trading sessions (09:15-15:30 IST) and Diwali Muhurat sessions verified."
+    },
+    {
+      "gate_number": 3,
+      "gate_name": "Point-in-Time Constituent Registry",
+      "track": "CROSS_SECTIONAL",
+      "requirement": "Official NSE circulars tracking additions, deletions, effective dates, and symbol changes.",
+      "observed_result": "7 verified official circular events audited. UNRESOLVED_EVENTS: 0.",
+      "status": "PASS",
+      "evidence_notes": "NIFTYConstituentRegistry confirms exact 50 constituents across all semi-annual reconstitution dates."
+    },
+    {
+      "gate_number": 4,
+      "gate_name": "Survivorship & Lookahead Prevention",
+      "track": "CROSS_SECTIONAL",
+      "requirement": "Historical cross-sections evaluated at date T must use only constituents active on date T.",
+      "observed_result": "get_constituents_as_of(T) enforces point-in-time membership. Survivorship protection ACTIVE.",
+      "status": "PASS",
+      "evidence_notes": "Prevents retrospective index membership leakage."
+    },
+    {
+      "gate_number": 5,
+      "gate_name": "Intraday Coverage & Granularity Depth",
+      "track": "INTRADAY",
+      "requirement": "Continuous multi-year intraday history (target >= 250 sessions) for confirmatory testing.",
+      "observed_result": "Observed provider retention ceiling: 59 sessions returned (requires >= 250 sessions).",
+      "status": "BLOCKED",
+      "evidence_notes": "Provider-specific limit on Yahoo Finance endpoint (7d for 1m, 60d for 5m). Insufficient for confirmatory research. No bars fabricated. Intraday track BLOCKED."
+    },
+    {
+      "gate_number": 6,
+      "gate_name": "Historical Daily Equity Depth & Integrity",
+      "track": "CROSS_SECTIONAL",
+      "requirement": "Minimum 2 years verified history (prefer max available). Zero synthetic backfilling.",
+      "observed_result": "Verified window has 664 sessions (> 495 target); Full history up to 7707 sessions (30+ years).",
+      "status": "PASS",
+      "evidence_notes": "Dual reporting: modern verified window (100% clean) and maximum available historical depth."
+    },
+    {
+      "gate_number": 7,
+      "gate_name": "Corporate Action Auditability",
+      "track": "CROSS_SECTIONAL",
+      "requirement": "Splits, bonuses, and dividends tracked with transparent, auditable price transformations.",
+      "observed_result": "Corporate actions logged and verified across constituent daily histories. Zero anomalous unadjusted jumps.",
+      "status": "PASS",
+      "evidence_notes": "Modern 2024-2026 window has 0 invalid OHLC bars and 0 unexplained jumps."
+    },
+    {
+      "gate_number": 8,
+      "gate_name": "Options Executability & Bid/Ask Coverage",
+      "track": "OPTIONS",
+      "requirement": "Continuous executable Bid/Ask quotes. Zero price synthesis.",
+      "observed_result": "Paired quotes = 168 (0.65%). Continuous executable surface = 0.0%.",
+      "status": "BLOCKED",
+      "evidence_notes": "Options execution remains blocked until genuine timestamped executable Bid/Ask data satisfies the Phase 10A execution-data readiness requirements. OPTIONS_EXECUTION_BACKTEST = BLOCKED; OPTIONS_PAPER_EXECUTION = BLOCKED."
+    },
+    {
+      "gate_number": 9,
+      "gate_name": "Provenance, Lineage & Cryptographic Hashing",
+      "track": "GOVERNANCE",
+      "requirement": "Every dataset versioned, tiered, and tracked with cryptographic SHA256 checksums.",
+      "observed_result": "19 datasets versioned across Tiers 1, 2, and 3 with full SHA256 checksums.",
+      "status": "PASS",
+      "evidence_notes": "Data inventory and provenance manifests generated in data/phase10a/."
+    },
+    {
+      "gate_number": 10,
+      "gate_name": "Research Safety & Execution Invariants",
+      "track": "SAFETY",
+      "requirement": "Live execution disabled, broker none, auto paper disabled, options blocked, zero alpha research.",
+      "observed_result": "ALLOW_LIVE_EXECUTION = False, BROKER = NONE, AUTO_PAPER = False, NO_ALPHA_RESEARCH = True.",
+      "status": "PASS",
+      "evidence_notes": "All platform safety invariants verified 100% active and uncompromised."
+    }
+  ]
+}

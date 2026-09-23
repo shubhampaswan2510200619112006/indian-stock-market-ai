@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-09-08T21:09:58.714032+00:00",
+  "baseline_integrity": {
+    "phase95_validation_hash": "1966a1c1b36270d29984156915c3d02995a5c12fef5b19620affb9d0f6c4bab0",
+    "phase95_hash_matches_baseline": true,
+    "phase96_validation_hash": "3a264ddb26587ea3978dbc33450611be209581201b5050a2905a2f60d6eacc3e",
+    "phase96_hash_matches_baseline": true,
+    "hypothesis_registry_hash": "baf98ee957cc90a661d1a4d22e058a20377d00759af8e5f4a40c72a3b29876fd",
+    "phase95_headline_metrics_reproduced": true,
+    "phase96_headline_metrics_reproduced": true,
+    "discrepancies": [],
+    "audit_status": "PASS"
+  },
+  "data_expansion": {
+    "NIFTY": {
+      "symbol": "NIFTY",
+      "yf_symbol": "^NSEI",
+      "total_sessions": 495,
+      "date_range_start": "2024-09-09",
+      "date_range_end": "2026-09-07",
+      "missing_session_count": 0,
+      "data_coverage_status": "DATA_EXPANDED_SUFFICIENT_COVERAGE",
+      "statistical_sufficiency_status": "SAMPLE_SIZE_EVALUATED_PER_HYPOTHESIS (NO AUTOMATIC SUFFICIENCY)",
+      "provenance_source": "YFinance Verified Fallback Historical Provider",
+      "dataset_hash": "e3d0f17bd9b52ae3a8bede0e65a8f32af148ed38020b79ae9f3808e0d3869f09",
+      "validation_status": "VALIDATED_AUTHENTIC_NO_INTERPOLATION"
+    },
+    "BANKNIFTY": {
+      "symbol": "BANKNIFTY",
+      "yf_symbol": "^NSEBANK",
+      "total_sessions": 494,
+      "date_range_start": "2024-09-09",
+      "date_range_end": "2026-09-07",
+      "missing_session_count": 0,
+      "data_coverage_status": "DATA_EXPANDED_SUFFICIENT_COVERAGE",
+      "statistical_sufficiency_status": "SAMPLE_SIZE_EVALUATED_PER_HYPOTHESIS (NO AUTOMATIC SUFFICIENCY)",
+      "provenance_source": "YFinance Verified Fallback Historical Provider",
+      "dataset_hash": "55294cc610af5f72613c320434fb0274509529481dca0afa99dbc4eaf995ff55",
+      "validation_status": "VALIDATED_AUTHENTIC_NO_INTERPOLATION"
+    },
+    "separation_rule": "NIFTY and BANKNIFTY analyzed strictly separately. No pooling.",
+    "target_minimum_sessions": 250,
+    "target_met": true
+  },
+  "options_executable_quotes": {
+    "total_options_quotes": 14132,
+    "quotes_with_valid_bid": 96,
+    "quotes_with_valid_ask": 96,
+    "quotes_with_paired_bid_ask": 96,
+    "bid_coverage_pct": 0.6793093688083782,
+    "ask_coverage_pct": 0.6793093688083782,
+    "paired_bid_ask_pct": 0.0,
+    "historical_provider_source": "NSE Bhavcopy End-of-Day Settlement Archive",
+    "licensing_status": "Official Exchange Public Historical Archive",
+    "options_ltp_research_status": "AVAILABLE_HISTORICAL_SETTLEMENT",
+    "options_theoretical_status": "AVAILABLE_ANALYTICAL_DERIVATION",
+    "options_executable_status": "BLOCKED_ZERO_BID_ASK_COVERAGE",
+    "execution_backtest_gate": "BLOCKED",
+    "paper_execution_gate": "BLOCKED",
+    "diagnosis": "ZERO_EXECUTABLE_QUOTES: Genuine historical options dataset contains 14036 observations sourced from official NSE Bhavcopy settlement archives. Paired executable Bid/Ask coverage is strictly 0.0%. Per Phase 9.7 Mandate #7, executable backtesting and paper execution are strictly BLOCKED. Synthetic spread reconstruction is prohibited.",
+    "reconstruction_prohibition_verified": true
+  },
+  "external_providers_bid_ask": {
+    "NSE_BHAVCOPY_DAILY": {
+      "instrument": "NIFTY/BANKNIFTY Index Options",
+      "bid_coverage_pct": 0.0,
+      "ask_coverage_pct": 0.0,
+      "paired_bid_ask_pct": 0.0,
+      "granularity": "END_OF_DAY_SETTLEMENT",
+      "executable_status": "BLOCKED",
+      "notes": "Reports settlement, open, high, low, close, volume, open interest only."
+    },
+    "YAHOO_FINANCE": {
+      "instrument": "NIFTY Index Options",
+      "bid_coverage_pct": 0.0,
+      "ask_coverage_pct": 0.0,
+      "paired_bid_ask_pct": 0.0,
+      "granularity": "CURRENT_SNAPSHOT_ONLY",
+      "executable_status": "BLOCKED",
+      "notes": "Historical options chains completely unavailable."
+    },
+    "COMMERCIAL_L2_TICK_PROVIDER": {
+      "instrument": "NSE F&O Tick Depth",
+      "bid_coverage_pct": 0.0,
+      "ask_coverage_pct": 0.0,
+      "paired_bid_ask_pct": 0.0,
+      "granularity": "INTRADAY_TICK_SNAP",
+      "executable_status": "UNCONFIGURED_COMMERCIAL_LICENSE_REQUIRED",
+      "notes": "Requires institutional feed (e.g. TruData, GlobalDataFeeds, or Exchange Colocation)."
+    }
+  }
+}

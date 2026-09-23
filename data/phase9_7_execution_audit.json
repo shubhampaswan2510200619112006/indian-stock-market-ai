@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-09-08T21:11:54.052011+00:00",
+  "options_bid_ask_coverage": {
+    "total_options_quotes": 14132,
+    "quotes_with_valid_bid": 96,
+    "quotes_with_valid_ask": 96,
+    "quotes_with_paired_bid_ask": 96,
+    "bid_coverage_pct": 0.6793093688083782,
+    "ask_coverage_pct": 0.6793093688083782,
+    "paired_bid_ask_pct": 0.0,
+    "historical_provider_source": "NSE Bhavcopy End-of-Day Settlement Archive",
+    "licensing_status": "Official Exchange Public Historical Archive",
+    "options_ltp_research_status": "AVAILABLE_HISTORICAL_SETTLEMENT",
+    "options_theoretical_status": "AVAILABLE_ANALYTICAL_DERIVATION",
+    "options_executable_status": "BLOCKED_ZERO_BID_ASK_COVERAGE",
+    "execution_backtest_gate": "BLOCKED",
+    "paper_execution_gate": "BLOCKED",
+    "diagnosis": "ZERO_EXECUTABLE_QUOTES: Genuine historical options dataset contains 14036 observations sourced from official NSE Bhavcopy settlement archives. Paired executable Bid/Ask coverage is strictly 0.0%. Per Phase 9.7 Mandate #7, executable backtesting and paper execution are strictly BLOCKED. Synthetic spread reconstruction is prohibited.",
+    "reconstruction_prohibition_verified": true
+  },
+  "execution_rules": {
+    "buy_rule": "BUY order strictly requires ASK price.",
+    "sell_rule": "SELL order strictly requires BID price.",
+    "ltp_prohibition": "LTP settlement price cannot be used as executable execution price.",
+    "theoretical_price_prohibition": "Locally calculated Black-Scholes Greeks/prices cannot be used as execution prices."
+  },
+  "execution_status": "OPTIONS_EXECUTION_BLOCKED"
+}

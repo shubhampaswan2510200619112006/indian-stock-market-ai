@@ -1,0 +1,163 @@
+"""
+Phase 11 Preregistration Engine.
+
+Formally defines the exact mathematical rules, parameters, and ranking criteria
+for all six Phase 11 hypotheses BEFORE empirical execution.
+Writes the immutable contract into data/phase11/preregistration.json.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+from typing import Any, Dict, List
+
+WORKSPACE_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+if WORKSPACE_ROOT not in sys.path:
+    sys.path.insert(0, WORKSPACE_ROOT)
+
+
+def get_preregistered_hypotheses() -> List[Dict[str, Any]]:
+    """
+    Returns the exact mathematical specifications for H11-001 through H11-006.
+    """
+    return [
+        {
+            "hypothesis_id": "H11-001",
+            "hypothesis_name": "Cross-Sectional Momentum",
+            "economic_rationale": "Information diffusion across market participants occurs with delay, causing medium-term top performers to outperform bottom performers.",
+            "feature_formula": "R_i_20 = (Close_i_t / Close_i_t-20) - 1.0",
+            "lookback": 20,
+            "lookback_unit": "trading_days",
+            "holding_period": 5,
+            "holding_period_unit": "trading_days",
+            "rebalance_rule": "Every 5 trading days on market close (strictly non-overlapping periods)",
+            "ranking_rule": "Sort eligible constituents by R_i_20 in descending order",
+            "portfolio_rule": "Long Top Tercile (Top 3 stocks, equal-weighted 33.33% each); Short Bottom Tercile (Bottom 3 stocks, equal-weighted 33.33% each)",
+            "eligibility_rule": "Constituent must be active member of VERIFIED_NIFTY_CONSTITUENT_SUBSET with valid Close for all 20 lookback days",
+            "cost_model": "IndianEquityCostModel (STT=0.1% buy/sell, Exchange=0.00345%, SEBI=0.0001%, Stamp=0.015% buy, GST=18%, Brokerage=0.03% assumption, Slippage=5bps assumption)",
+            "missing_data_rule": "If any constituent has missing Close in lookback window, it is disqualified from ranking for that period",
+            "tie_break_rule": "Alphabetical order by ticker symbol",
+            "timestamp_rule": "Feature timestamp strictly t (Close of rebalance day); Forward return timestamp strictly t+1 to t+5",
+            "status": "PREREGISTERED_LOCKED",
+        },
+        {
+            "hypothesis_id": "H11-002",
+            "hypothesis_name": "Short-Term Reversal",
+            "economic_rationale": "Short-term extreme price moves driven by liquidity provision imbalances and retail overreaction tend to partially reverse over subsequent sessions.",
+            "feature_formula": "R_i_5 = (Close_i_t / Close_i_t-5) - 1.0",
+            "lookback": 5,
+            "lookback_unit": "trading_days",
+            "holding_period": 5,
+            "holding_period_unit": "trading_days",
+            "rebalance_rule": "Every 5 trading days on market close (strictly non-overlapping periods)",
+            "ranking_rule": "Sort eligible constituents by R_i_5 in ascending order (lowest return first)",
+            "portfolio_rule": "Long Top Tercile losers (Bottom 3 stocks by 5d return, equal-weighted); Short Top Tercile gainers (Top 3 stocks by 5d return, equal-weighted)",
+            "eligibility_rule": "Constituent must have valid Close for all 5 lookback days",
+            "cost_model": "IndianEquityCostModel (Dynamic statutory + research assumptions)",
+            "missing_data_rule": "Disqualify symbol if any price in 5-day lookback is missing",
+            "tie_break_rule": "Alphabetical order by ticker symbol",
+            "timestamp_rule": "Feature calculated strictly at t; Forward return strictly t+1 to t+5",
+            "status": "PREREGISTERED_LOCKED",
+        },
+        {
+            "hypothesis_id": "H11-003",
+            "hypothesis_name": "Volatility-Adjusted Momentum",
+            "economic_rationale": "Scaling momentum by realized historical volatility eliminates uncompensated idiosyncratic noise and improves signal information ratio.",
+            "feature_formula": "VolAdjMom_i = ((Close_i_t / Close_i_t-20) - 1.0) / max(std(R_i_daily, 20), 1e-6)",
+            "lookback": 20,
+            "lookback_unit": "trading_days",
+            "holding_period": 5,
+            "holding_period_unit": "trading_days",
+            "rebalance_rule": "Every 5 trading days on market close",
+            "ranking_rule": "Sort eligible constituents by VolAdjMom_i in descending order",
+            "portfolio_rule": "Long Top Tercile (Top 3 stocks, equal-weighted); Short Bottom Tercile (Bottom 3 stocks, equal-weighted)",
+            "eligibility_rule": "Constituent must have full 20 daily return observations",
+            "cost_model": "IndianEquityCostModel",
+            "missing_data_rule": "Disqualify symbol if standard deviation cannot be computed over 20 days",
+            "tie_break_rule": "Alphabetical order by ticker symbol",
+            "timestamp_rule": "Feature calculated strictly at t; Forward return strictly t+1 to t+5",
+            "status": "PREREGISTERED_LOCKED",
+        },
+        {
+            "hypothesis_id": "H11-004",
+            "hypothesis_name": "Volume/Turnover Confirmation",
+            "economic_rationale": "Price momentum accompanied by abnormal turnover reflects institutional conviction and sustained order flow rather than thin-volume drift.",
+            "feature_formula": "R_i_20 = (Close_i_t / Close_i_t-20) - 1.0; VolumeRatio_i = Volume_i_t / (mean(Volume_i_t-20:t-1)). Note: Denominator strictly excludes Volume_i_t (point-in-time trailing 20 days prior to today).",
+            "lookback": 20,
+            "lookback_unit": "trading_days",
+            "holding_period": 5,
+            "holding_period_unit": "trading_days",
+            "rebalance_rule": "Every 5 trading days on market close",
+            "ranking_rule": "Winner: R_i_20 in Top Tercile AND VolumeRatio_i > 1.2. Loser: R_i_20 in Bottom Tercile AND VolumeRatio_i > 1.2.",
+            "portfolio_rule": "Long confirmed winners (equal-weighted); Short confirmed losers (equal-weighted). If no symbol qualifies on a leg, that leg holds cash (0.0% return).",
+            "eligibility_rule": "Constituent must have 21 days of volume and 20 days of price data",
+            "cost_model": "IndianEquityCostModel",
+            "missing_data_rule": "Exclude symbol if volume history is incomplete",
+            "tie_break_rule": "Alphabetical order by ticker symbol",
+            "timestamp_rule": "Feature calculated strictly at t; Forward return strictly t+1 to t+5",
+            "status": "PREREGISTERED_LOCKED",
+        },
+        {
+            "hypothesis_id": "H11-005",
+            "hypothesis_name": "Relative Strength Persistence",
+            "economic_rationale": "Stocks that demonstrate consistent relative outperformance against the market across both short (20d) and medium (60d) horizons reflect durable multi-horizon strength.",
+            "feature_formula": "RS20_i = R_i_20 - R_NIFTY_20; RS60_i = R_i_60 - R_NIFTY_60; Score_i = Rank(RS20_i) + Rank(RS60_i)",
+            "lookback": 60,
+            "lookback_unit": "trading_days",
+            "holding_period": 10,
+            "holding_period_unit": "trading_days",
+            "rebalance_rule": "Every 10 trading days on market close",
+            "ranking_rule": "Sort eligible constituents by Score_i in descending order",
+            "portfolio_rule": "Long Top Tercile (Top 3 stocks, equal-weighted); Short Bottom Tercile (Bottom 3 stocks, equal-weighted)",
+            "eligibility_rule": "Constituent must have 60 days of clean price data aligned with benchmark NIFTY 50",
+            "cost_model": "IndianEquityCostModel",
+            "missing_data_rule": "Exclude symbol if 60-day history is incomplete",
+            "tie_break_rule": "Alphabetical order by ticker symbol",
+            "timestamp_rule": "Feature calculated strictly at t; Forward return strictly t+1 to t+10",
+            "status": "PREREGISTERED_LOCKED",
+        },
+        {
+            "hypothesis_id": "H11-006",
+            "hypothesis_name": "Market-Breadth Conditioning",
+            "economic_rationale": "Cross-sectional momentum operates effectively during constructive market breadth expansions, but experiences severe crashes during breadth deterioration.",
+            "feature_formula": "Breadth_pct = mean(Close_i_t > SMA50_i_t across eligible universe) * 100.0. Condition: If Breadth_pct > 50.0%: execute Momentum (Long Top Tercile, Short Bottom Tercile). If Breadth_pct <= 50.0%: 100% Cash (0% exposure).",
+            "lookback": 50,
+            "lookback_unit": "trading_days",
+            "holding_period": 5,
+            "holding_period_unit": "trading_days",
+            "rebalance_rule": "Every 5 trading days on market close",
+            "ranking_rule": "Conditioned on aggregate breadth > 50%; within qualifying dates, sort by R_i_20 descending",
+            "portfolio_rule": "Active: Long Top Tercile (3 stocks), Short Bottom Tercile (3 stocks); Inactive: 100% Cash",
+            "eligibility_rule": "Requires 50-day SMA for breadth calculation and 20-day return for ranking",
+            "cost_model": "IndianEquityCostModel (zero friction on inactive cash periods)",
+            "missing_data_rule": "Breadth computed over constituents with valid 50-day history",
+            "tie_break_rule": "Alphabetical order by ticker symbol",
+            "timestamp_rule": "Breadth and return calculated strictly at t; Forward return strictly t+1 to t+5",
+            "status": "PREREGISTERED_LOCKED",
+        },
+    ]
+
+
+def lock_preregistration(workspace_root: str = ".") -> Dict[str, Any]:
+    """Writes preregistration JSON file before any empirical testing."""
+    p11_dir = os.path.join(workspace_root, "data", "phase11")
+    os.makedirs(p11_dir, exist_ok=True)
+    items = get_preregistered_hypotheses()
+    manifest = {
+        "contract": "PHASE_11_PREREGISTRATION_CONTRACT",
+        "lock_status": "PREREGISTRATION_LOCKED",
+        "lock_timestamp": "2026-09-09T13:50:00Z",
+        "total_hypotheses": len(items),
+        "hypotheses": items,
+    }
+    filepath = os.path.join(p11_dir, "preregistration.json")
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+    return manifest
+
+
+if __name__ == "__main__":
+    m = lock_preregistration()
+    print(f"Phase 11 Preregistration locked with {m['total_hypotheses']} hypotheses.")

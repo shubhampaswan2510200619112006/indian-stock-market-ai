@@ -1,0 +1,106 @@
+{
+  "generated_at": "2026-09-09T07:14:42.972236+00:00",
+  "total_strategies_audited": 8,
+  "all_strategies_point_in_time_compliant": true,
+  "backward_return_mappings_found": 0,
+  "same_bar_execution_violations_found": 0,
+  "items": [
+    {
+      "strategy_id": "P98-H001 (ORB 15m)",
+      "feature_cutoff_timestamp": "Day T 09:30:00 IST (15m bar close)",
+      "prediction_timestamp": "Day T 09:30:01 IST",
+      "order_timestamp": "Day T 09:30:02 IST",
+      "execution_timestamp": "Day T 09:30:05 IST (Opening trade execution)",
+      "exit_timestamp": "Day T 15:15:00 IST (Intraday MOC exit)",
+      "is_point_in_time_valid": true,
+      "same_bar_execution_prohibited": true,
+      "backward_return_detected": false,
+      "notes": "Clean forward intraday execution from 09:30 to 15:15 IST."
+    },
+    {
+      "strategy_id": "P98-H002 (Gap 30m)",
+      "feature_cutoff_timestamp": "Day T 09:15:00 IST (Official Open Price vs Previous Close)",
+      "prediction_timestamp": "Day T 09:15:01 IST",
+      "order_timestamp": "Day T 09:15:02 IST",
+      "execution_timestamp": "Day T 09:15:05 IST (Post-auction market order)",
+      "exit_timestamp": "Day T 09:45:00 IST (30m bar close)",
+      "is_point_in_time_valid": true,
+      "same_bar_execution_prohibited": true,
+      "backward_return_detected": false,
+      "notes": "Pre-market gap calculated at open; executed during opening auction / 09:15:05; exited at 09:45:00."
+    },
+    {
+      "strategy_id": "P98-H003 (Intraday Momentum 30m)",
+      "feature_cutoff_timestamp": "Bar T close (e.g. 10:00:00 IST)",
+      "prediction_timestamp": "Bar T close + 1s (10:00:01 IST)",
+      "order_timestamp": "Bar T close + 2s (10:00:02 IST)",
+      "execution_timestamp": "Next bar open/start (10:00:05 IST)",
+      "exit_timestamp": "Bar T+1 close (10:30:00 IST)",
+      "is_point_in_time_valid": true,
+      "same_bar_execution_prohibited": true,
+      "backward_return_detected": false,
+      "notes": "Prediction at bar T close; executed into next bar T+1; exited at T+1 close."
+    },
+    {
+      "strategy_id": "P98-H004 (Vol Compression Breakout)",
+      "feature_cutoff_timestamp": "Bar T close (15m GK compression identified)",
+      "prediction_timestamp": "Bar T close + 1s",
+      "order_timestamp": "Bar T close + 2s",
+      "execution_timestamp": "Bar T+1 start (clean fill)",
+      "exit_timestamp": "Bar T+4 close (+60m horizon)",
+      "is_point_in_time_valid": true,
+      "same_bar_execution_prohibited": true,
+      "backward_return_detected": false,
+      "notes": "Signal on 15m bar close; entered at subsequent bar; held for 4 15m bars (60m)."
+    },
+    {
+      "strategy_id": "P98-H005 (RBI MPC Event Study)",
+      "feature_cutoff_timestamp": "Day T 15:30:00 IST (Announcement day full session close)",
+      "prediction_timestamp": "Day T 18:00:00 IST (EOD batch)",
+      "order_timestamp": "Day T+1 09:05:00 IST (Pre-market)",
+      "execution_timestamp": "Day T+1 09:15:00 IST (Official open fill)",
+      "exit_timestamp": "Day T+4 09:15:00 IST (3-session holding period open exit)",
+      "is_point_in_time_valid": true,
+      "same_bar_execution_prohibited": true,
+      "backward_return_detected": false,
+      "notes": "Pure forward post-announcement execution: Day T close -> Day T+1 open -> Day T+4 open."
+    },
+    {
+      "strategy_id": "P98-H006 (Cross-Sectional 5D)",
+      "feature_cutoff_timestamp": "Day T 15:30:00 IST (Friday weekly rebalance close)",
+      "prediction_timestamp": "Day T 18:00:00 IST",
+      "order_timestamp": "Day T+1 09:05:00 IST",
+      "execution_timestamp": "Day T+1 09:15:00 IST (Monday open)",
+      "exit_timestamp": "Day T+6 09:15:00 IST (Next Monday open)",
+      "is_point_in_time_valid": true,
+      "same_bar_execution_prohibited": true,
+      "backward_return_detected": false,
+      "notes": "Clean weekly open-to-open long-short execution. Zero backward lookahead."
+    },
+    {
+      "strategy_id": "P98-H007 (Regime Calibration)",
+      "feature_cutoff_timestamp": "Day T 15:30:00 IST",
+      "prediction_timestamp": "Day T 18:00:00 IST",
+      "order_timestamp": "N/A (Probabilistic forecast calibration only)",
+      "execution_timestamp": "Day T+1 09:15:00 IST",
+      "exit_timestamp": "Day T+2 09:15:00 IST",
+      "is_point_in_time_valid": true,
+      "same_bar_execution_prohibited": true,
+      "backward_return_detected": false,
+      "notes": "Out-of-sample Brier score calibration evaluated against genuine forward return direction."
+    },
+    {
+      "strategy_id": "P98-H008 (Options Microstructure)",
+      "feature_cutoff_timestamp": "Day T Settlement Time (Bhavcopy)",
+      "prediction_timestamp": "Day T 17:00:00 IST",
+      "order_timestamp": "N/A (EXECUTION BLOCKED)",
+      "execution_timestamp": "N/A (EXECUTION BLOCKED)",
+      "exit_timestamp": "N/A (EXECUTION BLOCKED)",
+      "is_point_in_time_valid": true,
+      "same_bar_execution_prohibited": true,
+      "backward_return_detected": false,
+      "notes": "Strictly research-only; execution backtesting remains unconditionally BLOCKED due to 0% Bid/Ask quotes."
+    }
+  ],
+  "audit_verdict": "TIMING_AUDIT_PASSED_ALL_MODELS_CLEAN"
+}

@@ -1,0 +1,11 @@
+{
+  "initial_capital": 1000000.0,
+  "cash": 1000000.0,
+  "session_id": "SES-ba25581b94dd428f",
+  "realized_pnl": 0.0,
+  "peak_equity": 1000000.0,
+  "max_drawdown_pct": 0.0,
+  "daily_starting_equity": 1000000.0,
+  "positions": {},
+  "closed_trades": []
+}

@@ -1,0 +1,39 @@
+{
+  "initial_capital": 1000000.0,
+  "cash": 900000.0,
+  "session_id": "SES-f5727c47305f4563",
+  "realized_pnl": 0.0,
+  "peak_equity": 1000000.0,
+  "max_drawdown_pct": 0.0,
+  "daily_starting_equity": 1000000.0,
+  "positions": {
+    "NIFTY": {
+      "position_id": "POS-94ab7f0be31347f1",
+      "symbol": "NIFTY",
+      "instrument_type": "INDEX",
+      "quantity": 50,
+      "average_entry_price": 22000.0,
+      "current_market_price": null,
+      "market_value": null,
+      "realized_pnl": 0.0,
+      "unrealized_pnl": null,
+      "entry_timestamp": null,
+      "last_mark_timestamp": null,
+      "last_mark_status": "UNAVAILABLE",
+      "stop_loss": null,
+      "take_profit": null,
+      "strategy": null,
+      "strike": null,
+      "expiry": null,
+      "option_type": null,
+      "greeks_status": "UNAVAILABLE",
+      "delta": null,
+      "gamma": null,
+      "theta": null,
+      "vega": null,
+      "rho": null,
+      "execution_mode": "PAPER"
+    }
+  },
+  "closed_trades": []
+}

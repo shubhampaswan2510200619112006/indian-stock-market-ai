@@ -1,0 +1,84 @@
+{
+  "authoritative_decision": "PHASE_10_NOT_JUSTIFIED",
+  "decision_reason": "No surviving hypothesis demonstrates positive gross or net alpha. Gross edge: -47.3 bps/trade, Net edge: -52.3 bps/trade. Commencing multi-week paper trading on an uninformative signal is mathematically unjustified.",
+  "surviving_hypothesis_id": null,
+  "gates": [
+    {
+      "gate_name": "Methodology",
+      "requirement": "No unresolved material methodology errors; timing repaired.",
+      "observed_result": "Clean forward timing verified",
+      "status": "PASS",
+      "evidence": "Backward ret_1d mapping identified and repaired to forward C2C and next-day O2O."
+    },
+    {
+      "gate_name": "Leakage",
+      "requirement": "Zero unresolved future lookahead, scaler, or target leakage.",
+      "observed_result": "No unresolved leakage detected",
+      "status": "PASS",
+      "evidence": "Full codebase leakage audit passed; dynamic walk-forward purging enforced."
+    },
+    {
+      "gate_name": "OOS",
+      "requirement": "Demonstrates genuine out-of-sample predictive and economic value.",
+      "observed_result": "OOS evaluated",
+      "status": "PASS",
+      "evidence": "Chronological walk-forward applied with dynamic purging across folds."
+    },
+    {
+      "gate_name": "Gross Edge",
+      "requirement": "Positive meaningful gross economic edge (> 15 bps/trade).",
+      "observed_result": "-47.3 bps/trade",
+      "status": "FAIL",
+      "evidence": "Gross return is negative (-47.3 bps/trade). Diagnostic Case A applies."
+    },
+    {
+      "gate_name": "Net Edge",
+      "requirement": "Positive net return after realistic Indian statutory taxes and slippage.",
+      "observed_result": "-52.3 bps/trade",
+      "status": "FAIL",
+      "evidence": "Net return is negative (-52.3 bps/trade) after STT, exchange, and slippage."
+    },
+    {
+      "gate_name": "Cost Robustness",
+      "requirement": "Performance survives 1.5x - 2.0x fee and slippage stress.",
+      "observed_result": "Fragile to costs",
+      "status": "FAIL",
+      "evidence": "Strategy loses money before costs; friction deepens drawdowns."
+    },
+    {
+      "gate_name": "Regime Robustness",
+      "requirement": "Not regime-fragile; consistent performance across market states.",
+      "observed_result": "Unprofitable across all regimes",
+      "status": "FAIL",
+      "evidence": "Strategy generates negative Sharpe across all 6 market regimes (-4.81 to -9.14)."
+    },
+    {
+      "gate_name": "Sample Size",
+      "requirement": "Adequate sample size for statistical claim (N >= 60 trades).",
+      "observed_result": "1 trades",
+      "status": "FAIL",
+      "evidence": "Total observed trades = 1 (insufficient for high-conviction bins)."
+    },
+    {
+      "gate_name": "Reproducibility",
+      "requirement": "Exact reproduction from deterministic snapshots and random seeds.",
+      "observed_result": "Reproducible",
+      "status": "PASS",
+      "evidence": "SHA256 baselines and walk-forward evaluations reproduce with 0 discrepancy."
+    },
+    {
+      "gate_name": "Data Quality",
+      "requirement": "Data quality sufficient for claimed strategy without unverified proxies.",
+      "observed_result": "0.0% paired options Bid/Ask coverage",
+      "status": "BLOCKED",
+      "evidence": "0.0% paired Bid/Ask in historical Bhavcopy settlement data. Options execution blocked."
+    }
+  ],
+  "passed_gate_count": 4,
+  "failed_gate_count": 5,
+  "blocked_gate_count": 1,
+  "live_execution_status": "DISABLED (ALLOW_LIVE_EXECUTION = False)",
+  "broker_connection_status": "NONE",
+  "options_paper_status": "BLOCKED (Historical Bid/Ask = 0.0%)",
+  "generated_at": "2026-09-08T21:11:54.054688+00:00"
+}

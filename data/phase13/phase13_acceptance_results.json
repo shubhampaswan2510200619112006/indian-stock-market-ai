@@ -1,0 +1,25 @@
+{
+  "evaluation_timestamp": "2026-09-09T10:46:47.598665+00:00",
+  "acceptance_criteria": {
+    "intraday_sessions_threshold": ">= 250 sessions (PROJECT_RESEARCH_THRESHOLD)",
+    "options_quote_continuity_threshold": ">= 70.0% continuous paired surface (PROJECT_RESEARCH_THRESHOLD)",
+    "contract_validation_method": "EXCHANGE_SPEC_AND_CALENDAR_DRIVEN",
+    "test_fixture_isolation": "ENFORCED"
+  },
+  "gate_results": {
+    "INTRADAY_1M_READY": "BLOCKED",
+    "INTRADAY_5M_READY": "BLOCKED",
+    "OPTIONS_LTP_READY": "PASS",
+    "OPTIONS_BID_ASK_READY": "BLOCKED",
+    "OPTIONS_EXECUTION_READY": "BLOCKED",
+    "PROVENANCE_READY": "PASS",
+    "LICENSE_READY": "PASS",
+    "DATA_QUALITY_READY": "PASS"
+  },
+  "blocking_reasons": [
+    "INTRADAY_1M_READY is BLOCKED: Lacks qualified NIFTY and BANKNIFTY 1m datasets with >= 250 sessions.",
+    "INTRADAY_5M_READY is BLOCKED: Lacks qualified NIFTY and BANKNIFTY 5m datasets with >= 250 sessions.",
+    "OPTIONS_BID_ASK_READY is BLOCKED: No continuous paired Bid/Ask quote surface onboarded.",
+    "OPTIONS_EXECUTION_READY is BLOCKED: Missing Level 3/4 continuous quote surface (>= 70% continuity)."
+  ]
+}

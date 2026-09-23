@@ -1,0 +1,56 @@
+{
+  "generated_at": "2026-09-08T21:09:58.715753+00:00",
+  "leakage_audit": {
+    "target_leakage_detected": false,
+    "scaler_leakage_detected": false,
+    "rolling_window_lookahead_detected": false,
+    "same_bar_close_execution_detected": true,
+    "future_labels_leakage_detected": false,
+    "audit_verdict": "CLEAN_AFTER_TIMING_REPAIR",
+    "components_audited": [
+      {
+        "component": "src/ml/targets.py",
+        "potential_leak": "Target alignment across horizons",
+        "severity": "LOW",
+        "evidence": "target_start_timestamp strictly > feature_timestamp. Purging window dynamically applied.",
+        "status": "PASS",
+        "repair": "None needed."
+      },
+      {
+        "component": "src/ml/ablation.py",
+        "potential_leak": "Rolling technical features (SMA, volatility)",
+        "severity": "LOW",
+        "evidence": "All rolling windows use strictly backward rolling up to day T.",
+        "status": "PASS",
+        "repair": "None needed."
+      },
+      {
+        "component": "src/ml/walk_forward_ml.py",
+        "potential_leak": "Purge and embargo across folds",
+        "severity": "LOW",
+        "evidence": "Walk-forward enforces dynamic purge = max(1, horizon) between train and test.",
+        "status": "PASS",
+        "repair": "None needed."
+      },
+      {
+        "component": "src/ml/validation_report.py",
+        "potential_leak": "Same-bar close execution and return mapping",
+        "severity": "HIGH",
+        "evidence": "Mapped date T to backward ret_1d. Corrected to forward close-to-close and point-in-time open-to-open.",
+        "status": "REPAIRED_IN_PHASE_9_7",
+        "repair": "Separately evaluated Corrected Forward C2C and Corrected Next-Day O2O."
+      }
+    ]
+  },
+  "timing_audit": {
+    "timing_error_detected": true,
+    "description": "Phase 9.5 and 9.6 economic evaluation mapped prediction date T to backward ret_1d (Close_T - Close_{T-1}) / Close_{T-1} instead of forward return (Close_{T+1} - Close_T) / Close_T or next-day point-in-time open-to-open (Open_{T+2} - Open_{T+1}) / Open_{T+1}. This caused trade returns to evaluate the prior session's price move.",
+    "affected_component": "src/ml/validation_report.py (date_to_ret mapping)",
+    "original_implementation": "date_to_ret = df_features['ret_1d'] mapped to prediction_timestamp (Backward)",
+    "corrected_forward_c2c": "date_to_ret = df_features['target_fwd_ret_1d'] mapped to prediction_timestamp (Forward Close-to-Close)",
+    "corrected_point_in_time_o2o": "Signal after Day T close -> Order submitted -> Executed at Day T+1 Open -> Exited at Day T+2 Open",
+    "status_classification": "MATERIAL_TIMING_ERROR_REPAIRED",
+    "original_result_status": "INVALIDATED_FOR_INFERENCE (PRESERVED AS HISTORICAL ARTIFACT)",
+    "authoritative_result_status": "VALID (REVALIDATED ON FORWARD TIMING)"
+  }
+}

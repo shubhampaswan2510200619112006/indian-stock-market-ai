@@ -1,0 +1,280 @@
+{
+  "scorecard_policy": "DIAGNOSTIC_ONLY",
+  "scorecards": [
+    {
+      "scorecard_id": "SCORE-YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+      "version_id": "v1",
+      "overall_diagnostic_score": 78.89,
+      "scorecard_policy": "DIAGNOSTIC_ONLY",
+      "hard_gates_intact": false,
+      "certification_eligible_by_gates": false,
+      "dimensions": [
+        {
+          "dimension_name": "PROVENANCE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Source artifact: VERIFIED"
+        },
+        {
+          "dimension_name": "LICENSE",
+          "status": "BLOCKED",
+          "diagnostic_score": 50.0,
+          "hard_gate_passed": false,
+          "details": "Status: LICENSE_RESTRICTED"
+        },
+        {
+          "dimension_name": "SCHEMA",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Required schema columns verified"
+        },
+        {
+          "dimension_name": "TIMESTAMP",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Monotonic chronological IST timestamp integrity"
+        },
+        {
+          "dimension_name": "SESSION_COVERAGE",
+          "status": "FAIL",
+          "diagnostic_score": 2.8,
+          "hard_gate_passed": false,
+          "details": "Observed 7 valid sessions (target: >= 250)"
+        },
+        {
+          "dimension_name": "BAR_COMPLETENESS",
+          "status": "PASS",
+          "diagnostic_score": 95.0,
+          "hard_gate_passed": true,
+          "details": "Session bar completeness evaluated"
+        },
+        {
+          "dimension_name": "OHLC_INTEGRITY",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Violations: 0"
+        },
+        {
+          "dimension_name": "HISTORICAL_DEPTH",
+          "status": "DIAGNOSTIC",
+          "diagnostic_score": 20.0,
+          "hard_gate_passed": true,
+          "details": "Depth level: NOT_APPLICABLE"
+        },
+        {
+          "dimension_name": "CROSS_INSTRUMENT_COVERAGE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Instrument scoped: NIFTY 1m"
+        },
+        {
+          "dimension_name": "OPTIONS_QUOTE_VALIDITY",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Crossed market checks evaluated"
+        },
+        {
+          "dimension_name": "OPTIONS_EXECUTABLE_SURFACE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Continuous surface: 100.0% (target >= 70.0%)"
+        }
+      ],
+      "blocking_reasons": [
+        "LICENSE_READY is BLOCKED: License status 'LICENSE_RESTRICTED' unconfirmed for research.",
+        "INSUFFICIENT_SESSIONS: 7 < 250 sessions."
+      ]
+    },
+    {
+      "scorecard_id": "SCORE-YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+      "version_id": "v1",
+      "overall_diagnostic_score": 80.78,
+      "scorecard_policy": "DIAGNOSTIC_ONLY",
+      "hard_gates_intact": false,
+      "certification_eligible_by_gates": false,
+      "dimensions": [
+        {
+          "dimension_name": "PROVENANCE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Source artifact: VERIFIED"
+        },
+        {
+          "dimension_name": "LICENSE",
+          "status": "BLOCKED",
+          "diagnostic_score": 50.0,
+          "hard_gate_passed": false,
+          "details": "Status: LICENSE_RESTRICTED"
+        },
+        {
+          "dimension_name": "SCHEMA",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Required schema columns verified"
+        },
+        {
+          "dimension_name": "TIMESTAMP",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Monotonic chronological IST timestamp integrity"
+        },
+        {
+          "dimension_name": "SESSION_COVERAGE",
+          "status": "FAIL",
+          "diagnostic_score": 23.6,
+          "hard_gate_passed": false,
+          "details": "Observed 59 valid sessions (target: >= 250)"
+        },
+        {
+          "dimension_name": "BAR_COMPLETENESS",
+          "status": "PASS",
+          "diagnostic_score": 95.0,
+          "hard_gate_passed": true,
+          "details": "Session bar completeness evaluated"
+        },
+        {
+          "dimension_name": "OHLC_INTEGRITY",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Violations: 0"
+        },
+        {
+          "dimension_name": "HISTORICAL_DEPTH",
+          "status": "DIAGNOSTIC",
+          "diagnostic_score": 20.0,
+          "hard_gate_passed": true,
+          "details": "Depth level: NOT_APPLICABLE"
+        },
+        {
+          "dimension_name": "CROSS_INSTRUMENT_COVERAGE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Instrument scoped: NIFTY 5m"
+        },
+        {
+          "dimension_name": "OPTIONS_QUOTE_VALIDITY",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Crossed market checks evaluated"
+        },
+        {
+          "dimension_name": "OPTIONS_EXECUTABLE_SURFACE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Continuous surface: 100.0% (target >= 70.0%)"
+        }
+      ],
+      "blocking_reasons": [
+        "LICENSE_READY is BLOCKED: License status 'LICENSE_RESTRICTED' unconfirmed for research.",
+        "INSUFFICIENT_SESSIONS: 59 < 250 sessions."
+      ]
+    },
+    {
+      "scorecard_id": "SCORE-NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "version_id": "v1",
+      "overall_diagnostic_score": 74.11,
+      "scorecard_policy": "DIAGNOSTIC_ONLY",
+      "hard_gates_intact": false,
+      "certification_eligible_by_gates": false,
+      "dimensions": [
+        {
+          "dimension_name": "PROVENANCE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Source artifact: VERIFIED"
+        },
+        {
+          "dimension_name": "LICENSE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Status: LICENSE_VERIFIED"
+        },
+        {
+          "dimension_name": "SCHEMA",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Required schema columns verified"
+        },
+        {
+          "dimension_name": "TIMESTAMP",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Monotonic chronological IST timestamp integrity"
+        },
+        {
+          "dimension_name": "SESSION_COVERAGE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Observed 0 valid sessions (target: >= 250)"
+        },
+        {
+          "dimension_name": "BAR_COMPLETENESS",
+          "status": "PASS",
+          "diagnostic_score": 95.0,
+          "hard_gate_passed": true,
+          "details": "Session bar completeness evaluated"
+        },
+        {
+          "dimension_name": "OHLC_INTEGRITY",
+          "status": "FAIL",
+          "diagnostic_score": 0.0,
+          "hard_gate_passed": false,
+          "details": "Violations: 0"
+        },
+        {
+          "dimension_name": "HISTORICAL_DEPTH",
+          "status": "DIAGNOSTIC",
+          "diagnostic_score": 20.0,
+          "hard_gate_passed": true,
+          "details": "Depth level: THEORETICAL_DEPTH"
+        },
+        {
+          "dimension_name": "CROSS_INSTRUMENT_COVERAGE",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Instrument scoped: NIFTY eod"
+        },
+        {
+          "dimension_name": "OPTIONS_QUOTE_VALIDITY",
+          "status": "PASS",
+          "diagnostic_score": 100.0,
+          "hard_gate_passed": true,
+          "details": "Crossed market checks evaluated"
+        },
+        {
+          "dimension_name": "OPTIONS_EXECUTABLE_SURFACE",
+          "status": "FAIL",
+          "diagnostic_score": 0.24,
+          "hard_gate_passed": false,
+          "details": "Continuous surface: 0.24% (target >= 70.0%)"
+        }
+      ],
+      "blocking_reasons": [
+        "CONTINUOUS_EXECUTABLE_SURFACE_LOW: 0.24% < 70.0% threshold."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "generated_at": "2026-09-08T21:43:41.067500+00:00",
+  "total_registered_hypotheses": 8,
+  "total_exploratory_tests": 4,
+  "total_confirmatory_tests": 4,
+  "total_candidate_models": 8,
+  "total_parameter_configurations": 8,
+  "total_instruments": 3,
+  "total_horizons": 7,
+  "nominal_alpha": 0.05,
+  "bonferroni_adjusted_alpha": 0.00625,
+  "fdr_threshold_bh": 0.05,
+  "events": [
+    {
+      "event_id": 1,
+      "hypothesis_id": "P98-H001",
+      "track_name": "TRACK_A_OPENING_DRIVE",
+      "test_type": "EXPLORATORY",
+      "instrument": "NIFTY",
+      "model_name": "ORB_15M_BREAKOUT",
+      "parameter_set": {
+        "range_bars": 3,
+        "exit": "MOC_1515"
+      },
+      "p_value_observed": 0.25,
+      "raw_significance": false,
+      "timestamp": "2026-09-08T21:43:15.528094+00:00"
+    },
+    {
+      "event_id": 2,
+      "hypothesis_id": "P98-H002",
+      "track_name": "TRACK_A_OPENING_DRIVE",
+      "test_type": "EXPLORATORY",
+      "instrument": "NIFTY",
+      "model_name": "GAP_30M_REVERSION",
+      "parameter_set": {
+        "gap_threshold": 0.003,
+        "holding_mins": 30
+      },
+      "p_value_observed": 0.35,
+      "raw_significance": false,
+      "timestamp": "2026-09-08T21:43:15.687450+00:00"
+    },
+    {
+      "event_id": 3,
+      "hypothesis_id": "P98-H003",
+      "track_name": "TRACK_B_MOMENTUM_REVERSAL",
+      "test_type": "EXPLORATORY",
+      "instrument": "NIFTY",
+      "model_name": "MOMENTUM_30M",
+      "parameter_set": {
+        "bar_size": "30m",
+        "lag": 1
+      },
+      "p_value_observed": 0.48,
+      "raw_significance": false,
+      "timestamp": "2026-09-08T21:43:15.774049+00:00"
+    },
+    {
+      "event_id": 4,
+      "hypothesis_id": "P98-H004",
+      "track_name": "TRACK_C_VOLATILITY_MICROSTRUCTURE",
+      "test_type": "EXPLORATORY",
+      "instrument": "NIFTY",
+      "model_name": "GK_VOL_COMPRESSION_60M",
+      "parameter_set": {
+        "pctile_thresh": 0.25,
+        "horizon_bars": 4
+      },
+      "p_value_observed": 0.4,
+      "raw_significance": false,
+      "timestamp": "2026-09-08T21:43:16.341343+00:00"
+    },
+    {
+      "event_id": 5,
+      "hypothesis_id": "P98-H005",
+      "track_name": "TRACK_D_EVENT_DRIVEN",
+      "test_type": "CONFIRMATORY",
+      "instrument": "NIFTY",
+      "model_name": "EVENT_STUDY_RBI_MPC",
+      "parameter_set": {
+        "post_event_horizon_days": 3
+      },
+      "p_value_observed": 0.30058475828366094,
+      "raw_significance": false,
+      "timestamp": "2026-09-08T21:43:16.397844+00:00"
+    },
+    {
+      "event_id": 6,
+      "hypothesis_id": "P98-H006",
+      "track_name": "TRACK_E_CROSS_SECTIONAL",
+      "test_type": "CONFIRMATORY",
+      "instrument": "TOP_10_LIQUID_EQUITIES",
+      "model_name": "CROSS_SECTIONAL_MOMENTUM_5D",
+      "parameter_set": {
+        "lookback_days": 20,
+        "holding_days": 5,
+        "top_n": 2
+      },
+      "p_value_observed": 0.15,
+      "raw_significance": false,
+      "timestamp": "2026-09-08T21:43:16.510702+00:00"
+    },
+    {
+      "event_id": 7,
+      "hypothesis_id": "P98-H007",
+      "track_name": "TRACK_F_REGIME_CONTEXT",
+      "test_type": "CONFIRMATORY",
+      "instrument": "NIFTY",
+      "model_name": "REGIME_CONDITIONED_CALIBRATION",
+      "parameter_set": {
+        "target": "1D_DIRECTION",
+        "base_model": "LogisticRegression"
+      },
+      "p_value_observed": 0.22,
+      "raw_significance": false,
+      "timestamp": "2026-09-08T21:43:41.037196+00:00"
+    },
+    {
+      "event_id": 8,
+      "hypothesis_id": "P98-H008",
+      "track_name": "TRACK_G_OPTIONS_MICROSTRUCTURE",
+      "test_type": "CONFIRMATORY",
+      "instrument": "NIFTY_OPTIONS",
+      "model_name": "OPTIONS_BID_ASK_AUDIT",
+      "parameter_set": {
+        "paired_threshold_pct": 5.0
+      },
+      "p_value_observed": 1.0,
+      "raw_significance": false,
+      "timestamp": "2026-09-08T21:43:41.058943+00:00"
+    }
+  ],
+  "multiple_testing_penalty_applied": true,
+  "audit_verdict": "MULTIPLE_TESTING_CONTROLLED_AND_REPORTED"
+}

@@ -1,0 +1,25 @@
+{
+  "assessment_timestamp": "2026-09-09T08:39:33.614975+00:00",
+  "gates": {
+    "OPTIONS_LTP_READY": "PASS",
+    "OPTIONS_BID_ASK_READY": "BLOCKED",
+    "OPTIONS_EXECUTION_READY": "BLOCKED"
+  },
+  "quality_hierarchy": {
+    "LEVEL_0": "NO OPTIONS DATA",
+    "LEVEL_1": "LTP / SETTLEMENT ONLY (CURRENT STATUS - PASS FOR SETTLEMENT ONLY)",
+    "LEVEL_2": "ISOLATED BID/ASK (129 paired observations, 0.66% coverage - NOT EXECUTION READY)",
+    "LEVEL_3": "CONTINUOUS PAIRED BID/ASK (Requires >= 70% paired continuity across trading hours - BLOCKED)",
+    "LEVEL_4": "DEPTH / ORDER-BOOK CAPABLE (BLOCKED)"
+  },
+  "current_metrics": {
+    "total_records": 19643,
+    "paired_bid_ask_count": 129,
+    "paired_bid_ask_pct": 0.66,
+    "continuous_executable_surface_coverage": "0.0%",
+    "bhavcopy_settlement_only_pct": "99.34%"
+  },
+  "contract_validation_protocol": "EXCHANGE_SPEC_AND_CALENDAR_DRIVEN (Rejects hardcoded weekday rules)",
+  "acquisition_required": true,
+  "recommended_resolution": "Acquire historical Level 2 / 5-depth options archives from NSE Data & Analytics"
+}

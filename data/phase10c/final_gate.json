@@ -1,0 +1,44 @@
+{
+  "status": "COMPLETE",
+  "intraday_data_ready": "BLOCKED",
+  "options_execution_data_ready": "BLOCKED",
+  "cross_sectional_data_ready": "PASS",
+  "phase_10c_data_ready": "NO",
+  "acquisition_decision": "COMMERCIAL_DATA_RECOMMENDED",
+  "invariants": {
+    "ALLOW_LIVE_EXECUTION": false,
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER": "NONE",
+    "AUTO_PAPER_ORDER_SUBMISSION": "DISABLED",
+    "OPTIONS_EXECUTION": "BLOCKED",
+    "NO_ALPHA_RESEARCH": true
+  },
+  "recommendation_details": {
+    "acquisition_decision": "COMMERCIAL_DATA_RECOMMENDED",
+    "best_verified_intraday_source": "TrueData / TrueData Historical REST API",
+    "best_verified_options_source": "NSE Data & Analytics / Historical Tick-by-Tick & 5-Depth Snapshot Data",
+    "recommended_intraday_package": {
+      "provider": "TrueData",
+      "product": "TrueData Historical REST API",
+      "required_dataset": "NIFTY 50 & BANKNIFTY 1-minute and 5-minute continuous OHLCV (>= 500 sessions / 2 years)",
+      "verified_capabilities": ">10 years continuous 1m/5m OHLCV; authorized NSE vendor; standardized REST API",
+      "remaining_uncertainties": "API rate limits and historical query pagination performance",
+      "known_cost": "\u20b92,000\u2013\u20b94,000/month (Standard API subscription)",
+      "unknown_cost": "None for standard historical API tier",
+      "licensing_requirements": "Commercial / retail research vendor terms",
+      "human_action_required": "Human authorization required before subscribing or creating API credentials"
+    },
+    "recommended_options_package": {
+      "provider": "NSE Data & Analytics",
+      "product": "Historical Tick-by-Tick (TBT) & 5-Depth Level 2 Snapshot Data (F&O)",
+      "required_dataset": "Full historical timestamped Bid/Ask and order-book snapshots for expired NIFTY / BANKNIFTY options",
+      "verified_capabilities": "Direct exchange matching engine data; microsecond timestamps; all strikes, expiries, and contracts",
+      "remaining_uncertainties": "Order book reconstruction engineering complexity; storage and computational overhead",
+      "known_cost": "SALES_QUOTE_REQUIRED / PRICE_NOT_PUBLIC",
+      "unknown_cost": "Enterprise exchange licensing fees and data delivery charges",
+      "licensing_requirements": "Official NSE Data & Analytics institutional license agreement",
+      "human_action_required": "Human executive/commercial request for formal quotation and legal contract review"
+    },
+    "recommended_next_action": "Human decision and commercial approval required to acquire TrueData historical 1m/5m dataset (Question A) and request formal quote for NSE Level 2/3 historical options dataset (Question B); zero data purchases permitted until explicit user authorization."
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "H11-001": {
+    "hypothesis_name": "Cross-Sectional Momentum",
+    "cost_stress": {
+      "1.0x_baseline": {
+        "net_expectancy_bps": -65.25,
+        "sharpe": -1.37
+      },
+      "1.5x_stress": {
+        "net_expectancy_bps": -73.79,
+        "sharpe": -1.55
+      },
+      "2.0x_stress": {
+        "net_expectancy_bps": -82.33,
+        "sharpe": -1.72
+      }
+    },
+    "partition_stability": {
+      "train_net_bps": -57.62,
+      "val_net_bps": -85.61,
+      "oos_net_bps": -65.25,
+      "consistent_sign across_partitions": true
+    },
+    "survives_cost_stress": false
+  },
+  "H11-002": {
+    "hypothesis_name": "Short-Term Reversal",
+    "cost_stress": {
+      "1.0x_baseline": {
+        "net_expectancy_bps": -29.88,
+        "sharpe": -0.67
+      },
+      "1.5x_stress": {
+        "net_expectancy_bps": -38.42,
+        "sharpe": -0.86
+      },
+      "2.0x_stress": {
+        "net_expectancy_bps": -46.96,
+        "sharpe": -1.05
+      }
+    },
+    "partition_stability": {
+      "train_net_bps": 5.52,
+      "val_net_bps": -16.6,
+      "oos_net_bps": -29.88,
+      "consistent_sign across_partitions": false
+    },
+    "survives_cost_stress": false
+  },
+  "H11-003": {
+    "hypothesis_name": "Volatility-Adjusted Momentum",
+    "cost_stress": {
+      "1.0x_baseline": {
+        "net_expectancy_bps": -59.28,
+        "sharpe": -1.3
+      },
+      "1.5x_stress": {
+        "net_expectancy_bps": -67.82,
+        "sharpe": -1.49
+      },
+      "2.0x_stress": {
+        "net_expectancy_bps": -76.36,
+        "sharpe": -1.68
+      }
+    },
+    "partition_stability": {
+      "train_net_bps": -65.52,
+      "val_net_bps": -62.51,
+      "oos_net_bps": -59.28,
+      "consistent_sign across_partitions": true
+    },
+    "survives_cost_stress": false
+  },
+  "H11-004": {
+    "hypothesis_name": "Volume/Turnover Confirmation",
+    "cost_stress": {
+      "1.0x_baseline": {
+        "net_expectancy_bps": -83.5,
+        "sharpe": -1.86
+      },
+      "1.5x_stress": {
+        "net_expectancy_bps": -87.26,
+        "sharpe": -1.94
+      },
+      "2.0x_stress": {
+        "net_expectancy_bps": -91.03,
+        "sharpe": -2.02
+      }
+    },
+    "partition_stability": {
+      "train_net_bps": -51.71,
+      "val_net_bps": -0.85,
+      "oos_net_bps": -83.5,
+      "consistent_sign across_partitions": true
+    },
+    "survives_cost_stress": false
+  },
+  "H11-005": {
+    "hypothesis_name": "Relative Strength Persistence",
+    "cost_stress": {
+      "1.0x_baseline": {
+        "net_expectancy_bps": -43.56,
+        "sharpe": -0.43
+      },
+      "1.5x_stress": {
+        "net_expectancy_bps": -52.1,
+        "sharpe": -0.51
+      },
+      "2.0x_stress": {
+        "net_expectancy_bps": -60.64,
+        "sharpe": -0.6
+      }
+    },
+    "partition_stability": {
+      "train_net_bps": -58.27,
+      "val_net_bps": -130.23,
+      "oos_net_bps": -43.56,
+      "consistent_sign across_partitions": true
+    },
+    "survives_cost_stress": false
+  },
+  "H11-006": {
+    "hypothesis_name": "Market-Breadth Conditioning",
+    "cost_stress": {
+      "1.0x_baseline": {
+        "net_expectancy_bps": -35.49,
+        "sharpe": -1.81
+      },
+      "1.5x_stress": {
+        "net_expectancy_bps": -38.34,
+        "sharpe": -1.93
+      },
+      "2.0x_stress": {
+        "net_expectancy_bps": -41.19,
+        "sharpe": -2.05
+      }
+    },
+    "partition_stability": {
+      "train_net_bps": -20.75,
+      "val_net_bps": -75.95,
+      "oos_net_bps": -35.49,
+      "consistent_sign across_partitions": true
+    },
+    "survives_cost_stress": false
+  }
+}

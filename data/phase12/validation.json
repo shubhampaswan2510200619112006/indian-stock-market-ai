@@ -1,0 +1,567 @@
+{
+  "validation_runs": [
+    {
+      "dataset_version": "phase12_yahoo_intraday_1m_v1",
+      "dataset_type": "INTRADAY_1M",
+      "data_ready": false,
+      "options_quality_level": "LEVEL_0",
+      "intraday_ready": false,
+      "stages_passed": [
+        "1. INGEST",
+        "2. SCHEMA VALIDATION",
+        "3. TIMESTAMP VALIDATION",
+        "4. DUPLICATE CHECK",
+        "5. OHLC VALIDATION",
+        "6. CORPORATE ACTION VALIDATION",
+        "7. CONTRACT VALIDATION",
+        "8. BID/ASK VALIDATION"
+      ],
+      "stages_failed": [
+        "9. COVERAGE ANALYSIS"
+      ],
+      "diagnostics": [
+        {
+          "stage_name": "1. INGEST",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Loaded 2533 rows"
+        },
+        {
+          "stage_name": "2. SCHEMA VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Schema matches"
+        },
+        {
+          "stage_name": "3. TIMESTAMP VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Timestamp parsing successful"
+        },
+        {
+          "stage_name": "4. DUPLICATE CHECK",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "0 duplicates"
+        },
+        {
+          "stage_name": "5. OHLC VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "OHLC integrity satisfied"
+        },
+        {
+          "stage_name": "6. CORPORATE ACTION VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Corporate action audit clear"
+        },
+        {
+          "stage_name": "8. BID/ASK VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Bid/Ask columns absent"
+        },
+        {
+          "stage_name": "9. COVERAGE ANALYSIS",
+          "passed": false,
+          "failure_code": "INSUFFICIENT_SESSIONS_COVERAGE",
+          "affected_records": 2533,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "BLOCKING",
+          "details": "Observed 7 sessions, below project research threshold of 250 sessions"
+        }
+      ],
+      "metrics": {
+        "total_records": 2533,
+        "duplicate_records": 0,
+        "invalid_ohlc_count": 0,
+        "ohlc_valid_pct": 100.0,
+        "unique_sessions_count": 7,
+        "date_coverage_start": "2026-09-01",
+        "date_coverage_end": "2026-09-09"
+      },
+      "provenance": {
+        "dataset_version": "phase12_yahoo_intraday_1m_v1",
+        "source": "Yahoo Finance (Public Free Endpoint)",
+        "vendor": "Yahoo Finance (Public Free Endpoint)",
+        "product": "yfinance 1m API",
+        "acquisition_date": "2026-09-09T08:39:32.913186+00:00",
+        "coverage_start": "2026-09-01",
+        "coverage_end": "2026-09-09",
+        "instrument_scope": "INTRADAY_1M",
+        "interval": "1m",
+        "file_hash": "e8e726b48614326fba689bb99a789674ccefc848abd9c33272770249f2cc83f8",
+        "schema_version": "phase12_schema_v1",
+        "timezone": "Asia/Kolkata (+05:30)",
+        "adjustment_method": "RAW_UNADJUSTED",
+        "license_status": "NON_COMMERCIAL_PERSONAL_ONLY",
+        "validation_status": "REJECTED"
+      },
+      "rejection_reason": "Intraday coverage (7 sessions) below 250 threshold"
+    },
+    {
+      "dataset_version": "phase12_yahoo_intraday_5m_v1",
+      "dataset_type": "INTRADAY_5M",
+      "data_ready": false,
+      "options_quality_level": "LEVEL_0",
+      "intraday_ready": false,
+      "stages_passed": [
+        "1. INGEST",
+        "2. SCHEMA VALIDATION",
+        "3. TIMESTAMP VALIDATION",
+        "4. DUPLICATE CHECK",
+        "5. OHLC VALIDATION",
+        "6. CORPORATE ACTION VALIDATION",
+        "7. CONTRACT VALIDATION",
+        "8. BID/ASK VALIDATION"
+      ],
+      "stages_failed": [
+        "9. COVERAGE ANALYSIS"
+      ],
+      "diagnostics": [
+        {
+          "stage_name": "1. INGEST",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Loaded 4407 rows"
+        },
+        {
+          "stage_name": "2. SCHEMA VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Schema matches"
+        },
+        {
+          "stage_name": "3. TIMESTAMP VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Timestamp parsing successful"
+        },
+        {
+          "stage_name": "4. DUPLICATE CHECK",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "0 duplicates"
+        },
+        {
+          "stage_name": "5. OHLC VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "OHLC integrity satisfied"
+        },
+        {
+          "stage_name": "6. CORPORATE ACTION VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Corporate action audit clear"
+        },
+        {
+          "stage_name": "8. BID/ASK VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Bid/Ask columns absent"
+        },
+        {
+          "stage_name": "9. COVERAGE ANALYSIS",
+          "passed": false,
+          "failure_code": "INSUFFICIENT_SESSIONS_COVERAGE",
+          "affected_records": 4407,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "BLOCKING",
+          "details": "Observed 59 sessions, below project research threshold of 250 sessions"
+        }
+      ],
+      "metrics": {
+        "total_records": 4407,
+        "duplicate_records": 0,
+        "invalid_ohlc_count": 0,
+        "ohlc_valid_pct": 100.0,
+        "unique_sessions_count": 59,
+        "date_coverage_start": "2026-06-18",
+        "date_coverage_end": "2026-09-09"
+      },
+      "provenance": {
+        "dataset_version": "phase12_yahoo_intraday_5m_v1",
+        "source": "Yahoo Finance (Public Free Endpoint)",
+        "vendor": "Yahoo Finance (Public Free Endpoint)",
+        "product": "yfinance 5m API",
+        "acquisition_date": "2026-09-09T08:39:33.065769+00:00",
+        "coverage_start": "2026-06-18",
+        "coverage_end": "2026-09-09",
+        "instrument_scope": "INTRADAY_5M",
+        "interval": "5m",
+        "file_hash": "a1a99190d6ac7cbcdd2ec8fdf69c9ae5804dd6fcd4475ef6ede542dff11159d0",
+        "schema_version": "phase12_schema_v1",
+        "timezone": "Asia/Kolkata (+05:30)",
+        "adjustment_method": "RAW_UNADJUSTED",
+        "license_status": "NON_COMMERCIAL_PERSONAL_ONLY",
+        "validation_status": "REJECTED"
+      },
+      "rejection_reason": "Intraday coverage (59 sessions) below 250 threshold"
+    },
+    {
+      "dataset_version": "phase12_equity_reliance_v1",
+      "dataset_type": "DAILY",
+      "data_ready": true,
+      "options_quality_level": "LEVEL_0",
+      "intraday_ready": false,
+      "stages_passed": [
+        "1. INGEST",
+        "2. SCHEMA VALIDATION",
+        "3. TIMESTAMP VALIDATION",
+        "4. DUPLICATE CHECK",
+        "5. OHLC VALIDATION",
+        "6. CORPORATE ACTION VALIDATION",
+        "7. CONTRACT VALIDATION",
+        "8. BID/ASK VALIDATION",
+        "9. COVERAGE ANALYSIS",
+        "10. PROVENANCE RECORDING",
+        "11. READINESS GATE"
+      ],
+      "stages_failed": [],
+      "diagnostics": [
+        {
+          "stage_name": "1. INGEST",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Loaded 7704 rows"
+        },
+        {
+          "stage_name": "2. SCHEMA VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Schema matches"
+        },
+        {
+          "stage_name": "3. TIMESTAMP VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Timestamp parsing successful"
+        },
+        {
+          "stage_name": "4. DUPLICATE CHECK",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "0 duplicates"
+        },
+        {
+          "stage_name": "5. OHLC VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "OHLC integrity satisfied"
+        },
+        {
+          "stage_name": "6. CORPORATE ACTION VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Corporate action audit clear"
+        },
+        {
+          "stage_name": "8. BID/ASK VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Bid/Ask columns absent"
+        },
+        {
+          "stage_name": "9. COVERAGE ANALYSIS",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "7704 sessions verified"
+        },
+        {
+          "stage_name": "10. PROVENANCE RECORDING",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "SHA256: e0e0a9cadb53c410..."
+        },
+        {
+          "stage_name": "11. READINESS GATE",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Readiness evaluated successfully"
+        }
+      ],
+      "metrics": {
+        "total_records": 7704,
+        "duplicate_records": 0,
+        "invalid_ohlc_count": 0,
+        "ohlc_valid_pct": 100.0,
+        "unique_sessions_count": 7704,
+        "date_coverage_start": "1996-01-01",
+        "date_coverage_end": "2026-09-09"
+      },
+      "provenance": {
+        "dataset_version": "phase12_equity_reliance_v1",
+        "source": "Yahoo Finance (Public EOD)",
+        "vendor": "Yahoo Finance (Public EOD)",
+        "product": "Historical EOD Equity",
+        "acquisition_date": "2026-09-09T08:39:33.300372+00:00",
+        "coverage_start": "1996-01-01",
+        "coverage_end": "2026-09-09",
+        "instrument_scope": "DAILY",
+        "interval": "EOD",
+        "file_hash": "e0e0a9cadb53c41060211a085d8c85fa2c6fbeeeb7e61a439b6ff694e9846e57",
+        "schema_version": "phase12_schema_v1",
+        "timezone": "Asia/Kolkata (+05:30)",
+        "adjustment_method": "RAW_UNADJUSTED",
+        "license_status": "NON_COMMERCIAL_RESEARCH",
+        "validation_status": "VALIDATED"
+      },
+      "rejection_reason": null
+    },
+    {
+      "dataset_version": "phase12_options_sqlite_sample_v1",
+      "dataset_type": "OPTIONS_QUOTES",
+      "data_ready": false,
+      "options_quality_level": "LEVEL_2",
+      "intraday_ready": false,
+      "stages_passed": [
+        "1. INGEST",
+        "2. SCHEMA VALIDATION",
+        "3. TIMESTAMP VALIDATION",
+        "4. DUPLICATE CHECK",
+        "5. OHLC VALIDATION",
+        "6. CORPORATE ACTION VALIDATION",
+        "7. CONTRACT VALIDATION",
+        "8. BID/ASK VALIDATION",
+        "9. COVERAGE ANALYSIS",
+        "10. PROVENANCE RECORDING",
+        "11. READINESS GATE"
+      ],
+      "stages_failed": [],
+      "diagnostics": [
+        {
+          "stage_name": "1. INGEST",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Loaded 842 rows"
+        },
+        {
+          "stage_name": "2. SCHEMA VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Schema matches"
+        },
+        {
+          "stage_name": "3. TIMESTAMP VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Timestamp parsing successful"
+        },
+        {
+          "stage_name": "4. DUPLICATE CHECK",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "0 duplicates"
+        },
+        {
+          "stage_name": "6. CORPORATE ACTION VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Corporate action audit clear"
+        },
+        {
+          "stage_name": "7. CONTRACT VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Contracts valid under exchange specifications"
+        },
+        {
+          "stage_name": "8. BID/ASK VALIDATION",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Options quality level: LEVEL_2 (0.24% paired)"
+        },
+        {
+          "stage_name": "9. COVERAGE ANALYSIS",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "18 sessions verified"
+        },
+        {
+          "stage_name": "10. PROVENANCE RECORDING",
+          "passed": true,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "SHA256: ea8cbd2f34a55b7f..."
+        },
+        {
+          "stage_name": "11. READINESS GATE",
+          "passed": false,
+          "failure_code": null,
+          "affected_records": 0,
+          "affected_dates": [],
+          "affected_symbols": [],
+          "severity": "NONE",
+          "details": "Readiness evaluated successfully"
+        }
+      ],
+      "metrics": {
+        "total_records": 842,
+        "duplicate_records": 0,
+        "total_quote_observations": 842,
+        "valid_bid_observations": 2,
+        "valid_ask_observations": 2,
+        "paired_bid_ask_observations": 2,
+        "crossed_market_observations": 0,
+        "paired_quote_coverage_pct": 0.24,
+        "continuous_executable_surface": "UNSATISFIED",
+        "unique_sessions_count": 18,
+        "date_coverage_start": "2026-01-01",
+        "date_coverage_end": "2026-09-09"
+      },
+      "provenance": {
+        "dataset_version": "phase12_options_sqlite_sample_v1",
+        "source": "NSE Bhavcopy / Historical DB Archive",
+        "vendor": "NSE Bhavcopy / Historical DB Archive",
+        "product": "Settlement & Test Fixture Quotes",
+        "acquisition_date": "2026-09-09T08:39:33.577839+00:00",
+        "coverage_start": "2026-01-01",
+        "coverage_end": "2026-09-09",
+        "instrument_scope": "OPTIONS_QUOTES",
+        "interval": "EOD",
+        "file_hash": "ea8cbd2f34a55b7fc8b38836f1b7d510d3a0ead156fb80306b5ee3183389af34",
+        "schema_version": "phase12_schema_v1",
+        "timezone": "Asia/Kolkata (+05:30)",
+        "adjustment_method": "RAW_UNADJUSTED",
+        "license_status": "HISTORICAL_FROZEN_BASELINE",
+        "validation_status": "REJECTED"
+      },
+      "rejection_reason": "Options execution data is LEVEL_2; Level 3/4 continuous paired surface required."
+    }
+  ]
+}

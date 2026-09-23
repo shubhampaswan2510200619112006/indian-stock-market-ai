@@ -1,0 +1,59 @@
+{
+  "total_datasets": 3,
+  "versions": {
+    "YAHOO_PUBLIC_NIFTY_1M_SAMPLE": [
+      {
+        "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+        "version_id": "v1",
+        "sha256": "sha256_public_sample_1m",
+        "source": ".\\data\\phase10a\\intraday\\nsei_1m.csv",
+        "vendor": "Yahoo Finance",
+        "received_at": "2026-09-09T11:04:06.456549+00:00",
+        "schema_version": "phase14_v1",
+        "validation_version": "cert_v1",
+        "calendar_version": "nse_cal_v1",
+        "normalization_version": "raw_v1",
+        "license_record": "LICENSE_RESTRICTED",
+        "parent_version": null,
+        "is_certified": false,
+        "certification_timestamp": null
+      }
+    ],
+    "YAHOO_PUBLIC_NIFTY_5M_SAMPLE": [
+      {
+        "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+        "version_id": "v1",
+        "sha256": "sha256_public_sample_5m",
+        "source": ".\\data\\phase10a\\intraday\\nsei_5m.csv",
+        "vendor": "Yahoo Finance",
+        "received_at": "2026-09-09T11:04:06.497062+00:00",
+        "schema_version": "phase14_v1",
+        "validation_version": "cert_v1",
+        "calendar_version": "nse_cal_v1",
+        "normalization_version": "raw_v1",
+        "license_record": "LICENSE_RESTRICTED",
+        "parent_version": null,
+        "is_certified": false,
+        "certification_timestamp": null
+      }
+    ],
+    "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE": [
+      {
+        "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+        "version_id": "v1",
+        "sha256": "sha256_bhavcopy_db",
+        "source": ".\\data\\indian_options.db",
+        "vendor": "NSE Public Web",
+        "received_at": "2026-09-09T11:04:06.683745+00:00",
+        "schema_version": "phase14_v1",
+        "validation_version": "cert_v1",
+        "calendar_version": "nse_cal_v1",
+        "normalization_version": "raw_v1",
+        "license_record": "LICENSE_VERIFIED",
+        "parent_version": null,
+        "is_certified": false,
+        "certification_timestamp": null
+      }
+    ]
+  }
+}

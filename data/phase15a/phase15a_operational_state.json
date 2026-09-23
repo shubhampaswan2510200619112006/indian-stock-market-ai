@@ -1,0 +1,49 @@
+{
+  "phase": "15A",
+  "phase_15a_status": "WAITING_FOR_VENDOR_DATA",
+  "real_datasets_received": 0,
+  "datasets_certified": 0,
+  "full_dataset_certification": "BLOCKED",
+  "research_readiness": "BLOCKED",
+  "baseline_integrity": "INTACT",
+  "phase_15_unlocked": false,
+  "safety_invariants": {
+    "broker": "NONE",
+    "live_execution": "DISABLED",
+    "auto_paper_order_submission": "DISABLED",
+    "options_execution": "BLOCKED",
+    "new_alpha_research": "DISABLED",
+    "unlimited_parameter_search": "DISABLED",
+    "strategy_optimization": "DISABLED",
+    "automated_vendor_contact": "DISABLED",
+    "automated_data_purchase": "DISABLED",
+    "purchase_authorized": false,
+    "human_decision_required": true,
+    "phase_15_unlocked": false
+  },
+  "evaluated_at": "2026-09-09T11:13:54.559114+00:00",
+  "tier_directories": {
+    "raw_dir": "data/intake\\raw",
+    "normalized_dir": "data/intake\\normalized",
+    "derived_dir": "data/intake\\derived",
+    "certified_dir": "data/intake\\certified",
+    "quarantine_dir": "data/intake\\quarantine"
+  },
+  "baseline_audit": {
+    "all_baselines_intact": true,
+    "status_decision": "ALL_BASELINES_INTACT",
+    "phase_9_7_baseline": "FROZEN",
+    "phase_9_8_research_results": "FROZEN",
+    "phase_9_8_numerical_results": "FROZEN",
+    "phase_9_9_freeze_manifest": "FROZEN_IMMUTABLE",
+    "phase_10a_artifacts_status": "INTACT",
+    "phase_10b_artifacts_status": "INTACT",
+    "phase_10c_artifacts_status": "INTACT",
+    "phase_11_artifacts_status": "INTACT",
+    "phase_12_artifacts_status": "INTACT",
+    "phase_13_artifacts_status": "INTACT",
+    "phase_14_artifacts_status": "INTACT",
+    "errors": [],
+    "details": {}
+  }
+}

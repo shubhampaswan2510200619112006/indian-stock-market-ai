@@ -1,0 +1,36 @@
+{
+  "phase_12_status": "COMPLETE",
+  "intraday_1m_ready": "BLOCKED",
+  "intraday_5m_ready": "BLOCKED",
+  "options_ltp_ready": "PASS",
+  "options_bid_ask_ready": "BLOCKED",
+  "options_execution_ready": "BLOCKED",
+  "data_provenance": "PASS",
+  "data_license_status": "REQUIRES_AUTHORIZATION",
+  "commercial_acquisition_required": true,
+  "purchase_authorized": false,
+  "human_decision_required": true,
+  "broker": "NONE",
+  "live_execution": "DISABLED",
+  "auto_paper_order_submission": "DISABLED",
+  "new_alpha_research": "DISABLED",
+  "frozen_baselines": "INTACT",
+  "reasons_for_blocking": [
+    "INTRADAY_1M_READY is BLOCKED: Available public data (7 sessions) fails PROJECT_RESEARCH_THRESHOLD of 250 sessions.",
+    "INTRADAY_5M_READY is BLOCKED: Available public data (43 sessions) fails PROJECT_RESEARCH_THRESHOLD of 250 sessions.",
+    "OPTIONS_BID_ASK_READY is BLOCKED: Historical options dataset lacks paired Bid/Ask quotes.",
+    "OPTIONS_EXECUTION_READY is BLOCKED: Level 1 LTP only; Level 3/4 continuous surface missing."
+  ],
+  "acquisition_decision_package": {
+    "recommended_primary_source": "NSE Data & Analytics Ltd (Official Exchange Archives)",
+    "recommended_secondary_source": "TrueData (Authorized Vendor API & Historical Tick Archives)",
+    "target_datasets": [
+      "NIFTY 50 & NIFTY BANK 1-Minute and 5-Minute Intraday (Multi-Year, >= 250 sessions)",
+      "NIFTY & BANKNIFTY Options Historical Intraday Level 2 / 5-Depth Quote Archives"
+    ],
+    "estimated_commercial_cost": "REQUIRES_VENDOR_QUOTE (NSE DotEx) / ESTIMATE INR 25k-60k/yr (TrueData)",
+    "licensing_considerations": "Commercial proprietary quantitative research license required; zero external redistribution",
+    "why_existing_free_data_is_insufficient": "1. Public endpoints (Yahoo Finance) exhibit hard retention limitations (7 days for 1m, 60 days for 5m).\n2. Retail broker APIs prune expired options contracts immediately upon expiry and provide only OHLCV bars, never historical Bid/Ask quotes.",
+    "validation_criteria_upon_acquisition": "All incoming datasets must pass the formal 11-stage DataOnboardingValidator with >= 250 sessions (intraday) and >= 70% paired quote coverage (options Level 3)."
+  }
+}

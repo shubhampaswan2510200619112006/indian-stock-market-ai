@@ -1,0 +1,338 @@
+{
+  "generated_at": "2026-09-08T19:36:41.982499+00:00",
+  "phase": "PHASE_9_DATA_INFRASTRUCTURE",
+  "safety_status": {
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER_CONNECTIONS": "NONE",
+    "PAPER_EXECUTION": "ENABLED",
+    "BACKTEST_EXECUTION": "ENABLED",
+    "ALLOW_LIVE_EXECUTION": false,
+    "safety_message": "This system does NOT send real orders. Broker execution is architecturally unavailable."
+  },
+  "market_state": "MARKET_CLOSED",
+  "market_observations": [
+    {
+      "symbol": "NIFTY",
+      "provider": "YFINANCE",
+      "provider_timestamp": "2026-09-08T19:36:41.238563+00:00",
+      "received_timestamp": "2026-09-08T19:36:41.238563+00:00",
+      "processed_timestamp": "2026-09-08T19:36:41.239572+00:00",
+      "status": "VERIFIED_DELAYED",
+      "ltp": 23635.1,
+      "bid": null,
+      "ask": null,
+      "volume": 0,
+      "open_interest": null,
+      "execution_eligibility": false,
+      "rejection_code": "MARKET_CLOSED",
+      "latencies": {
+        "network_request_to_response_ms": 1161.62,
+        "provider_to_received_latency_ms": 0.0,
+        "received_to_processed_latency_ms": 1.01
+      }
+    },
+    {
+      "symbol": "BANKNIFTY",
+      "provider": "YFINANCE",
+      "provider_timestamp": "2026-09-08T19:36:41.407702+00:00",
+      "received_timestamp": "2026-09-08T19:36:41.407702+00:00",
+      "processed_timestamp": "2026-09-08T19:36:41.408689+00:00",
+      "status": "VERIFIED_DELAYED",
+      "ltp": 56777.55,
+      "bid": null,
+      "ask": null,
+      "volume": 0,
+      "open_interest": null,
+      "execution_eligibility": false,
+      "rejection_code": "MARKET_CLOSED",
+      "latencies": {
+        "network_request_to_response_ms": 105.6,
+        "provider_to_received_latency_ms": 0.0,
+        "received_to_processed_latency_ms": 0.99
+      }
+    },
+    {
+      "symbol": "RELIANCE",
+      "provider": "YFINANCE",
+      "provider_timestamp": "2026-09-08T19:36:41.554504+00:00",
+      "received_timestamp": "2026-09-08T19:36:41.554504+00:00",
+      "processed_timestamp": "2026-09-08T19:36:41.555505+00:00",
+      "status": "VERIFIED_DELAYED",
+      "ltp": 1294.9,
+      "bid": null,
+      "ask": null,
+      "volume": 9797263,
+      "open_interest": null,
+      "execution_eligibility": false,
+      "rejection_code": "MARKET_CLOSED",
+      "latencies": {
+        "network_request_to_response_ms": 144.81,
+        "provider_to_received_latency_ms": 0.0,
+        "received_to_processed_latency_ms": 1.0
+      }
+    }
+  ],
+  "live_options_status": {
+    "provider": "NSE_LIVE_OPTIONS_GATEWAY",
+    "status": "UNVERIFIED",
+    "notes": "Live options provider unconfigured or unauthorized. Zero fake data."
+  },
+  "historical_options_coverage": {
+    "symbol": "NIFTY",
+    "total_quotes": 10236,
+    "bid_ask_coverage_pct": 0.7,
+    "ltp_coverage_pct": 100.0,
+    "oi_coverage_pct": 100.0,
+    "is_suitable_for_execution": false,
+    "audit_status": "PARTIAL",
+    "notes": "EOD settlement records contain LTP & OI, but 0% Bid/Ask coverage."
+  },
+  "sufficiency_gate_results": {
+    "feature_generation": {
+      "status": "PASS",
+      "reasons": []
+    },
+    "historical_equity_backtest": {
+      "status": "PASS",
+      "reasons": []
+    },
+    "options_ltp_oi_research": {
+      "status": "PASS",
+      "reasons": []
+    },
+    "options_execution_backtest": {
+      "status": "FAIL",
+      "reasons": [
+        "Historical Bid/Ask coverage (0.7%) is below required 70.0%. Execution slippage and realistic fills cannot be modeled."
+      ]
+    },
+    "ml_training": {
+      "status": "PASS",
+      "reasons": []
+    },
+    "walk_forward_validation": {
+      "status": "FAIL",
+      "reasons": [
+        "Walk-forward validation requires at least 80 sessions (train + test folds). Found: 60."
+      ]
+    },
+    "paper_equity_execution": {
+      "status": "FAIL",
+      "reasons": [
+        "No verified live Bid/Ask quote feed. Public feed provides LTP only."
+      ]
+    },
+    "options_paper_execution": {
+      "status": "BLOCKED",
+      "reasons": [
+        "OPTIONS PAPER TRADING: BLOCKED \u2014 LIVE OPTIONS DATA NOT VERIFIED."
+      ]
+    }
+  },
+  "provider_scorecards": {
+    "yfinance": {
+      "provider_name": "YFINANCE",
+      "weighted_score": 4.36,
+      "is_suitable_for_execution": false,
+      "is_suitable_for_historical_research": true,
+      "hard_failures": [
+        "NO_EXECUTABLE_BID_ASK: Unsuitable for live paper or real execution.",
+        "NO_OPTIONS_DATA: Unsuitable for options chain or Greeks research."
+      ],
+      "dimensions": [
+        {
+          "dimension": "Data Legitimacy",
+          "score": 8.0,
+          "status": "PASS",
+          "comment": "Genuine public market data from Yahoo Finance / NSE."
+        },
+        {
+          "dimension": "Historical Depth",
+          "score": 9.0,
+          "status": "PASS",
+          "comment": "Multi-year daily OHLCV equity & index data available."
+        },
+        {
+          "dimension": "Intraday Resolution",
+          "score": 6.0,
+          "status": "PASS",
+          "comment": "1m, 5m, 15m, 1h candles available for recent ~60 days."
+        },
+        {
+          "dimension": "Timestamp Quality",
+          "score": 7.0,
+          "status": "PASS",
+          "comment": "UTC ISO timestamps provided, though exchange delayed."
+        },
+        {
+          "dimension": "Bid/Ask Availability",
+          "score": 0.0,
+          "status": "FAIL",
+          "comment": "No actionable Bid/Ask depth for Indian indices/equities on free tier."
+        },
+        {
+          "dimension": "Options Coverage",
+          "score": 0.0,
+          "status": "FAIL",
+          "comment": "NSE options chains are unsupported/broken on yfinance."
+        },
+        {
+          "dimension": "Historical Options Depth",
+          "score": 0.0,
+          "status": "FAIL",
+          "comment": "Zero historical options contracts or settlement files."
+        },
+        {
+          "dimension": "Open Interest (OI)",
+          "score": 0.0,
+          "status": "FAIL",
+          "comment": "No open interest or change-in-OI tracking."
+        },
+        {
+          "dimension": "Implied Volatility (IV)",
+          "score": 0.0,
+          "status": "FAIL",
+          "comment": "No exchange-supplied IV."
+        },
+        {
+          "dimension": "Reliability",
+          "score": 7.5,
+          "status": "PASS",
+          "comment": "High uptime, occasional rate limits during market peaks."
+        },
+        {
+          "dimension": "Latency",
+          "score": 4.0,
+          "status": "WARNING",
+          "comment": "Typically 15-minute delayed data for NSE/BSE."
+        },
+        {
+          "dimension": "API Stability",
+          "score": 7.0,
+          "status": "PASS",
+          "comment": "Fast info & history methods stable, fast_info occasionally omits dayHigh/dayLow."
+        },
+        {
+          "dimension": "Licensing Clarity",
+          "score": 4.0,
+          "status": "WARNING",
+          "comment": "Personal / research use only; commercial redistribution restricted."
+        },
+        {
+          "dimension": "Cost",
+          "score": 10.0,
+          "status": "PASS",
+          "comment": "Free public access without mandatory API key."
+        },
+        {
+          "dimension": "Integration Complexity",
+          "score": 9.0,
+          "status": "PASS",
+          "comment": "Simple Python library interface without bespoke signing."
+        }
+      ]
+    },
+    "bhavcopy": {
+      "provider_name": "NSE_BHAVCOPY_ARCHIVE",
+      "weighted_score": 6.62,
+      "is_suitable_for_execution": false,
+      "is_suitable_for_historical_research": true,
+      "hard_failures": [
+        "NO_REALTIME_CAPABILITY: Static historical archive only.",
+        "NO_BID_ASK: Unsuitable for execution slippage and spread research."
+      ],
+      "dimensions": [
+        {
+          "dimension": "Data Legitimacy",
+          "score": 10.0,
+          "status": "PASS",
+          "comment": "Official end-of-day settlement files from National Stock Exchange of India."
+        },
+        {
+          "dimension": "Historical Depth",
+          "score": 9.0,
+          "status": "PASS",
+          "comment": "Decades of daily EOD options settlement files."
+        },
+        {
+          "dimension": "Intraday Resolution",
+          "score": 0.0,
+          "status": "FAIL",
+          "comment": "EOD settlement only; zero intraday tick or 1-minute bars."
+        },
+        {
+          "dimension": "Timestamp Quality",
+          "score": 9.0,
+          "status": "PASS",
+          "comment": "Exchange official trading date timestamps."
+        },
+        {
+          "dimension": "Bid/Ask Availability",
+          "score": 0.0,
+          "status": "FAIL",
+          "comment": "Settlement files contain LTP/close, volume, and OI; no Bid/Ask quotes."
+        },
+        {
+          "dimension": "Options Coverage",
+          "score": 10.0,
+          "status": "PASS",
+          "comment": "100% of all listed NSE index and equity options contracts."
+        },
+        {
+          "dimension": "Historical Options Depth",
+          "score": 10.0,
+          "status": "PASS",
+          "comment": "Full historical series across all strikes and expiries."
+        },
+        {
+          "dimension": "Open Interest (OI)",
+          "score": 10.0,
+          "status": "PASS",
+          "comment": "Official exchange settlement open interest and change in OI."
+        },
+        {
+          "dimension": "Implied Volatility (IV)",
+          "score": 0.0,
+          "status": "WARNING",
+          "comment": "IV not in raw bhavcopy; must be locally calculated using Black-Scholes."
+        },
+        {
+          "dimension": "Reliability",
+          "score": 9.5,
+          "status": "PASS",
+          "comment": "Static archived files have 100% liveness."
+        },
+        {
+          "dimension": "Latency",
+          "score": 0.0,
+          "status": "FAIL",
+          "comment": "EOD file; zero real-time capability."
+        },
+        {
+          "dimension": "API Stability",
+          "score": 9.0,
+          "status": "PASS",
+          "comment": "Standard CSV format (with known 2024 header schema revisions)."
+        },
+        {
+          "dimension": "Licensing Clarity",
+          "score": 7.0,
+          "status": "PASS",
+          "comment": "Publicly distributed by NSE for market transparency."
+        },
+        {
+          "dimension": "Cost",
+          "score": 10.0,
+          "status": "PASS",
+          "comment": "Free archive downloads from exchange portal."
+        },
+        {
+          "dimension": "Integration Complexity",
+          "score": 8.0,
+          "status": "PASS",
+          "comment": "Standard CSV parser with lot size and strike normalization."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "validation_run_timestamp": "2026-09-09T11:04:06.691774+00:00",
+  "results": [
+    {
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+      "stages_passed": [
+        "0. FIXTURE QUARANTINE",
+        "1. IDENTITY",
+        "2. PROVENANCE",
+        "4. SCHEMA",
+        "5. TIMESTAMP",
+        "6. OHLC INTEGRITY",
+        "7. SESSION COMPLETENESS"
+      ],
+      "stages_failed": [
+        "3. LICENSE",
+        "8. HISTORICAL COVERAGE"
+      ],
+      "failure_codes": [
+        "LICENSE_RESTRICTED",
+        "INSUFFICIENT_SESSIONS"
+      ],
+      "rejection_reasons": [
+        "License contains non-commercial or restricted redistribution terms",
+        "Historical coverage insufficient: observed 7 valid sessions, below project research threshold of 250 sessions."
+      ]
+    },
+    {
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+      "stages_passed": [
+        "0. FIXTURE QUARANTINE",
+        "1. IDENTITY",
+        "2. PROVENANCE",
+        "4. SCHEMA",
+        "5. TIMESTAMP",
+        "6. OHLC INTEGRITY",
+        "7. SESSION COMPLETENESS"
+      ],
+      "stages_failed": [
+        "3. LICENSE",
+        "8. HISTORICAL COVERAGE"
+      ],
+      "failure_codes": [
+        "LICENSE_RESTRICTED",
+        "INSUFFICIENT_SESSIONS"
+      ],
+      "rejection_reasons": [
+        "License contains non-commercial or restricted redistribution terms",
+        "Historical coverage insufficient: observed 59 valid sessions, below project research threshold of 250 sessions."
+      ]
+    },
+    {
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "stages_passed": [
+        "0. FIXTURE QUARANTINE",
+        "1. IDENTITY",
+        "2. PROVENANCE",
+        "3. LICENSE",
+        "4. SCHEMA",
+        "5. TIMESTAMP",
+        "10. OPTIONS CONTRACT INTEGRITY"
+      ],
+      "stages_failed": [
+        "11. OPTIONS CONTINUITY"
+      ],
+      "failure_codes": [
+        "TIMESTAMP_NOT_CHRONOLOGICAL",
+        "CONTINUOUS_EXECUTABLE_SURFACE_LOW"
+      ],
+      "rejection_reasons": [
+        "Timestamps are not strictly monotonically increasing",
+        "Paired quote coverage (0.24%) fails continuous executable surface threshold of >=70.0%"
+      ]
+    }
+  ]
+}

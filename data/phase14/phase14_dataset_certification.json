@@ -1,0 +1,369 @@
+{
+  "certification_timestamp": "2026-09-09T11:04:06.688758+00:00",
+  "phase_14_status": "WAITING_FOR_VENDOR_DATA",
+  "total_datasets_evaluated": 3,
+  "total_certified": 0,
+  "certifications": [
+    {
+      "certification_run_id": "CERT-YAHOO_PUBLIC_NIFTY_1M_SAMPLE-20260909110406",
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+      "version_id": "v1",
+      "underlying": "NIFTY",
+      "interval": "1m",
+      "vendor": "Yahoo Finance",
+      "is_certified": false,
+      "rejection_reasons": [
+        "License contains non-commercial or restricted redistribution terms",
+        "Historical coverage insufficient: observed 7 valid sessions, below project research threshold of 250 sessions."
+      ],
+      "failure_codes": [
+        "LICENSE_RESTRICTED",
+        "INSUFFICIENT_SESSIONS"
+      ],
+      "stages_passed": [
+        "0. FIXTURE QUARANTINE",
+        "1. IDENTITY",
+        "2. PROVENANCE",
+        "4. SCHEMA",
+        "5. TIMESTAMP",
+        "6. OHLC INTEGRITY",
+        "7. SESSION COMPLETENESS"
+      ],
+      "stages_failed": [
+        "3. LICENSE",
+        "8. HISTORICAL COVERAGE"
+      ],
+      "diagnostics": [],
+      "intraday_metrics": {
+        "total_records": 2625,
+        "total_sessions_observed": 7,
+        "valid_trading_sessions": 7,
+        "expected_bars_per_session": 375,
+        "bars_per_session_mean": 375.0,
+        "total_missing_bars": 0,
+        "total_extra_bars": 0,
+        "total_duplicate_bars": 0,
+        "ohlc_violations_count": 0,
+        "timestamp_parseable": true,
+        "session_alignment_passed": true,
+        "sessions_threshold_met": false,
+        "session_completeness_details": [
+          {
+            "session_date": "2026-09-01",
+            "expected_bars": 375,
+            "actual_bars": 375,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-09-01 09:15:00+05:30",
+            "session_end": "2026-09-01 15:29:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-09-02",
+            "expected_bars": 375,
+            "actual_bars": 375,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-09-02 09:15:00+05:30",
+            "session_end": "2026-09-02 15:29:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-09-03",
+            "expected_bars": 375,
+            "actual_bars": 375,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-09-03 09:15:00+05:30",
+            "session_end": "2026-09-03 15:29:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-09-04",
+            "expected_bars": 375,
+            "actual_bars": 375,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-09-04 09:15:00+05:30",
+            "session_end": "2026-09-04 15:29:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-09-07",
+            "expected_bars": 375,
+            "actual_bars": 375,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-09-07 09:15:00+05:30",
+            "session_end": "2026-09-07 15:29:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-09-08",
+            "expected_bars": 375,
+            "actual_bars": 375,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-09-08 09:15:00+05:30",
+            "session_end": "2026-09-08 15:29:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-09-09",
+            "expected_bars": 375,
+            "actual_bars": 375,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-09-09 09:15:00+05:30",
+            "session_end": "2026-09-09 15:29:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          }
+        ]
+      },
+      "options_metrics": null,
+      "bar_consistency": null,
+      "is_quarantined": false,
+      "quarantine_reason": null,
+      "license_status": "LICENSE_RESTRICTED",
+      "provenance_status": "VERIFIED"
+    },
+    {
+      "certification_run_id": "CERT-YAHOO_PUBLIC_NIFTY_5M_SAMPLE-20260909110406",
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+      "version_id": "v1",
+      "underlying": "NIFTY",
+      "interval": "5m",
+      "vendor": "Yahoo Finance",
+      "is_certified": false,
+      "rejection_reasons": [
+        "License contains non-commercial or restricted redistribution terms",
+        "Historical coverage insufficient: observed 59 valid sessions, below project research threshold of 250 sessions."
+      ],
+      "failure_codes": [
+        "LICENSE_RESTRICTED",
+        "INSUFFICIENT_SESSIONS"
+      ],
+      "stages_passed": [
+        "0. FIXTURE QUARANTINE",
+        "1. IDENTITY",
+        "2. PROVENANCE",
+        "4. SCHEMA",
+        "5. TIMESTAMP",
+        "6. OHLC INTEGRITY",
+        "7. SESSION COMPLETENESS"
+      ],
+      "stages_failed": [
+        "3. LICENSE",
+        "8. HISTORICAL COVERAGE"
+      ],
+      "diagnostics": [],
+      "intraday_metrics": {
+        "total_records": 4425,
+        "total_sessions_observed": 59,
+        "valid_trading_sessions": 59,
+        "expected_bars_per_session": 75,
+        "bars_per_session_mean": 75.0,
+        "total_missing_bars": 0,
+        "total_extra_bars": 0,
+        "total_duplicate_bars": 0,
+        "ohlc_violations_count": 0,
+        "timestamp_parseable": true,
+        "session_alignment_passed": true,
+        "sessions_threshold_met": false,
+        "session_completeness_details": [
+          {
+            "session_date": "2026-06-18",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-06-18 09:15:00+05:30",
+            "session_end": "2026-06-18 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-06-19",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-06-19 09:15:00+05:30",
+            "session_end": "2026-06-19 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-06-22",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-06-22 09:15:00+05:30",
+            "session_end": "2026-06-22 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-06-23",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-06-23 09:15:00+05:30",
+            "session_end": "2026-06-23 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-06-24",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-06-24 09:15:00+05:30",
+            "session_end": "2026-06-24 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-06-25",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-06-25 09:15:00+05:30",
+            "session_end": "2026-06-25 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-06-29",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-06-29 09:15:00+05:30",
+            "session_end": "2026-06-29 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-06-30",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-06-30 09:15:00+05:30",
+            "session_end": "2026-06-30 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-07-01",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-07-01 09:15:00+05:30",
+            "session_end": "2026-07-01 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          },
+          {
+            "session_date": "2026-07-02",
+            "expected_bars": 75,
+            "actual_bars": 75,
+            "missing_bars": 0,
+            "extra_bars": 0,
+            "duplicate_bars": 0,
+            "session_start": "2026-07-02 09:15:00+05:30",
+            "session_end": "2026-07-02 15:25:00+05:30",
+            "completeness_ratio": 1.0,
+            "is_valid_session": true
+          }
+        ]
+      },
+      "options_metrics": null,
+      "bar_consistency": null,
+      "is_quarantined": false,
+      "quarantine_reason": null,
+      "license_status": "LICENSE_RESTRICTED",
+      "provenance_status": "VERIFIED"
+    },
+    {
+      "certification_run_id": "CERT-NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE-20260909110406",
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "version_id": "v1",
+      "underlying": "NIFTY",
+      "interval": "eod",
+      "vendor": "NSE Public Web",
+      "is_certified": false,
+      "rejection_reasons": [
+        "Timestamps are not strictly monotonically increasing",
+        "Paired quote coverage (0.24%) fails continuous executable surface threshold of >=70.0%"
+      ],
+      "failure_codes": [
+        "TIMESTAMP_NOT_CHRONOLOGICAL",
+        "CONTINUOUS_EXECUTABLE_SURFACE_LOW"
+      ],
+      "stages_passed": [
+        "0. FIXTURE QUARANTINE",
+        "1. IDENTITY",
+        "2. PROVENANCE",
+        "3. LICENSE",
+        "4. SCHEMA",
+        "5. TIMESTAMP",
+        "10. OPTIONS CONTRACT INTEGRITY"
+      ],
+      "stages_failed": [
+        "11. OPTIONS CONTINUITY"
+      ],
+      "diagnostics": [],
+      "intraday_metrics": null,
+      "options_metrics": {
+        "total_option_records": 846,
+        "records_with_bid": 2,
+        "records_with_ask": 2,
+        "paired_bid_ask_records": 2,
+        "crossed_quotes_count": 0,
+        "stale_quotes_count": 0,
+        "stale_quote_status": "STALE_QUOTE_NOT_ASSESSED",
+        "paired_quote_coverage_pct": 0.24,
+        "eligible_active_market_intervals": 846,
+        "continuous_executable_surface_pct": 0.24,
+        "continuity_threshold_met": false,
+        "options_quality_level": "L2",
+        "depth_verification_level": "THEORETICAL_DEPTH"
+      },
+      "bar_consistency": null,
+      "is_quarantined": false,
+      "quarantine_reason": null,
+      "license_status": "LICENSE_VERIFIED",
+      "provenance_status": "VERIFIED"
+    }
+  ]
+}

@@ -1,0 +1,295 @@
+[
+  {
+    "provider_name": "NSE Data & Analytics",
+    "product_name": "Historical Tick-by-Tick (TBT) & 5-Depth Snapshot Data",
+    "total_score": 90,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 20,
+      "intraday_granularity": 10,
+      "options_bid_ask_quality": 22,
+      "options_historical_depth": 15,
+      "timestamp_execution_quality": 10,
+      "data_completeness": 5,
+      "provenance_documentation": 5,
+      "access_practicality": 2,
+      "cost_efficiency": 1
+    },
+    "critical_flags": [],
+    "intraday_track_status": "PASS",
+    "options_track_status": "POTENTIAL_WITH_RECONSTRUCTION",
+    "options_evaluation": {
+      "provider_name": "NSE Data & Analytics",
+      "options_execution_level": "LEVEL_2_CAPABLE_LEVEL_3_UNRECONSTRUCTED",
+      "level_number": 2,
+      "paired_quotes_status": "VERIFIED_IN_RAW_SNAPSHOTS",
+      "continuous_surface_status": "RECONSTRUCTION_PIPELINE_REQUIRED",
+      "options_execution_data_status": "ENTERPRISE_ACQUISITION_CANDIDATE",
+      "verdict": "RECONSTRUCTION_REQUIRED_FOR_LEVEL_3",
+      "notes": "NSE Data & Analytics supplies genuine historical Level 2 (5-depth snapshots) and Level 3 TBT order logs. Raw order messages contain bid/ask but do NOT constitute a ready-made continuous executable time series. Reconstructing continuous Level 3/4 surface requires enterprise purchase, massive compute, and an exchange matching pipeline."
+    }
+  },
+  {
+    "provider_name": "TrueData",
+    "product_name": "TrueData Historical REST API & Market Feeds",
+    "total_score": 76,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 20,
+      "intraday_granularity": 10,
+      "options_bid_ask_quality": 8,
+      "options_historical_depth": 12,
+      "timestamp_execution_quality": 8,
+      "data_completeness": 5,
+      "provenance_documentation": 5,
+      "access_practicality": 5,
+      "cost_efficiency": 3
+    },
+    "critical_flags": [
+      "OPTIONS_BID_ASK_NOT_VERIFIED_OUT_OF_BOX"
+    ],
+    "intraday_track_status": "PASS",
+    "options_track_status": "BLOCKED_PENDING_ENTERPRISE_VERIFICATION",
+    "options_evaluation": {
+      "provider_name": "TrueData",
+      "options_execution_level": "LEVEL_1",
+      "level_number": 1,
+      "paired_quotes_status": "UNVERIFIED_HISTORICAL",
+      "continuous_surface_status": "UNVERIFIED",
+      "options_execution_data_status": "REQUIRES_ENTERPRISE_VALIDATION",
+      "verdict": "COMMERCIAL_TICK_ARCHIVE_UNVERIFIED",
+      "notes": "TrueData live feeds support Level 1/Level 2 Bid/Ask, but standard historical REST API provides OHLCV+OI. Historical tick Bid/Ask archives require custom enterprise sales quote and independent verification. Does NOT qualify for Level 3/4 out-of-the-box."
+    }
+  },
+  {
+    "provider_name": "GlobalDataFeeds / GDFL",
+    "product_name": "GDFL Nimble / DataFeeds API",
+    "total_score": 75,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 20,
+      "intraday_granularity": 10,
+      "options_bid_ask_quality": 8,
+      "options_historical_depth": 12,
+      "timestamp_execution_quality": 8,
+      "data_completeness": 5,
+      "provenance_documentation": 5,
+      "access_practicality": 4,
+      "cost_efficiency": 3
+    },
+    "critical_flags": [
+      "OPTIONS_BID_ASK_NOT_VERIFIED_OUT_OF_BOX"
+    ],
+    "intraday_track_status": "PASS",
+    "options_track_status": "BLOCKED_PENDING_ENTERPRISE_VERIFICATION",
+    "options_evaluation": {
+      "provider_name": "GlobalDataFeeds / GDFL",
+      "options_execution_level": "LEVEL_1",
+      "level_number": 1,
+      "paired_quotes_status": "UNVERIFIED_HISTORICAL",
+      "continuous_surface_status": "UNVERIFIED",
+      "options_execution_data_status": "REQUIRES_ENTERPRISE_VALIDATION",
+      "verdict": "COMMERCIAL_TICK_ARCHIVE_UNVERIFIED",
+      "notes": "GlobalDataFeeds / GDFL live feeds support Level 1/Level 2 Bid/Ask, but standard historical REST API provides OHLCV+OI. Historical tick Bid/Ask archives require custom enterprise sales quote and independent verification. Does NOT qualify for Level 3/4 out-of-the-box."
+    }
+  },
+  {
+    "provider_name": "Zerodha Kite Connect",
+    "product_name": "Kite Connect Historical API v3",
+    "total_score": 45,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 14,
+      "intraday_granularity": 10,
+      "options_bid_ask_quality": 0,
+      "options_historical_depth": 0,
+      "timestamp_execution_quality": 6,
+      "data_completeness": 3,
+      "provenance_documentation": 4,
+      "access_practicality": 5,
+      "cost_efficiency": 3
+    },
+    "critical_flags": [
+      "OPTIONS_BID_ASK_UNAVAILABLE",
+      "NO_EXPIRED_OPTIONS_HISTORY"
+    ],
+    "intraday_track_status": "PASS",
+    "options_track_status": "BLOCKED",
+    "options_evaluation": {
+      "provider_name": "Zerodha Kite Connect",
+      "options_execution_level": "LEVEL_0",
+      "level_number": 0,
+      "paired_quotes_status": "NOT_AVAILABLE",
+      "continuous_surface_status": "NOT_AVAILABLE",
+      "options_execution_data_status": "INSUFFICIENT",
+      "verdict": "INSUFFICIENT_HISTORICAL_BID_ASK",
+      "notes": "Official documented historical endpoint for Zerodha Kite Connect returns exclusively LTP-derived OHLCV/OI. Zero historical Bid/Ask fields exist; expired options contracts are not queryable. Classified strictly as INSUFFICIENT."
+    }
+  },
+  {
+    "provider_name": "Upstox",
+    "product_name": "Upstox Developer API v2 Historical Candle Data",
+    "total_score": 47,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 14,
+      "intraday_granularity": 10,
+      "options_bid_ask_quality": 0,
+      "options_historical_depth": 0,
+      "timestamp_execution_quality": 6,
+      "data_completeness": 3,
+      "provenance_documentation": 4,
+      "access_practicality": 5,
+      "cost_efficiency": 5
+    },
+    "critical_flags": [
+      "OPTIONS_BID_ASK_UNAVAILABLE",
+      "NO_EXPIRED_OPTIONS_HISTORY"
+    ],
+    "intraday_track_status": "PASS",
+    "options_track_status": "BLOCKED",
+    "options_evaluation": {
+      "provider_name": "Upstox",
+      "options_execution_level": "LEVEL_0",
+      "level_number": 0,
+      "paired_quotes_status": "NOT_AVAILABLE",
+      "continuous_surface_status": "NOT_AVAILABLE",
+      "options_execution_data_status": "INSUFFICIENT",
+      "verdict": "INSUFFICIENT_HISTORICAL_BID_ASK",
+      "notes": "Official documented historical endpoint for Upstox returns exclusively LTP-derived OHLCV/OI. Zero historical Bid/Ask fields exist; expired options contracts are not queryable. Classified strictly as INSUFFICIENT."
+    }
+  },
+  {
+    "provider_name": "Angel One SmartAPI",
+    "product_name": "Angel One SmartAPI Historical Data",
+    "total_score": 47,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 14,
+      "intraday_granularity": 10,
+      "options_bid_ask_quality": 0,
+      "options_historical_depth": 0,
+      "timestamp_execution_quality": 6,
+      "data_completeness": 3,
+      "provenance_documentation": 4,
+      "access_practicality": 5,
+      "cost_efficiency": 5
+    },
+    "critical_flags": [
+      "OPTIONS_BID_ASK_UNAVAILABLE",
+      "NO_EXPIRED_OPTIONS_HISTORY"
+    ],
+    "intraday_track_status": "PASS",
+    "options_track_status": "BLOCKED",
+    "options_evaluation": {
+      "provider_name": "Angel One SmartAPI",
+      "options_execution_level": "LEVEL_0",
+      "level_number": 0,
+      "paired_quotes_status": "NOT_AVAILABLE",
+      "continuous_surface_status": "NOT_AVAILABLE",
+      "options_execution_data_status": "INSUFFICIENT",
+      "verdict": "INSUFFICIENT_HISTORICAL_BID_ASK",
+      "notes": "Official documented historical endpoint for Angel One SmartAPI returns exclusively LTP-derived OHLCV/OI. Zero historical Bid/Ask fields exist; expired options contracts are not queryable. Classified strictly as INSUFFICIENT."
+    }
+  },
+  {
+    "provider_name": "FYERS",
+    "product_name": "FYERS API v3 Historical Data",
+    "total_score": 43,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 10,
+      "intraday_granularity": 10,
+      "options_bid_ask_quality": 0,
+      "options_historical_depth": 0,
+      "timestamp_execution_quality": 6,
+      "data_completeness": 3,
+      "provenance_documentation": 4,
+      "access_practicality": 5,
+      "cost_efficiency": 5
+    },
+    "critical_flags": [
+      "OPTIONS_BID_ASK_UNAVAILABLE",
+      "NO_EXPIRED_OPTIONS_HISTORY"
+    ],
+    "intraday_track_status": "PASS",
+    "options_track_status": "BLOCKED",
+    "options_evaluation": {
+      "provider_name": "FYERS",
+      "options_execution_level": "LEVEL_0",
+      "level_number": 0,
+      "paired_quotes_status": "NOT_AVAILABLE",
+      "continuous_surface_status": "NOT_AVAILABLE",
+      "options_execution_data_status": "INSUFFICIENT",
+      "verdict": "INSUFFICIENT_HISTORICAL_BID_ASK",
+      "notes": "Official documented historical endpoint for FYERS returns exclusively LTP-derived OHLCV/OI. Zero historical Bid/Ask fields exist; expired options contracts are not queryable. Classified strictly as INSUFFICIENT."
+    }
+  },
+  {
+    "provider_name": "Yahoo Finance",
+    "product_name": "Yahoo Finance Chart API (yfinance)",
+    "total_score": 25,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 2,
+      "intraday_granularity": 4,
+      "options_bid_ask_quality": 0,
+      "options_historical_depth": 0,
+      "timestamp_execution_quality": 6,
+      "data_completeness": 2,
+      "provenance_documentation": 2,
+      "access_practicality": 4,
+      "cost_efficiency": 5
+    },
+    "critical_flags": [
+      "INTRADAY_BELOW_250_SESSIONS",
+      "OPTIONS_BID_ASK_UNAVAILABLE",
+      "NO_EXPIRED_OPTIONS_HISTORY"
+    ],
+    "intraday_track_status": "BLOCKED",
+    "options_track_status": "BLOCKED",
+    "options_evaluation": {
+      "provider_name": "Yahoo Finance",
+      "options_execution_level": "LEVEL_0",
+      "level_number": 0,
+      "paired_quotes_status": "NOT_AVAILABLE",
+      "continuous_surface_status": "NOT_AVAILABLE",
+      "options_execution_data_status": "INSUFFICIENT",
+      "verdict": "INSUFFICIENT_HISTORICAL_OPTIONS",
+      "notes": "Yahoo Finance provides no historical expired options chains and zero historical Bid/Ask."
+    }
+  },
+  {
+    "provider_name": "NSE Public Bhavcopy",
+    "product_name": "NSE Public All Reports / F&O Bhavcopy",
+    "total_score": 36,
+    "max_score": 100,
+    "score_breakdown": {
+      "intraday_historical_depth": 0,
+      "intraday_granularity": 0,
+      "options_bid_ask_quality": 0,
+      "options_historical_depth": 15,
+      "timestamp_execution_quality": 3,
+      "data_completeness": 4,
+      "provenance_documentation": 5,
+      "access_practicality": 4,
+      "cost_efficiency": 5
+    },
+    "critical_flags": [
+      "NO_INTRADAY_DATA",
+      "OPTIONS_BID_ASK_UNAVAILABLE"
+    ],
+    "intraday_track_status": "BLOCKED",
+    "options_track_status": "BLOCKED",
+    "options_evaluation": {
+      "provider_name": "NSE Public Bhavcopy",
+      "options_execution_level": "LEVEL_0",
+      "level_number": 0,
+      "paired_quotes_status": "NOT_AVAILABLE",
+      "continuous_surface_status": "NOT_AVAILABLE",
+      "options_execution_data_status": "INSUFFICIENT",
+      "verdict": "EOD_SETTLEMENT_ONLY",
+      "notes": "Bhavcopy provides EOD settlement price, volume, and OI. Zero historical Bid/Ask quotes exist."
+    }
+  }
+]

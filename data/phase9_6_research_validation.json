@@ -1,0 +1,719 @@
+{
+  "generated_at": "2026-09-08T20:31:58.581912+00:00",
+  "safety_status": {
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER_CONNECTIONS": "NONE",
+    "PAPER_EXECUTION": "ENABLED",
+    "BACKTEST_EXECUTION": "ENABLED",
+    "ALLOW_LIVE_EXECUTION": false,
+    "safety_message": "This system does NOT send real orders. Broker execution is architecturally unavailable."
+  },
+  "phase_9_5_baseline_reference": {
+    "baseline_classification": "NO_EVIDENCE_OF_EDGE",
+    "baseline_sharpe": -4.8599932316215915,
+    "baseline_net_return": -0.17019784631989318
+  },
+  "dataset_inventory": {
+    "symbol": "NIFTY",
+    "sessions": 125,
+    "date_range": "2026-03-09 to 2026-09-08",
+    "options_observations": 13645,
+    "bid_ask_coverage_pct": 0.0
+  },
+  "hypothesis_audit": {
+    "total_hypotheses_registered": 8,
+    "total_hypotheses_evaluated": 8,
+    "total_hypotheses_surviving": 1,
+    "total_hypotheses_rejected": 6,
+    "total_hypotheses_inconclusive": 1
+  },
+  "target_reassessment": {
+    "multi_horizon_direction": {
+      "DIR_1D": {
+        "target_name": "target_fwd_dir_1d",
+        "target_type": "DIRECTIONAL_BINARY",
+        "horizon_sessions": 1,
+        "mean_oos_accuracy": 0.4444444444444444,
+        "baseline_accuracy": 0.5161290322580645,
+        "incremental_accuracy": -0.07168458781362008,
+        "total_observations": 124,
+        "brier_score_or_mse": 0.25475413792106916,
+        "is_statistically_superior_to_baseline": false,
+        "notes": "Evaluated across 9 walk-forward folds with dynamic purge = 1."
+      },
+      "DIR_3D": {
+        "target_name": "target_fwd_dir_3d",
+        "target_type": "DIRECTIONAL_BINARY",
+        "horizon_sessions": 3,
+        "mean_oos_accuracy": 0.41111111111111115,
+        "baseline_accuracy": 0.5327868852459017,
+        "incremental_accuracy": -0.12167577413479053,
+        "total_observations": 122,
+        "brier_score_or_mse": 0.2539499494276441,
+        "is_statistically_superior_to_baseline": false,
+        "notes": "Evaluated across 9 walk-forward folds with dynamic purge = 3."
+      },
+      "DIR_5D": {
+        "target_name": "target_fwd_dir_5d",
+        "target_type": "DIRECTIONAL_BINARY",
+        "horizon_sessions": 5,
+        "mean_oos_accuracy": 0.588888888888889,
+        "baseline_accuracy": 0.5916666666666667,
+        "incremental_accuracy": -0.002777777777777657,
+        "total_observations": 120,
+        "brier_score_or_mse": 0.24345746825016146,
+        "is_statistically_superior_to_baseline": false,
+        "notes": "Evaluated across 9 walk-forward folds with dynamic purge = 5."
+      },
+      "DIR_10D": {
+        "target_name": "target_fwd_dir_10d",
+        "target_type": "DIRECTIONAL_BINARY",
+        "horizon_sessions": 10,
+        "mean_oos_accuracy": 0.2875,
+        "baseline_accuracy": 0.5217391304347826,
+        "incremental_accuracy": -0.23423913043478262,
+        "total_observations": 115,
+        "brier_score_or_mse": 0.2936041878824912,
+        "is_statistically_superior_to_baseline": false,
+        "notes": "Evaluated across 8 walk-forward folds with dynamic purge = 10."
+      }
+    },
+    "return_magnitude_classification": {
+      "target_name": "target_magnitude_5d",
+      "target_type": "DISCRETE_MAGNITUDE_4_CLASS",
+      "horizon_sessions": 5,
+      "mean_oos_accuracy": 0.5,
+      "baseline_accuracy": 0.488,
+      "incremental_accuracy": 0.01200000000000001,
+      "total_observations": 125,
+      "brier_score_or_mse": 0.0,
+      "is_statistically_superior_to_baseline": false,
+      "notes": "Discrete return magnitude target across 4 predefined bins."
+    },
+    "risk_adjusted_target": {
+      "target_name": "target_fwd_atr_norm_5d",
+      "target_type": "RISK_ADJUSTED_CONTINUOUS",
+      "horizon_sessions": 5,
+      "mean_oos_accuracy": 0.588888888888889,
+      "baseline_accuracy": 0.608,
+      "incremental_accuracy": -0.019111111111110968,
+      "total_observations": 125,
+      "brier_score_or_mse": 0.24345746825016146,
+      "is_statistically_superior_to_baseline": false,
+      "notes": "Forward movement normalized by 14-day ATR."
+    }
+  },
+  "volatility_investigation": {
+    "persistence": {
+      "autocorr_lag_1": 0.8800633324169792,
+      "autocorr_lag_5": 0.4130010059852351,
+      "autocorr_lag_10": 0.2490497630088359,
+      "autocorr_lag_20": 0.03503115646728497,
+      "is_persistent": true,
+      "interpretation": "STRONG_VOLATILITY_CLUSTERING: Realized volatility shows high short-to-medium term autocorrelation. However, persistence is a statistical property and DOES NOT constitute a tradable edge."
+    },
+    "forecast_evaluations": [
+      {
+        "model_name": "Baseline_1_Naive_Persistence",
+        "rmse": 0.06559258557413428,
+        "mae": 0.050922641098456074,
+        "directional_accuracy": 0.5,
+        "relative_rmse_improvement_vs_naive": 0.0
+      },
+      {
+        "model_name": "Baseline_2_Rolling_Mean_20D",
+        "rmse": 0.05227365067120077,
+        "mae": 0.03967358339981286,
+        "directional_accuracy": 0.7444444444444445,
+        "relative_rmse_improvement_vs_naive": 0.2030554945555566
+      },
+      {
+        "model_name": "Baseline_3_EWMA_RiskMetrics",
+        "rmse": 0.05277107743612882,
+        "mae": 0.04146465060188627,
+        "directional_accuracy": 0.7,
+        "relative_rmse_improvement_vs_naive": 0.19547191234768888
+      },
+      {
+        "model_name": "Model_AR1_Autoregressive",
+        "rmse": 0.0726274541335009,
+        "mae": 0.06188875897993998,
+        "directional_accuracy": 0.5444444444444444,
+        "relative_rmse_improvement_vs_naive": -0.10725097200834763
+      }
+    ],
+    "best_model_name": "Baseline_2_Rolling_Mean_20D",
+    "is_statistically_superior_to_ewma": false,
+    "directional_vol_change_accuracy": 0.7444444444444445,
+    "economic_usefulness_status": "NO_INCREMENTAL_ADVANTAGE_OVER_EWMA",
+    "trading_edge_verdict": "NO_VOLATILITY_TRADING_EDGE: While realized volatility displays clustering, complex models fail to meaningfully beat simple EWMA benchmarks out-of-sample. Directional volatility edge is negligible.",
+    "limitations": "Based on 125 trading sessions. Options execution backtest blocked by 0% Bid/Ask coverage."
+  },
+  "regime_investigation": {
+    "primary_failure_mode": "UNIVERSALLY_BAD",
+    "is_performance_concentrated": false,
+    "dominant_regime": "MIXED",
+    "conclusion": "UNIVERSALLY_BAD: The strategy produced negative net returns and sub-50% accuracy across all observed regimes. Failure is not solely an artifact of sideways range-bound markets.",
+    "regime_reports": [
+      {
+        "regime_name": "STRONG_BULL",
+        "session_count": 0,
+        "trade_count": 0,
+        "directional_accuracy": 0.0,
+        "balanced_accuracy": 0.0,
+        "win_rate": 0.0,
+        "net_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "expectancy_per_trade": 0.0,
+        "reliability_status": "ZERO_OBSERVATIONS"
+      },
+      {
+        "regime_name": "BULL",
+        "session_count": 46,
+        "trade_count": 14,
+        "directional_accuracy": 0.5652173913043478,
+        "balanced_accuracy": 0.5461538461538462,
+        "win_rate": 0.2857142857142857,
+        "net_return": -0.09656500325728123,
+        "sharpe_ratio": -5.775620918694834,
+        "max_drawdown": 0.11058168891573658,
+        "expectancy_per_trade": -0.006897500232662945,
+        "reliability_status": "SUFFICIENT_SAMPLE"
+      },
+      {
+        "regime_name": "SIDEWAYS",
+        "session_count": 17,
+        "trade_count": 8,
+        "directional_accuracy": 0.5294117647058824,
+        "balanced_accuracy": 0.5142857142857142,
+        "win_rate": 0.125,
+        "net_return": -0.08303392431820633,
+        "sharpe_ratio": -9.776476548832937,
+        "max_drawdown": 0.08461847214629714,
+        "expectancy_per_trade": -0.010379240539775791,
+        "reliability_status": "SUFFICIENT_SAMPLE"
+      },
+      {
+        "regime_name": "BEAR",
+        "session_count": 27,
+        "trade_count": 9,
+        "directional_accuracy": 0.5185185185185185,
+        "balanced_accuracy": 0.5583333333333333,
+        "win_rate": 0.4444444444444444,
+        "net_return": -0.056997265214921655,
+        "sharpe_ratio": -5.668694048569856,
+        "max_drawdown": 0.05133320173347935,
+        "expectancy_per_trade": -0.006333029468324629,
+        "reliability_status": "SUFFICIENT_SAMPLE"
+      },
+      {
+        "regime_name": "STRONG_BEAR",
+        "session_count": 0,
+        "trade_count": 0,
+        "directional_accuracy": 0.0,
+        "balanced_accuracy": 0.0,
+        "win_rate": 0.0,
+        "net_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "expectancy_per_trade": 0.0,
+        "reliability_status": "ZERO_OBSERVATIONS"
+      },
+      {
+        "regime_name": "HIGH_VOLATILITY",
+        "session_count": 0,
+        "trade_count": 0,
+        "directional_accuracy": 0.0,
+        "balanced_accuracy": 0.0,
+        "win_rate": 0.0,
+        "net_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "expectancy_per_trade": 0.0,
+        "reliability_status": "ZERO_OBSERVATIONS"
+      }
+    ]
+  },
+  "signal_strength_investigation": {
+    "monotonic_conviction_alpha": false,
+    "high_conviction_profitable": false,
+    "conclusion": "NO_CONVICTION_EDGE: Higher probability buckets fail to produce positive expectancy after transaction frictions.",
+    "bucket_reports": [
+      {
+        "bucket_label": "50%\u201355% (Marginal)",
+        "prob_min": 0.5,
+        "prob_max": 0.55,
+        "observation_count": 43,
+        "trade_count": 43,
+        "win_rate": 0.7209302325581395,
+        "gross_return": -0.07466849955596166,
+        "net_return": -0.16066849955596169,
+        "expectancy_per_trade": -0.003736476733859574,
+        "sample_status": "RELIABLE",
+        "notes": "Sufficient sample size verified."
+      },
+      {
+        "bucket_label": "55%\u201360% (Moderate)",
+        "prob_min": 0.55,
+        "prob_max": 0.6,
+        "observation_count": 35,
+        "trade_count": 35,
+        "win_rate": 0.34285714285714286,
+        "gross_return": -0.134120261292204,
+        "net_return": -0.204120261292204,
+        "expectancy_per_trade": -0.005832007465491543,
+        "sample_status": "RELIABLE",
+        "notes": "Sufficient sample size verified."
+      },
+      {
+        "bucket_label": "60%\u201365% (Strong)",
+        "prob_min": 0.6,
+        "prob_max": 0.65,
+        "observation_count": 9,
+        "trade_count": 9,
+        "win_rate": 0.0,
+        "gross_return": 0.0,
+        "net_return": 0.0,
+        "expectancy_per_trade": 0.0,
+        "sample_status": "INSUFFICIENT_SAMPLE",
+        "notes": "Bucket contains only 9 observations (minimum 10 required). Cannot infer statistical edge."
+      },
+      {
+        "bucket_label": "65%\u201370% (Very Strong)",
+        "prob_min": 0.65,
+        "prob_max": 0.7,
+        "observation_count": 2,
+        "trade_count": 2,
+        "win_rate": 0.0,
+        "gross_return": 0.0,
+        "net_return": 0.0,
+        "expectancy_per_trade": 0.0,
+        "sample_status": "INSUFFICIENT_SAMPLE",
+        "notes": "Bucket contains only 2 observations (minimum 10 required). Cannot infer statistical edge."
+      },
+      {
+        "bucket_label": "70%+ (Extreme Conviction)",
+        "prob_min": 0.7,
+        "prob_max": 1.0,
+        "observation_count": 1,
+        "trade_count": 1,
+        "win_rate": 0.0,
+        "gross_return": 0.0,
+        "net_return": 0.0,
+        "expectancy_per_trade": 0.0,
+        "sample_status": "INSUFFICIENT_SAMPLE",
+        "notes": "Bucket contains only 1 observations (minimum 10 required). Cannot infer statistical edge."
+      }
+    ]
+  },
+  "asymmetry_investigation": {
+    "is_long_superior": false,
+    "asymmetry_conclusion": "SHORT_SIDE_SUPERIORITY: Short signals outperformed long signals over this specific sample period.",
+    "symmetric_report": {
+      "side_name": "Symmetric_Long_Short",
+      "total_trades": 29,
+      "win_rate": 0.2413793103448276,
+      "gross_return": -0.17759619279040917,
+      "fees": 0.0285,
+      "slippage": 0.0285,
+      "net_return": -0.23459619279040922,
+      "sharpe_ratio": -6.4576037747846025,
+      "max_drawdown": 0.24223536837162304,
+      "expectancy_per_trade": -0.008089523889324456,
+      "sample_reliability": "RELIABLE"
+    },
+    "long_only_report": {
+      "side_name": "Long_Only",
+      "total_trades": 15,
+      "win_rate": 0.2,
+      "gross_return": -0.09009784057341941,
+      "fees": 0.0145,
+      "slippage": 0.0145,
+      "net_return": -0.11909784057341943,
+      "sharpe_ratio": -4.912103588798571,
+      "max_drawdown": 0.12415083279150671,
+      "expectancy_per_trade": -0.007006522704894628,
+      "sample_reliability": "RELIABLE"
+    },
+    "short_only_report": {
+      "side_name": "Short_Only",
+      "total_trades": 14,
+      "win_rate": 0.2857142857142857,
+      "gross_return": -0.08749835221698976,
+      "fees": 0.014,
+      "slippage": 0.014,
+      "net_return": -0.11549835221698979,
+      "sharpe_ratio": -5.000553364263965,
+      "max_drawdown": 0.12555470687490583,
+      "expectancy_per_trade": -0.007249882301213555,
+      "sample_reliability": "RELIABLE"
+    }
+  },
+  "holding_period_investigation": {
+    "optimal_period_sessions": 10,
+    "is_longer_holding_beneficial": true,
+    "conclusion": "LONGER_HOLDING_REDUCES_COST_DRAG: Extending holding period to 10 sessions reduced fee decay by 84.2% and improved net return relative to 1D churn.",
+    "results": [
+      {
+        "holding_period_sessions": 1,
+        "total_trades": 29,
+        "turnover_reduction_pct": 0.0,
+        "gross_return": -0.17759619279040917,
+        "total_fees_and_slippage": 0.057,
+        "net_return": -0.23459619279040922,
+        "sharpe_ratio": -6.4576037747846025,
+        "max_drawdown": 0.24223536837162304,
+        "expectancy_per_trade": -0.008089523889324456,
+        "sample_reliability": "RELIABLE"
+      },
+      {
+        "holding_period_sessions": 3,
+        "total_trades": 15,
+        "turnover_reduction_pct": 49.122807017543856,
+        "gross_return": -0.11293983465724955,
+        "total_fees_and_slippage": 0.029,
+        "net_return": -0.14193983465724958,
+        "sharpe_ratio": -4.100172368852936,
+        "max_drawdown": 0.15869844294819144,
+        "expectancy_per_trade": -0.009462655643816638,
+        "sample_reliability": "RELIABLE"
+      },
+      {
+        "holding_period_sessions": 5,
+        "total_trades": 7,
+        "turnover_reduction_pct": 77.19298245614034,
+        "gross_return": -0.09749499116774485,
+        "total_fees_and_slippage": 0.013000000000000001,
+        "net_return": -0.11049499116774486,
+        "sharpe_ratio": -3.2871975213417794,
+        "max_drawdown": 0.1347148001897837,
+        "expectancy_per_trade": -0.015784998738249265,
+        "sample_reliability": "NOT_RELIABLE_INSUFFICIENT_SAMPLE"
+      },
+      {
+        "holding_period_sessions": 10,
+        "total_trades": 5,
+        "turnover_reduction_pct": 84.21052631578947,
+        "gross_return": -0.023061000918006447,
+        "total_fees_and_slippage": 0.009000000000000001,
+        "net_return": -0.032061000918006455,
+        "sharpe_ratio": -1.3487267532400977,
+        "max_drawdown": 0.08343940114986642,
+        "expectancy_per_trade": -0.006412200183601291,
+        "sample_reliability": "NOT_RELIABLE_INSUFFICIENT_SAMPLE"
+      }
+    ]
+  },
+  "feature_information_investigation": {
+    "best_predictive_family": "F1..F5_Regime",
+    "best_economic_family": "F1_Price",
+    "predictive_economic_divergence": true,
+    "conclusion": "FEATURE_FAMILY_EVALUATION: Best predictive family is F1..F5_Regime, while best economic outcome is F1_Price. Predictive vs Economic divergence = True. Incremental features alter calibration but remain overwhelmed by statutory fees.",
+    "family_reports": [
+      {
+        "family_name": "F1_Price",
+        "feature_count": 4,
+        "mean_oos_accuracy": 0.4444444444444444,
+        "predictive_improvement_vs_f1": 0.0,
+        "mean_brier_score": 0.25475413792106916,
+        "net_return": -0.09124288132523017,
+        "net_sharpe": -2.8458748559874185,
+        "economic_improvement_vs_f1": 0.0,
+        "is_economically_beneficial": false
+      },
+      {
+        "family_name": "F1+F2_Price_Action",
+        "feature_count": 7,
+        "mean_oos_accuracy": 0.48888888888888893,
+        "predictive_improvement_vs_f1": 0.04444444444444451,
+        "mean_brier_score": 0.25633171182926945,
+        "net_return": -0.16463282969010828,
+        "net_sharpe": -4.649003517283745,
+        "economic_improvement_vs_f1": -1.8031286612963267,
+        "is_economically_beneficial": false
+      },
+      {
+        "family_name": "F1..F3_Volume",
+        "feature_count": 9,
+        "mean_oos_accuracy": 0.4222222222222223,
+        "predictive_improvement_vs_f1": -0.022222222222222143,
+        "mean_brier_score": 0.25438266747598615,
+        "net_return": -0.17019784631989318,
+        "net_sharpe": -4.8599932316215915,
+        "economic_improvement_vs_f1": -2.014118375634173,
+        "is_economically_beneficial": false
+      },
+      {
+        "family_name": "F1..F4_Volatility",
+        "feature_count": 11,
+        "mean_oos_accuracy": 0.4666666666666667,
+        "predictive_improvement_vs_f1": 0.022222222222222254,
+        "mean_brier_score": 0.2529317066057369,
+        "net_return": -0.19476634827089476,
+        "net_sharpe": -5.483033472427146,
+        "economic_improvement_vs_f1": -2.6371586164397276,
+        "is_economically_beneficial": false
+      },
+      {
+        "family_name": "F1..F5_Regime",
+        "feature_count": 12,
+        "mean_oos_accuracy": 0.5444444444444445,
+        "predictive_improvement_vs_f1": 0.10000000000000009,
+        "mean_brier_score": 0.2548237033979608,
+        "net_return": -0.23459619279040922,
+        "net_sharpe": -6.4576037747846025,
+        "economic_improvement_vs_f1": -3.611728918797184,
+        "is_economically_beneficial": false
+      },
+      {
+        "family_name": "F1..F6_Options",
+        "feature_count": 14,
+        "mean_oos_accuracy": 0.5444444444444445,
+        "predictive_improvement_vs_f1": 0.10000000000000009,
+        "mean_brier_score": 0.2548237033979608,
+        "net_return": -0.23459619279040922,
+        "net_sharpe": -6.4576037747846025,
+        "economic_improvement_vs_f1": -3.611728918797184,
+        "is_economically_beneficial": false
+      }
+    ]
+  },
+  "options_information_investigation": {
+    "base_spot_accuracy": 0.5444444444444445,
+    "base_plus_options_accuracy": 0.5444444444444445,
+    "incremental_accuracy_delta": 0.0,
+    "base_spot_sharpe": -6.4576037747846025,
+    "base_plus_options_sharpe": -6.4576037747846025,
+    "incremental_sharpe_delta": 0.0,
+    "is_incremental_edge_statistically_meaningful": false,
+    "options_data_source": "NSE Bhavcopy Historical Settlement Archive",
+    "execution_validity_status": "LTP_RESEARCH_ONLY (Historical Bid/Ask 0.0% coverage; execution backtest BLOCKED)",
+    "conclusion": "ZERO_INCREMENTAL_OPTIONS_EDGE: Aggregated options features produced 0.00% incremental accuracy over the underlying spot volatility and regime features."
+  },
+  "cost_decomposition": {
+    "gross_pnl_pct": -0.17759619279040917,
+    "statutory_fees_pct": 0.0285,
+    "slippage_pct": 0.0285,
+    "total_frictions_pct": 0.057,
+    "net_pnl_pct": -0.23459619279040922,
+    "friction_to_gross_ratio": -0.32095282620877336,
+    "failure_mode": "CASE_A_NO_GROSS_EDGE",
+    "diagnosis": "CASE A \u2014 NO GROSS EDGE: Strategy generated negative gross return (-17.76%) before any transaction costs or slippage were deducted. The underlying predictive signal is uninformative."
+  },
+  "turnover_analysis": {
+    "total_sessions": 90,
+    "total_trades": 29,
+    "trades_per_session": 0.32222222222222224,
+    "average_holding_period_sessions": 3.103448275862069,
+    "total_turnover": 57.0,
+    "cost_per_trade_bps": 19.655172413793107,
+    "gross_pnl_per_trade_bps": -61.24006647945144,
+    "net_pnl_per_trade_bps": -80.89523889324455,
+    "is_excessive_turnover": true,
+    "turnover_diagnosis": "ZERO_GROSS_ALPHA: Strategy loses -61.2 bps/trade before transaction costs. Turnover is compounding losses from an uninformative predictive signal."
+  },
+  "strategy_mapping": [
+    {
+      "signal_type": "DIRECTIONAL_BULLISH",
+      "mapped_strategy": "Bull Call Spread",
+      "total_signals": 27,
+      "theoretical_win_rate": 0.37037037037037035,
+      "ltp_profit_factor": 0.75,
+      "max_risk_reward_ratio": 2.0,
+      "execution_validity_status": "LTP_RESEARCH_ONLY (0% Historical Bid/Ask Coverage)",
+      "is_conceptually_aligned": true,
+      "diagnosis": "Defined-risk directional spread limits downside, but low win rate in underlying prevents edge."
+    },
+    {
+      "signal_type": "DIRECTIONAL_BEARISH",
+      "mapped_strategy": "Bear Put Spread",
+      "total_signals": 20,
+      "theoretical_win_rate": 0.4,
+      "ltp_profit_factor": 0.6,
+      "max_risk_reward_ratio": 2.0,
+      "execution_validity_status": "LTP_RESEARCH_ONLY (0% Historical Bid/Ask Coverage)",
+      "is_conceptually_aligned": true,
+      "diagnosis": "Bearish spread suffers from secular index upward drift and high theta decay."
+    },
+    {
+      "signal_type": "VOLATILITY_EXPANSION",
+      "mapped_strategy": "Long Straddle",
+      "total_signals": 7,
+      "theoretical_win_rate": 0.5714285714285714,
+      "ltp_profit_factor": 1.15,
+      "max_risk_reward_ratio": 3.0,
+      "execution_validity_status": "LTP_RESEARCH_ONLY (0% Historical Bid/Ask Coverage)",
+      "is_conceptually_aligned": true,
+      "diagnosis": "Long Straddle correctly monetizes large shocks, but theta bleed destroys returns between shocks."
+    },
+    {
+      "signal_type": "VOLATILITY_CONTRACTION",
+      "mapped_strategy": "Iron Condor",
+      "total_signals": 76,
+      "theoretical_win_rate": 0.8552631578947368,
+      "ltp_profit_factor": 1.25,
+      "max_risk_reward_ratio": 0.33,
+      "execution_validity_status": "LTP_RESEARCH_ONLY (0% Historical Bid/Ask Coverage)",
+      "is_conceptually_aligned": true,
+      "diagnosis": "Defined-risk Iron Condor matches sideways/low-vol markets well, but execution slippage cannot be audited."
+    }
+  ],
+  "data_snooping_audit": {
+    "total_partition_access_events": 5,
+    "final_untouched_test_accesses": 0,
+    "unique_hypotheses_evaluated_on_test": 0,
+    "is_final_test_contaminated": false,
+    "status": "DATA_SNOOPING_CLEAN"
+  },
+  "research_scores": [
+    {
+      "hypothesis_id": "H001_VOLATILITY_PERSISTENCE",
+      "oos_robustness_pts": 20.0,
+      "statistical_evidence_pts": 8.0,
+      "economic_significance_pts": 0.0,
+      "cost_robustness_pts": 1.0,
+      "regime_robustness_pts": 10.0,
+      "data_quality_pts": 5.0,
+      "reproducibility_pts": 5.0,
+      "baseline_improvement_pts": 10.0,
+      "total_score": 59.0,
+      "is_shortlist_candidate": false,
+      "disqualification_reasons": [
+        "Negative net Sharpe after transaction costs",
+        "Fragile to realistic transaction costs and slippage"
+      ]
+    },
+    {
+      "hypothesis_id": "H002_TARGET_REFORMULATION_MULTI_DAY",
+      "oos_robustness_pts": 20.0,
+      "statistical_evidence_pts": 8.0,
+      "economic_significance_pts": 0.0,
+      "cost_robustness_pts": 1.0,
+      "regime_robustness_pts": 2.0,
+      "data_quality_pts": 5.0,
+      "reproducibility_pts": 5.0,
+      "baseline_improvement_pts": 10.0,
+      "total_score": 51.0,
+      "is_shortlist_candidate": false,
+      "disqualification_reasons": [
+        "Negative net Sharpe after transaction costs",
+        "Fragile to realistic transaction costs and slippage"
+      ]
+    },
+    {
+      "hypothesis_id": "H003_REGIME_CONDITIONED_VOLATILITY",
+      "oos_robustness_pts": 2.0,
+      "statistical_evidence_pts": 8.0,
+      "economic_significance_pts": 0.0,
+      "cost_robustness_pts": 1.0,
+      "regime_robustness_pts": 2.0,
+      "data_quality_pts": 5.0,
+      "reproducibility_pts": 5.0,
+      "baseline_improvement_pts": 0.0,
+      "total_score": 23.0,
+      "is_shortlist_candidate": false,
+      "disqualification_reasons": [
+        "Fails to beat baseline out-of-sample",
+        "Negative net Sharpe after transaction costs",
+        "Fragile to realistic transaction costs and slippage"
+      ]
+    },
+    {
+      "hypothesis_id": "H004_HIGH_CONFIDENCE_THRESHOLD",
+      "oos_robustness_pts": 2.0,
+      "statistical_evidence_pts": 8.0,
+      "economic_significance_pts": 0.0,
+      "cost_robustness_pts": 1.0,
+      "regime_robustness_pts": 2.0,
+      "data_quality_pts": 5.0,
+      "reproducibility_pts": 5.0,
+      "baseline_improvement_pts": 0.0,
+      "total_score": 23.0,
+      "is_shortlist_candidate": false,
+      "disqualification_reasons": [
+        "Fails to beat baseline out-of-sample",
+        "Negative net Sharpe after transaction costs",
+        "Fragile to realistic transaction costs and slippage"
+      ]
+    },
+    {
+      "hypothesis_id": "H005_LONG_SHORT_ASYMMETRY",
+      "oos_robustness_pts": 2.0,
+      "statistical_evidence_pts": 3.0,
+      "economic_significance_pts": 0.0,
+      "cost_robustness_pts": 1.0,
+      "regime_robustness_pts": 2.0,
+      "data_quality_pts": 5.0,
+      "reproducibility_pts": 5.0,
+      "baseline_improvement_pts": 0.0,
+      "total_score": 18.0,
+      "is_shortlist_candidate": false,
+      "disqualification_reasons": [
+        "Fails to beat baseline out-of-sample",
+        "Insufficient sample size",
+        "Negative net Sharpe after transaction costs",
+        "Fragile to realistic transaction costs and slippage"
+      ]
+    },
+    {
+      "hypothesis_id": "H006_HOLDING_PERIOD_SWING",
+      "oos_robustness_pts": 2.0,
+      "statistical_evidence_pts": 8.0,
+      "economic_significance_pts": 0.0,
+      "cost_robustness_pts": 1.0,
+      "regime_robustness_pts": 2.0,
+      "data_quality_pts": 5.0,
+      "reproducibility_pts": 5.0,
+      "baseline_improvement_pts": 0.0,
+      "total_score": 23.0,
+      "is_shortlist_candidate": false,
+      "disqualification_reasons": [
+        "Fails to beat baseline out-of-sample",
+        "Negative net Sharpe after transaction costs",
+        "Fragile to realistic transaction costs and slippage"
+      ]
+    },
+    {
+      "hypothesis_id": "H007_OPTIONS_OI_PCR_ALPHA",
+      "oos_robustness_pts": 2.0,
+      "statistical_evidence_pts": 8.0,
+      "economic_significance_pts": 0.0,
+      "cost_robustness_pts": 1.0,
+      "regime_robustness_pts": 2.0,
+      "data_quality_pts": 5.0,
+      "reproducibility_pts": 5.0,
+      "baseline_improvement_pts": 0.0,
+      "total_score": 23.0,
+      "is_shortlist_candidate": false,
+      "disqualification_reasons": [
+        "Fails to beat baseline out-of-sample",
+        "Negative net Sharpe after transaction costs",
+        "Fragile to realistic transaction costs and slippage"
+      ]
+    },
+    {
+      "hypothesis_id": "H008_VOLATILITY_STRATEGY_MAPPING",
+      "oos_robustness_pts": 2.0,
+      "statistical_evidence_pts": 8.0,
+      "economic_significance_pts": 0.0,
+      "cost_robustness_pts": 1.0,
+      "regime_robustness_pts": 2.0,
+      "data_quality_pts": 5.0,
+      "reproducibility_pts": 5.0,
+      "baseline_improvement_pts": 0.0,
+      "total_score": 23.0,
+      "is_shortlist_candidate": false,
+      "disqualification_reasons": [
+        "Fails to beat baseline out-of-sample",
+        "Negative net Sharpe after transaction costs",
+        "Fragile to realistic transaction costs and slippage"
+      ]
+    }
+  ],
+  "top_3_shortlist": [],
+  "primary_classification": "NO_SURVIVING_HYPOTHESIS",
+  "primary_classification_reason": "None of the 8 pre-registered hypotheses satisfied all mandatory gating criteria. While realized volatility displays short-term autocorrelation and multi-day targets reduce fee drag, no hypothesis produced a statistically defensible gross alpha that survives realistic Indian market frictions.",
+  "phase_10_gate": "PHASE_10_NOT_JUSTIFIED",
+  "phase_10_gate_reason": "Multi-week paper trading of an unprofitable or friction-decayed strategy is mathematically unjustified. The platform must remain in research until either higher-frequency execution data is obtained or a legitimate gross alpha source exceeding 15 bps/trade is discovered."
+}

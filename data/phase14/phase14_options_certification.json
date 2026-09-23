@@ -1,0 +1,22 @@
+{
+  "options_certification_results": [
+    {
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "metrics": {
+        "total_option_records": 846,
+        "records_with_bid": 2,
+        "records_with_ask": 2,
+        "paired_bid_ask_records": 2,
+        "crossed_quotes_count": 0,
+        "stale_quotes_count": 0,
+        "stale_quote_status": "STALE_QUOTE_NOT_ASSESSED",
+        "paired_quote_coverage_pct": 0.24,
+        "eligible_active_market_intervals": 846,
+        "continuous_executable_surface_pct": 0.24,
+        "continuity_threshold_met": false,
+        "options_quality_level": "L2",
+        "depth_verification_level": "THEORETICAL_DEPTH"
+      }
+    }
+  ]
+}

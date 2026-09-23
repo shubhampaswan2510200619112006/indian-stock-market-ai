@@ -1,0 +1,16 @@
+{
+  "current_state": "WAITING_FOR_VENDOR_DATA",
+  "total_transitions": 1,
+  "audit_trail": [
+    {
+      "transition_id": "TRANS-0001",
+      "previous_state": "NONE",
+      "new_state": "WAITING_FOR_VENDOR_DATA",
+      "timestamp": "2026-09-09T11:04:06.442542+00:00",
+      "transition_reason": "Initial state machine instantiation",
+      "evidence_reference": "INIT",
+      "actor": "SYSTEM",
+      "validation_run_id": null
+    }
+  ]
+}

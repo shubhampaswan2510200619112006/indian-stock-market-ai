@@ -1,0 +1,198 @@
+{
+  "recorded_at": "2026-09-09T10:46:47.583668+00:00",
+  "responses": [
+    {
+      "response_id": "RESP-NSE-001",
+      "vendor": "NSE Data & Analytics Ltd (DotEx)",
+      "date_observed": "2026-09-09T10:46:47.091772+00:00",
+      "question_id": "INTRA-Q01",
+      "question_text": "Do you provide historical NIFTY 50 1-minute data?",
+      "answer": "Yes, official historical 1-minute index snapshot archives are available for >10 years.",
+      "evidence_reference": "https://www.nseindia.com/market-data/historical-data-products",
+      "source": "OFFICIAL_PRODUCT_SPEC",
+      "source_type": "VENDOR_SPECIFICATION",
+      "verification_status": "VERIFIED",
+      "reviewer_notes": "Authoritative exchange source."
+    },
+    {
+      "response_id": "RESP-NSE-002",
+      "vendor": "NSE Data & Analytics Ltd (DotEx)",
+      "date_observed": "2026-09-09T10:46:47.091772+00:00",
+      "question_id": "OPT-Q01",
+      "question_text": "Do you provide historical NIFTY options Bid/Ask quote archives?",
+      "answer": "Yes, historical Level 2 5-depth snapshots and Level 3 TBT order logs are available.",
+      "evidence_reference": "NSE Historical Tick & Snapshot Catalog",
+      "source": "OFFICIAL_PRODUCT_SPEC",
+      "source_type": "VENDOR_SPECIFICATION",
+      "verification_status": "SAMPLE_VERIFIED",
+      "reviewer_notes": "Raw trade & order snapshots available; continuous surface requires reconstruction pipeline."
+    },
+    {
+      "response_id": "RESP-TD-001",
+      "vendor": "TrueData (TrueData India)",
+      "date_observed": "2026-09-09T10:46:47.091772+00:00",
+      "question_id": "INTRA-Q01",
+      "question_text": "Do you provide historical NIFTY 50 1-minute data?",
+      "answer": "Yes, continuous 1-minute historical data is available back to 2018+ via REST API.",
+      "evidence_reference": "https://www.truedata.in/feedback/api-docs",
+      "source": "VENDOR_PORTAL",
+      "source_type": "VENDOR_SPECIFICATION",
+      "verification_status": "VERIFIED",
+      "reviewer_notes": "Meets >250 sessions threshold."
+    },
+    {
+      "response_id": "RESP-TD-002",
+      "vendor": "TrueData (TrueData India)",
+      "date_observed": "2026-09-09T10:46:47.091772+00:00",
+      "question_id": "OPT-Q10",
+      "question_text": "Are Best Bid and Best Ask paired synchronously at the exact same timestamp historically?",
+      "answer": "Live WebSocket delivers paired 5-depth. Historical options continuous Bid/Ask requires enterprise tick archive add-on.",
+      "evidence_reference": "TrueData API Documentation",
+      "source": "VENDOR_PORTAL",
+      "source_type": "VENDOR_SPECIFICATION",
+      "verification_status": "VENDOR_CLAIM_ONLY",
+      "reviewer_notes": "Capability reported; historical archive availability requires sample validation."
+    },
+    {
+      "response_id": "RESP-GDFL-001",
+      "vendor": "Global DataFeeds (GDFL)",
+      "date_observed": "2026-09-09T10:46:47.091772+00:00",
+      "question_id": "INTRA-Q01",
+      "question_text": "Do you provide historical NIFTY 50 1-minute data?",
+      "answer": "Yes, multi-year 1m/5m historical data available via NimbleData API.",
+      "evidence_reference": "https://www.globaldatafeeds.in",
+      "source": "VENDOR_PORTAL",
+      "source_type": "VENDOR_SPECIFICATION",
+      "verification_status": "VERIFIED",
+      "reviewer_notes": "Meets >250 sessions threshold."
+    }
+  ],
+  "cost_models": [
+    {
+      "vendor": "NSE Data & Analytics Ltd (DotEx)",
+      "product_name": "Historical Tick-by-Tick / 5-Depth Archives",
+      "cost_status": "SALES_QUOTE_REQUIRED",
+      "currency": "INR",
+      "one_time_data_cost": null,
+      "annual_subscription_cost": null,
+      "monthly_subscription_cost": null,
+      "exchange_royalty_fees": null,
+      "license_fees": null,
+      "gst_tax_pct": 18.0,
+      "storage_infrastructure_cost": null,
+      "api_access_cost": null,
+      "quote_validity_period": null,
+      "assumptions_recorded": [
+        "Official exchange enterprise quotation required. Industry estimate INR 50k-250k+."
+      ],
+      "year_1_summary": {
+        "calculation_status": "UNKNOWN",
+        "total_cost": "UNKNOWN",
+        "reason": "Mandatory formal sales quote inputs are unconfirmed."
+      },
+      "year_3_summary": {
+        "calculation_status": "UNKNOWN",
+        "total_cost": "UNKNOWN",
+        "reason": "Mandatory formal sales quote inputs are unconfirmed."
+      }
+    },
+    {
+      "vendor": "TrueData (TrueData India)",
+      "product_name": "TrueData Historical REST API + Tick Archives",
+      "cost_status": "ESTIMATE \u2014 NOT A QUOTE",
+      "currency": "INR",
+      "one_time_data_cost": null,
+      "annual_subscription_cost": 40000.0,
+      "monthly_subscription_cost": null,
+      "exchange_royalty_fees": null,
+      "license_fees": null,
+      "gst_tax_pct": 18.0,
+      "storage_infrastructure_cost": null,
+      "api_access_cost": null,
+      "quote_validity_period": null,
+      "assumptions_recorded": [
+        "Estimated INR 25,000 to INR 60,000 / yr. Not a binding quote."
+      ],
+      "year_1_summary": {
+        "calculation_status": "ESTIMATE \u2014 NOT A QUOTE",
+        "total_cost": "ESTIMATE (Requires formal vendor quotation)",
+        "assumptions": [
+          "Estimated INR 25,000 to INR 60,000 / yr. Not a binding quote."
+        ]
+      },
+      "year_3_summary": {
+        "calculation_status": "ESTIMATE \u2014 NOT A QUOTE",
+        "total_cost": "ESTIMATE (Requires formal vendor quotation)",
+        "assumptions": [
+          "Estimated INR 25,000 to INR 60,000 / yr. Not a binding quote."
+        ]
+      }
+    },
+    {
+      "vendor": "Global DataFeeds (GDFL)",
+      "product_name": "NimbleDataPro Historical Archives",
+      "cost_status": "ESTIMATE \u2014 NOT A QUOTE",
+      "currency": "INR",
+      "one_time_data_cost": null,
+      "annual_subscription_cost": 35000.0,
+      "monthly_subscription_cost": null,
+      "exchange_royalty_fees": null,
+      "license_fees": null,
+      "gst_tax_pct": 18.0,
+      "storage_infrastructure_cost": null,
+      "api_access_cost": null,
+      "quote_validity_period": null,
+      "assumptions_recorded": [
+        "Estimated INR 20,000 to INR 50,000 / yr. Not a binding quote."
+      ],
+      "year_1_summary": {
+        "calculation_status": "ESTIMATE \u2014 NOT A QUOTE",
+        "total_cost": "ESTIMATE (Requires formal vendor quotation)",
+        "assumptions": [
+          "Estimated INR 20,000 to INR 50,000 / yr. Not a binding quote."
+        ]
+      },
+      "year_3_summary": {
+        "calculation_status": "ESTIMATE \u2014 NOT A QUOTE",
+        "total_cost": "ESTIMATE (Requires formal vendor quotation)",
+        "assumptions": [
+          "Estimated INR 20,000 to INR 50,000 / yr. Not a binding quote."
+        ]
+      }
+    },
+    {
+      "vendor": "Zerodha Kite Connect",
+      "product_name": "Kite Connect Historical API",
+      "cost_status": "VERIFIED_QUOTE",
+      "currency": "INR",
+      "one_time_data_cost": null,
+      "annual_subscription_cost": 48000.0,
+      "monthly_subscription_cost": 4000.0,
+      "exchange_royalty_fees": null,
+      "license_fees": null,
+      "gst_tax_pct": 18.0,
+      "storage_infrastructure_cost": null,
+      "api_access_cost": null,
+      "quote_validity_period": null,
+      "assumptions_recorded": [
+        "Official price: INR 2k Base + INR 2k Historical/mo. Fails options requirements."
+      ],
+      "year_1_summary": {
+        "calculation_status": "CALCULATED",
+        "years_projected": 1,
+        "subtotal": 48000.0,
+        "total_with_tax": 56640.0,
+        "currency": "INR",
+        "gst_rate": "18.0%"
+      },
+      "year_3_summary": {
+        "calculation_status": "CALCULATED",
+        "years_projected": 3,
+        "subtotal": 144000.0,
+        "total_with_tax": 169920.0,
+        "currency": "INR",
+        "gst_rate": "18.0%"
+      }
+    }
+  ]
+}

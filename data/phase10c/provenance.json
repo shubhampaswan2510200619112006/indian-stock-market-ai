@@ -1,0 +1,66 @@
+[
+  {
+    "claim": "NSE Data & Analytics supplies historical Level 2 (5-depth) snapshot and Level 3 TBT order logs",
+    "source": "NSE India Historical Data Products Technical Documentation",
+    "source_url": "https://www.nseindia.com/market-data/historical-data-products",
+    "verification_timestamp": "2026-09-09T13:27:00Z",
+    "verification_method": "TECHNICAL_DOCUMENTATION_INSPECTION",
+    "confidence": "HIGH"
+  },
+  {
+    "claim": "TrueData provides >10 years 1m/5m intraday OHLCV for NIFTY 50 and BANKNIFTY",
+    "source": "TrueData Historical API Specification & Documentation",
+    "source_url": "https://www.truedata.in",
+    "verification_timestamp": "2026-09-09T13:27:00Z",
+    "verification_method": "TECHNICAL_DOCUMENTATION_INSPECTION",
+    "confidence": "HIGH"
+  },
+  {
+    "claim": "Zerodha Kite Connect historical endpoint returns exclusively [timestamp, open, high, low, close, volume, oi] with zero bid/ask",
+    "source": "Kite Connect v3 Historical API Reference",
+    "source_url": "https://kite.trade/docs/connect/v3/historical/",
+    "verification_timestamp": "2026-09-09T13:27:00Z",
+    "verification_method": "OFFICIAL_API_REFERENCE_INSPECTION",
+    "confidence": "HIGH"
+  },
+  {
+    "claim": "Upstox v2 historical candle endpoint returns [timestamp, open, high, low, close, volume, open_interest] with zero bid/ask",
+    "source": "Upstox Developer Historical Candle Data Documentation",
+    "source_url": "https://upstox.com/developer/api-documentation/historical-candle-data",
+    "verification_timestamp": "2026-09-09T13:27:00Z",
+    "verification_method": "OFFICIAL_API_REFERENCE_INSPECTION",
+    "confidence": "HIGH"
+  },
+  {
+    "claim": "Angel One SmartAPI historical endpoint provides strictly OHLCV candle bars",
+    "source": "Angel One SmartAPI Documentation",
+    "source_url": "https://smartapi.angelbroking.com/docs/Historical",
+    "verification_timestamp": "2026-09-09T13:27:00Z",
+    "verification_method": "OFFICIAL_API_REFERENCE_INSPECTION",
+    "confidence": "HIGH"
+  },
+  {
+    "claim": "FYERS API v3 historical endpoint delivers strictly candle array [timestamp, open, high, low, close, volume]",
+    "source": "FYERS API v3 Historical Data Documentation",
+    "source_url": "https://myapi.fyers.in/docs/",
+    "verification_timestamp": "2026-09-09T13:27:00Z",
+    "verification_method": "OFFICIAL_API_REFERENCE_INSPECTION",
+    "confidence": "HIGH"
+  },
+  {
+    "claim": "Yahoo Finance public chart API limits 1m to 7 days and 5m to 60 days",
+    "source": "Phase 10A and Phase 10B Empirical Data Ingestion & Audit",
+    "source_url": "file:///data/phase10b/intraday_quality.json",
+    "verification_timestamp": "2026-09-09T13:27:00Z",
+    "verification_method": "EMPIRICAL_AUDIT",
+    "confidence": "HIGH"
+  },
+  {
+    "claim": "NSE Public Bhavcopy contains daily settlement prices, volume, OI, but zero intraday bars or Bid/Ask quotes",
+    "source": "NSE All Reports Public Dissemination Specification",
+    "source_url": "https://www.nseindia.com/all-reports",
+    "verification_timestamp": "2026-09-09T13:27:00Z",
+    "verification_method": "OFFICIAL_EXCHANGE_SPECIFICATION_INSPECTION",
+    "confidence": "HIGH"
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "decision_version": "1.0",
+  "evaluation_timestamp_utc": "2026-09-23T18:15:56.300448+00:00",
+  "phase": "PHASE_10B_DATA_ACQUISITION_AND_VALIDATION",
+  "OVERALL_PHASE_10B_STATUS": "PHASE_10C_NOT_READY",
+  "PHASE_10C_ALPHA_RESEARCH_READY": "NO",
+  "track_readiness": {
+    "INTRADAY_RESEARCH_READY": "BLOCKED",
+    "CROSS_SECTIONAL_RESEARCH_READY": "PASS",
+    "OPTIONS_EXECUTION_RESEARCH_READY": "BLOCKED"
+  },
+  "gate_counts": {
+    "total_gates": 8,
+    "passed_gates": 6,
+    "failed_gates": 0,
+    "blocked_gates": 2
+  },
+  "safety_invariants": {
+    "ALLOW_LIVE_EXECUTION": false,
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER": "NONE",
+    "AUTO_PAPER_ORDER_SUBMISSION": "DISABLED",
+    "OPTIONS_EXECUTION": "BLOCKED",
+    "NO_ALPHA_RESEARCH": true
+  },
+  "authoritative_rationale": "Phase 10B concludes with OVERALL_PHASE_10B_STATUS = PHASE_10C_NOT_READY and PHASE_10C_ALPHA_RESEARCH_READY = NO. The Cross-Sectional Daily Equity track is PASS (carried forward from Phase 10A verified foundation). The Intraday High-Resolution (1m/5m) track is BLOCKED because legitimately available public endpoints return 59 sessions (below the preregistered confirmatory criterion of >= 250 sessions). 1-hour data (724 sessions) is retained strictly as an auxiliary dataset and cannot substitute for 1m/5m. The Options Execution track remains BLOCKED due to 0.0% continuous executable surface coverage. Zero alpha research or parameter optimization was performed.",
+  "gates": [
+    {
+      "gate_number": 1,
+      "gate_name": "Historical Baseline Freeze Protection",
+      "track": "GOVERNANCE",
+      "requirement": "Phase 9.7, 9.8, 9.9, and 10A artifacts must remain 100% frozen and verified.",
+      "observed_result": "P9.7: FROZEN; P9.8: FROZEN; P9.9: FROZEN_IMMUTABLE; P10A: INTACT.",
+      "status": "PASS",
+      "evidence_notes": "All historical baseline checksums verified 100% intact."
+    },
+    {
+      "gate_number": 2,
+      "gate_name": "Data Acquisition Ethics & Safety Invariants",
+      "track": "GOVERNANCE",
+      "requirement": "Zero synthetic data, zero fabricated Bid/Ask, zero unauthorized purchases, zero broker credentials.",
+      "observed_result": "ALLOW_LIVE_EXECUTION = False, BROKER = NONE, AUTO_PAPER = False, NO_ALPHA_RESEARCH = True.",
+      "status": "PASS",
+      "evidence_notes": "Rule 2 strictly obeyed: commercial paid sources stopped with requirements documented."
+    },
+    {
+      "gate_number": 3,
+      "gate_name": "Intraday Confirmatory High-Resolution Coverage (1m/5m)",
+      "track": "INTRADAY",
+      "requirement": ">= 250 trading sessions of 1m or 5m bars for both NIFTY 50 and BANKNIFTY.",
+      "observed_result": "Observed provider retention: NIFTY 5m=59 sessions (< 250 target). 1h auxiliary yields 724 sessions but cannot substitute.",
+      "status": "BLOCKED",
+      "evidence_notes": "Evaluated dynamically from observed evidence (Correction 1). Provider ceiling limits public endpoint."
+    },
+    {
+      "gate_number": 4,
+      "gate_name": "Intraday Bar Quality & Session Boundary Invariants",
+      "track": "INTRADAY",
+      "requirement": "Monotonic timestamps, 0 duplicates, OHLC relationship integrity, exact 09:15-15:30 IST session adherence.",
+      "observed_result": "All 6 acquired series validated: 0 OHLC violations, 0 boundary violations.",
+      "status": "PASS",
+      "evidence_notes": "Pristine bar-level quality across all acquired series."
+    },
+    {
+      "gate_number": 5,
+      "gate_name": "Options Dataset Versioning & Provenance Discrepancy",
+      "track": "OPTIONS",
+      "requirement": "Strict versioning: FROZEN_BASELINE vs PHASE_10A vs PHASE_10B. Full provenance reconciliation.",
+      "observed_result": "OPTIONS_REPOSITORY_v3 cataloged (17,607 records, 117 paired test fixtures). Delta from Phase 10A explained and reproduced.",
+      "status": "PASS",
+      "evidence_notes": "Discrepancy fully accounted for: 509 Bhavcopy settlement records + 3 test fixture quotes."
+    },
+    {
+      "gate_number": 6,
+      "gate_name": "Options Executability & Continuous Surface Coverage",
+      "track": "OPTIONS",
+      "requirement": "Continuous executable Bid/Ask surface across strikes and market hours. Zero synthetic quotes.",
+      "observed_result": "Paired quotes = 168 (0.65%); Continuous surface = 0.0%.",
+      "status": "BLOCKED",
+      "evidence_notes": "Options execution remains blocked until genuine timestamped executable Bid/Ask data satisfies the Phase 10A execution-data readiness requirements."
+    },
+    {
+      "gate_number": 7,
+      "gate_name": "Cross-Sectional Equity Foundation & PIT Constituents",
+      "track": "CROSS_SECTIONAL",
+      "requirement": "Verified daily panels (>= 2 years) and audited Point-in-Time constituent registry carried forward.",
+      "observed_result": "Phase 10A equity panel (664-669 modern sessions, up to 7,707 full sessions) and PIT registry verified intact.",
+      "status": "PASS",
+      "evidence_notes": "Zero survivorship bias, 0 unexplained price jumps in verified window."
+    },
+    {
+      "gate_number": 8,
+      "gate_name": "Data Catalog, Provenance & Cryptographic Hashing",
+      "track": "GOVERNANCE",
+      "requirement": "Every dataset registered with unique ID, full provenance schema, and SHA256 checksums.",
+      "observed_result": "20 datasets cataloged with complete lineage in data/phase10b/.",
+      "status": "PASS",
+      "evidence_notes": "Full manifest and provenance record published."
+    }
+  ]
+}

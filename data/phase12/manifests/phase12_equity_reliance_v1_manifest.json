@@ -1,0 +1,17 @@
+{
+  "dataset_version": "phase12_equity_reliance_v1",
+  "source": "Yahoo Finance (Public EOD)",
+  "vendor": "Yahoo Finance (Public EOD)",
+  "product": "Historical EOD Equity",
+  "acquisition_date": "2026-09-09T08:39:33.300372+00:00",
+  "coverage_start": "1996-01-01",
+  "coverage_end": "2026-09-09",
+  "instrument_scope": "DAILY",
+  "interval": "EOD",
+  "file_hash": "e0e0a9cadb53c41060211a085d8c85fa2c6fbeeeb7e61a439b6ff694e9846e57",
+  "schema_version": "phase12_schema_v1",
+  "timezone": "Asia/Kolkata (+05:30)",
+  "adjustment_method": "RAW_UNADJUSTED",
+  "license_status": "NON_COMMERCIAL_RESEARCH",
+  "validation_status": "VALIDATED"
+}

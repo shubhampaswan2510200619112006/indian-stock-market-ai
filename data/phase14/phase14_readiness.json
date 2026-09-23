@@ -1,0 +1,117 @@
+{
+  "assessment_timestamp": "2026-09-09T11:04:06.688758+00:00",
+  "aggregate_gates": {
+    "INTRADAY_1M_READY": "BLOCKED",
+    "INTRADAY_5M_READY": "BLOCKED",
+    "OPTIONS_LTP_READY": "PASS",
+    "OPTIONS_BID_ASK_READY": "BLOCKED",
+    "OPTIONS_EXECUTION_READY": "BLOCKED",
+    "PROVENANCE_READY": "PASS",
+    "LICENSE_READY": "BLOCKED",
+    "DATA_QUALITY_READY": "BLOCKED"
+  },
+  "dataset_scoped_results": [
+    {
+      "gate_name": "INTRADAY_1M_READY",
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+      "underlying": "NIFTY",
+      "interval": "1m",
+      "vendor": "Yahoo Finance",
+      "state": "BLOCKED",
+      "reason": "Blocked: License contains non-commercial or restricted redistribution terms; Historical coverage insufficient: observed 7 valid sessions, below project research threshold of 250 sessions."
+    },
+    {
+      "gate_name": "INTRADAY_5M_READY",
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+      "underlying": "NIFTY",
+      "interval": "5m",
+      "vendor": "Yahoo Finance",
+      "state": "BLOCKED",
+      "reason": "Blocked: License contains non-commercial or restricted redistribution terms; Historical coverage insufficient: observed 59 valid sessions, below project research threshold of 250 sessions."
+    },
+    {
+      "gate_name": "OPTIONS_BID_ASK_READY",
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "underlying": "NIFTY",
+      "interval": "eod",
+      "vendor": "NSE Public Web",
+      "state": "BLOCKED",
+      "reason": "Paired coverage 0.24%"
+    },
+    {
+      "gate_name": "OPTIONS_EXECUTION_READY",
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "underlying": "NIFTY",
+      "interval": "eod",
+      "vendor": "NSE Public Web",
+      "state": "BLOCKED",
+      "reason": "Continuous surface 0.24% (target >= 70%)"
+    }
+  ],
+  "capability_readiness": {
+    "INTRADAY_RESEARCH_CAPABILITY": {
+      "capability_name": "INTRADAY_RESEARCH_CAPABILITY",
+      "state": "BLOCKED",
+      "required_gates": [
+        "INTRADAY_1M_READY",
+        "INTRADAY_5M_READY",
+        "PROVENANCE_READY",
+        "LICENSE_READY"
+      ],
+      "passed_gates": [
+        "PROVENANCE_READY"
+      ],
+      "missing_gates": [
+        "INTRADAY_1M_READY",
+        "INTRADAY_5M_READY",
+        "LICENSE_READY"
+      ],
+      "research_unlocked": false,
+      "details": "Requires NIFTY/BANKNIFTY 1m and 5m certified datasets with valid license"
+    },
+    "OPTIONS_EXECUTION_RESEARCH_CAPABILITY": {
+      "capability_name": "OPTIONS_EXECUTION_RESEARCH_CAPABILITY",
+      "state": "BLOCKED",
+      "required_gates": [
+        "OPTIONS_BID_ASK_READY",
+        "OPTIONS_EXECUTION_READY",
+        "PROVENANCE_READY",
+        "LICENSE_READY"
+      ],
+      "passed_gates": [
+        "PROVENANCE_READY"
+      ],
+      "missing_gates": [
+        "OPTIONS_BID_ASK_READY",
+        "OPTIONS_EXECUTION_READY",
+        "LICENSE_READY"
+      ],
+      "research_unlocked": false,
+      "details": "Requires continuous paired Bid/Ask surface >= 70.0% with valid license"
+    },
+    "EQUITY_CROSS_SECTIONAL_RESEARCH_CAPABILITY": {
+      "capability_name": "EQUITY_CROSS_SECTIONAL_RESEARCH_CAPABILITY",
+      "state": "BLOCKED",
+      "required_gates": [
+        "EQUITY_HISTORY_READY",
+        "CONSTITUENT_PIT_READY"
+      ],
+      "passed_gates": [],
+      "missing_gates": [
+        "EQUITY_HISTORY_READY",
+        "CONSTITUENT_PIT_READY"
+      ],
+      "research_unlocked": false,
+      "details": "Requires clean survivorship-free constituent adjusted history"
+    }
+  },
+  "blocking_reasons": [
+    "INTRADAY_1M_READY is BLOCKED: Missing certified datasets for NIFTY 1m, BANKNIFTY 1m.",
+    "INTRADAY_5M_READY is BLOCKED: Missing certified datasets for NIFTY 5m, BANKNIFTY 5m.",
+    "OPTIONS_BID_ASK_READY is BLOCKED: Lacks certified paired quote surface.",
+    "OPTIONS_EXECUTION_READY is BLOCKED: Lacks continuous paired surface >= 70%."
+  ],
+  "project_full_market_data_ready": "BLOCKED",
+  "technical_data_certified": "BLOCKED",
+  "phase_15_unlocked": false
+}

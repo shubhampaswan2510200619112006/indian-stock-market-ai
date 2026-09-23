@@ -1,0 +1,236 @@
+{
+  "model_version": "phase12_cost_normalization_v1",
+  "currency": "INR",
+  "tax_standard": "GST 18% (Applicable on commercial data licensing in India)",
+  "providers": [
+    {
+      "provider": "NSE Data & Analytics Ltd (DotEx)",
+      "product": "Historical Tick-by-Tick / 5-Depth Snapshot Archives",
+      "pricing_status": "SALES_QUOTE_REQUIRED",
+      "cost_breakdown": {
+        "one_time_data_cost": "UNKNOWN",
+        "annual_subscription": "UNKNOWN",
+        "monthly_subscription": "NOT_APPLICABLE (Delivered as fixed historical segment archives)",
+        "exchange_fees": "INCLUDED_IN_OFFICIAL_QUOTE",
+        "license_fees": "COMMERCIAL_RESEARCH_LICENSE_REQUIRED (Quotation pending)",
+        "gst_tax": "18% on final quoted invoice",
+        "storage_cost": "INTERNAL_INFRASTRUCTURE (Estimated 2-5 TB for Level 2/3 ticks)",
+        "api_cost": "NOT_APPLICABLE (Bulk S3 / SFTP / Hard drive delivery)",
+        "support_cost": "INCLUDED_IN_ENTERPRISE_CONTRACT",
+        "other_mandatory_cost": "UNKNOWN"
+      },
+      "assumptions": "Official exchange sales quote required. Industry estimates range from INR 50,000 to INR 250,000+ depending on years, underlying count, and depth.",
+      "year_1_total_cost": "UNKNOWN (ESTIMATE \u2014 NOT A QUOTE: INR 50,000 - INR 250,000 + GST)",
+      "year_2_total_cost": "UNKNOWN (Typically incremental add-on for newly completed year)",
+      "year_3_total_cost": "UNKNOWN",
+      "three_year_total_cost": "UNKNOWN (Requires formal commercial quote)",
+      "commercial_assessment": "Highest provenance and data completeness; enterprise pricing requires human quotation approval."
+    },
+    {
+      "provider": "TrueData (TrueData India)",
+      "product": "TrueData Historical REST API & Market Feeds",
+      "pricing_status": "ESTIMATE \u2014 NOT A QUOTE",
+      "cost_breakdown": {
+        "one_time_data_cost": "UNKNOWN (Options tick archive historical package price pending inquiry)",
+        "annual_subscription": "ESTIMATE: INR 25,000 - INR 60,000 / year (Standard API + historical options add-on)",
+        "monthly_subscription": "ESTIMATE: INR 2,000 - INR 5,000 / month",
+        "exchange_fees": "Included in standard vendor plan",
+        "license_fees": "Proprietary research license included; zero redistribution",
+        "gst_tax": "18% additional",
+        "storage_cost": "INTERNAL_INFRASTRUCTURE (~100-500 GB)",
+        "api_cost": "Included in subscription",
+        "support_cost": "Standard web/ticket support included",
+        "other_mandatory_cost": "None known"
+      },
+      "assumptions": "Based on published retail plans (INR 2k-4k/mo) plus estimated tick options add-on. NOT a binding quote.",
+      "year_1_total_cost": "ESTIMATE \u2014 NOT A QUOTE: INR 29,500 - INR 70,800 (including 18% GST)",
+      "year_2_total_cost": "ESTIMATE \u2014 NOT A QUOTE: INR 29,500 - INR 70,800 / yr",
+      "year_3_total_cost": "ESTIMATE \u2014 NOT A QUOTE: INR 29,500 - INR 70,800 / yr",
+      "three_year_total_cost": "ESTIMATE \u2014 NOT A QUOTE: INR 88,500 - INR 212,400 (3-year projection with 18% GST)",
+      "commercial_assessment": "Cost-effective authorized vendor for 1m/5m intraday. Historical options Bid/Ask continuity requires confirmation."
+    },
+    {
+      "provider": "Global DataFeeds (GDFL)",
+      "product": "GDFL NimbleDataPro / DataFeed API",
+      "pricing_status": "ESTIMATE \u2014 NOT A QUOTE",
+      "cost_breakdown": {
+        "one_time_data_cost": "UNKNOWN",
+        "annual_subscription": "ESTIMATE: INR 20,000 - INR 50,000 / year",
+        "monthly_subscription": "ESTIMATE: INR 1,800 - INR 4,500 / month",
+        "exchange_fees": "Included in authorized vendor plan",
+        "license_fees": "Internal prop research license",
+        "gst_tax": "18% additional",
+        "storage_cost": "INTERNAL_INFRASTRUCTURE (~100-500 GB)",
+        "api_cost": "Included",
+        "support_cost": "Standard support included",
+        "other_mandatory_cost": "None known"
+      },
+      "assumptions": "Based on published live feed pricing and estimated historical add-ons. NOT a binding quote.",
+      "year_1_total_cost": "ESTIMATE \u2014 NOT A QUOTE: INR 23,600 - INR 59,000 (including 18% GST)",
+      "year_2_total_cost": "ESTIMATE \u2014 NOT A QUOTE: INR 23,600 - INR 59,000 / yr",
+      "year_3_total_cost": "ESTIMATE \u2014 NOT A QUOTE: INR 23,600 - INR 59,000 / yr",
+      "three_year_total_cost": "ESTIMATE \u2014 NOT A QUOTE: INR 70,800 - INR 177,000 (3-year projection with 18% GST)",
+      "commercial_assessment": "Competitive authorized vendor. Historical options archives require confirmation."
+    },
+    {
+      "provider": "Zerodha Kite Connect",
+      "product": "Kite Connect Historical API v3",
+      "pricing_status": "VERIFIED_QUOTE",
+      "cost_breakdown": {
+        "one_time_data_cost": 0,
+        "annual_subscription": 48000,
+        "monthly_subscription": 4000,
+        "exchange_fees": 0,
+        "license_fees": 0,
+        "gst_tax": 0,
+        "storage_cost": 0,
+        "api_cost": 0,
+        "support_cost": 0,
+        "other_mandatory_cost": 0
+      },
+      "assumptions": "Official published pricing for Kite Connect Base API (INR 2,000/mo) + Historical API (INR 2,000/mo). Active trading account required.",
+      "year_1_total_cost": 48000,
+      "year_2_total_cost": 48000,
+      "year_3_total_cost": 48000,
+      "three_year_total_cost": 144000,
+      "commercial_assessment": "Pricing is verified, BUT dataset completely fails options Bid/Ask and expired options requirements. INSUFFICIENT."
+    },
+    {
+      "provider": "Public / Free Endpoints (Yahoo Finance / NSE Bhavcopy)",
+      "product": "Public Web / yfinance",
+      "pricing_status": "VERIFIED_QUOTE",
+      "cost_breakdown": {
+        "one_time_data_cost": 0,
+        "annual_subscription": 0,
+        "monthly_subscription": 0,
+        "exchange_fees": 0,
+        "license_fees": 0,
+        "gst_tax": 0,
+        "storage_cost": 0,
+        "api_cost": 0,
+        "support_cost": 0,
+        "other_mandatory_cost": 0
+      },
+      "assumptions": "Free public endpoints. Zero financial cost.",
+      "year_1_total_cost": 0,
+      "year_2_total_cost": 0,
+      "year_3_total_cost": 0,
+      "three_year_total_cost": 0,
+      "commercial_assessment": "Zero cost, but completely fails intraday session threshold (7d/60d retention) and lacks options Bid/Ask quotes."
+    }
+  ],
+  "value_scoring": {
+    "weights": {
+      "DATA_COVERAGE": 0.2,
+      "OPTIONS_EXECUTABILITY": 0.2,
+      "HISTORICAL_DEPTH": 0.15,
+      "TIMESTAMP_QUALITY": 0.1,
+      "CONTRACT_COMPLETENESS": 0.1,
+      "PROVENANCE": 0.05,
+      "LICENSE_FIT": 0.05,
+      "DELIVERY_RELIABILITY": 0.05,
+      "COST": 0.05,
+      "SUPPORT": 0.05
+    },
+    "evaluations": [
+      {
+        "provider": "NSE Data & Analytics Ltd (DotEx)",
+        "tier": "OFFICIAL_EXCHANGE",
+        "scores": {
+          "DATA_COVERAGE": 95,
+          "OPTIONS_EXECUTABILITY": 90,
+          "HISTORICAL_DEPTH": 98,
+          "TIMESTAMP_QUALITY": 99,
+          "CONTRACT_COMPLETENESS": 99,
+          "PROVENANCE": 100,
+          "LICENSE_FIT": 95,
+          "DELIVERY_RELIABILITY": 95,
+          "COST": 40,
+          "SUPPORT": 80
+        },
+        "hard_gate_pass": true,
+        "notes": "Passes all hard technical requirements. Definitive authoritative tape.",
+        "weighted_score": 92.0
+      },
+      {
+        "provider": "TrueData (TrueData India)",
+        "tier": "AUTHORIZED_VENDOR",
+        "scores": {
+          "DATA_COVERAGE": 85,
+          "OPTIONS_EXECUTABILITY": 60,
+          "HISTORICAL_DEPTH": 85,
+          "TIMESTAMP_QUALITY": 85,
+          "CONTRACT_COMPLETENESS": 80,
+          "PROVENANCE": 90,
+          "LICENSE_FIT": 90,
+          "DELIVERY_RELIABILITY": 85,
+          "COST": 85,
+          "SUPPORT": 85
+        },
+        "hard_gate_pass": true,
+        "notes": "Excellent for 1m/5m intraday. Options Bid/Ask depth requires confirmation.",
+        "weighted_score": 80.0
+      },
+      {
+        "provider": "Global DataFeeds (GDFL)",
+        "tier": "AUTHORIZED_VENDOR",
+        "scores": {
+          "DATA_COVERAGE": 80,
+          "OPTIONS_EXECUTABILITY": 55,
+          "HISTORICAL_DEPTH": 80,
+          "TIMESTAMP_QUALITY": 80,
+          "CONTRACT_COMPLETENESS": 75,
+          "PROVENANCE": 90,
+          "LICENSE_FIT": 85,
+          "DELIVERY_RELIABILITY": 80,
+          "COST": 85,
+          "SUPPORT": 80
+        },
+        "hard_gate_pass": true,
+        "notes": "Viable secondary authorized vendor.",
+        "weighted_score": 75.5
+      },
+      {
+        "provider": "Zerodha Kite Connect",
+        "tier": "BROKER_API",
+        "scores": {
+          "DATA_COVERAGE": 40,
+          "OPTIONS_EXECUTABILITY": 0,
+          "HISTORICAL_DEPTH": 30,
+          "TIMESTAMP_QUALITY": 70,
+          "CONTRACT_COMPLETENESS": 10,
+          "PROVENANCE": 80,
+          "LICENSE_FIT": 60,
+          "DELIVERY_RELIABILITY": 85,
+          "COST": 80,
+          "SUPPORT": 75
+        },
+        "hard_gate_pass": false,
+        "rejection_reason": "HARD_GATE_FAILED: Lacks historical options Bid/Ask quotes and purges expired contracts.",
+        "notes": "Disqualified from options execution research despite cheap cost.",
+        "weighted_score": 39.5
+      },
+      {
+        "provider": "Public / Free Endpoints (Yahoo Finance)",
+        "tier": "PUBLIC_FREE",
+        "scores": {
+          "DATA_COVERAGE": 20,
+          "OPTIONS_EXECUTABILITY": 0,
+          "HISTORICAL_DEPTH": 10,
+          "TIMESTAMP_QUALITY": 60,
+          "CONTRACT_COMPLETENESS": 0,
+          "PROVENANCE": 50,
+          "LICENSE_FIT": 40,
+          "DELIVERY_RELIABILITY": 40,
+          "COST": 100,
+          "SUPPORT": 0
+        },
+        "hard_gate_pass": false,
+        "rejection_reason": "HARD_GATE_FAILED: Fails intraday session threshold (7d/60d caps) and lacks options quotes entirely.",
+        "notes": "Disqualified from both intraday and options research.",
+        "weighted_score": 23.0
+      }
+    ],
+    "hard_gate_rule": "A low-cost provider that fails hard requirements (such as historical options Bid/Ask or >= 250 intraday sessions) is strictly disqualified from ranking above compliant or conditionally compliant candidates, regardless of weighted score."
+  }
+}

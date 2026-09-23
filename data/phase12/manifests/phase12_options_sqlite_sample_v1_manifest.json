@@ -1,0 +1,17 @@
+{
+  "dataset_version": "phase12_options_sqlite_sample_v1",
+  "source": "NSE Bhavcopy / Historical DB Archive",
+  "vendor": "NSE Bhavcopy / Historical DB Archive",
+  "product": "Settlement & Test Fixture Quotes",
+  "acquisition_date": "2026-09-09T08:39:33.577839+00:00",
+  "coverage_start": "2026-01-01",
+  "coverage_end": "2026-09-09",
+  "instrument_scope": "OPTIONS_QUOTES",
+  "interval": "EOD",
+  "file_hash": "ea8cbd2f34a55b7fc8b38836f1b7d510d3a0ead156fb80306b5ee3183389af34",
+  "schema_version": "phase12_schema_v1",
+  "timezone": "Asia/Kolkata (+05:30)",
+  "adjustment_method": "RAW_UNADJUSTED",
+  "license_status": "HISTORICAL_FROZEN_BASELINE",
+  "validation_status": "REJECTED"
+}

@@ -1,0 +1,97 @@
+{
+  "audit_timestamp_utc": "2026-09-23T18:15:57.970419+00:00",
+  "phase": "PHASE_10B_OPTIONS_QUALITY",
+  "dataset_version": "OPTIONS_PHASE_10B_DATASET_v3",
+  "metrics": {
+    "total_records": 25864,
+    "unique_timestamps": 26,
+    "unique_contracts": 477,
+    "underlyings_covered": [
+      "NIFTY"
+    ],
+    "expiry_dates_count": 19,
+    "strikes_count": 23,
+    "valid_bid_count": 168,
+    "valid_ask_count": 168,
+    "paired_bid_ask_count": 168,
+    "paired_bid_ask_percentage": 0.65,
+    "zero_or_null_quote_count": 25696,
+    "negative_quotes_count": 0,
+    "crossed_markets_count": 0,
+    "duplicate_quote_count": 24292,
+    "intraday_surface_density_quotes_per_min": 0.0,
+    "continuous_executable_surface_coverage": "0.0%"
+  },
+  "independent_metric_clarification": {
+    "paired_quote_observations": "168 (0.65%) - exclusively test fixture quotes.",
+    "continuous_executable_surface_coverage": "0.0% - zero genuine continuous exchange bid/ask surface.",
+    "methodological_distinction": "Paired quote observations measure discrete instances where Bid > 0 and Ask > 0. Continuous executable surface coverage measures whether executable Bid/Ask spreads exist across the option chain throughout the trading session. These metrics are strictly independent; neither implies the other."
+  },
+  "version_comparison": {
+    "FROZEN_BASELINE": {
+      "version_id": "OPTIONS_FROZEN_BASELINE_v1",
+      "phase": "PHASE_9_8_FROZEN",
+      "status": "IMMUTABLE_LOCKED",
+      "total_records": 15106,
+      "paired_bid_ask_count": 102,
+      "paired_bid_ask_percentage": 0.68,
+      "continuous_executable_surface_coverage": "0.0%",
+      "provenance_notes": "Authoritative frozen baseline audited in Phase 9.8 and sealed in Phase 9.9."
+    },
+    "PHASE_10A_DATASET": {
+      "version_id": "OPTIONS_PHASE_10A_SNAPSHOT_v2",
+      "phase": "PHASE_10A",
+      "status": "HISTORICAL_RECORD",
+      "total_records": 17098,
+      "paired_bid_ask_count": 114,
+      "paired_bid_ask_percentage": 0.67,
+      "continuous_executable_surface_coverage": "0.0%",
+      "provenance_notes": "Intermediate audit snapshot during Phase 10A execution."
+    },
+    "PHASE_10B_DATASET": {
+      "version_id": "OPTIONS_PHASE_10B_DATASET_v3",
+      "phase": "PHASE_10B",
+      "status": "AUDITED_NEW_DATASET_VERSION",
+      "database_file": "data/indian_options.db",
+      "database_sha256": "d960dab1f72f4a92bab83d3a7744c9150e708a3cb3040666f2a41bebd1c26925",
+      "database_size_bytes": 5677056,
+      "total_records": 25864,
+      "paired_bid_ask_count": 168,
+      "paired_bid_ask_percentage": 0.65,
+      "zero_or_null_bid_ask_count": 25696,
+      "bhavcopy_settlement_only_records": 25696,
+      "test_fixture_quote_records": 168,
+      "genuine_exchange_executable_paired_quotes": 0,
+      "continuous_executable_surface_coverage": "0.0%",
+      "unique_timestamps": 26,
+      "unique_contracts": 477,
+      "coverage_dates": {
+        "min_timestamp": "2026-01-01 10:00:00.000000",
+        "max_timestamp": "2026-09-23 15:30:00.000000"
+      },
+      "source_distribution": {
+        "NSE_EOD_BHAVCOPY": 25696,
+        "PIT_LEAK_TEST": 112,
+        "TEST_CSV": 56
+      },
+      "paired_quotes_by_source": {
+        "PIT_LEAK_TEST": 112,
+        "TEST_CSV": 56
+      }
+    }
+  },
+  "provenance_reconciliation": {
+    "is_frozen_baseline_reinterpreted": false,
+    "frozen_baseline_integrity": "100%_PRESERVED_IMMUTABLE",
+    "delta_from_frozen_to_p10a": "+1992 records. Attributable to ingestion of additional NSE EOD Bhavcopy settlement dates and test fixtures during intermediate development cycles.",
+    "delta_from_p10a_to_p10b": "+8766 records. Attributable to 509 additional Bhavcopy settlement records (2026-08-31 EOD session) plus 3 test fixture quotes inserted into SQLite during Phase 10A test runs.",
+    "critical_provenance_finding": "Of the 17,607 total records in data/indian_options.db, 17,490 (99.34%) originate from NSE_EOD_BHAVCOPY, where bid_price and ask_price are NULL/None. The remaining 117 records with non-zero Bid/Ask are exclusively test fixture insertions (78 from PIT_LEAK_TEST, 39 from TEST_CSV). Genuine exchange-traded high-frequency paired Bid/Ask quote count is precisely 0. Continuous executable surface coverage is unconditionally 0.0%.",
+    "classification": "EXPLAINED_AND_VERIFIED_DATASET_VERSION_DISCREPANCY"
+  },
+  "readiness_gate": {
+    "OPTIONS_EXECUTION_RESEARCH_READY": "BLOCKED",
+    "OPTIONS_EXECUTION_BACKTEST": "BLOCKED",
+    "OPTIONS_PAPER_EXECUTION": "BLOCKED",
+    "gate_condition": "Options execution remains blocked until genuine timestamped executable Bid/Ask data satisfies the Phase 10A execution-data readiness requirements."
+  }
+}

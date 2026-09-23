@@ -1,0 +1,137 @@
+{
+  "P98-H001": {
+    "research_id": "P98-H001",
+    "research_name": "15m Opening Range Breakout",
+    "required_data": "intraday_5m",
+    "minimum_history": ">=60 sessions (Exploratory) / >=250 sessions (Confirmatory)",
+    "execution_requirement": "STATISTICAL_FRICTION",
+    "status": "INSUFFICIENT_DATA",
+    "reason_if_blocked": "Preregistered sample criterion (N>=60) not met (observed N=59)",
+    "provenance": {
+      "phase": "Phase 9.8 / 9.9 Frozen Baseline",
+      "track": "Track A"
+    },
+    "research_type": "EXPLORATORY",
+    "confirmation_status": "INSUFFICIENT_DATA"
+  },
+  "P98-H002": {
+    "research_id": "P98-H002",
+    "research_name": "Overnight Gap 30m Mean-Reversion",
+    "required_data": "intraday_5m",
+    "minimum_history": ">=60 sessions",
+    "execution_requirement": "STATISTICAL_FRICTION",
+    "status": "INSUFFICIENT_DATA",
+    "reason_if_blocked": "Preregistered sample criterion not met (observed N=19)",
+    "provenance": {
+      "phase": "Phase 9.8 / 9.9 Frozen Baseline",
+      "track": "Track A"
+    },
+    "research_type": "EXPLORATORY",
+    "confirmation_status": "INSUFFICIENT_DATA"
+  },
+  "P98-H003": {
+    "research_id": "P98-H003",
+    "research_name": "30m Return Momentum",
+    "required_data": "intraday_5m",
+    "minimum_history": ">=60 sessions",
+    "execution_requirement": "STATISTICAL_FRICTION",
+    "status": "REJECTED",
+    "reason_if_blocked": "Microstructure friction exceeds gross returns (-10.8 bps net exp)",
+    "provenance": {
+      "phase": "Phase 9.8 / 9.9 Frozen Baseline",
+      "track": "Track B"
+    },
+    "research_type": "EXPLORATORY",
+    "confirmation_status": "REJECTED"
+  },
+  "P98-H004": {
+    "research_id": "P98-H004",
+    "research_name": "Volatility Compression Breakout",
+    "required_data": "intraday_5m",
+    "minimum_history": ">=60 sessions",
+    "execution_requirement": "STATISTICAL_FRICTION",
+    "status": "REJECTED",
+    "reason_if_blocked": "Microstructure friction exceeds gross returns (-9.8 bps net exp)",
+    "provenance": {
+      "phase": "Phase 9.8 / 9.9 Frozen Baseline",
+      "track": "Track C"
+    },
+    "research_type": "EXPLORATORY",
+    "confirmation_status": "REJECTED"
+  },
+  "P98-H005": {
+    "research_id": "P98-H005",
+    "research_name": "RBI MPC Policy Drift (3-day)",
+    "required_data": "daily_index",
+    "minimum_history": ">=10 events",
+    "execution_requirement": "STATISTICAL_FRICTION",
+    "status": "REJECTED",
+    "reason_if_blocked": "Gross edge decayed after statutory costs (-49.2 bps net exp)",
+    "provenance": {
+      "phase": "Phase 9.8 / 9.9 Frozen Baseline",
+      "track": "Track D"
+    },
+    "research_type": "CONFIRMATORY",
+    "confirmation_status": "REJECTED"
+  },
+  "P98-H006": {
+    "research_id": "P98-H006",
+    "research_name": "20D Relative Strength Spread",
+    "required_data": "cross_sectional_equities",
+    "minimum_history": ">=250 sessions across constituents",
+    "execution_requirement": "STATISTICAL_FRICTION",
+    "status": "REJECTED",
+    "reason_if_blocked": "Survivorship bias risk and turnover friction (-48.4 bps net exp)",
+    "provenance": {
+      "phase": "Phase 9.8 / 9.9 Frozen Baseline",
+      "track": "Track E"
+    },
+    "research_type": "CONFIRMATORY",
+    "confirmation_status": "REJECTED"
+  },
+  "P98-H007": {
+    "research_id": "P98-H007",
+    "research_name": "Macro Regime Uncertainty Calibration",
+    "required_data": "daily_index",
+    "minimum_history": ">=250 sessions",
+    "execution_requirement": "NONE",
+    "status": "REJECTED",
+    "reason_if_blocked": "Brier score improvement (<5%) failed significance threshold",
+    "provenance": {
+      "phase": "Phase 9.8 / 9.9 Frozen Baseline",
+      "track": "Track F"
+    },
+    "research_type": "CONFIRMATORY",
+    "confirmation_status": "REJECTED"
+  },
+  "P98-H008": {
+    "research_id": "P98-H008",
+    "research_name": "Options Historical Quote Boundary Audit",
+    "required_data": "historical_options_bid_ask",
+    "minimum_history": ">=10,000 quotes",
+    "execution_requirement": "REALISTIC_BID_ASK",
+    "status": "INSUFFICIENT_DATA",
+    "reason_if_blocked": "0 genuine paired Bid/Ask quotes; options execution backtest BLOCKED",
+    "provenance": {
+      "phase": "Phase 9.8 / 9.9 Frozen Baseline",
+      "track": "Track G"
+    },
+    "research_type": "CONFIRMATORY",
+    "confirmation_status": "INSUFFICIENT_DATA"
+  },
+  "TMPL-CS-001": {
+    "research_id": "TMPL-CS-001",
+    "research_name": "Cross-Sectional Factor Dispersion (Template)",
+    "required_data": "cross_sectional_equities",
+    "minimum_history": ">=250 sessions",
+    "execution_requirement": "STATISTICAL_FRICTION",
+    "status": "READY",
+    "reason_if_blocked": null,
+    "provenance": {
+      "source": "Platform Cross-Sectional Foundation",
+      "track": "Cross-Sectional"
+    },
+    "research_type": "EXPLORATORY",
+    "confirmation_status": "UNTESTED"
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "audit_timestamp_utc": "2026-09-23T18:15:52.320934+00:00",
+  "provider": "Yahoo Finance public endpoint",
+  "instruments": {
+    "NIFTY_50": {
+      "instrument": "NIFTY 50",
+      "symbol": "^NSEI",
+      "authorized_data_source": "Yahoo Finance (yfinance public endpoint)",
+      "retrieval_timestamp_utc": "2026-09-23T18:15:51.800073+00:00",
+      "provider_constraint_notice": "Observed availability constraints are provider-specific limitations of the selected public endpoint (Yahoo Finance), NOT a universal statement that multi-year intraday bars do not exist elsewhere in commercial repositories.",
+      "intervals": {
+        "1m": {
+          "status": "AVAILABLE_BUT_INSUFFICIENT",
+          "request_parameters": {
+            "period": "7d",
+            "interval": "1m"
+          },
+          "returned_date_range": {
+            "start": "2026-09-15 09:15:00",
+            "end": "2026-09-23 15:29:00"
+          },
+          "session_count": 7,
+          "row_count": 2613,
+          "unique_timestamp_count": 2613,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "expected_bars_per_session": 375,
+          "missing_bar_rate": 0.004571428571428572,
+          "gap_distribution": {
+            "median_minutes": 1.0,
+            "max_intrasession_gap_minutes": 1.0,
+            "large_gaps_count_gt_15m": 0
+          },
+          "target_sessions_required": 250,
+          "coverage_limitations": "Observed provider retention ceiling: 7 sessions returned (requires >= 250 sessions for confirmatory statistical testing). Date window: 2026-09-15 09:15:00 to 2026-09-23 15:29:00."
+        },
+        "5m": {
+          "status": "AVAILABLE_BUT_INSUFFICIENT",
+          "request_parameters": {
+            "period": "60d",
+            "interval": "5m"
+          },
+          "returned_date_range": {
+            "start": "2026-07-02 09:15:00",
+            "end": "2026-09-23 15:25:00"
+          },
+          "session_count": 59,
+          "row_count": 4423,
+          "unique_timestamp_count": 4423,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "expected_bars_per_session": 75,
+          "missing_bar_rate": 0.0004519774011299435,
+          "gap_distribution": {
+            "median_minutes": 5.0,
+            "max_intrasession_gap_minutes": 5.0,
+            "large_gaps_count_gt_15m": 0
+          },
+          "target_sessions_required": 250,
+          "coverage_limitations": "Observed provider retention ceiling: 59 sessions returned (requires >= 250 sessions for confirmatory statistical testing). Date window: 2026-07-02 09:15:00 to 2026-09-23 15:25:00."
+        }
+      },
+      "intraday_research_ready": "BLOCKED / INSUFFICIENT_FOR_CONFIRMATORY",
+      "findings": [
+        "Authorized public provider returns maximum 60 calendar days of 5m bars (~41-43 trading sessions) and 7 calendar days of 1m bars (~5-6 trading sessions). This is statistically insufficient for confirmatory out-of-sample research (target >= 250 sessions). Intraday track remains BLOCKED."
+      ]
+    },
+    "BANK_NIFTY": {
+      "instrument": "BANK NIFTY",
+      "symbol": "^NSEBANK",
+      "authorized_data_source": "Yahoo Finance (yfinance public endpoint)",
+      "retrieval_timestamp_utc": "2026-09-23T18:15:52.030546+00:00",
+      "provider_constraint_notice": "Observed availability constraints are provider-specific limitations of the selected public endpoint (Yahoo Finance), NOT a universal statement that multi-year intraday bars do not exist elsewhere in commercial repositories.",
+      "intervals": {
+        "1m": {
+          "status": "AVAILABLE_BUT_INSUFFICIENT",
+          "request_parameters": {
+            "period": "7d",
+            "interval": "1m"
+          },
+          "returned_date_range": {
+            "start": "2026-09-15 09:15:00",
+            "end": "2026-09-23 15:29:00"
+          },
+          "session_count": 7,
+          "row_count": 2613,
+          "unique_timestamp_count": 2613,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "expected_bars_per_session": 375,
+          "missing_bar_rate": 0.004571428571428572,
+          "gap_distribution": {
+            "median_minutes": 1.0,
+            "max_intrasession_gap_minutes": 1.0,
+            "large_gaps_count_gt_15m": 0
+          },
+          "target_sessions_required": 250,
+          "coverage_limitations": "Observed provider retention ceiling: 7 sessions returned (requires >= 250 sessions for confirmatory statistical testing). Date window: 2026-09-15 09:15:00 to 2026-09-23 15:29:00."
+        },
+        "5m": {
+          "status": "AVAILABLE_BUT_INSUFFICIENT",
+          "request_parameters": {
+            "period": "60d",
+            "interval": "5m"
+          },
+          "returned_date_range": {
+            "start": "2026-07-02 09:15:00",
+            "end": "2026-09-23 15:25:00"
+          },
+          "session_count": 59,
+          "row_count": 4423,
+          "unique_timestamp_count": 4423,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "expected_bars_per_session": 75,
+          "missing_bar_rate": 0.0004519774011299435,
+          "gap_distribution": {
+            "median_minutes": 5.0,
+            "max_intrasession_gap_minutes": 5.0,
+            "large_gaps_count_gt_15m": 0
+          },
+          "target_sessions_required": 250,
+          "coverage_limitations": "Observed provider retention ceiling: 59 sessions returned (requires >= 250 sessions for confirmatory statistical testing). Date window: 2026-07-02 09:15:00 to 2026-09-23 15:25:00."
+        }
+      },
+      "intraday_research_ready": "BLOCKED / INSUFFICIENT_FOR_CONFIRMATORY",
+      "findings": [
+        "Authorized public provider returns maximum 60 calendar days of 5m bars (~41-43 trading sessions) and 7 calendar days of 1m bars (~5-6 trading sessions). This is statistically insufficient for confirmatory out-of-sample research (target >= 250 sessions). Intraday track remains BLOCKED."
+      ]
+    }
+  },
+  "intraday_research_ready": "BLOCKED / INSUFFICIENT_FOR_CONFIRMATORY",
+  "executive_conclusion": "Intraday research track is BLOCKED / INSUFFICIENT_FOR_CONFIRMATORY. Under current authorized public data sources, intraday historical depth is limited to the provider's observed rolling retention window (7d for 1m, 60d for 5m), yielding < 45 sessions. Confirmatory hypothesis testing requires >= 250 trading sessions. No synthetic bars will be generated, and no unauthorized purchases will be made."
+}

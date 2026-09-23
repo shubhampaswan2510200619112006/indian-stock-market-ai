@@ -1,0 +1,145 @@
+{
+  "generated_at": "2026-09-08T21:43:14.860395+00:00",
+  "total_datasets_audited": 7,
+  "profiles": [
+    {
+      "dataset_tier": "TIER_A_DAILY_INDEX",
+      "dataset_name": "NIFTY 50 Daily OHLCV",
+      "symbol_or_universe": "NIFTY",
+      "granularity": "1D",
+      "session_count": 496,
+      "total_bars_count": 496,
+      "date_range_start": "2024-09-09",
+      "date_range_end": "2026-09-07",
+      "provider": "yfinance (NSE Official Settlement Reconciled)",
+      "missing_session_count": 0,
+      "data_quality_status": "SUFFICIENT_HISTORICAL_DATA",
+      "survivorship_bias_risk": false,
+      "confirmatory_inference_eligible": true,
+      "limitations": [
+        "End-of-day summary only; lacks intraday microstructure."
+      ]
+    },
+    {
+      "dataset_tier": "TIER_A_DAILY_INDEX",
+      "dataset_name": "BANKNIFTY Daily OHLCV",
+      "symbol_or_universe": "BANKNIFTY",
+      "granularity": "1D",
+      "session_count": 494,
+      "total_bars_count": 494,
+      "date_range_start": "2024-09-09",
+      "date_range_end": "2026-09-07",
+      "provider": "yfinance (NSE Official Settlement Reconciled)",
+      "missing_session_count": 0,
+      "data_quality_status": "SUFFICIENT_HISTORICAL_DATA",
+      "survivorship_bias_risk": false,
+      "confirmatory_inference_eligible": true,
+      "limitations": [
+        "End-of-day summary only; analyzed strictly separately from NIFTY."
+      ]
+    },
+    {
+      "dataset_tier": "TIER_B_INTRADAY_INDEX",
+      "dataset_name": "NIFTY 5-Minute Intraday Bars",
+      "symbol_or_universe": "^NSEI",
+      "granularity": "5m",
+      "session_count": 59,
+      "total_bars_count": 4425,
+      "date_range_start": "2026-06-17",
+      "date_range_end": "2026-09-08",
+      "provider": "yfinance",
+      "missing_session_count": 0,
+      "data_quality_status": "LIMITED_EXPLORATORY_ONLY",
+      "survivorship_bias_risk": false,
+      "confirmatory_inference_eligible": false,
+      "limitations": [
+        "Sample limited to ~60 calendar days (59 trading sessions, 4425 bars).",
+        "INSUFFICIENT_SAMPLE_FOR_CONFIRMATORY_INFERENCE: Cannot claim statistical robustness from 42 sessions.",
+        "Classified strictly as EXPLORATORY_ONLY."
+      ]
+    },
+    {
+      "dataset_tier": "TIER_B_INTRADAY_INDEX",
+      "dataset_name": "NIFTY 15-Minute Intraday Bars",
+      "symbol_or_universe": "^NSEI",
+      "granularity": "15m",
+      "session_count": 59,
+      "total_bars_count": 1475,
+      "date_range_start": "2026-06-17",
+      "date_range_end": "2026-09-08",
+      "provider": "yfinance",
+      "missing_session_count": 0,
+      "data_quality_status": "LIMITED_EXPLORATORY_ONLY",
+      "survivorship_bias_risk": false,
+      "confirmatory_inference_eligible": false,
+      "limitations": [
+        "Sample limited to ~60 calendar days (59 trading sessions, 1475 bars).",
+        "Classified strictly as EXPLORATORY_ONLY."
+      ]
+    },
+    {
+      "dataset_tier": "TIER_C_CROSS_SECTIONAL",
+      "dataset_name": "Top 10 Liquid Equities Daily OHLCV",
+      "symbol_or_universe": "RELIANCE, TCS, HDFCBANK, INFY, ICICIBANK, SBIN, BHARTIARTL, ITC, LT, KOTAKBANK",
+      "granularity": "1D",
+      "session_count": 500,
+      "total_bars_count": 5000,
+      "date_range_start": "2024-09-09",
+      "date_range_end": "2026-09-08",
+      "provider": "yfinance",
+      "missing_session_count": 0,
+      "data_quality_status": "SURVIVORSHIP_BIASED",
+      "survivorship_bias_risk": true,
+      "confirmatory_inference_eligible": false,
+      "limitations": [
+        "SURVIVORSHIP_BIAS_RISK = TRUE: Universe selected from current liquid large-caps.",
+        "Point-in-time constituent entry/exit history is unavailable.",
+        "Cannot be presented as survivorship-free evidence for production execution."
+      ]
+    },
+    {
+      "dataset_tier": "TIER_D_EVENT",
+      "dataset_name": "Verified Policy & Macroeconomic Event Calendar",
+      "symbol_or_universe": "RBI MPC, Union Budget, General Election",
+      "granularity": "EVENT",
+      "session_count": 21,
+      "total_bars_count": 21,
+      "date_range_start": "2024-02-01",
+      "date_range_end": "2026-08-07",
+      "provider": "Official Government / RBI Press Releases",
+      "missing_session_count": 0,
+      "data_quality_status": "SUFFICIENT_HISTORICAL_DATA",
+      "survivorship_bias_risk": false,
+      "confirmatory_inference_eligible": true,
+      "limitations": [
+        "Event study sample size is limited to 21 verified policy announcements over 2.5 years."
+      ]
+    },
+    {
+      "dataset_tier": "TIER_E_OPTIONS",
+      "dataset_name": "NSE Bhavcopy Historical Options Quotes",
+      "symbol_or_universe": "NIFTY Options Contracts",
+      "granularity": "1D Settlement",
+      "session_count": 496,
+      "total_bars_count": 15593,
+      "date_range_start": "2024-09-09",
+      "date_range_end": "2026-09-07",
+      "provider": "NSE Bhavcopy (Settlement / LTP Only)",
+      "missing_session_count": 0,
+      "data_quality_status": "EXECUTION_DATA_BLOCKED",
+      "survivorship_bias_risk": false,
+      "confirmatory_inference_eligible": false,
+      "limitations": [
+        "A small number of paired Bid/Ask observations exist (105 observations, approximately 0.67% of the quote store), but there is 0.0% continuous executable surface coverage across the required strikes/maturities/timestamps.",
+        "OPTIONS_EXECUTION_BACKTEST = BLOCKED.",
+        "OPTIONS_PAPER_EXECUTION = BLOCKED.",
+        "LTP research allowed only; synthetic spreads strictly prohibited."
+      ]
+    }
+  ],
+  "intraday_sample_sufficient_for_confirmatory": false,
+  "options_executable_data_available": false,
+  "options_execution_gate": "BLOCKED",
+  "options_paper_gate": "BLOCKED",
+  "audit_verdict": "DATA_AUDITED_WITH_EXPLICIT_CONSTRAINTS"
+}

@@ -1,0 +1,74 @@
+{
+  "generated_at": "2026-09-08T19:19:49.907742+00:00",
+  "execution_mode": "PAPER_TRADE",
+  "safety_guard": {
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER_CONNECTIONS": "NONE",
+    "PAPER_EXECUTION": "ENABLED",
+    "BACKTEST_EXECUTION": "ENABLED",
+    "ALLOW_LIVE_EXECUTION": false,
+    "safety_message": "This system does NOT send real orders. Broker execution is architecturally unavailable."
+  },
+  "reconciliation": {
+    "execution_mode": "PAPER_TRADE",
+    "is_reconciled": true,
+    "starting_cash": 1000000.0,
+    "ending_cash": 1000000.0,
+    "starting_equity": 1000000.0,
+    "ending_equity": 1000000.0,
+    "realized_pnl": 0.0,
+    "unrealized_pnl": 0.0,
+    "total_fees": 0.0,
+    "total_slippage": 0.0,
+    "total_orders": 3,
+    "total_fills": 0,
+    "total_rejections": 3,
+    "total_no_trade": 0,
+    "discrepancies": [],
+    "status": "RECONCILIATION_PASS"
+  },
+  "observations": [
+    {
+      "provider": "YFinance",
+      "symbol": "NIFTY 50",
+      "provider_timestamp": "2026-09-08T19:19:49.180162+00:00",
+      "received_timestamp": "2026-09-08T19:19:49.182163+00:00",
+      "data_status": "DELAYED",
+      "bid": null,
+      "ask": null,
+      "ltp": 23779.2,
+      "quote_age_seconds": 0.0,
+      "market_status": "MARKET_CLOSED",
+      "execution_eligibility": "BLOCKED",
+      "rejection_reason": "MARKET_CLOSED"
+    },
+    {
+      "provider": "YFinance",
+      "symbol": "BANKNIFTY",
+      "provider_timestamp": "2026-09-08T19:19:49.518019+00:00",
+      "received_timestamp": "2026-09-08T19:19:49.522019+00:00",
+      "data_status": "DELAYED",
+      "bid": null,
+      "ask": null,
+      "ltp": 57088.3,
+      "quote_age_seconds": 0.0,
+      "market_status": "MARKET_CLOSED",
+      "execution_eligibility": "BLOCKED",
+      "rejection_reason": "MARKET_CLOSED"
+    },
+    {
+      "provider": "YFinance",
+      "symbol": "RELIANCE",
+      "provider_timestamp": "2026-09-08T19:19:49.901741+00:00",
+      "received_timestamp": "2026-09-08T19:19:49.903742+00:00",
+      "data_status": "DELAYED",
+      "bid": null,
+      "ask": null,
+      "ltp": 1294.9,
+      "quote_age_seconds": 0.0,
+      "market_status": "MARKET_CLOSED",
+      "execution_eligibility": "BLOCKED",
+      "rejection_reason": "MARKET_CLOSED"
+    }
+  ]
+}

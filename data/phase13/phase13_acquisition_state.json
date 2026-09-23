@@ -1,0 +1,17 @@
+{
+  "current_state": "AWAITING_HUMAN_DECISION",
+  "overall_state": "AWAITING_HUMAN_ACQUISITION_DECISION",
+  "authorization_record": null,
+  "history": [],
+  "safety_invariants": {
+    "broker": "NONE",
+    "live_execution": "DISABLED",
+    "auto_paper_order_submission": "DISABLED",
+    "options_execution": "BLOCKED",
+    "new_alpha_research": "DISABLED",
+    "unlimited_parameter_search": "DISABLED",
+    "strategy_optimization": "DISABLED",
+    "purchase_authorized": false,
+    "human_decision_required": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "dataset_version": "phase12_yahoo_intraday_5m_v1",
+  "source": "Yahoo Finance (Public Free Endpoint)",
+  "vendor": "Yahoo Finance (Public Free Endpoint)",
+  "product": "yfinance 5m API",
+  "acquisition_date": "2026-09-09T08:39:33.065769+00:00",
+  "coverage_start": "2026-06-18",
+  "coverage_end": "2026-09-09",
+  "instrument_scope": "INTRADAY_5M",
+  "interval": "5m",
+  "file_hash": "a1a99190d6ac7cbcdd2ec8fdf69c9ae5804dd6fcd4475ef6ede542dff11159d0",
+  "schema_version": "phase12_schema_v1",
+  "timezone": "Asia/Kolkata (+05:30)",
+  "adjustment_method": "RAW_UNADJUSTED",
+  "license_status": "NON_COMMERCIAL_PERSONAL_ONLY",
+  "validation_status": "REJECTED"
+}

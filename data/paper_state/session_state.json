@@ -1,0 +1,11 @@
+{
+  "session_id": "SES-ba25581b94dd428f",
+  "started_at": "2026-09-23T18:15:47.703720+00:00",
+  "stopped_at": null,
+  "starting_capital": 1000000.0,
+  "execution_mode": "PAPER",
+  "status": "STARTED",
+  "provider_configuration": {},
+  "risk_configuration": {},
+  "model_versions": {}
+}

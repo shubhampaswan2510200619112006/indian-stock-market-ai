@@ -1,0 +1,17 @@
+{
+  "assessment_timestamp": "2026-09-09T08:39:33.612973+00:00",
+  "gates": {
+    "INTRADAY_1M_READY": "BLOCKED",
+    "INTRADAY_5M_READY": "BLOCKED"
+  },
+  "threshold": ">= 250 verified sessions (PROJECT_RESEARCH_THRESHOLD)",
+  "observed_public_data": {
+    "nifty_1m_sessions": 7,
+    "nifty_5m_sessions": 43,
+    "retention_limitation_1m": "Yahoo Finance public 1m endpoint truncates at ~7 calendar days",
+    "retention_limitation_5m": "Yahoo Finance public 5m endpoint truncates at ~60 calendar days"
+  },
+  "substitution_policy": "STRICT_PROHIBITION (Daily and 1-hour data cannot be substituted for 1m/5m)",
+  "acquisition_required": true,
+  "recommended_resolution": "Acquire verified multi-year 1m/5m archive from NSE Data & Analytics or TrueData"
+}

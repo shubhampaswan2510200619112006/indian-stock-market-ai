@@ -1,0 +1,146 @@
+{
+  "universe_classification": "VERIFIED_NIFTY_CONSTITUENT_SUBSET",
+  "number_of_equity_symbols": 10,
+  "number_of_index_series": 2,
+  "equity_symbols": [
+    "RELIANCE",
+    "TCS",
+    "HDFCBANK",
+    "INFY",
+    "ICICIBANK",
+    "ITC",
+    "LT",
+    "SBIN",
+    "BHARTIARTL",
+    "TATASTEEL"
+  ],
+  "benchmark_symbols": [
+    "^NSEI",
+    "^NSEBANK"
+  ],
+  "symbols_audited": {
+    "RELIANCE": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "TCS": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "HDFCBANK": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "INFY": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "ICICIBANK": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "ITC": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "LT": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "SBIN": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "BHARTIARTL": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "TATASTEEL": {
+      "type": "EQUITY",
+      "sessions": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "duplicate_rows": 0,
+      "missing_values": 0,
+      "invalid_ohlc_bars": 0,
+      "clean": true
+    },
+    "^NSEI": {
+      "type": "BENCHMARK",
+      "sessions": 665,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "clean": true
+    },
+    "^NSEBANK": {
+      "type": "BENCHMARK",
+      "sessions": 664,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "clean": true
+    }
+  },
+  "common_sessions_count": 669,
+  "common_start_date": "2024-01-01",
+  "common_end_date": "2026-09-09",
+  "pit_membership_status": "VERIFIED_POINT_IN_TIME",
+  "all_symbols_clean": true,
+  "total_invalid_ohlc_bars": 0,
+  "total_duplicate_rows": 0,
+  "total_missing_values": 0,
+  "errors": []
+}

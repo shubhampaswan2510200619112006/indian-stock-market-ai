@@ -1,0 +1,125 @@
+{
+  "specification_version": "phase12_final_decision_package_v1",
+  "generated_at": "2026-09-23T18:16:08.952966+00:00",
+  "governance": {
+    "purchase_authorized": false,
+    "human_decision_required": true,
+    "broker": "NONE",
+    "live_execution": "DISABLED",
+    "auto_paper_order_submission": "DISABLED",
+    "new_unpreregistered_alpha_research": "DISABLED",
+    "strategy_optimization": "DISABLED",
+    "unlimited_parameter_search": "DISABLED",
+    "options_execution": "BLOCKED",
+    "frozen_baselines": "INTACT",
+    "zero_data_fabrication_rule": "Zero synthetic Bid/Ask prices or continuous quote surfaces may be labeled as exchange observations."
+  },
+  "intraday_requirements": {
+    "underlyings": [
+      "NIFTY 50",
+      "NIFTY BANK"
+    ],
+    "intervals": [
+      "1 minute",
+      "5 minute"
+    ],
+    "minimum_sessions": 250,
+    "minimum_sessions_threshold_label": "PROJECT_RESEARCH_THRESHOLD",
+    "minimum_sessions_threshold_explanation": "250 verified sessions is a PROJECT_RESEARCH_THRESHOLD defined to guarantee statistical validity across a full calendar year of trading regimes. It is not a universal statistical law.",
+    "preferred_horizon": "3-5 years (~750-1250 sessions) where commercially available",
+    "timezone": "Asia/Kolkata (+05:30)",
+    "market_session_ist": "09:15-15:30 IST",
+    "required_fields": [
+      "timestamp",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "open_interest",
+      "instrument_identifier",
+      "exchange",
+      "timezone",
+      "trading_session_metadata",
+      "corporate_adjustment_information"
+    ],
+    "evaluation_dimensions": [
+      "exchange_event_time_vs_vendor_normalized_time",
+      "timezone_handling",
+      "missing_bar_behavior",
+      "duplicate_bar_behavior",
+      "corrections_and_revisions",
+      "historical_retention_window",
+      "downloadable_archive_access",
+      "api_access",
+      "rate_limits",
+      "bulk_download_availability"
+    ],
+    "substitution_rule": "Substitution of daily or 1-hour bars for 1m/5m intraday data is strictly forbidden."
+  },
+  "options_requirements": {
+    "targets": [
+      "NIFTY OPTIONS",
+      "BANKNIFTY OPTIONS"
+    ],
+    "minimum_schema": [
+      "underlying",
+      "contract_id",
+      "expiry",
+      "strike",
+      "option_type",
+      "timestamp",
+      "bid",
+      "ask",
+      "ltp",
+      "volume",
+      "open_interest"
+    ],
+    "preferred_depth": "Level 2 / 5-depth snapshots",
+    "best_available": "Level 4 / Order-book capable (tick-by-tick order & trade logs)",
+    "options_hierarchy": {
+      "LEVEL_0": "No Options Data",
+      "LEVEL_1": "LTP / Settlement Only",
+      "LEVEL_2": "Isolated Bid/Ask",
+      "LEVEL_3": "Continuous Paired Bid/Ask (>= 70% paired quote continuity across market hours)",
+      "LEVEL_4": "Depth / Order-Book Capable (5-depth or full order book reconstruction)"
+    },
+    "paired_quote_continuity_threshold_pct": 70.0,
+    "paired_quote_continuity_threshold_label": "PROJECT_RESEARCH_THRESHOLD",
+    "paired_quote_continuity_explanation": "The 70% paired quote continuity threshold is a PROJECT_RESEARCH_THRESHOLD defined for internal execution modeling. It is not an industry-wide or universal definition of execution readiness.",
+    "contract_validation": {
+      "method": "EXCHANGE_SPEC_AND_CALENDAR_DRIVEN",
+      "prohibited_assumptions": [
+        "Hardcoding Thursday expiry",
+        "Hardcoding Wednesday expiry",
+        "Any fixed weekday expiry schedule"
+      ],
+      "required_foundation": "Authoritative exchange specifications + market calendar + actual contract metadata. Expired contracts must remain identifiable and queryable."
+    }
+  },
+  "provisional_candidate_ranking": {
+    "ranking_label": "PROVISIONAL_CANDIDATE_RANKING",
+    "mandatory_conditions": [
+      "SUBJECT_TO_VENDOR_CONFIRMATION",
+      "SUBJECT_TO_FORMAL_QUOTATION",
+      "SUBJECT_TO_LICENSE_REVIEW",
+      "SUBJECT_TO_SAMPLE_VALIDATION"
+    ],
+    "primary_candidate": {
+      "name": "NSE Data & Analytics / DotEx",
+      "tier": "OFFICIAL_EXCHANGE",
+      "suitability": "Preferred candidate subject to vendor confirmation, formal quotation, licensing review, and successful sample validation."
+    },
+    "secondary_candidate": {
+      "name": "TrueData (TrueData India)",
+      "tier": "AUTHORIZED_VENDOR",
+      "suitability": "Secondary candidate subject to vendor confirmation of historical options Bid/Ask depth, formal quotation, and sample validation."
+    },
+    "backup_candidate": {
+      "name": "Global DataFeeds (GDFL)",
+      "tier": "AUTHORIZED_VENDOR",
+      "suitability": "Backup candidate subject to vendor confirmation of historical options archives, formal quotation, and sample validation."
+    },
+    "disclaimer": "This provisional ranking is NOT a purchasing recommendation. No data purchase or commercial commitment is authorized."
+  }
+}

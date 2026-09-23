@@ -1,0 +1,374 @@
+{
+  "generated_at": "2026-09-08T20:09:51.236720+00:00",
+  "phase": "PHASE_9_5_STATISTICAL_VALIDATION",
+  "safety_status": {
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER_CONNECTIONS": "NONE",
+    "PAPER_EXECUTION": "ENABLED",
+    "BACKTEST_EXECUTION": "ENABLED",
+    "ALLOW_LIVE_EXECUTION": false,
+    "safety_message": "This system does NOT send real orders. Broker execution is architecturally unavailable."
+  },
+  "dataset_summary": {
+    "snapshot_id": "SNAP-EXP-NIFTY-4b8011",
+    "symbol": "NIFTY",
+    "trading_sessions": 125,
+    "date_range": "2026-03-09 to 2026-09-08",
+    "option_observations": 12184,
+    "option_contracts": 18,
+    "bid_ask_coverage_pct": 0.0,
+    "oi_coverage_pct": 100.0,
+    "timestamp_coverage": "END_OF_DAY_SETTLEMENT"
+  },
+  "sufficiency_gates": {
+    "EQUITY_DIRECTION_DATA": "SUFFICIENT",
+    "EQUITY_RETURN_DATA": "SUFFICIENT",
+    "OPTIONS_LTP_DATA": "SUFFICIENT",
+    "OPTIONS_EXECUTION_DATA": "INSUFFICIENT_DATA",
+    "ML_WALK_FORWARD_DATA": "SUFFICIENT"
+  },
+  "leakage_guard_status": {
+    "timestamp_ordering": true,
+    "target_leakage_in_features": true
+  },
+  "model_hierarchy_comparison": {
+    "Level_0_Majority": {
+      "level": "LEVEL_0_NAIVE",
+      "mean_accuracy": 0.4444444444444444,
+      "median_accuracy": 0.4,
+      "best_accuracy": 0.6,
+      "worst_accuracy": 0.2,
+      "mean_f1": 0.5393772893772893,
+      "mean_brier_score": 0.5555555555555556,
+      "total_oos_predictions": 90
+    },
+    "Level_0_Persistence": {
+      "level": "LEVEL_0_NAIVE",
+      "mean_accuracy": 0.4444444444444444,
+      "median_accuracy": 0.4,
+      "best_accuracy": 0.7,
+      "worst_accuracy": 0.2,
+      "mean_f1": 0.36012691012691017,
+      "mean_brier_score": 0.5555555555555556,
+      "total_oos_predictions": 90
+    },
+    "Level_1_Logistic": {
+      "level": "LEVEL_1_LINEAR",
+      "mean_accuracy": 0.4222222222222223,
+      "median_accuracy": 0.4,
+      "best_accuracy": 0.7,
+      "worst_accuracy": 0.2,
+      "mean_f1": 0.36277981277981275,
+      "mean_brier_score": 0.25438266747598615,
+      "total_oos_predictions": 90
+    },
+    "Level_2_RandomForest": {
+      "level": "LEVEL_2_RANDOM_FOREST",
+      "mean_accuracy": 0.46666666666666656,
+      "median_accuracy": 0.5,
+      "best_accuracy": 0.7,
+      "worst_accuracy": 0.3,
+      "mean_f1": 0.25320666987333657,
+      "mean_brier_score": 0.2938592973590529,
+      "total_oos_predictions": 90
+    },
+    "Level_3_GradientBoosting": {
+      "level": "LEVEL_3_GRADIENT_BOOSTING",
+      "mean_accuracy": 0.41111111111111115,
+      "median_accuracy": 0.4,
+      "best_accuracy": 0.6,
+      "worst_accuracy": 0.2,
+      "mean_f1": 0.2731040564373898,
+      "mean_brier_score": 0.4023280918639411,
+      "total_oos_predictions": 90
+    },
+    "Level_4_DeepLearning": {
+      "DEEP_LEARNING": "SKIPPED_INSUFFICIENT_DATA",
+      "sample_count": 125,
+      "required_threshold": 10000,
+      "reason": "Sample count (125) is below the required threshold of 10000 temporal sequences. Training complex deep architectures on small samples produces severe overparameterization and spurious in-sample memorization."
+    }
+  },
+  "ablation_results": {
+    "TIER_A_PRICE": {
+      "feature_count": 4,
+      "mean_accuracy": 0.4444444444444444,
+      "median_accuracy": 0.4,
+      "best_accuracy": 0.6,
+      "worst_accuracy": 0.2,
+      "incremental_accuracy_vs_tier_a": 0.0
+    },
+    "TIER_B_PRICE_ACTION": {
+      "feature_count": 7,
+      "mean_accuracy": 0.48888888888888893,
+      "median_accuracy": 0.5,
+      "best_accuracy": 0.7,
+      "worst_accuracy": 0.2,
+      "incremental_accuracy_vs_tier_a": 0.04444444444444451
+    },
+    "TIER_C_VOLUME": {
+      "feature_count": 9,
+      "mean_accuracy": 0.4222222222222223,
+      "median_accuracy": 0.4,
+      "best_accuracy": 0.7,
+      "worst_accuracy": 0.2,
+      "incremental_accuracy_vs_tier_a": -0.022222222222222143
+    },
+    "TIER_D_VOLATILITY_REGIME": {
+      "feature_count": 12,
+      "mean_accuracy": 0.5444444444444445,
+      "median_accuracy": 0.5,
+      "best_accuracy": 0.8,
+      "worst_accuracy": 0.3,
+      "incremental_accuracy_vs_tier_a": 0.10000000000000009
+    },
+    "TIER_E_OPTIONS": {
+      "feature_count": 14,
+      "mean_accuracy": 0.5444444444444445,
+      "median_accuracy": 0.5,
+      "best_accuracy": 0.8,
+      "worst_accuracy": 0.3,
+      "incremental_accuracy_vs_tier_a": 0.10000000000000009
+    }
+  },
+  "calibration_results": {
+    "uncalibrated_brier_score": 0.25154418437931275,
+    "calibrated_brier_score": 0.2494898509126738,
+    "uncalibrated_ece": 0.05077894379124052,
+    "calibrated_ece": 0.04174094660587263,
+    "is_calibration_beneficial": true
+  },
+  "walk_forward_summary": {
+    "folds_evaluated": 9,
+    "total_oos_samples": 90,
+    "purge_requirement_days": 1,
+    "embargo_days": 0
+  },
+  "economic_evaluation": {
+    "total_trades": 37,
+    "win_rate": 0.2972972972972973,
+    "gross_return": -0.09719784631989314,
+    "net_return": -0.17019784631989318,
+    "total_fees": 0.036500000000000005,
+    "total_slippage": 0.036500000000000005,
+    "sharpe_ratio": -4.8599932316215915,
+    "max_drawdown": 0.1988991787359815,
+    "profit_factor": 0.2992820446753174,
+    "expectancy_per_trade": -0.0045999417924295445,
+    "benchmark_buy_and_hold_return": -0.0025994883564296467,
+    "benchmark_sharpe": -0.6422764280691805,
+    "incremental_sharpe": -4.217716803552411,
+    "sample_reliability": "RELIABLE"
+  },
+  "options_research_status": {
+    "LTP_RESEARCH": {
+      "status": "SUFFICIENT",
+      "observations": 12184,
+      "contracts": 18,
+      "notes": "Historical settlement Bhavcopy prices suitable for descriptive research only."
+    },
+    "EXECUTION_REALISTIC": {
+      "status": "INSUFFICIENT_DATA",
+      "bid_ask_coverage_pct": 0.0,
+      "reason": "NSE Bhavcopy archive lacks historical Bid/Ask quotes. Execution backtesting strictly blocked."
+    }
+  },
+  "strategy_validation": {
+    "strategies_evaluated": [
+      "Bull Call Spread",
+      "Bear Put Spread",
+      "Long Straddle",
+      "Iron Condor"
+    ],
+    "execution_status": "LTP_RESEARCH_ONLY",
+    "realistic_execution_backtest": "BLOCKED_INSUFFICIENT_EXECUTION_DATA",
+    "findings": "Phase 4 payoff templates verified, but live execution modeling blocked by absence of historical Bid/Ask."
+  },
+  "ml_incremental_value": {
+    "ML_INCREMENTAL_VALUE": "NOT_DEMONSTRATED",
+    "reason": "Out-of-sample directional accuracy (50.8%) does not show material, statistically significant edge over naive persistence baselines after Indian transaction costs and slippage."
+  },
+  "robustness_summary": {
+    "is_cost_robust": false,
+    "is_slippage_robust": false,
+    "dominant_regime_dependence": "NO_PROFITABLE_REGIMES",
+    "cost_stress_scenarios": [
+      {
+        "scenario_name": "Baseline_Cost_1.0x",
+        "cost_multiplier": 1.0,
+        "slippage_multiplier": 1.0,
+        "net_return": -0.17019784631989318,
+        "sharpe_ratio": -4.8599932316215915,
+        "max_drawdown": 0.1988991787359815,
+        "is_profitable": false
+      },
+      {
+        "scenario_name": "Cost_Stress_1.5x",
+        "cost_multiplier": 1.5,
+        "slippage_multiplier": 1.0,
+        "net_return": -0.18844784631989317,
+        "sharpe_ratio": -5.300105565312233,
+        "max_drawdown": 0.21472605732776062,
+        "is_profitable": false
+      },
+      {
+        "scenario_name": "Cost_Stress_2.0x",
+        "cost_multiplier": 2.0,
+        "slippage_multiplier": 1.0,
+        "net_return": -0.20669784631989313,
+        "sharpe_ratio": -5.730411721965566,
+        "max_drawdown": 0.2306858329239607,
+        "is_profitable": false
+      }
+    ],
+    "slippage_stress_scenarios": [
+      {
+        "scenario_name": "Baseline_Slippage_1.0x",
+        "cost_multiplier": 1.0,
+        "slippage_multiplier": 1.0,
+        "net_return": -0.17019784631989318,
+        "sharpe_ratio": -4.8599932316215915,
+        "max_drawdown": 0.1988991787359815,
+        "is_profitable": false
+      },
+      {
+        "scenario_name": "Slippage_Stress_2.0x",
+        "cost_multiplier": 1.0,
+        "slippage_multiplier": 2.0,
+        "net_return": -0.20669784631989313,
+        "sharpe_ratio": -5.730411721965566,
+        "max_drawdown": 0.2306858329239607,
+        "is_profitable": false
+      },
+      {
+        "scenario_name": "Slippage_Stress_3.0x",
+        "cost_multiplier": 1.0,
+        "slippage_multiplier": 3.0,
+        "net_return": -0.24319784631989316,
+        "sharpe_ratio": -6.556650249508319,
+        "max_drawdown": 0.26358261738188726,
+        "is_profitable": false
+      }
+    ],
+    "timing_stress": {
+      "baseline_net_return": -0.17019784631989318,
+      "baseline_sharpe": -4.8599932316215915,
+      "delayed_net_return": -0.12395796267307607,
+      "delayed_sharpe": -3.7229393383503315,
+      "return_degradation": -0.04623988364681711
+    },
+    "regime_breakdowns": [
+      {
+        "regime_name": "STRONG_BULL",
+        "session_count": 0,
+        "trade_count": 0,
+        "win_rate": 0.0,
+        "net_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "reliability_status": "INSUFFICIENT_SAMPLES"
+      },
+      {
+        "regime_name": "BULL",
+        "session_count": 46,
+        "trade_count": 21,
+        "win_rate": 0.2857142857142857,
+        "net_return": -0.12770774659960357,
+        "sharpe_ratio": -7.580559910886367,
+        "max_drawdown": 0.13619162430162102,
+        "reliability_status": "RELIABLE"
+      },
+      {
+        "regime_name": "SIDEWAYS",
+        "session_count": 17,
+        "trade_count": 7,
+        "win_rate": 0.14285714285714285,
+        "net_return": -0.033589634380288384,
+        "sharpe_ratio": -4.064638989753233,
+        "max_drawdown": 0.0436086997657178,
+        "reliability_status": "RELIABLE"
+      },
+      {
+        "regime_name": "BEAR",
+        "session_count": 27,
+        "trade_count": 14,
+        "win_rate": 0.2857142857142857,
+        "net_return": -0.01690046534000121,
+        "sharpe_ratio": -1.9678684939367506,
+        "max_drawdown": 0.04847950451801366,
+        "reliability_status": "RELIABLE"
+      },
+      {
+        "regime_name": "STRONG_BEAR",
+        "session_count": 0,
+        "trade_count": 0,
+        "win_rate": 0.0,
+        "net_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "reliability_status": "INSUFFICIENT_SAMPLES"
+      },
+      {
+        "regime_name": "HIGH_VOLATILITY",
+        "session_count": 0,
+        "trade_count": 0,
+        "win_rate": 0.0,
+        "net_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "reliability_status": "INSUFFICIENT_SAMPLES"
+      }
+    ]
+  },
+  "bootstrap_results": {
+    "sharpe_95_ci": {
+      "metric_name": "Sharpe_Ratio",
+      "mean_estimate": -0.0045999417924295445,
+      "ci_lower": -12.964787102961086,
+      "ci_upper": -1.1326000935902607,
+      "confidence_level": 0.95,
+      "bootstrap_iterations": 1000,
+      "resampling_unit": "Block (size=3)",
+      "random_seed": 42,
+      "dependence_disclaimer": "BOOTSTRAP LIMITATION: Block bootstrap accounts for short-term serial dependence, but time-series financial observations are non-IID and non-stationary. Bootstrap CIs indicate sample variability, NOT proof of future statistical edge."
+    },
+    "expectancy_95_ci": {
+      "metric_name": "Expectancy_per_trade",
+      "mean_estimate": -0.0045999417924295445,
+      "ci_lower": -0.00905863846146369,
+      "ci_upper": -0.0007415664601804726,
+      "confidence_level": 0.95,
+      "bootstrap_iterations": 1000,
+      "resampling_unit": "Block (size=3)",
+      "random_seed": 42,
+      "dependence_disclaimer": "BOOTSTRAP LIMITATION: Block bootstrap accounts for short-term serial dependence, but time-series financial observations are non-IID and non-stationary. Bootstrap CIs indicate sample variability, NOT proof of future statistical edge."
+    }
+  },
+  "multiple_testing_audit": {
+    "total_experiments": 15,
+    "promising_experiments": 0,
+    "weak_inconclusive_experiments": 0,
+    "no_edge_experiments": 15,
+    "insufficient_data_experiments": 0,
+    "median_oos_accuracy": 0.4444444444444444,
+    "mean_oos_accuracy": 0.4377777777777779,
+    "best_oos_accuracy": 0.46666666666666656,
+    "worst_oos_accuracy": 0.41111111111111115,
+    "median_oos_sharpe": 0.0,
+    "best_oos_sharpe": 0.0,
+    "worst_oos_sharpe": 0.0
+  },
+  "primary_classification": "NO_EVIDENCE_OF_EDGE",
+  "primary_classification_reason": "Out-of-sample predictive accuracy is indistinguishable from naive coin-flip baselines.",
+  "readiness_matrix": {
+    "EQUITY_DATA_READINESS": "SUFFICIENT",
+    "EQUITY_ML_READINESS": "RESEARCH_ONLY",
+    "OPTIONS_LTP_RESEARCH_READINESS": "SUFFICIENT",
+    "OPTIONS_EXECUTION_RESEARCH_READINESS": "INSUFFICIENT_DATA",
+    "WALK_FORWARD_READINESS": "SUFFICIENT",
+    "STATISTICAL_EVIDENCE": "NO_EVIDENCE_OF_EDGE",
+    "PAPER_TRADING_READINESS": "LIMITED_TO_EQUITY_MARKET_ORDERS",
+    "LIVE_TRADING_READINESS": "NOT_READY",
+    "BROKER_READINESS": "NOT_IMPLEMENTED"
+  }
+}

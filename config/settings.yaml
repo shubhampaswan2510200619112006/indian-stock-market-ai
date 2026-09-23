@@ -1,0 +1,201 @@
+# =============================================================================
+# Indian Options AI — Application Settings
+# =============================================================================
+
+app:
+  name: "Indian Options AI"
+  version: "0.1.0"
+  phase: 1
+  description: "AI Options Research & Paper-Trading Platform for Indian Markets"
+
+# -----------------------------------------------------------------------------
+# Supported Underlyings
+# Add new underlyings here — the system discovers them from this list.
+# -----------------------------------------------------------------------------
+underlyings:
+  - symbol: "NIFTY"
+    name: "NIFTY 50"
+    exchange: "NSE"
+    instrument_type: "INDEX"
+    lot_size: 25
+    tick_size: 0.05
+    # NSE uses this symbol for option chain API
+    nse_symbol: "NIFTY"
+    yfinance_symbol: "^NSEI"
+    enabled: true
+
+  - symbol: "BANKNIFTY"
+    name: "BANK NIFTY"
+    exchange: "NSE"
+    instrument_type: "INDEX"
+    lot_size: 15
+    tick_size: 0.05
+    nse_symbol: "BANKNIFTY"
+    yfinance_symbol: "^NSEBANK"
+    enabled: true
+
+  - symbol: "FINNIFTY"
+    name: "NIFTY FINANCIAL SERVICES"
+    exchange: "NSE"
+    instrument_type: "INDEX"
+    lot_size: 25
+    tick_size: 0.05
+    nse_symbol: "FINNIFTY"
+    yfinance_symbol: "NIFTY_FIN_SERVICE.NS"
+    enabled: true
+
+# Stocks can be added later:
+# - symbol: "RELIANCE"
+#   name: "Reliance Industries"
+#   exchange: "NSE"
+#   instrument_type: "STOCK"
+#   lot_size: 250
+#   tick_size: 0.05
+#   nse_symbol: "RELIANCE"
+#   yfinance_symbol: "RELIANCE.NS"
+#   enabled: false
+
+# -----------------------------------------------------------------------------
+# Market Hours (IST)
+# -----------------------------------------------------------------------------
+market:
+  timezone: "Asia/Kolkata"
+  open_time: "09:15"
+  close_time: "15:30"
+  pre_open_start: "09:00"
+  pre_open_end: "09:08"
+  # Days the market is closed (add holidays manually or use a calendar API)
+  weekly_off: ["Saturday", "Sunday"]
+
+# -----------------------------------------------------------------------------
+# Data Freshness Thresholds (seconds)
+# Used to classify data as LIVE, DELAYED, STALE, etc.
+# -----------------------------------------------------------------------------
+data_freshness:
+  live_threshold: 60        # < 60s = LIVE/RECENT
+  delayed_threshold: 300    # < 5min = DELAYED
+  stale_threshold: 3600     # < 1hr  = STALE
+  # Anything older than stale_threshold during market hours = STALE
+  # Data from a previous session = END_OF_DAY
+
+# -----------------------------------------------------------------------------
+# Option Chain Display
+# -----------------------------------------------------------------------------
+option_chain:
+  # Number of strikes to show above/below ATM
+  strikes_above_atm: 15
+  strikes_below_atm: 15
+  # Thresholds for highlighting
+  high_oi_percentile: 90          # Top 10% OI = highlighted
+  unusual_volume_sigma: 2.0       # Volume > 2σ = unusual
+  wide_spread_threshold_pct: 5.0  # Bid-ask spread > 5% = warning
+  min_volume_for_analysis: 10     # Skip strikes with volume < this
+  min_oi_for_analysis: 100        # Skip strikes with OI < this
+
+# -----------------------------------------------------------------------------
+# Transaction Costs (configurable, used in future backtesting)
+# -----------------------------------------------------------------------------
+costs:
+  brokerage_per_order: 20.0         # INR flat per order (typical discount broker)
+  exchange_charges_pct: 0.00053     # NSE transaction charges
+  sebi_charges_pct: 0.000001        # SEBI turnover fee
+  gst_pct: 0.18                     # GST on brokerage + exchange charges
+  stt_sell_pct: 0.0625              # STT on sell side (options)
+  stamp_duty_pct: 0.00003           # Stamp duty on buy side
+  slippage_pct: 0.05                # Default slippage assumption
+
+# -----------------------------------------------------------------------------
+# Paper Trading Configuration (Phase 8)
+# -----------------------------------------------------------------------------
+paper_trading:
+  # SAFETY GUARD — This is NOT the actual security mechanism.
+  # ExecutionGuard hard-disables LIVE execution regardless of this setting.
+  allow_live_execution: false
+
+  # CONFIGURED PAPER CAPITAL — not a recommendation
+  initial_capital: 1000000
+
+  # Execution eligibility
+  max_fill_age_seconds: 120
+  max_spread_pct: 0.15              # 15% max spread (fraction, not percentage)
+  slippage_pct: 0.005               # 0.5% paper slippage
+
+  # Delayed data policy
+  delayed_data_fill_allowed: true
+  delayed_data_max_age_seconds: 300
+
+  # CONFIGURED PAPER RISK LIMITS — not universally safe recommendations
+  max_position_size_lots: 50
+  max_open_positions: 5
+  max_risk_per_trade_pct: 2.0
+  max_daily_loss_pct: 5.0
+  max_portfolio_drawdown_pct: 15.0
+
+  # Order expiry
+  default_order_expiry: DAY
+
+  # Circuit breaker reset policy: MANUAL_RESET or NEXT_TRADING_DAY
+  circuit_breaker_reset_policy: NEXT_TRADING_DAY
+
+# -----------------------------------------------------------------------------
+# Phase 16: Data Ingestion Scheduler
+# IMPORTANT: This scheduler handles DATA INGESTION ONLY.
+# It MUST NOT and CANNOT schedule trading, order submission, or strategy
+# execution. ALLOW_LIVE_EXECUTION and AUTO_PAPER_ORDER_SUBMISSION remain
+# hardcoded False regardless of this configuration.
+# -----------------------------------------------------------------------------
+scheduler:
+  # Master on/off switch. Default: false (disabled). Must be explicitly enabled.
+  enabled: false
+
+  # Timezone for all scheduled jobs (must match market timezone)
+  timezone: "Asia/Kolkata"
+
+  # Intraday candle ingestion during market hours (9:15–15:30 IST on trading days)
+  intraday:
+    enabled: false
+    interval_minutes: 5          # How often to fetch candles during market hours
+    symbols: ["NIFTY", "BANKNIFTY", "FINNIFTY"]
+    timeframe: "1m"              # Candle resolution to request from provider
+
+  # FII/DII daily flow data
+  fii_dii:
+    enabled: false
+    time_ist: "17:30"            # After NSE publishes participant data (typically 17:00+)
+    days: ["Mon", "Tue", "Wed", "Thu", "Fri"]
+
+  # NSE Bhavcopy archive ingestion (EOD options settlement data)
+  bhavcopy:
+    enabled: false
+    time_ist: "20:00"            # NSE typically publishes by 19:00; 20:00 is safe margin
+    days: ["Mon", "Tue", "Wed", "Thu", "Fri"]
+    backfill_on_start: false     # Set true to backfill missing days on scheduler start
+
+  # Macro features (India VIX, USD-INR, crude, GIFT Nifty)
+  macro:
+    enabled: false
+    time_ist: "09:00"            # Pre-market snapshot
+    intraday_interval_minutes: 60  # Hourly refresh during market hours
+
+# -----------------------------------------------------------------------------
+# Phase 16: Bhavcopy Archive Settings
+# -----------------------------------------------------------------------------
+bhavcopy:
+  # NSE FO Bhavcopy base URL pattern. {date} will be substituted as YYYYMMDD.
+  # Source: NSE India archives (public, free)
+  fo_archive_url_template: "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_{date}_F_0000.csv.zip"
+  # Local raw archive storage directory (SHA256-verified files preserved unchanged)
+  raw_dir: "./data/bhavcopy/raw"
+  # Maximum days to backfill (safety cap)
+  max_backfill_days: 365
+
+# -----------------------------------------------------------------------------
+# Phase 16: Data Capability Defaults
+# All capabilities start UNAVAILABLE until explicitly verified by a provider.
+# -----------------------------------------------------------------------------
+data_capabilities:
+  intraday_1m_ready: false
+  intraday_5m_ready: false
+  options_bid_ask_ready: false    # Requires verified commercial provider
+  options_execution_ready: false  # Always false — no live execution
+

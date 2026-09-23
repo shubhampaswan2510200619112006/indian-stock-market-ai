@@ -1,0 +1,52 @@
+{
+  "report_version": "1.0",
+  "audit_timestamp_utc": "2026-09-09T07:22:45.790449+00:00",
+  "phase": "PHASE_10A_DATA_FOUNDATION",
+  "scientific_boundary_notice": "A large dataset does not automatically mean high-quality research data. The readiness decision considers completeness, timestamp integrity, source reliability, point-in-time correctness, corporate-action correctness, survivorship, execution realism, reproducibility, and provenance. PASS is never declared merely because row count is large.",
+  "pillars": {
+    "pillar_a_intraday": {
+      "provider": "Yahoo Finance public endpoint",
+      "status": "BLOCKED / INSUFFICIENT_FOR_CONFIRMATORY",
+      "nifty_1m_rows": 2468,
+      "nifty_5m_rows": 4394,
+      "duplicate_rate": 0.0,
+      "provider_constraint_acknowledged": true,
+      "readiness": "BLOCKED / INSUFFICIENT_FOR_CONFIRMATORY"
+    },
+    "pillar_b_constituents": {
+      "index": "NIFTY 50",
+      "source": "Official NSE Indices Press Releases and Circulars",
+      "status": "VERIFIED_POINT_IN_TIME",
+      "events_expected": 7,
+      "events_found": 7,
+      "unresolved_events": 0,
+      "survivorship_protection": "ACTIVE",
+      "readiness": "READY"
+    },
+    "pillar_c_equity": {
+      "instruments_audited": 12,
+      "full_history_total_rows": 79573,
+      "verified_window_total_rows": 8019,
+      "verified_window_min_sessions": 664,
+      "verified_window_anomalies": 0,
+      "cross_sectional_research_ready": "READY",
+      "readiness": "READY"
+    },
+    "pillar_d_options": {
+      "total_records": 17098,
+      "paired_bid_ask_quotes": 114,
+      "paired_bid_ask_pct": 0.67,
+      "continuous_executable_surface": "0.0%",
+      "options_conditionality_statement": "Options execution remains blocked until genuine timestamped executable Bid/Ask data satisfies the Phase 10A execution-data readiness requirements.",
+      "OPTIONS_EXECUTION_BACKTEST": "BLOCKED",
+      "OPTIONS_PAPER_EXECUTION": "BLOCKED",
+      "readiness": "BLOCKED"
+    }
+  },
+  "overall_data_quality_summary": {
+    "INTRADAY_DATA_QUALITY": "HIGH_INTEGRITY_BUT_PROVIDER_RETENTION_LIMITED",
+    "EQUITY_PANEL_QUALITY": "PRISTINE_MODERN_COVERAGE_OVER_2_YEARS",
+    "CONSTITUENT_REGISTRY_QUALITY": "VERIFIED_OFFICIAL_POINT_IN_TIME",
+    "OPTIONS_EXECUTABILITY_QUALITY": "INSUFFICIENT_PAIRED_QUOTES_EXECUTION_BLOCKED"
+  }
+}

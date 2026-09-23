@@ -1,0 +1,25 @@
+{
+  "provenance_records": [
+    {
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+      "version_id": "v1",
+      "vendor": "Yahoo Finance",
+      "source_file": "CERT-YAHOO_PUBLIC_NIFTY_1M_SAMPLE-20260909110406",
+      "provenance_status": "VERIFIED"
+    },
+    {
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+      "version_id": "v1",
+      "vendor": "Yahoo Finance",
+      "source_file": "CERT-YAHOO_PUBLIC_NIFTY_5M_SAMPLE-20260909110406",
+      "provenance_status": "VERIFIED"
+    },
+    {
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "version_id": "v1",
+      "vendor": "NSE Public Web",
+      "source_file": "CERT-NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE-20260909110406",
+      "provenance_status": "VERIFIED"
+    }
+  ]
+}

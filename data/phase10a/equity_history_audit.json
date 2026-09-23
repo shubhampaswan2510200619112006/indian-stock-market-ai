@@ -1,0 +1,226 @@
+{
+  "engine": "EquityHistoryAuditEngine",
+  "audit_timestamp_utc": "2026-09-23T18:15:52.324942+00:00",
+  "target_objective": "Maximum verified historical coverage available from authorized sources",
+  "minimum_target_sessions": 495,
+  "total_instruments_audited": 12,
+  "instruments": {
+    "^NSEI": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 4657,
+      "coverage_years": 18.98,
+      "start_date": "2007-09-17",
+      "end_date": "2026-09-09",
+      "splits_recorded": 0,
+      "dividends_recorded": 0
+    },
+    "^NSEBANK": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 4672,
+      "coverage_years": 18.98,
+      "start_date": "2007-09-17",
+      "end_date": "2026-09-09",
+      "splits_recorded": 0,
+      "dividends_recorded": 0
+    },
+    "RELIANCE.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 7704,
+      "coverage_years": 30.69,
+      "start_date": "1996-01-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 4,
+      "dividends_recorded": 31
+    },
+    "TCS.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 5980,
+      "coverage_years": 24.08,
+      "start_date": "2002-08-12",
+      "end_date": "2026-09-09",
+      "splits_recorded": 3,
+      "dividends_recorded": 89
+    },
+    "HDFCBANK.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 7707,
+      "coverage_years": 30.69,
+      "start_date": "1996-01-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 3,
+      "dividends_recorded": 31
+    },
+    "INFY.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 7707,
+      "coverage_years": 30.69,
+      "start_date": "1996-01-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 8,
+      "dividends_recorded": 62
+    },
+    "ICICIBANK.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 6009,
+      "coverage_years": 24.19,
+      "start_date": "2002-07-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 2,
+      "dividends_recorded": 24
+    },
+    "ITC.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 7704,
+      "coverage_years": 30.69,
+      "start_date": "1996-01-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 3,
+      "dividends_recorded": 37
+    },
+    "LT.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 6012,
+      "coverage_years": 24.19,
+      "start_date": "2002-07-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 5,
+      "dividends_recorded": 29
+    },
+    "SBIN.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 7705,
+      "coverage_years": 30.69,
+      "start_date": "1996-01-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 1,
+      "dividends_recorded": 31
+    },
+    "BHARTIARTL.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 6009,
+      "coverage_years": 24.19,
+      "start_date": "2002-07-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 1,
+      "dividends_recorded": 18
+    },
+    "TATASTEEL.NS": {
+      "status": "AVAILABLE",
+      "full_history_sessions": 7707,
+      "coverage_years": 30.69,
+      "start_date": "1996-01-01",
+      "end_date": "2026-09-09",
+      "splits_recorded": 2,
+      "dividends_recorded": 28
+    }
+  },
+  "verified_research_window_2024_2026": {
+    "^NSEI": {
+      "session_count": 665,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "^NSEBANK": {
+      "session_count": 664,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "RELIANCE.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "TCS.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "HDFCBANK.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "INFY.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "ICICIBANK.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "ITC.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "LT.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "SBIN.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "BHARTIARTL.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    },
+    "TATASTEEL.NS": {
+      "session_count": 669,
+      "start_date": "2024-01-01",
+      "end_date": "2026-09-09",
+      "has_minimum_2_years": true,
+      "invalid_ohlc_bars": 0,
+      "integrity_status": "CLEAN"
+    }
+  },
+  "cross_sectional_research_ready": "READY",
+  "summary_metrics": {
+    "full_history_total_observations": 79573,
+    "full_history_min_sessions": 4657,
+    "full_history_max_sessions": 7707,
+    "verified_window_2024_2026_total_observations": 8019,
+    "verified_window_min_sessions": 664,
+    "verified_window_max_sessions": 669,
+    "verified_window_target_met": true,
+    "verified_window_anomalies": 0
+  }
+}

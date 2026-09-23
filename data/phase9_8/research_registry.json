@@ -1,0 +1,921 @@
+[
+  {
+    "id": "P98-H001",
+    "created_at": "2026-09-09T00:00:00Z",
+    "status": "EVALUATED",
+    "economic_mechanism": "First 15-minute range breakout on NIFTY reflects institutional opening imbalances predicting remainder-of-day trend.",
+    "instrument": "NIFTY",
+    "dataset": "TIER_B_INTRADAY_INDEX (5m/15m bars, ~59 sessions)",
+    "features": [
+      "orb_15m_high",
+      "orb_15m_low",
+      "breakout_direction",
+      "opening_volume_ratio"
+    ],
+    "target": "target_fwd_ret_remainder_day (09:30 IST to 15:15 IST close)",
+    "prediction_time": "09:30:00 IST (at close of first 15m bar)",
+    "execution_time": "09:30:00 IST (bar close price)",
+    "exit_time": "15:15:00 IST (MOC intraday exit)",
+    "holding_period": "5.75 hours (same-day intraday)",
+    "cost_model": "Indian statutory intraday friction (roundtrip 5 bps + 5 bps slippage = 10 bps)",
+    "baseline": "Naive random walk (50% direction, 0 bps drift)",
+    "success_criteria": "Net Sharpe > 0.50, Win Rate > 53.0%, Net Expectancy > 5.0 bps/trade after costs with N >= 60 trades.",
+    "failure_criteria": "Net Sharpe <= 0.0 OR Net Expectancy <= 0.0 bps/trade OR N < 40 trades (INSUFFICIENT_DATA).",
+    "exploratory_or_confirmatory": "EXPLORATORY",
+    "result": {
+      "hypothesis_id": "P98-H001",
+      "total_sessions_analyzed": 59,
+      "total_breakouts": 59,
+      "win_rate": 0.3728813559322034,
+      "gross_return_pct": -0.01243735168597692,
+      "net_return_pct": -0.07143735168597692,
+      "net_expectancy_bps": -12.108025709487613,
+      "annualized_sharpe": -4.905947944779562,
+      "max_drawdown_pct": -0.07239914373134884,
+      "sample_classification": "INSUFFICIENT_DATA_FOR_CONFIRMATORY_INFERENCE (EXPLORATORY_ONLY)",
+      "success_criteria_met": false,
+      "evidence_notes": "15m ORB generated 59 trades across 59 sessions. Win Rate: 37.3%, Net Expectancy: -12.1 bps, Annualized Sharpe: -4.91. The P98-H001 sample contains 59 trades and therefore does not satisfy the project's preregistered minimum sample criterion of N>=60 for confirmatory classification. This threshold is a project-specific research gate and is not being presented as a universal statistical law. Classified strictly as EXPLORATORY_ONLY.",
+      "trades": [
+        {
+          "date": "2026-06-17",
+          "direction": "LONG",
+          "breakout_price": 24050.900390625,
+          "exit_price": 24081.0,
+          "gross_return_pct": 0.0012514961554924895,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": 0.00025149615549248947,
+          "held_bars": 70
+        },
+        {
+          "date": "2026-06-18",
+          "direction": "LONG",
+          "breakout_price": 24135.150390625,
+          "exit_price": 24179.400390625,
+          "gross_return_pct": 0.0018334254928524649,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": 0.0008334254928524648,
+          "held_bars": 67
+        },
+        {
+          "date": "2026-06-19",
+          "direction": "LONG",
+          "breakout_price": 23991.55078125,
+          "exit_price": 24044.19921875,
+          "gross_return_pct": 0.002194457456295242,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": 0.001194457456295242,
+          "held_bars": 64
+        },
+        {
+          "date": "2026-06-22",
+          "direction": "LONG",
+          "breakout_price": 24154.94921875,
+          "exit_price": 24086.849609375,
+          "gross_return_pct": -0.002819281827433463,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": -0.0038192818274334632,
+          "held_bars": 64
+        },
+        {
+          "date": "2026-06-23",
+          "direction": "LONG",
+          "breakout_price": 24101.900390625,
+          "exit_price": 23795.25,
+          "gross_return_pct": -0.012723079327980247,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": -0.013723079327980246,
+          "held_bars": 71
+        },
+        {
+          "date": "2026-06-24",
+          "direction": "LONG",
+          "breakout_price": 23894.0,
+          "exit_price": 24013.150390625,
+          "gross_return_pct": 0.004986623864777768,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": 0.003986623864777768,
+          "held_bars": 65
+        },
+        {
+          "date": "2026-06-25",
+          "direction": "LONG",
+          "breakout_price": 24172.349609375,
+          "exit_price": 24052.80078125,
+          "gross_return_pct": -0.004945685051594414,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": -0.005945685051594414,
+          "held_bars": 67
+        },
+        {
+          "date": "2026-06-29",
+          "direction": "SHORT",
+          "breakout_price": 24017.099609375,
+          "exit_price": 23978.5,
+          "gross_return_pct": 0.0016071719734190037,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": 0.0006071719734190037,
+          "held_bars": 71
+        },
+        {
+          "date": "2026-06-30",
+          "direction": "SHORT",
+          "breakout_price": 23873.30078125,
+          "exit_price": 23917.75,
+          "gross_return_pct": -0.0018618798949205319,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": -0.002861879894920532,
+          "held_bars": 71
+        },
+        {
+          "date": "2026-07-01",
+          "direction": "LONG",
+          "breakout_price": 23940.05078125,
+          "exit_price": 23988.099609375,
+          "gross_return_pct": 0.0020070478782205485,
+          "fees_pct": 0.0005,
+          "slippage_pct": 0.0005,
+          "net_return_pct": 0.0010070478782205484,
+          "held_bars": 70
+        }
+      ]
+    },
+    "final_classification": "INSUFFICIENT_DATA"
+  },
+  {
+    "id": "P98-H002",
+    "created_at": "2026-09-09T00:00:00Z",
+    "status": "EVALUATED",
+    "economic_mechanism": "Overnight index gaps > 0.3% reflect pre-market sentiment overreaction that mean-reverts during opening 30 minutes.",
+    "instrument": "NIFTY",
+    "dataset": "TIER_B_INTRADAY_INDEX (5m bars, ~59 sessions)",
+    "features": [
+      "overnight_gap_pct",
+      "gap_direction",
+      "pre_market_volume_normalized"
+    ],
+    "target": "target_fwd_ret_opening_30m (09:15 IST open to 09:45 IST)",
+    "prediction_time": "09:15:00 IST (official market open)",
+    "execution_time": "09:15:00 IST (open auction price)",
+    "exit_time": "09:45:00 IST (at close of 09:40-09:45 bar)",
+    "holding_period": "30 minutes",
+    "cost_model": "Indian statutory intraday friction (10 bps roundtrip)",
+    "baseline": "Continuation drift / zero reversion baseline",
+    "success_criteria": "Mean-reversion Win Rate > 55.0% AND Net Expectancy > 5.0 bps/trade after costs.",
+    "failure_criteria": "Net Expectancy <= 0.0 bps/trade OR gap events N < 20 (INSUFFICIENT_DATA).",
+    "exploratory_or_confirmatory": "EXPLORATORY",
+    "result": {
+      "hypothesis_id": "P98-H002",
+      "total_sessions_analyzed": 59,
+      "total_gap_events": 19,
+      "mean_reversion_win_rate": 0.15789473684210525,
+      "continuation_win_rate": 0.8421052631578947,
+      "reversion_gross_expectancy_bps": -4.637008609188434,
+      "reversion_net_expectancy_bps": -14.637008609188435,
+      "sample_classification": "INSUFFICIENT_DATA_FOR_CONFIRMATORY_INFERENCE (EXPLORATORY_ONLY)",
+      "success_criteria_met": false,
+      "evidence_notes": "Opening gap (|gap| >= 0.30%) evaluated across 19 gap sessions. Mean-reversion Win Rate: 15.8%, Net Expectancy: -14.6 bps. Sample size N = 19 is limited; classified strictly as EXPLORATORY_ONLY.",
+      "gap_trades": [
+        {
+          "date": "2026-06-19",
+          "gap_pct": -0.007783533455526491,
+          "gap_type": "DOWN_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 23991.19921875,
+          "exit_price": 23974.099609375,
+          "gross_return_pct": -0.0007127450870249133,
+          "net_return_pct": -0.0017127450870249132
+        },
+        {
+          "date": "2026-06-25",
+          "gap_pct": 0.004693229206360155,
+          "gap_type": "UP_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 24125.849609375,
+          "exit_price": 24140.5,
+          "gross_return_pct": -0.0006072486922618901,
+          "net_return_pct": -0.00160724869226189
+        },
+        {
+          "date": "2026-07-02",
+          "gap_pct": 0.0030890154110432525,
+          "gap_type": "UP_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 24062.19921875,
+          "exit_price": 24148.900390625,
+          "gross_return_pct": -0.0036032106245483912,
+          "net_return_pct": -0.004603210624548391
+        },
+        {
+          "date": "2026-07-03",
+          "gap_pct": 0.00859407515280035,
+          "gap_type": "UP_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 24375.650390625,
+          "exit_price": 24337.0,
+          "gross_return_pct": 0.0015856147428117502,
+          "net_return_pct": 0.0005856147428117502
+        },
+        {
+          "date": "2026-07-08",
+          "gap_pct": -0.003923154889837545,
+          "gap_type": "DOWN_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 24259.55078125,
+          "exit_price": 24226.80078125,
+          "gross_return_pct": -0.001349983777329966,
+          "net_return_pct": -0.002349983777329966
+        },
+        {
+          "date": "2026-07-10",
+          "gap_pct": 0.005969101209383737,
+          "gap_type": "UP_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 24125.05078125,
+          "exit_price": 24194.19921875,
+          "gross_return_pct": -0.00286625044344952,
+          "net_return_pct": -0.00386625044344952
+        },
+        {
+          "date": "2026-07-13",
+          "gap_pct": -0.0071143435999182015,
+          "gap_type": "DOWN_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 24039.400390625,
+          "exit_price": 24075.0,
+          "gross_return_pct": 0.0014808859121495936,
+          "net_return_pct": 0.0004808859121495936
+        },
+        {
+          "date": "2026-07-14",
+          "gap_pct": -0.004785473395583616,
+          "gap_type": "DOWN_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 24092.75,
+          "exit_price": 24100.0,
+          "gross_return_pct": 0.000300920401365556,
+          "net_return_pct": -0.000699079598634444
+        },
+        {
+          "date": "2026-07-20",
+          "gap_pct": -0.006309637499319036,
+          "gap_type": "DOWN_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 24190.05078125,
+          "exit_price": 24171.44921875,
+          "gross_return_pct": -0.000768975752395621,
+          "net_return_pct": -0.001768975752395621
+        },
+        {
+          "date": "2026-07-23",
+          "gap_pct": -0.003595090552157388,
+          "gap_type": "DOWN_GAP",
+          "trade_direction": "REVERSION",
+          "open_price": 23904.80078125,
+          "exit_price": 23907.849609375,
+          "gross_return_pct": 0.00012754041135500208,
+          "net_return_pct": -0.0008724595886449979
+        }
+      ]
+    },
+    "final_classification": "INSUFFICIENT_DATA"
+  },
+  {
+    "id": "P98-H003",
+    "created_at": "2026-09-09T00:00:00Z",
+    "status": "EVALUATED",
+    "economic_mechanism": "Intraday 30-minute normalized momentum persists over the subsequent 30-minute bar due to execution order slicing.",
+    "instrument": "NIFTY",
+    "dataset": "TIER_B_INTRADAY_INDEX (15m/30m resampled bars)",
+    "features": [
+      "ret_30m",
+      "normalized_vol_30m",
+      "vwap_distance_bps"
+    ],
+    "target": "target_fwd_ret_30m (next 30-minute bar return)",
+    "prediction_time": "T (bar close timestamp)",
+    "execution_time": "T (clean bar close)",
+    "exit_time": "T + 30 minutes (next bar close)",
+    "holding_period": "30 minutes",
+    "cost_model": "Indian statutory intraday friction (10 bps roundtrip)",
+    "baseline": "AR(1) linear statistical model",
+    "success_criteria": "Directional Accuracy > 54.0% AND Net Sharpe > 0.50 after realistic turnover costs.",
+    "failure_criteria": "Net Sharpe <= 0.0 OR Turnover friction exceeds gross alpha.",
+    "exploratory_or_confirmatory": "EXPLORATORY",
+    "result": {
+      "hypothesis_id": "P98-H003",
+      "total_bars_evaluated": 765,
+      "directional_accuracy": 0.49411764705882355,
+      "baseline_accuracy": 0.5058823529411764,
+      "incremental_accuracy_delta": -0.0117647058823529,
+      "gross_return_pct": -0.05494524724474492,
+      "total_fees_pct": 0.3875,
+      "total_slippage_pct": 0.3875,
+      "net_return_pct": -0.8299452472447449,
+      "annualized_sharpe": -32.254203671983696,
+      "net_expectancy_bps": -10.848957480323463,
+      "sample_classification": "INSUFFICIENT_DATA_FOR_CONFIRMATORY_INFERENCE (EXPLORATORY_ONLY)",
+      "success_criteria_met": false,
+      "evidence_notes": "30m Intraday Momentum evaluated over 765 bars across ~59 sessions. Directional Accuracy: 49.4% (AR(1) Baseline: 50.6%). Gross: -5.5%, Frictions: 77.5%, Net: -83.0%, Sharpe: -32.25. Turnover friction creates substantial drag; classified strictly as EXPLORATORY_ONLY."
+    },
+    "final_classification": "REJECTED"
+  },
+  {
+    "id": "P98-H004",
+    "created_at": "2026-09-09T00:00:00Z",
+    "status": "EVALUATED",
+    "economic_mechanism": "Intraday volatility compression (Garman-Klass ratio < 20th percentile) followed by volume surge precedes directional expansion.",
+    "instrument": "NIFTY",
+    "dataset": "TIER_B_INTRADAY_INDEX (15m bars)",
+    "features": [
+      "gk_vol_compression_ratio",
+      "volume_surge_ratio",
+      "bollinger_bandwidth_15m"
+    ],
+    "target": "target_fwd_vol_expansion_60m (subsequent 60-minute range expansion)",
+    "prediction_time": "T (compression signal bar close)",
+    "execution_time": "T (entry bar close)",
+    "exit_time": "T + 60 minutes",
+    "holding_period": "60 minutes",
+    "cost_model": "Indian statutory intraday friction (10 bps roundtrip)",
+    "baseline": "Unconditional 60m historical volatility",
+    "success_criteria": "Volatility expansion directional accuracy > 55.0% AND Net Expectancy > 10.0 bps.",
+    "failure_criteria": "Net Expectancy <= 0.0 bps OR compression signals N < 25.",
+    "exploratory_or_confirmatory": "EXPLORATORY",
+    "result": {
+      "hypothesis_id": "P98-H004",
+      "total_compression_events": 413,
+      "directional_accuracy": 0.22276029055690072,
+      "baseline_expansion_rate": 0.5,
+      "gross_return_pct": 0.009505940479404965,
+      "net_return_pct": -0.403494059520595,
+      "net_expectancy_bps": -9.769831949651211,
+      "annualized_sharpe": -17.033159803274952,
+      "sample_classification": "INSUFFICIENT_DATA_FOR_CONFIRMATORY_INFERENCE (EXPLORATORY_ONLY)",
+      "success_criteria_met": false,
+      "evidence_notes": "Volatility compression breakouts evaluated across 413 events over ~59 sessions. Directional Accuracy: 22.3%, Net Expectancy: -9.8 bps, Sharpe: -17.03. Sample size N = 413 is limited; classified strictly as EXPLORATORY_ONLY.",
+      "trades": [
+        {
+          "timestamp": "2026-06-18 13:15:00+05:30",
+          "direction": "SHORT",
+          "entry_price": 24120.44921875,
+          "exit_price": 24088.349609375,
+          "gross_return_pct": 0.001330804790735299,
+          "net_return_pct": 0.00033080479073529893,
+          "gk_vol": 0.00041767341824946113,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-18 14:00:00+05:30",
+          "direction": "SHORT",
+          "entry_price": 24099.75,
+          "exit_price": 24177.44921875,
+          "gross_return_pct": -0.003224067417711802,
+          "net_return_pct": -0.004224067417711802,
+          "gk_vol": 0.0006027032010583438,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-18 14:15:00+05:30",
+          "direction": "SHORT",
+          "entry_price": 24088.349609375,
+          "exit_price": 24179.400390625,
+          "gross_return_pct": -0.003779867974623041,
+          "net_return_pct": -0.00477986797462304,
+          "gk_vol": 0.0004375136862898037,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-19 09:15:00+05:30",
+          "direction": "SHORT",
+          "entry_price": 23955.94921875,
+          "exit_price": 23966.849609375,
+          "gross_return_pct": -0.00045501810533428623,
+          "net_return_pct": -0.0014550181053342862,
+          "gk_vol": 0.0005159483153544137,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-19 10:45:00+05:30",
+          "direction": "SHORT",
+          "entry_price": 23944.900390625,
+          "exit_price": 23954.400390625,
+          "gross_return_pct": -0.00039674418540155954,
+          "net_return_pct": -0.0013967441854015597,
+          "gk_vol": 0.0005421897349807892,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-19 11:15:00+05:30",
+          "direction": "SHORT",
+          "entry_price": 23953.05078125,
+          "exit_price": 23968.849609375,
+          "gross_return_pct": -0.0006595747768951013,
+          "net_return_pct": -0.0016595747768951012,
+          "gk_vol": 0.0006505463992153053,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-19 11:45:00+05:30",
+          "direction": "SHORT",
+          "entry_price": 23954.400390625,
+          "exit_price": 23937.900390625,
+          "gross_return_pct": 0.000688808725367118,
+          "net_return_pct": -0.000311191274632882,
+          "gk_vol": 0.0006270819112590268,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-19 12:00:00+05:30",
+          "direction": "LONG",
+          "entry_price": 23959.44921875,
+          "exit_price": 23930.19921875,
+          "gross_return_pct": -0.001220812704538707,
+          "net_return_pct": -0.002220812704538707,
+          "gk_vol": 0.00047242250387342146,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-19 12:15:00+05:30",
+          "direction": "LONG",
+          "entry_price": 23968.849609375,
+          "exit_price": 23928.150390625,
+          "gross_return_pct": -0.0016980046774577452,
+          "net_return_pct": -0.0026980046774577452,
+          "gk_vol": 0.0005573492940913022,
+          "volume_ratio": 0.0
+        },
+        {
+          "timestamp": "2026-06-19 12:30:00+05:30",
+          "direction": "SHORT",
+          "entry_price": 23951.55078125,
+          "exit_price": 23946.94921875,
+          "gross_return_pct": 0.00019211960603412128,
+          "net_return_pct": -0.0008078803939658788,
+          "gk_vol": 0.0005755225208619798,
+          "volume_ratio": 0.0
+        }
+      ]
+    },
+    "final_classification": "REJECTED"
+  },
+  {
+    "id": "P98-H005",
+    "created_at": "2026-09-09T00:00:00Z",
+    "status": "EVALUATED",
+    "economic_mechanism": "RBI MPC policy rate decisions induce institutional portfolio reallocations creating 3-session post-announcement directional drift.",
+    "instrument": "NIFTY",
+    "dataset": "TIER_D_EVENT (21 verified macro announcements, 2024\u20132026)",
+    "features": [
+      "announcement_day_ret",
+      "repo_rate_surprise",
+      "stance_change_flag"
+    ],
+    "target": "target_fwd_ret_3d (post-announcement 3 sessions close-to-close return)",
+    "prediction_time": "Day T 15:30 IST (on announcement day close)",
+    "execution_time": "Day T+1 09:15 IST (next-day open)",
+    "exit_time": "Day T+4 09:15 IST (open-to-open 3-session holding)",
+    "holding_period": "3 sessions",
+    "cost_model": "Indian statutory swing friction (roundtrip 10 bps delivery/futures)",
+    "baseline": "Historical unconditional 3-day market drift",
+    "success_criteria": "Directional alignment > 60.0% with statistically significant drift (p < 0.05).",
+    "failure_criteria": "Directional alignment <= 55.0% OR p >= 0.05 OR sample N < 15.",
+    "exploratory_or_confirmatory": "CONFIRMATORY",
+    "result": {
+      "hypothesis_id": "P98-H005",
+      "total_events_matched": 13,
+      "directional_alignment_rate": 0.46153846153846156,
+      "baseline_drift_rate": 0.5,
+      "mean_post_event_return_pct": 0.0028169312559169404,
+      "mean_net_return_pct": -0.004916873378192093,
+      "t_statistic": -1.0818402158124252,
+      "p_value": 0.30058475828366094,
+      "is_statistically_significant": false,
+      "sample_classification": "CONFIRMATORY_LIMITED_SAMPLE_EVENT_STUDY",
+      "success_criteria_met": false,
+      "evidence_notes": "Evaluated 13 verified policy announcements (2024-2026). Directional Alignment: 46.2%, Mean Net Return: -0.49%, t-stat: -1.08, p-value: 0.3006. Drift is statistically indistinguishable from zero (p >= 0.05).",
+      "observations": [
+        {
+          "event_date": "2025-02-01",
+          "event_type": "UNION_BUDGET_FULL",
+          "event_name": "Union Budget 2025-26",
+          "event_day_return_pct": -0.0011166221250199504,
+          "abnormal_range_ratio": 1.270827012540453,
+          "fwd_3d_return_pct": 0.009119709526709159,
+          "fwd_3d_direction_aligned": false,
+          "net_return_pct": -0.01011970952670916
+        },
+        {
+          "event_date": "2024-10-09",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Stance Neutral)",
+          "event_day_return_pct": -0.0012473907279866303,
+          "abnormal_range_ratio": 1.0534700049687238,
+          "fwd_3d_return_pct": 0.005844219709261953,
+          "fwd_3d_direction_aligned": false,
+          "net_return_pct": -0.006844219709261953
+        },
+        {
+          "event_date": "2024-12-06",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (CRR Cut 50 bps)",
+          "event_day_return_pct": -0.0012384293961259507,
+          "abnormal_range_ratio": 0.4147731521226858,
+          "fwd_3d_return_pct": -0.0014588009814615458,
+          "fwd_3d_direction_aligned": true,
+          "net_return_pct": 0.0004588009814615458
+        },
+        {
+          "event_date": "2025-02-07",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Repo Cut 25 bps to 6.25%)",
+          "event_day_return_pct": -0.0018387386257991967,
+          "abnormal_range_ratio": 1.016690536629693,
+          "fwd_3d_return_pct": -0.021846363672990463,
+          "fwd_3d_direction_aligned": true,
+          "net_return_pct": 0.02084636367299046
+        },
+        {
+          "event_date": "2025-04-09",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Status Quo 6.25%)",
+          "event_day_return_pct": -0.006065856008070525,
+          "abnormal_range_ratio": 0.36398085821526227,
+          "fwd_3d_return_pct": 0.04634322329294542,
+          "fwd_3d_direction_aligned": false,
+          "net_return_pct": -0.04734322329294542
+        },
+        {
+          "event_date": "2025-06-06",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Repo Cut 25 bps to 6.00%)",
+          "event_day_return_pct": 0.01018752395450262,
+          "abnormal_range_ratio": 1.166821810520822,
+          "fwd_3d_return_pct": 0.005533309138369209,
+          "fwd_3d_direction_aligned": true,
+          "net_return_pct": 0.004533309138369209
+        },
+        {
+          "event_date": "2025-08-08",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Status Quo 6.00%)",
+          "event_day_return_pct": -0.009466912735407229,
+          "abnormal_range_ratio": 1.2279970483815905,
+          "fwd_3d_return_pct": 0.010509611584406298,
+          "fwd_3d_direction_aligned": false,
+          "net_return_pct": -0.011509611584406297
+        },
+        {
+          "event_date": "2025-10-08",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Status Quo 6.00%)",
+          "event_day_return_pct": -0.0024752925801897474,
+          "abnormal_range_ratio": 1.1096878001836366,
+          "fwd_3d_return_pct": 0.007234613540363652,
+          "fwd_3d_direction_aligned": false,
+          "net_return_pct": -0.008234613540363651
+        },
+        {
+          "event_date": "2025-12-05",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Status Quo 6.00%)",
+          "event_day_return_pct": 0.005865433091659877,
+          "abnormal_range_ratio": 1.1201481553839006,
+          "fwd_3d_return_pct": -0.01636148586511004,
+          "fwd_3d_direction_aligned": false,
+          "net_return_pct": -0.017361485865110042
+        },
+        {
+          "event_date": "2026-02-06",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Status Quo 6.00%)",
+          "event_day_return_pct": 0.0019849016468285186,
+          "abnormal_range_ratio": 0.6234121347999759,
+          "fwd_3d_return_pct": 0.010125065620568759,
+          "fwd_3d_direction_aligned": true,
+          "net_return_pct": 0.009125065620568758
+        },
+        {
+          "event_date": "2026-04-08",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Status Quo 6.00%)",
+          "event_day_return_pct": 0.03778379295615997,
+          "abnormal_range_ratio": 0.3767647105598708,
+          "fwd_3d_return_pct": -0.00644651268861641,
+          "fwd_3d_direction_aligned": false,
+          "net_return_pct": -0.00744651268861641
+        },
+        {
+          "event_date": "2026-06-05",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Status Quo 6.00%)",
+          "event_day_return_pct": -0.0021289028843615165,
+          "abnormal_range_ratio": 0.7868924475976086,
+          "fwd_3d_return_pct": -0.006494284818723227,
+          "fwd_3d_direction_aligned": true,
+          "net_return_pct": 0.005494284818723227
+        },
+        {
+          "event_date": "2026-08-07",
+          "event_type": "RBI_MPC",
+          "event_name": "RBI MPC Policy Announcement (Status Quo 6.00%)",
+          "event_day_return_pct": -0.0026526063230638552,
+          "abnormal_range_ratio": 0.5240110322115097,
+          "fwd_3d_return_pct": -0.00548219805880253,
+          "fwd_3d_direction_aligned": true,
+          "net_return_pct": 0.00448219805880253
+        }
+      ]
+    },
+    "final_classification": "REJECTED"
+  },
+  {
+    "id": "P98-H006",
+    "created_at": "2026-09-09T00:00:00Z",
+    "status": "EVALUATED",
+    "economic_mechanism": "Cross-sectional 20-day relative strength divergence between Top 2 and Bottom 2 liquid equities generates positive long-short spread.",
+    "instrument": "TOP_10_LIQUID_EQUITIES",
+    "dataset": "TIER_C_CROSS_SECTIONAL (2-year daily OHLCV, SURVIVORSHIP_BIAS_RISK = TRUE)",
+    "features": [
+      "relative_strength_20d",
+      "index_beta_60d",
+      "cross_sectional_dispersion"
+    ],
+    "target": "target_fwd_spread_ret_5d (Long Top 2, Short Bottom 2 over 5 sessions)",
+    "prediction_time": "Day T 15:30 IST (weekly rebalance close)",
+    "execution_time": "Day T+1 09:15 IST (open execution)",
+    "exit_time": "Day T+6 09:15 IST (5 sessions open-to-open)",
+    "holding_period": "5 sessions",
+    "cost_model": "Indian statutory delivery friction (STT 10 bps on buy+sell, exchange, GST, stamp = 25 bps roundtrip)",
+    "baseline": "Cap-weighted NIFTY 50 benchmark return",
+    "success_criteria": "Spread Return > 1.0% with Long-Short Net Sharpe > 0.50 after delivery frictions.",
+    "failure_criteria": "Long-Short Net Sharpe <= 0.0 OR survivorship bias invalidates causal inference.",
+    "exploratory_or_confirmatory": "CONFIRMATORY",
+    "result": {
+      "hypothesis_id": "P98-H006",
+      "total_rebalances": 94,
+      "universe_size": 10,
+      "mean_spread_gross_return_pct": -0.002335897475394309,
+      "mean_spread_net_return_pct": -0.004835897475394309,
+      "spread_win_rate": 0.3404255319148936,
+      "annualized_spread_sharpe": -2.1769305301279958,
+      "max_drawdown_pct": -0.3701546449100631,
+      "survivorship_bias_risk": true,
+      "sample_classification": "CONFIRMATORY_WITH_SURVIVORSHIP_LIMITATION",
+      "success_criteria_met": false,
+      "evidence_notes": "Cross-sectional relative strength momentum evaluated across 94 weekly rebalances on 10 liquid stocks. Gross Spread: -0.23%, Net Spread: -0.48%, Sharpe: -2.18. CRITICAL: SURVIVORSHIP_BIAS_RISK = TRUE. Universe selection suffers from lookback survivorship bias. Disqualified from production candidate status.",
+      "sample_rebalances": [
+        {
+          "rebalance_date": "2024-10-15",
+          "top_stocks": [
+            "BHARTIARTL",
+            "KOTAKBANK"
+          ],
+          "bottom_stocks": [
+            "RELIANCE",
+            "TCS"
+          ],
+          "long_leg_return_pct": -0.042117119859734625,
+          "short_leg_return_pct": 0.011364528308913296,
+          "spread_gross_return_pct": -0.015376295775410664,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": -0.017876295775410663
+        },
+        {
+          "rebalance_date": "2024-10-22",
+          "top_stocks": [
+            "SBIN",
+            "INFY"
+          ],
+          "bottom_stocks": [
+            "KOTAKBANK",
+            "RELIANCE"
+          ],
+          "long_leg_return_pct": 0.0290924746799801,
+          "short_leg_return_pct": 0.002083418295624413,
+          "spread_gross_return_pct": 0.015587946487802257,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": 0.013087946487802257
+        },
+        {
+          "rebalance_date": "2024-10-29",
+          "top_stocks": [
+            "SBIN",
+            "ICICIBANK"
+          ],
+          "bottom_stocks": [
+            "LT",
+            "RELIANCE"
+          ],
+          "long_leg_return_pct": -0.003288451512369268,
+          "short_leg_return_pct": -0.015728082971640182,
+          "spread_gross_return_pct": -0.009508267242004726,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": -0.012008267242004727
+        },
+        {
+          "rebalance_date": "2024-11-05",
+          "top_stocks": [
+            "SBIN",
+            "HDFCBANK"
+          ],
+          "bottom_stocks": [
+            "RELIANCE",
+            "INFY"
+          ],
+          "long_leg_return_pct": -0.024525762939545306,
+          "short_leg_return_pct": -0.020770698644678173,
+          "spread_gross_return_pct": -0.02264823079211174,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": -0.025148230792111738
+        },
+        {
+          "rebalance_date": "2024-11-12",
+          "top_stocks": [
+            "SBIN",
+            "TCS"
+          ],
+          "bottom_stocks": [
+            "KOTAKBANK",
+            "BHARTIARTL"
+          ],
+          "long_leg_return_pct": -0.04262775099154753,
+          "short_leg_return_pct": 0.005242729929983986,
+          "spread_gross_return_pct": -0.01869251053078177,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": -0.02119251053078177
+        },
+        {
+          "rebalance_date": "2024-11-21",
+          "top_stocks": [
+            "HDFCBANK",
+            "TCS"
+          ],
+          "bottom_stocks": [
+            "RELIANCE",
+            "BHARTIARTL"
+          ],
+          "long_leg_return_pct": 0.03603945929140736,
+          "short_leg_return_pct": -0.031098368615601057,
+          "spread_gross_return_pct": 0.002470545337903151,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": -2.9454662096849073e-05
+        },
+        {
+          "rebalance_date": "2024-11-28",
+          "top_stocks": [
+            "LT",
+            "TCS"
+          ],
+          "bottom_stocks": [
+            "BHARTIARTL",
+            "RELIANCE"
+          ],
+          "long_leg_return_pct": 0.04838528552421223,
+          "short_leg_return_pct": -0.037772114265449366,
+          "spread_gross_return_pct": 0.0053065856293814315,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": 0.0028065856293814314
+        },
+        {
+          "rebalance_date": "2024-12-05",
+          "top_stocks": [
+            "TCS",
+            "INFY"
+          ],
+          "bottom_stocks": [
+            "KOTAKBANK",
+            "ITC"
+          ],
+          "long_leg_return_pct": 0.012457227458331119,
+          "short_leg_return_pct": 0.009196387992738319,
+          "spread_gross_return_pct": 0.01082680772553472,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": 0.00832680772553472
+        },
+        {
+          "rebalance_date": "2024-12-12",
+          "top_stocks": [
+            "HDFCBANK",
+            "LT"
+          ],
+          "bottom_stocks": [
+            "RELIANCE",
+            "ITC"
+          ],
+          "long_leg_return_pct": -0.036276915464296206,
+          "short_leg_return_pct": 0.006388469155737914,
+          "spread_gross_return_pct": -0.014944223154279146,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": -0.017444223154279147
+        },
+        {
+          "rebalance_date": "2024-12-19",
+          "top_stocks": [
+            "LT",
+            "SBIN"
+          ],
+          "bottom_stocks": [
+            "KOTAKBANK",
+            "RELIANCE"
+          ],
+          "long_leg_return_pct": -0.034466653559752695,
+          "short_leg_return_pct": 0.0044439003437936365,
+          "spread_gross_return_pct": -0.01501137660797953,
+          "frictions_pct": 0.0025,
+          "spread_net_return_pct": -0.01751137660797953
+        }
+      ]
+    },
+    "final_classification": "REJECTED"
+  },
+  {
+    "id": "P98-H007",
+    "created_at": "2026-09-09T00:00:00Z",
+    "status": "EVALUATED",
+    "economic_mechanism": "Conditioning ML directional probability forecasts on macro market regimes improves out-of-sample Brier score calibration without regime-picking.",
+    "instrument": "NIFTY",
+    "dataset": "TIER_A_DAILY_INDEX (495 sessions, 6 distinct regimes)",
+    "features": [
+      "market_regime_encoded",
+      "regime_stability_score",
+      "spot_momentum",
+      "volatility_regime"
+    ],
+    "target": "target_fwd_dir_1d (1D forward direction probability calibration)",
+    "prediction_time": "Day T 15:30 IST",
+    "execution_time": "Day T+1 09:15 IST",
+    "exit_time": "Day T+2 09:15 IST",
+    "holding_period": "1 session",
+    "cost_model": "Not applicable (Pure probabilistic calibration metric)",
+    "baseline": "Unconditioned Logistic Regression / Walk-Forward ML model",
+    "success_criteria": "Brier Score reduction >= 5.0% AND Log-Loss reduction >= 0.02 across all regimes unconditionally.",
+    "failure_criteria": "Brier Score reduction < 2.0% OR calibration degradation in sideways regimes.",
+    "exploratory_or_confirmatory": "CONFIRMATORY",
+    "result": {
+      "hypothesis_id": "P98-H007",
+      "total_sessions": 450,
+      "unconditioned_brier_score": 0.2550400199640705,
+      "regime_conditioned_brier_score": 0.260903899475554,
+      "brier_score_improvement_pct": -0.022991997539482525,
+      "unconditioned_log_loss": 0.7034929580308807,
+      "regime_conditioned_log_loss": 0.7158375693614214,
+      "log_loss_improvement": -0.012344611330540656,
+      "directional_accuracy_delta": -0.006666666666666654,
+      "sample_classification": "CONFIRMATORY_CALIBRATION_EVALUATION",
+      "success_criteria_met": false,
+      "evidence_notes": "Regime calibration evaluated out-of-sample over 450 sessions. Baseline Brier: 0.2550 vs Regime-Conditioned: 0.2609 (Improvement: -2.30%). Log-Loss Delta: -0.0123, Accuracy Delta: -0.67%. Regime conditioning fails to provide >= 5.0% Brier score improvement."
+    },
+    "final_classification": "REJECTED"
+  },
+  {
+    "id": "P98-H008",
+    "created_at": "2026-09-09T00:00:00Z",
+    "status": "EVALUATED",
+    "economic_mechanism": "Historical options quotes contain 102 paired Bid/Ask observations (0.68% quote coverage) but 0.0% continuous executable surface coverage, strictly enforcing execution backtesting block.",
+    "instrument": "NIFTY_OPTIONS",
+    "dataset": "TIER_E_OPTIONS (14,132 Bhavcopy records in SQLite)",
+    "features": [
+      "ltp_settlement_price",
+      "bid_price",
+      "ask_price",
+      "open_interest"
+    ],
+    "target": "options_executable_quote_availability",
+    "prediction_time": "Contemporaneous quote timestamp",
+    "execution_time": "N/A (Execution blocked)",
+    "exit_time": "N/A (Execution blocked)",
+    "holding_period": "N/A",
+    "cost_model": "Full options statutory friction (STT 10 bps on sell premium, exchange 5 bps, GST, stamp)",
+    "baseline": "Theoretical Black-Scholes valuation",
+    "success_criteria": "Legitimate paired Bid/Ask quote coverage >= 50.0% with timestamped depth.",
+    "failure_criteria": "Paired Bid/Ask quote coverage < 5.0% -> Strictly BLOCKED.",
+    "exploratory_or_confirmatory": "CONFIRMATORY",
+    "result": {
+      "hypothesis_id": "P98-H008",
+      "total_quotes_audited": 15593,
+      "quotes_with_bid": 105,
+      "quotes_with_ask": 105,
+      "paired_bid_ask_count": 105,
+      "paired_bid_ask_pct": 0.6733790803565702,
+      "continuous_executable_surface_coverage_pct": 0.0,
+      "ltp_only_records_count": 15488,
+      "ltp_only_pct": 99.32662091964343,
+      "execution_backtest_gate": "BLOCKED",
+      "paper_execution_gate": "BLOCKED",
+      "synthetic_spread_prohibition_verified": true,
+      "sample_classification": "EXECUTION_DATA_BLOCKED",
+      "success_criteria_met": false,
+      "evidence_notes": "A small number of paired Bid/Ask observations exist (105 observations, approximately 0.67% of the quote store), but there is 0.0% continuous executable surface coverage across the required strikes/maturities/timestamps. Therefore the available data is insufficient to construct a robust historical executable options backtest. OPTIONS_EXECUTION_BACKTEST = BLOCKED. OPTIONS_PAPER_EXECUTION = BLOCKED. Under strict quantitative discipline, synthetic spreads and simulated execution are prohibited."
+    },
+    "final_classification": "INSUFFICIENT_DATA"
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "platform_status": "COMPLETE",
+  "overall_platform_state": "RESEARCH_READY_WITH_DATA_LIMITATIONS",
+  "capabilities": {
+    "daily_data": "READY",
+    "cross_sectional_equities": "READY",
+    "intraday_1m": "BLOCKED",
+    "intraday_5m": "BLOCKED",
+    "options_ltp": "AVAILABLE",
+    "options_historical_bid_ask": "BLOCKED",
+    "options_execution": "BLOCKED"
+  },
+  "safety_invariants": {
+    "ALLOW_LIVE_EXECUTION": false,
+    "LIVE_EXECUTION": "DISABLED",
+    "BROKER": "NONE",
+    "AUTO_PAPER_ORDER_SUBMISSION": "DISABLED",
+    "OPTIONS_EXECUTION": "BLOCKED",
+    "NEW_ALPHA_DISCOVERY": "DISABLED",
+    "PLATFORM_ENGINEERING": "ENABLED"
+  },
+  "baseline_integrity": {
+    "all_baselines_intact": true,
+    "phase_9_7": "FROZEN",
+    "phase_9_8": "FROZEN",
+    "phase_9_9": "FROZEN_IMMUTABLE",
+    "phase_10a": "INTACT",
+    "phase_10b": "INTACT"
+  },
+  "data_governance": {
+    "fabricated_data": "NONE",
+    "data_purchase": "NONE",
+    "broker_connections": "NONE",
+    "data_provider_architecture": "READY",
+    "future_data_onboarding": "READY",
+    "readiness_gates": "ACTIVE"
+  }
+}

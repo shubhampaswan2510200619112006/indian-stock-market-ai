@@ -1,0 +1,28 @@
+{
+  "provenance_records": [
+    {
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_1M_SAMPLE",
+      "version": "v1",
+      "vendor": "Yahoo Finance",
+      "source_checksum": "sha256_public_sample_1m",
+      "license_status": "LICENSE_RESTRICTED",
+      "acquisition_timestamp": "2026-09-09T10:46:47.229723+00:00"
+    },
+    {
+      "dataset_id": "YAHOO_PUBLIC_NIFTY_5M_SAMPLE",
+      "version": "v1",
+      "vendor": "Yahoo Finance",
+      "source_checksum": "sha256_public_sample_5m",
+      "license_status": "LICENSE_RESTRICTED",
+      "acquisition_timestamp": "2026-09-09T10:46:47.385715+00:00"
+    },
+    {
+      "dataset_id": "NSE_BHAVCOPY_OPTIONS_LTP_SAMPLE",
+      "version": "v1",
+      "vendor": "NSE Public Web",
+      "source_checksum": "sha256_bhavcopy_db",
+      "license_status": "LICENSE_VERIFIED",
+      "acquisition_timestamp": "2026-09-09T10:46:47.575141+00:00"
+    }
+  ]
+}

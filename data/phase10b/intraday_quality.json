@@ -1,0 +1,195 @@
+{
+  "audit_timestamp_utc": "2026-09-23T18:15:56.744575+00:00",
+  "phase": "PHASE_10B_DATA_ACQUISITION",
+  "sources_investigated": [
+    {
+      "source_name": "Yahoo Finance Public Endpoint (yfinance)",
+      "access_type": "PUBLIC_UNAUTHENTICATED",
+      "cost": "FREE",
+      "intervals_tested": [
+        "1m",
+        "5m",
+        "1h"
+      ],
+      "status": "ACCESSIBLE_WITH_PROVIDER_SPECIFIC_RETENTION_LIMITS",
+      "credentials_required": false
+    },
+    {
+      "source_name": "NSE India Official Historical Archives (nseindia.com)",
+      "access_type": "PUBLIC_REGULATORY",
+      "cost": "FREE",
+      "intervals_tested": [
+        "EOD_BHAVCOPY",
+        "1m_HISTORICAL",
+        "5m_HISTORICAL"
+      ],
+      "status": "EOD_ONLY (Exchange provides daily Bhavcopy; multi-year 1m/5m historical bars not provided free)",
+      "credentials_required": false
+    },
+    {
+      "source_name": "NSE Data & Analytics Ltd (Official Market Data Feed)",
+      "access_type": "COMMERCIAL_EXCHANGE_FEED",
+      "cost": "PAID_COMMERCIAL_LICENSE",
+      "intervals_tested": [
+        "1m_TICK_ARCHIVE"
+      ],
+      "status": "STOPPED_UNDER_RULE_2 (Requires paid enterprise contract / subscription)",
+      "credentials_required": true
+    },
+    {
+      "source_name": "Broker APIs (Zerodha Kite Connect, Angel One SmartAPI, Upstox)",
+      "access_type": "BROKER_AUTHENTICATED_API",
+      "cost": "REQUIRES_BROKER_ACCOUNT_AND_API_SUBSCRIPTION",
+      "intervals_tested": [
+        "1m",
+        "5m"
+      ],
+      "status": "STOPPED_UNDER_RULE_2 (Requires broker credentials and live account authorization)",
+      "credentials_required": true
+    }
+  ],
+  "auxiliary_1h_policy_statement": "1-hour data may be retained as an auxiliary research dataset but cannot satisfy the 1m/5m confirmatory intraday readiness criterion unless that criterion is formally changed in a future preregistered phase.",
+  "instruments": {
+    "NIFTY_50": {
+      "instrument": "NIFTY 50",
+      "symbol": "^NSEI",
+      "retrieval_timestamp_utc": "2026-09-23T18:15:56.310036+00:00",
+      "auxiliary_1h_policy_statement": "1-hour data may be retained as an auxiliary research dataset but cannot satisfy the 1m/5m confirmatory intraday readiness criterion unless that criterion is formally changed in a future preregistered phase.",
+      "intervals": {
+        "1m": {
+          "role": "PRIMARY_HIGH_RESOLUTION",
+          "status": "OBSERVED_PROVIDER_RETENTION_LIMITED",
+          "session_count": 7,
+          "row_count": 2471,
+          "unique_timestamp_count": 2471,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "missing_bar_rate": 0.058666666666666666,
+          "date_range": {
+            "start": "2026-09-01 09:15:00",
+            "end": "2026-09-09 12:55:00"
+          },
+          "median_gap_minutes": 1.0,
+          "max_intrasession_gap_minutes": 1.0,
+          "target_sessions_required": 250,
+          "confirmatory_ready": false,
+          "provider_limitation_note": "Observed provider retention ceiling: 7 sessions returned. Classified strictly as a PROVIDER_SPECIFIC_LIMITATION for this endpoint."
+        },
+        "5m": {
+          "role": "PRIMARY_HIGH_RESOLUTION",
+          "status": "OBSERVED_PROVIDER_RETENTION_LIMITED",
+          "session_count": 59,
+          "row_count": 4395,
+          "unique_timestamp_count": 4395,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "missing_bar_rate": 0.006779661016949152,
+          "date_range": {
+            "start": "2026-06-18 09:15:00",
+            "end": "2026-09-09 12:55:00"
+          },
+          "median_gap_minutes": 5.0,
+          "max_intrasession_gap_minutes": 5.0,
+          "target_sessions_required": 250,
+          "confirmatory_ready": false,
+          "provider_limitation_note": "Observed provider retention ceiling: 59 sessions returned. Classified strictly as a PROVIDER_SPECIFIC_LIMITATION for this endpoint."
+        },
+        "1h": {
+          "role": "AUXILIARY_RESEARCH_ONLY",
+          "status": "OBSERVED_PROVIDER_RETENTION_LIMITED",
+          "session_count": 724,
+          "row_count": 5055,
+          "unique_timestamp_count": 5055,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "missing_bar_rate": 0.002565114443567482,
+          "date_range": {
+            "start": "2023-09-29 09:15:00",
+            "end": "2026-09-09 13:15:00"
+          },
+          "median_gap_minutes": 60.0,
+          "max_intrasession_gap_minutes": 120.0,
+          "target_sessions_required": 250,
+          "confirmatory_ready": false,
+          "provider_limitation_note": "Observed provider retention ceiling: 724 sessions returned. Classified strictly as a PROVIDER_SPECIFIC_LIMITATION for this endpoint."
+        }
+      }
+    },
+    "BANK_NIFTY": {
+      "instrument": "BANK NIFTY",
+      "symbol": "^NSEBANK",
+      "retrieval_timestamp_utc": "2026-09-23T18:15:56.518517+00:00",
+      "auxiliary_1h_policy_statement": "1-hour data may be retained as an auxiliary research dataset but cannot satisfy the 1m/5m confirmatory intraday readiness criterion unless that criterion is formally changed in a future preregistered phase.",
+      "intervals": {
+        "1m": {
+          "role": "PRIMARY_HIGH_RESOLUTION",
+          "status": "OBSERVED_PROVIDER_RETENTION_LIMITED",
+          "session_count": 7,
+          "row_count": 2471,
+          "unique_timestamp_count": 2471,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "missing_bar_rate": 0.058666666666666666,
+          "date_range": {
+            "start": "2026-09-01 09:15:00",
+            "end": "2026-09-09 12:55:00"
+          },
+          "median_gap_minutes": 1.0,
+          "max_intrasession_gap_minutes": 1.0,
+          "target_sessions_required": 250,
+          "confirmatory_ready": false,
+          "provider_limitation_note": "Observed provider retention ceiling: 7 sessions returned. Classified strictly as a PROVIDER_SPECIFIC_LIMITATION for this endpoint."
+        },
+        "5m": {
+          "role": "PRIMARY_HIGH_RESOLUTION",
+          "status": "OBSERVED_PROVIDER_RETENTION_LIMITED",
+          "session_count": 59,
+          "row_count": 4395,
+          "unique_timestamp_count": 4395,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "missing_bar_rate": 0.006779661016949152,
+          "date_range": {
+            "start": "2026-06-18 09:15:00",
+            "end": "2026-09-09 12:55:00"
+          },
+          "median_gap_minutes": 5.0,
+          "max_intrasession_gap_minutes": 5.0,
+          "target_sessions_required": 250,
+          "confirmatory_ready": false,
+          "provider_limitation_note": "Observed provider retention ceiling: 59 sessions returned. Classified strictly as a PROVIDER_SPECIFIC_LIMITATION for this endpoint."
+        },
+        "1h": {
+          "role": "AUXILIARY_RESEARCH_ONLY",
+          "status": "OBSERVED_PROVIDER_RETENTION_LIMITED",
+          "session_count": 724,
+          "row_count": 5055,
+          "unique_timestamp_count": 5055,
+          "duplicate_count": 0,
+          "duplicate_rate": 0.0,
+          "missing_bar_rate": 0.002565114443567482,
+          "date_range": {
+            "start": "2023-09-29 09:15:00",
+            "end": "2026-09-09 13:15:00"
+          },
+          "median_gap_minutes": 60.0,
+          "max_intrasession_gap_minutes": 120.0,
+          "target_sessions_required": 250,
+          "confirmatory_ready": false,
+          "provider_limitation_note": "Observed provider retention ceiling: 724 sessions returned. Classified strictly as a PROVIDER_SPECIFIC_LIMITATION for this endpoint."
+        }
+      }
+    }
+  },
+  "confirmatory_criteria_evaluation": {
+    "preregistered_requirement": ">= 250 trading sessions of 1m or 5m bars for both NIFTY and BANKNIFTY",
+    "nifty_1m_sessions_observed": 7,
+    "nifty_5m_sessions_observed": 59,
+    "banknifty_1m_sessions_observed": 7,
+    "banknifty_5m_sessions_observed": 59,
+    "auxiliary_1h_sessions_observed": 724,
+    "criteria_met": false
+  },
+  "INTRADAY_RESEARCH_READY": "BLOCKED",
+  "verdict_rationale": "Empirical evaluation of authorized public sources reveals that 1m data yields 7 sessions and 5m data yields 59 sessions, both below the preregistered confirmatory criterion (>= 250 sessions). While 1-hour data yields 724 sessions, Governance Correction 3 strictly prohibits 1-hour data from substituting for the 1m/5m confirmatory requirement. Commercial multi-year 1m/5m data sources require paid credentials/subscriptions and are stopped under Rule 2. Therefore, INTRADAY_RESEARCH_READY = BLOCKED is derived strictly from observed evidence."
+}

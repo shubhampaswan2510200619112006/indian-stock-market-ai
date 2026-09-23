@@ -1,0 +1,46 @@
+# =============================================================================
+# Indian Options AI — Phase 1 Dependencies
+# =============================================================================
+
+# --- Backend Framework ---
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# --- Frontend / Dashboard ---
+streamlit>=1.28.0
+plotly>=5.18.0
+
+# --- Data Processing ---
+pandas>=2.1.0
+numpy>=1.26.0
+
+# --- Database ---
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+
+# PostgreSQL driver (install when using PostgreSQL)
+psycopg2-binary>=2.9.0
+
+# --- Configuration ---
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+pyyaml>=6.0.0
+
+# --- HTTP / Networking ---
+requests>=2.31.0
+aiohttp>=3.9.0
+
+# --- Market Data (experimental/free providers) ---
+yfinance>=0.2.30
+
+# --- Scheduling ---
+apscheduler>=3.10.0
+
+# --- Testing ---
+pytest>=7.4.0
+pytest-asyncio>=0.23.0
+httpx>=0.25.0
+
+# --- Utilities ---
+pytz>=2023.3

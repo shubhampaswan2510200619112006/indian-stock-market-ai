@@ -1,0 +1,43 @@
+{
+  "current_state": "HUMAN_AUTHORIZATION_PENDING",
+  "purchase_authorized": false,
+  "human_decision_required": true,
+  "authorized_by": null,
+  "authorization_date": null,
+  "authorization_notes": null,
+  "history": [],
+  "safety_invariants": {
+    "broker": "NONE",
+    "live_execution": "DISABLED",
+    "auto_paper_order_submission": "DISABLED",
+    "options_execution": "BLOCKED",
+    "new_alpha_research": "DISABLED",
+    "unlimited_parameter_search": "DISABLED",
+    "strategy_optimization": "DISABLED"
+  },
+  "provisional_candidate_ranking": {
+    "ranking_label": "PROVISIONAL_CANDIDATE_RANKING",
+    "mandatory_conditions": [
+      "SUBJECT_TO_VENDOR_CONFIRMATION",
+      "SUBJECT_TO_FORMAL_QUOTATION",
+      "SUBJECT_TO_LICENSE_REVIEW",
+      "SUBJECT_TO_SAMPLE_VALIDATION"
+    ],
+    "primary_candidate": {
+      "name": "NSE Data & Analytics / DotEx",
+      "tier": "OFFICIAL_EXCHANGE",
+      "suitability": "Preferred candidate subject to vendor confirmation, formal quotation, licensing review, and successful sample validation."
+    },
+    "secondary_candidate": {
+      "name": "TrueData (TrueData India)",
+      "tier": "AUTHORIZED_VENDOR",
+      "suitability": "Secondary candidate subject to vendor confirmation of historical options Bid/Ask depth, formal quotation, and sample validation."
+    },
+    "backup_candidate": {
+      "name": "Global DataFeeds (GDFL)",
+      "tier": "AUTHORIZED_VENDOR",
+      "suitability": "Backup candidate subject to vendor confirmation of historical options archives, formal quotation, and sample validation."
+    },
+    "disclaimer": "This provisional ranking is NOT a purchasing recommendation. No data purchase or commercial commitment is authorized."
+  }
+}
