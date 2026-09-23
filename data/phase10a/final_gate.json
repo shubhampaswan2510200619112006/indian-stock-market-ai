@@ -1,6 +1,6 @@
 {
   "decision_version": "1.0",
-  "evaluation_timestamp_utc": "2026-09-23T18:15:51.787899+00:00",
+  "evaluation_timestamp_utc": "2026-09-23T18:21:49.690396+00:00",
   "phase": "PHASE_10A_DATA_FOUNDATION",
   "OVERALL_PHASE_10A_STATUS": "PHASE_10A_DATA_PARTIALLY_READY",
   "track_readiness": {
@@ -92,7 +92,7 @@
       "gate_name": "Options Executability & Bid/Ask Coverage",
       "track": "OPTIONS",
       "requirement": "Continuous executable Bid/Ask quotes. Zero price synthesis.",
-      "observed_result": "Paired quotes = 168 (0.65%). Continuous executable surface = 0.0%.",
+      "observed_result": "Paired quotes = 171 (0.65%). Continuous executable surface = 0.0%.",
       "status": "BLOCKED",
       "evidence_notes": "Options execution remains blocked until genuine timestamped executable Bid/Ask data satisfies the Phase 10A execution-data readiness requirements. OPTIONS_EXECUTION_BACKTEST = BLOCKED; OPTIONS_PAPER_EXECUTION = BLOCKED."
     },

@@ -3,8 +3,9 @@
   "version": "17.0.0-INVESTOR-FROZEN",
   "created_at_utc": "2026-09-23T18:17:00Z",
   "git_repository_state": {
-    "git_status": "UNVERSIONED_LOCAL_WORKSPACE",
-    "git_commit": "NOT_A_GIT_REPOSITORY",
+    "git_status": "COMMITTED_AND_TAGGED",
+    "git_commit": "c6ce0cf7f91c2e574d3ae28ffe1939307070e601",
+    "git_tag": "v17.0.0-investor-frozen",
     "workspace_path": "c:/Users/91859/OneDrive/Desktop/indian stock market ai"
   },
   "test_suite_verification": {

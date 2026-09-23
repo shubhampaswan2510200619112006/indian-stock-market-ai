@@ -1,19 +1,19 @@
 {
   "engine": "OptionsExecutabilityAuditEngine",
-  "audit_timestamp_utc": "2026-09-23T18:15:53.715723+00:00",
+  "audit_timestamp_utc": "2026-09-23T18:21:51.309912+00:00",
   "database_path": "data\\indian_options.db",
   "options_conditionality_statement": "Options execution remains blocked until genuine timestamped executable Bid/Ask data satisfies the Phase 10A execution-data readiness requirements.",
   "synthesis_prohibition": "ACTIVE (Strictly prohibiting synthetic Bid, Ask, spreads, or fills)",
-  "total_options_records": 25864,
-  "paired_bid_ask_count": 168,
+  "total_options_records": 26285,
+  "paired_bid_ask_count": 171,
   "paired_bid_ask_percentage": 0.65,
-  "zero_or_null_bid_ask_count": 25696,
+  "zero_or_null_bid_ask_count": 26114,
   "continuous_executable_surface_coverage": "0.0%",
   "bhavcopy_settlement_only_percentage": "99.35%",
   "OPTIONS_EXECUTION_BACKTEST": "BLOCKED",
   "OPTIONS_PAPER_EXECUTION": "BLOCKED",
   "OPTIONS_EXECUTION_RESEARCH_READY": "BLOCKED",
   "findings": [
-    "Observed 168 paired quotes out of 25864 total records (0.65%). Continuous executable surface coverage is 0.0%. Options execution remains blocked until genuine timestamped executable Bid/Ask data satisfies the Phase 10A execution-data readiness requirements."
+    "Observed 171 paired quotes out of 26285 total records (0.65%). Continuous executable surface coverage is 0.0%. Options execution remains blocked until genuine timestamped executable Bid/Ask data satisfies the Phase 10A execution-data readiness requirements."
   ]
 }

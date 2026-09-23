@@ -1,6 +1,6 @@
 {
   "provenance_version": "1.0",
-  "generated_at_utc": "2026-09-23T18:15:53.724727+00:00",
+  "generated_at_utc": "2026-09-23T18:21:51.318942+00:00",
   "phase": "PHASE_10A_DATA_FOUNDATION",
   "governance_invariants": {
     "ALLOW_LIVE_EXECUTION": false,
@@ -14,7 +14,7 @@
     {
       "stage": "INGESTION_AND_AUDIT",
       "actor": "Phase 10A Data Foundation Engine",
-      "execution_timestamp": "2026-09-23T18:15:53.724727+00:00",
+      "execution_timestamp": "2026-09-23T18:21:51.318942+00:00",
       "datasets_produced": [
         "NSE_MARKET_CALENDAR_2024_2026",
         "NIFTY_50_PIT_CONSTITUENT_REGISTRY",

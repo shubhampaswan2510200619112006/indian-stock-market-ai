@@ -58,6 +58,13 @@ def _register_defaults() -> None:
     except Exception as exc:
         logger.warning(f"UpstoxProvider registration failed (optional): {exc}")
 
+    # Phase 17A: Angel One SmartAPI — MARKET DATA ONLY
+    try:
+        from src.ingestion.angelone_provider import AngelOneProvider
+        MARKET_PROVIDER_REGISTRY["angelone"] = AngelOneProvider
+    except Exception as exc:
+        logger.warning(f"AngelOneProvider registration failed (optional): {exc}")
+
 
 def register_market_provider(name: str, cls: Type[MarketDataProvider]) -> None:
     """Register a custom market data provider."""
