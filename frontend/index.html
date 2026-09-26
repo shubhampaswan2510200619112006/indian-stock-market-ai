@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Indian Market Intelligence — 3D Derivatives & Research Terminal</title>
+    <meta name="description" content="Award-winning institutional-grade quantitative research, options intelligence, 3D volatility surface, and statistical calibration terminal for NSE India." />
+    <meta name="theme-color" content="#05070a" />
+
+    <!-- Preconnect for font performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..800;1,14..32,300..800&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+    <!-- Critical inline styles — prevent flash -->
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #02040a;
+        color: #f1f5f9;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      /* Initial loading screen */
+      #app-loading {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #02040a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        transition: opacity 0.4s ease;
+      }
+      #app-loading.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Gold shimmer logo */
+      .load-logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, #111829 100%);
+        border: 1px solid rgba(212,175,55,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: -1px;
+        position: relative;
+        overflow: hidden;
+      }
+      .load-logo::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+        animation: shimmer-sweep 1.6s ease-in-out infinite;
+      }
+      @keyframes shimmer-sweep {
+        from { left: -60%; }
+        to { left: 130%; }
+      }
+      .load-logo span {
+        background: linear-gradient(175deg, #fef9c3 0%, #d4af37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .load-text {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        color: #64748b;
+        text-transform: uppercase;
+      }
+      .load-bar {
+        width: 120px;
+        height: 2px;
+        background: #1a2235;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .load-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #92740f, #d4af37, #fbbf24);
+        border-radius: 2px;
+        animation: load-progress 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.1s;
+      }
+      @keyframes load-progress {
+        from { width: 0%; }
+        to { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Initial loading screen (fades out after React mounts) -->
+    <div id="app-loading">
+      <div class="load-logo"><span>IM</span></div>
+      <div class="load-text">INITIALIZING TERMINAL</div>
+      <div class="load-bar"><div class="load-bar-fill"></div></div>
+    </div>
+
+    <div id="root"></div>
+
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Dismiss loading screen once React is ready -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          const el = document.getElementById('app-loading');
+          if (el) {
+            el.classList.add('fade-out');
+            setTimeout(() => el.remove(), 500);
+          }
+        }, 1100);
+      });
+    </script>
+  </body>
+</html>
