@@ -30,6 +30,17 @@ PROJECT_ROOT = _THIS_DIR.parent.parent
 # Load .env from project root
 load_dotenv(PROJECT_ROOT / ".env")
 
+# Bridge Streamlit Cloud secrets to os.environ if available
+try:
+    import streamlit as st
+    if hasattr(st, "secrets"):
+        for k, v in st.secrets.items():
+            if isinstance(v, (str, int, float, bool)):
+                os.environ.setdefault(str(k).upper(), str(v))
+                os.environ.setdefault(str(k).lower(), str(v))
+except Exception:
+    pass
+
 
 # ---------------------------------------------------------------------------
 # Pydantic Settings — populated from environment variables / .env
