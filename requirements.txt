@@ -44,3 +44,4 @@ httpx>=0.25.0
 
 # --- Utilities ---
 pytz>=2023.3
+pyotp>=2.9.0

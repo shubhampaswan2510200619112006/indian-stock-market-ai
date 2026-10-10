@@ -76,6 +76,8 @@ class AppSettings(BaseSettings):
     fyers_secret_key: str = Field(default="")
     angelone_api_key: str = Field(default="")
     angelone_client_id: str = Field(default="")
+    angelone_client_pin: str = Field(default="")
+    angelone_totp_secret: str = Field(default="")
     breeze_api_key: str = Field(default="")
     breeze_api_secret: str = Field(default="")
     news_api_key: str = Field(default="")
