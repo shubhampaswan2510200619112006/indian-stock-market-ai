@@ -1,14 +1,21 @@
 {
-  "builds": [
-    {
-      "src": "src/api/main.py",
-      "use": "@vercel/python"
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "pip install -r requirements.txt",
+  "framework": null,
+  "functions": {
+    "src/api/main.py": {
+      "runtime": "python3.12"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "src/api/main.py"
+      "source": "/api/(.*)",
+      "destination": "/src/api/main.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
