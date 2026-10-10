@@ -1,6 +1,6 @@
 {
   "provenance_version": "1.0",
-  "generated_at_utc": "2026-09-23T18:21:55.647094+00:00",
+  "generated_at_utc": "2026-09-23T19:20:36.921609+00:00",
   "phase": "PHASE_10B_DATA_ACQUISITION_AND_VALIDATION",
   "governance_invariants": {
     "ALLOW_LIVE_EXECUTION": false,
@@ -111,7 +111,7 @@
       "status": "READY_POINT_IN_TIME_VERIFIED"
     },
     "P10B_OPTIONS_REPOSITORY_v3": {
-      "hash": "d960dab1f72f4a92bab83d3a7744c9150e708a3cb3040666f2a41bebd1c26925",
+      "hash": "704d667c62ba1efd6c2709298109e5ad66a46bfbd18243eb6066c0dd09970fb0",
       "status": "EXECUTION_BLOCKED_ZERO_CONTINUOUS_SURFACE"
     }
   }

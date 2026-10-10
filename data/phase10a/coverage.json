@@ -1,12 +1,12 @@
 {
-  "audit_timestamp_utc": "2026-09-23T18:21:50.171285+00:00",
+  "audit_timestamp_utc": "2026-09-23T19:20:24.192837+00:00",
   "provider": "Yahoo Finance public endpoint",
   "instruments": {
     "NIFTY_50": {
       "instrument": "NIFTY 50",
       "symbol": "^NSEI",
       "authorized_data_source": "Yahoo Finance (yfinance public endpoint)",
-      "retrieval_timestamp_utc": "2026-09-23T18:21:49.698844+00:00",
+      "retrieval_timestamp_utc": "2026-09-23T19:20:22.941149+00:00",
       "provider_constraint_notice": "Observed availability constraints are provider-specific limitations of the selected public endpoint (Yahoo Finance), NOT a universal statement that multi-year intraday bars do not exist elsewhere in commercial repositories.",
       "intervals": {
         "1m": {
@@ -69,7 +69,7 @@
       "instrument": "BANK NIFTY",
       "symbol": "^NSEBANK",
       "authorized_data_source": "Yahoo Finance (yfinance public endpoint)",
-      "retrieval_timestamp_utc": "2026-09-23T18:21:49.949735+00:00",
+      "retrieval_timestamp_utc": "2026-09-23T19:20:23.600602+00:00",
       "provider_constraint_notice": "Observed availability constraints are provider-specific limitations of the selected public endpoint (Yahoo Finance), NOT a universal statement that multi-year intraday bars do not exist elsewhere in commercial repositories.",
       "intervals": {
         "1m": {

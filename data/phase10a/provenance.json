@@ -1,6 +1,6 @@
 {
   "provenance_version": "1.0",
-  "generated_at_utc": "2026-09-23T18:21:51.318942+00:00",
+  "generated_at_utc": "2026-09-23T19:20:27.571700+00:00",
   "phase": "PHASE_10A_DATA_FOUNDATION",
   "governance_invariants": {
     "ALLOW_LIVE_EXECUTION": false,
@@ -14,7 +14,7 @@
     {
       "stage": "INGESTION_AND_AUDIT",
       "actor": "Phase 10A Data Foundation Engine",
-      "execution_timestamp": "2026-09-23T18:21:51.318942+00:00",
+      "execution_timestamp": "2026-09-23T19:20:27.571700+00:00",
       "datasets_produced": [
         "NSE_MARKET_CALENDAR_2024_2026",
         "NIFTY_50_PIT_CONSTITUENT_REGISTRY",
@@ -132,7 +132,7 @@
     },
     "OPTIONS_REPOSITORY_HISTORICAL_QUOTES": {
       "path": "data/indian_options.db",
-      "sha256": "d960dab1f72f4a92bab83d3a7744c9150e708a3cb3040666f2a41bebd1c26925",
+      "sha256": "704d667c62ba1efd6c2709298109e5ad66a46bfbd18243eb6066c0dd09970fb0",
       "tier": "TIER_3_EXPLORATORY_ONLY"
     }
   }
