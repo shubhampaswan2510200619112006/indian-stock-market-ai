@@ -67,12 +67,15 @@ def render_live_news_page():
     materiality_filter = NewsMaterialityType(selected_mat) if selected_mat != "ALL" else None
     ticker_filter = search_ticker if search_ticker else None
 
-    articles = storage.get_recent_articles(
-        ticker=ticker_filter,
-        category=category_filter,
-        materiality=materiality_filter,
-        limit=50,
-    )
+    try:
+        articles = storage.get_recent_articles(
+            ticker=ticker_filter,
+            category=category_filter,
+            materiality=materiality_filter,
+            limit=50,
+        )
+    except Exception:
+        articles = []
 
     st.subheader(f"Latest News Articles ({len(articles)} items)")
 

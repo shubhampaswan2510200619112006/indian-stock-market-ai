@@ -25,6 +25,14 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# Initialize database schema if not present
+try:
+    from src.database.connection import init_db
+    init_db()
+except Exception:
+    pass
+
+
 # Custom CSS for dark professional theme
 st.markdown("""
 <style>

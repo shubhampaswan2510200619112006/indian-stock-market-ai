@@ -52,6 +52,13 @@ def _get_engine():
             cursor.execute("PRAGMA foreign_keys=ON")
             cursor.close()
 
+    # Automatically ensure tables exist on engine initialization (safe, uses CREATE TABLE IF NOT EXISTS)
+    try:
+        from src.database.models import Base
+        Base.metadata.create_all(_engine)
+    except Exception:
+        pass
+
     return _engine
 
 

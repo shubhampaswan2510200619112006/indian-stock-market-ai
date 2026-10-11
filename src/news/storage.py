@@ -87,6 +87,13 @@ class NewsStorageManager:
                 }
                 for r in rows
             ]
+        except Exception:
+            try:
+                from src.database.connection import init_db
+                init_db()
+            except Exception:
+                pass
+            return []
         finally:
             session.close()
 
