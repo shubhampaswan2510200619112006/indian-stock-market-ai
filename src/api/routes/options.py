@@ -6,7 +6,7 @@ Endpoints for option chain, expiries, and chain analysis.
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query

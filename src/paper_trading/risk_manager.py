@@ -188,6 +188,16 @@ class PaperRiskManager:
 
         return triggered
 
+    def trip_breaker(self, reason: str = "MANUAL_EMERGENCY_HALT") -> None:
+        """Manually trip emergency circuit breakers."""
+        self._daily_loss_breaker_active = True
+        self._drawdown_breaker_active = True
+        self._risk_events.append({
+            "type": "MANUAL_CIRCUIT_BREAKER_TRIP",
+            "triggered_at": datetime.now(timezone.utc).isoformat(),
+            "reason": reason,
+        })
+
     def reset_circuit_breakers(self) -> None:
         """Manual reset of circuit breakers."""
         self._daily_loss_breaker_active = False

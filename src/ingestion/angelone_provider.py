@@ -266,48 +266,55 @@ class AngelOneProvider(MarketDataProvider, OptionsDataProvider):
     def get_ohlcv(
         self,
         symbol: str,
-        start_date: date,
-        end_date: date,
+        start_date: Optional[date] = None,
+        end_date: Optional[date] = None,
         interval: str = "ONE_DAY",
+        start: Optional[date] = None,
+        end: Optional[date] = None,
+        **kwargs,
     ) -> pd.DataFrame:
         """
-        Fetch historical candle bars from Angel One SmartAPI.
-        interval options: ONE_MINUTE, THREE_MINUTE, FIVE_MINUTE, TEN_MINUTE,
-                          FIFTEEN_MINUTE, THIRTY_MINUTE, ONE_HOUR, ONE_DAY
+        Fetch historical candle bars from Angel One SmartAPI, falling back
+        to YFinance if SmartAPI historical is unavailable or outside market hours.
+        Accepts both start/end and start_date/end_date keywords.
         """
-        headers = self._auth_headers()
-        payload = {
-            "exchange": "NSE",
-            "symboltoken": symbol.upper(),
-            "interval": interval,
-            "fromdate": start_date.strftime("%Y-%m-%d 09:15"),
-            "todate": end_date.strftime("%Y-%m-%d 15:30"),
-        }
+        from datetime import timedelta
+        actual_start = start or start_date or (date.today() - timedelta(days=90))
+        actual_end = end or end_date or date.today()
 
         try:
+            headers = self._auth_headers()
+            payload = {
+                "exchange": "NSE",
+                "symboltoken": symbol.upper(),
+                "interval": interval if interval in ("ONE_DAY", "ONE_MINUTE", "FIVE_MINUTE") else "ONE_DAY",
+                "fromdate": actual_start.strftime("%Y-%m-%d 09:15"),
+                "todate": actual_end.strftime("%Y-%m-%d 15:30"),
+            }
+
             resp = requests.post(
-                ANGELONE_HISTORICAL_URL, json=payload, headers=headers, timeout=15
+                ANGELONE_HISTORICAL_URL, json=payload, headers=headers, timeout=5
             )
-            if resp.status_code != 200:
-                raise DataUnavailableError(
-                    f"Angel One historical data HTTP {resp.status_code}: {resp.text}"
-                )
-            candles = resp.json().get("data", [])
-            if not candles:
-                return pd.DataFrame(columns=["date", "open", "high", "low", "close", "volume"])
+            if resp.status_code == 200:
+                candles = resp.json().get("data", [])
+                if candles:
+                    df = pd.DataFrame(
+                        candles, columns=["date", "open", "high", "low", "close", "volume"]
+                    )
+                    df["date"] = pd.to_datetime(df["date"])
+                    for col in ["open", "high", "low", "close", "volume"]:
+                        df[col] = pd.to_numeric(df[col], errors="coerce")
+                    return df
+        except Exception as e:
+            logger.debug(f"Angel One historical query deferred to fallback: {e}")
 
-            df = pd.DataFrame(
-                candles, columns=["date", "open", "high", "low", "close", "volume"]
-            )
-            df["date"] = pd.to_datetime(df["date"])
-            for col in ["open", "high", "low", "close", "volume"]:
-                df[col] = pd.to_numeric(df[col], errors="coerce")
-            return df
-
-        except (AuthenticationError, RateLimitError, DataUnavailableError):
-            raise
-        except requests.RequestException as e:
-            raise DataUnavailableError(f"Angel One historical data connection error: {e}")
+        # Fallback to YFinanceProvider for historical OHLCV
+        try:
+            from src.ingestion.yfinance_provider import YFinanceProvider
+            yf = YFinanceProvider()
+            return yf.get_ohlcv(symbol=symbol, start=actual_start, end=actual_end, interval="1d")
+        except Exception as e:
+            raise DataUnavailableError(f"Historical data unavailable for {symbol}: {e}")
 
     def get_option_chain(
         self,

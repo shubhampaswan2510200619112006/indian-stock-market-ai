@@ -51,7 +51,7 @@ def render_paper_positions_page():
 
     # Open positions
     st.markdown("### 🟢 Open Positions")
-    positions = service.get_positions(status="OPEN")
+    positions = service.get_positions()
     open_pos = positions.get("positions", [])
 
     if open_pos:

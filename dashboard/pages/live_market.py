@@ -191,23 +191,34 @@ def render_live_market_page():
 
             # News markers overlay
             for art in recent_articles:
-                art_time = pd.to_datetime(art.published_at)
-                if df["timestamp"].min() <= art_time <= df["timestamp"].max():
-                    closest_idx = (df["timestamp"] - art_time).abs().idxmin()
-                    closest_price = df.loc[closest_idx, "high"] * 1.002
-                    fig.add_trace(
-                        go.Scatter(
-                            x=[art_time],
-                            y=[closest_price],
-                            mode="markers+text",
-                            marker=dict(symbol="triangle-down", size=12, color="#ab47bc"),
-                            text=[f"📰 {art.title[:25]}..."],
-                            textposition="top center",
-                            name="News Event",
-                            hovertext=f"<b>{art.title}</b><br/>Authority: {art.authority.value}<br/>Materiality: {art.materiality.value}",
-                        ),
-                        row=1, col=1
-                    )
+                try:
+                    pub = art.get("published_at") if isinstance(art, dict) else getattr(art, "published_at", None)
+                    if not pub:
+                        continue
+                    art_time = pd.to_datetime(pub)
+                    if df["timestamp"].min() <= art_time <= df["timestamp"].max():
+                        closest_idx = (df["timestamp"] - art_time).abs().idxmin()
+                        closest_price = df.loc[closest_idx, "high"] * 1.002
+                        title = art.get("title", "News") if isinstance(art, dict) else getattr(art, "title", "News")
+                        auth = art.get("authority", "") if isinstance(art, dict) else getattr(art, "authority", "")
+                        auth_val = auth.value if hasattr(auth, "value") else str(auth)
+                        mat = art.get("materiality", "") if isinstance(art, dict) else getattr(art, "materiality", "")
+                        mat_val = mat.value if hasattr(mat, "value") else str(mat)
+                        fig.add_trace(
+                            go.Scatter(
+                                x=[art_time],
+                                y=[closest_price],
+                                mode="markers+text",
+                                marker=dict(symbol="triangle-down", size=12, color="#ab47bc"),
+                                text=[f"📰 {title[:25]}..."],
+                                textposition="top center",
+                                name="News Event",
+                                hovertext=f"<b>{title}</b><br/>Authority: {auth_val}<br/>Materiality: {mat_val}",
+                            ),
+                            row=1, col=1
+                        )
+                except Exception:
+                    continue
 
             fig.update_layout(
                 template="plotly_dark",

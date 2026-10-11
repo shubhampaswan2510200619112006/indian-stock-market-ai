@@ -31,14 +31,27 @@ def render_market_page():
     # --- Live Quote ---
     st.subheader(f"{symbol} — Current Quote")
 
+    quote = None
+    provider_name = "Unknown"
     try:
         from src.ingestion.provider_factory import get_market_provider
 
         provider = get_market_provider()
         quote = provider.get_quote(symbol)
+        provider_name = provider.provider_name
+    except Exception:
+        # Gracefully fall back to YFinance for latest market closing quote
+        try:
+            from src.ingestion.yfinance_provider import YFinanceProvider
+            yf = YFinanceProvider()
+            quote = yf.get_quote(symbol)
+            provider_name = "YFinance (Closing Data)"
+        except Exception as e:
+            st.info(f"ℹ Market is currently closed or provider is offline. Historical charts available below.")
 
+    if quote:
         render_freshness_badge(quote.timestamp, "Quote")
-        render_provider_info(provider.provider_name)
+        render_provider_info(provider_name)
 
         col1, col2, col3, col4 = st.columns(4)
         col1.metric("Last Price", f"₹{quote.last_price:,.2f}")
@@ -59,10 +72,6 @@ def render_market_page():
             if quote.close and quote.close > 0:
                 day_range_pct = (day_range / quote.close) * 100
                 col8.metric("Range %", f"{day_range_pct:.2f}%")
-
-    except Exception as e:
-        st.error(f"⚠ Cannot retrieve quote for {symbol}: {e}")
-        st.info("Check your network connection and data provider configuration.")
 
     st.divider()
 

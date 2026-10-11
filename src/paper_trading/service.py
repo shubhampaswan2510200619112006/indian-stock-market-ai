@@ -324,22 +324,48 @@ class PaperTradingService:
             "BROKER_CONNECTIONS": "NONE",
         }
 
-    def get_positions(self) -> Dict[str, Any]:
-        """Get open positions."""
+    def get_positions(self, status: Optional[str] = None) -> Dict[str, Any]:
+        """Get positions, optionally filtered by status ('OPEN' or 'CLOSED')."""
+        if status and status.upper() == "CLOSED":
+            closed_trades = self.portfolio.get_closed_trades()
+            return {
+                "execution_mode": "PAPER_TRADE",
+                "positions": [
+                    {
+                        "position_id": t.trade_id,
+                        "symbol": t.symbol,
+                        "side": t.direction if hasattr(t, "direction") else "LONG",
+                        "quantity": t.quantity,
+                        "avg_entry_price": t.entry_price,
+                        "realized_pnl": t.net_pnl,
+                        "asset_class": "EQUITY",
+                        "opened_at": t.entry_timestamp.isoformat() if t.entry_timestamp else None,
+                        "closed_at": t.exit_timestamp.isoformat() if t.exit_timestamp else None,
+                    }
+                    for t in closed_trades
+                ],
+            }
+
         positions = self.portfolio.get_open_positions()
         return {
             "execution_mode": "PAPER_TRADE",
             "positions": [
                 {
+                    "position_id": p.position_id,
                     "symbol": p.symbol,
+                    "side": "LONG" if p.quantity > 0 else "SHORT",
                     "quantity": p.quantity,
+                    "avg_entry_price": p.average_entry_price,
                     "average_entry_price": p.average_entry_price,
+                    "current_price": p.current_market_price,
                     "current_market_price": p.current_market_price,
                     "unrealized_pnl": p.unrealized_pnl,
                     "realized_pnl": p.realized_pnl,
                     "last_mark_status": p.last_mark_status,
                     "strategy": p.strategy,
                     "greeks_status": p.greeks_status,
+                    "asset_class": getattr(p, "instrument_type", "EQUITY"),
+                    "opened_at": p.entry_timestamp.isoformat() if p.entry_timestamp else None,
                 }
                 for p in positions
             ],
@@ -573,3 +599,73 @@ class PaperTradingService:
     ) -> List[Dict[str, Any]]:
         """Retrieve audit journal entries with optional event_type filter."""
         return self.journal.get_entries(limit=limit, entry_type=event_type)
+
+    def trip_breaker(self, reason: str = "MANUAL_EMERGENCY_HALT") -> Dict[str, Any]:
+        """Manually trip emergency circuit breaker and cancel pending orders."""
+        self.risk_manager.trip_breaker(reason=reason)
+        cancelled = self.order_manager.cancel_all_pending(reason=reason)
+        for o in cancelled:
+            self.journal.record_cancellation(o.order_id, reason)
+        self.save_state()
+        return {"status": "TRIPPED", "reason": reason, "cancelled_orders": len(cancelled)}
+
+    def reset_breakers(self) -> Dict[str, Any]:
+        """Reset circuit breakers."""
+        self.risk_manager.reset_circuit_breakers()
+        self.save_state()
+        return {"status": "RESET"}
+
+    def close_position(self, position_id: str, quantity: Optional[int] = None) -> Dict[str, Any]:
+        """
+        Close an existing open paper position by creating and executing an offsetting fill.
+        """
+        ExecutionGuard.assert_paper_mode()
+        open_pos = [
+            p for p in self.portfolio.get_open_positions()
+            if getattr(p, "position_id", None) == position_id or p.symbol == position_id
+        ]
+        if not open_pos:
+            return {"status": "REJECTED", "rejection_reason": f"Position '{position_id}' not found or already closed."}
+
+        pos = open_pos[0]
+        qty_to_close = min(quantity or abs(pos.quantity), abs(pos.quantity))
+        close_side = PaperOrderSide.SELL if pos.quantity > 0 else PaperOrderSide.BUY
+        fill_source = PaperFillSource.PROVIDER_BID if pos.quantity > 0 else PaperFillSource.PROVIDER_ASK
+
+        mark_price = pos.current_market_price or pos.average_entry_price or 100.0
+        now = datetime.now(timezone.utc)
+
+        fill = PaperFill(
+            order_id=f"CLOSE-{pos.position_id}",
+            symbol=pos.symbol,
+            fill_quantity=qty_to_close,
+            fill_price=mark_price,
+            provider_timestamp=now,
+            received_timestamp=now,
+            execution_timestamp=now,
+            price_source=fill_source,
+            price_source_description="Position closing execution mark",
+            data_status_at_fill="DELAYED",
+            slippage_applied=0.0,
+            transaction_costs=0.0,
+            quote_age_seconds=1.0,
+            source_provider="PAPER_SYSTEM",
+            provider="PAPER_SYSTEM",
+        )
+
+        trade_record = self.portfolio.apply_fill(fill, close_side)
+        self.journal.record_fill(fill)
+        self._all_fills.append(fill)
+
+        if trade_record:
+            self.journal.record_trade(trade_record)
+
+        self.save_state()
+        return {
+            "status": "CLOSED",
+            "fill_id": fill.fill_id,
+            "closed_quantity": qty_to_close,
+            "fill_price": mark_price,
+            "symbol": pos.symbol,
+        }
+

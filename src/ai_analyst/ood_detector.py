@@ -99,3 +99,34 @@ class OODDetector:
             "research_banner": "MODEL RESEARCH STATUS: LIMITED DATA / INSUFFICIENT STATISTICAL EVIDENCE",
             "evaluations": [r.__dict__ for r in records],
         }
+
+    def detect(self, live_feature_dict: Dict[str, float]) -> Dict[str, Any]:
+        """
+        Dashboard and API compatible wrapper around evaluate_live_features.
+        Returns status enum, max_z_score, flagged_features, and recommendation.
+        """
+        eval_res = self.evaluate_live_features(live_feature_dict)
+        raw_status = eval_res.get("overall_status", "NORMAL")
+        status_enum = OODStatus(raw_status) if raw_status in [s.value for s in OODStatus] else OODStatus.NORMAL
+        flagged = [
+            e["feature_name"]
+            for e in eval_res.get("evaluations", [])
+            if e.get("z_score", 0) > 2.0
+        ]
+        if status_enum == OODStatus.NORMAL:
+            rec = "Features within baseline distribution. Predictions within expected variance."
+        elif status_enum == OODStatus.DRIFT_WARNING:
+            rec = "Feature drift detected — volatility/returns moving away from baseline. Exercise caution."
+        else:
+            rec = "OUT-OF-DISTRIBUTION: Significant regime divergence. AI models should NOT be trusted blindly."
+
+        return {
+            "status": status_enum,
+            "overall_status": raw_status,
+            "max_z_score": eval_res.get("max_z_score", 0.0),
+            "recommendation": rec,
+            "flagged_features": flagged,
+            "research_banner": eval_res.get("research_banner", ""),
+            "evaluations": eval_res.get("evaluations", []),
+        }
+
