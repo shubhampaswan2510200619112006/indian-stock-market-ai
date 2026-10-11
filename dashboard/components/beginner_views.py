@@ -106,7 +106,36 @@ def render_beginner_home(service: PaperTradingService):
 
     st.divider()
 
-    # 3. Next Steps Navigation
+    # 3. Live Financial News Highlights
+    st.markdown("### 📰 Latest Market Headlines")
+    from src.news.storage import NewsStorageManager
+    news_mgr = NewsStorageManager()
+    recent_news = news_mgr.get_recent_articles(limit=3)
+    if recent_news:
+        for n in recent_news:
+            pub_ts = str(n.get("published_at", ""))[:19]
+            title = n.get("title", "")
+            src = n.get("source_name", "Financial Feed")
+            url = n.get("url", "#")
+            st.markdown(
+                f"""
+                <div class="fin-card" style="padding: 12px 16px; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <a href="{url}" target="_blank" style="font-weight: 600; color: #38bdf8; text-decoration: none; font-size: 14px;">{title}</a>
+                            <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Source: <b>{src}</b> &nbsp;•&nbsp; {pub_ts}</div>
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+    else:
+        st.caption("No headlines cached. View the Live News Terminal to auto-ingest RSS feeds.")
+
+    st.divider()
+
+    # 4. Next Steps Navigation
     st.markdown("### 🚀 What Would You Like to Do?")
     qc1, qc2, qc3 = st.columns(3)
     with qc1:
@@ -532,5 +561,29 @@ def render_beginner_market_discovery(symbol: str = "NIFTY"):
     with days_col:
         history_days = st.slider("Candlestick History (Days)", min_value=15, max_value=120, value=60, step=15)
 
-    render_candlestick_and_patterns_widget(selected_sym, history_days)
+    tab_chart, tab_news = st.tabs(["🕯️ Candlestick Chart & Patterns", "📰 Live Indian Market News"])
+    with tab_chart:
+        render_candlestick_and_patterns_widget(selected_sym, history_days)
+    with tab_news:
+        st.markdown(f"#### 📰 Real-Time Financial News ({selected_sym})")
+        from src.news.storage import NewsStorageManager
+        storage = NewsStorageManager()
+        articles = storage.get_recent_articles(limit=25)
+        if articles:
+            for a in articles:
+                title = a.get("title", "")
+                src = a.get("source_name", "RSS")
+                url = a.get("url", "#")
+                pub = str(a.get("published_at", ""))[:19]
+                st.markdown(
+                    f"""
+                    <div class="fin-card" style="padding: 12px 16px; margin-bottom: 8px;">
+                        <a href="{url}" target="_blank" style="font-weight: 600; color: #38bdf8; text-decoration: none; font-size: 15px;">{title}</a>
+                        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Source: <b>{src}</b> &nbsp;|&nbsp; Published: {pub}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+        else:
+            st.info("No news feeds cached yet. Click 'Fetch Latest Feeds' in Pro Mode to load live news.")
 

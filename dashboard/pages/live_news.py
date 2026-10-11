@@ -83,6 +83,13 @@ def render_live_news_page():
             materiality=materiality_filter,
             limit=50,
         )
+        # If DB is empty on first load, auto-ingest live RSS feeds immediately
+        if not articles and not ticker_filter and selected_cat == "ALL" and selected_mat == "ALL":
+            provider = VerifiedRSSNewsProvider()
+            fetched = provider.fetch_latest_news()
+            for a in fetched:
+                storage.save_article(a)
+            articles = storage.get_recent_articles(limit=50)
     except Exception:
         articles = []
 

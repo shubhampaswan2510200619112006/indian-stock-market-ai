@@ -4,7 +4,7 @@ Persists normalized news articles and sentiment evaluations into SQLite database
 """
 
 from datetime import datetime, timezone
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from src.database.models import NewsArticleDB
 from src.database.repository import get_session
@@ -15,35 +15,88 @@ class NewsStorageManager:
     """DB Manager for saving and querying news articles."""
 
     @staticmethod
-    def save_article(article: NewsArticle) -> None:
+    def save_article(article: Any) -> bool:
         session = get_session()
         try:
-            existing = session.query(NewsArticleDB).filter(NewsArticleDB.article_id == article.article_id).first()
+            if isinstance(article, dict):
+                art_id = article.get("article_id")
+                title = article.get("title", "")
+                url = article.get("url", "")
+                source_name = article.get("source_name", "RSS")
+                src_auth = article.get("source_authority", "PUBLIC_NEWS_FEED")
+                auth_val = src_auth.value if hasattr(src_auth, "value") else str(src_auth)
+                pub_at = article.get("published_at")
+                rec_at = article.get("received_at")
+                proc_at = article.get("processed_at")
+                ing_lat = article.get("ingestion_latency_ms", 0.0)
+                proc_lat = article.get("processing_latency_ms", 0.0)
+                tot_lat = article.get("total_latency_ms", 0.0)
+                entity = article.get("entity", "NIFTY")
+                sector = article.get("sector", "MARKET")
+                evt = article.get("event_type", "OTHER")
+                evt_val = evt.value if hasattr(evt, "value") else str(evt)
+                sent = article.get("sentiment", "NEUTRAL")
+                sent_val = sent.value if hasattr(sent, "value") else str(sent)
+                sent_score = article.get("sentiment_score", 0.0)
+                mat = article.get("materiality", "ROUTINE")
+                mat_val = mat.value if hasattr(mat, "value") else str(mat)
+                mat_reason = article.get("materiality_reason", "")
+            else:
+                art_id = getattr(article, "article_id", None)
+                title = getattr(article, "title", "")
+                url = getattr(article, "url", "")
+                source_name = getattr(article, "source_name", "RSS")
+                src_auth = getattr(article, "source_authority", "PUBLIC_NEWS_FEED")
+                auth_val = src_auth.value if hasattr(src_auth, "value") else str(src_auth)
+                pub_at = getattr(article, "published_at", None)
+                rec_at = getattr(article, "received_at", None)
+                proc_at = getattr(article, "processed_at", None)
+                ing_lat = getattr(article, "ingestion_latency_ms", 0.0)
+                proc_lat = getattr(article, "processing_latency_ms", 0.0)
+                tot_lat = getattr(article, "total_latency_ms", 0.0)
+                entity = getattr(article, "entity", "NIFTY")
+                sector = getattr(article, "sector", "MARKET")
+                evt = getattr(article, "event_type", "OTHER")
+                evt_val = evt.value if hasattr(evt, "value") else str(evt)
+                sent = getattr(article, "sentiment", "NEUTRAL")
+                sent_val = sent.value if hasattr(sent, "value") else str(sent)
+                sent_score = getattr(article, "sentiment_score", 0.0)
+                mat = getattr(article, "materiality", "ROUTINE")
+                mat_val = mat.value if hasattr(mat, "value") else str(mat)
+                mat_reason = getattr(article, "materiality_reason", "")
+
+            if not art_id:
+                return False
+
+            existing = session.query(NewsArticleDB).filter(NewsArticleDB.article_id == art_id).first()
             if not existing:
                 db_item = NewsArticleDB(
-                    article_id=article.article_id,
-                    title=article.title,
-                    url=article.url,
-                    source_name=article.source_name,
-                    source_authority=article.source_authority.value,
-                    published_at=article.published_at,
-                    received_at=article.received_at,
-                    processed_at=article.processed_at,
-                    ingestion_latency_ms=article.ingestion_latency_ms,
-                    processing_latency_ms=article.processing_latency_ms,
-                    total_latency_ms=article.total_latency_ms,
-                    entity=article.entity,
-                    sector=article.sector,
-                    event_type=article.event_type.value,
-                    sentiment=article.sentiment.value,
-                    sentiment_score=article.sentiment_score,
-                    materiality=article.materiality.value,
-                    materiality_reason=article.materiality_reason,
+                    article_id=art_id,
+                    title=title,
+                    url=url,
+                    source_name=source_name,
+                    source_authority=auth_val,
+                    published_at=pub_at,
+                    received_at=rec_at,
+                    processed_at=proc_at,
+                    ingestion_latency_ms=ing_lat,
+                    processing_latency_ms=proc_lat,
+                    total_latency_ms=tot_lat,
+                    entity=entity,
+                    sector=sector,
+                    event_type=evt_val,
+                    sentiment=sent_val,
+                    sentiment_score=sent_score,
+                    materiality=mat_val,
+                    materiality_reason=mat_reason,
                 )
                 session.add(db_item)
                 session.commit()
+                return True
+            return False
         except Exception:
             session.rollback()
+            return False
         finally:
             session.close()
 
