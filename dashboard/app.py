@@ -56,6 +56,11 @@ st.markdown("""
         border-right: 1px solid #1e2530;
     }
 
+    /* Hide redundant default Streamlit multipage navigation to eliminate duplicate sidebar */
+    [data-testid="stSidebarNav"] {
+        display: none !important;
+    }
+
     /* Table improvements */
     .stDataFrame { font-size: 0.85rem; }
 

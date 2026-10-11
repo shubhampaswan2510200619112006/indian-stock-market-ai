@@ -71,6 +71,7 @@ class SimulatedFillEngine:
         slippage_pct: float = 0.005,
         delayed_data_fill_allowed: bool = True,
         delayed_data_max_age_seconds: float = 300.0,
+        allow_off_hours_simulation: bool = False,
     ):
         self.cost_model = cost_model or ExecutionCostModel(slippage_pct=slippage_pct)
         self.max_fill_age_seconds = max_fill_age_seconds
@@ -78,6 +79,7 @@ class SimulatedFillEngine:
         self.slippage_pct = slippage_pct
         self.delayed_data_fill_allowed = delayed_data_fill_allowed
         self.delayed_data_max_age_seconds = delayed_data_max_age_seconds
+        self.allow_off_hours_simulation = allow_off_hours_simulation
 
         # Idempotency: track processed (order_id, observation_key) pairs
         self._processed_fills: Set[str] = set()
@@ -128,7 +130,7 @@ class SimulatedFillEngine:
 
         # 3. Market hours check
         is_market_eligible, market_reason = is_fill_eligible_market_state()
-        if not is_market_eligible:
+        if not is_market_eligible and not getattr(self, "allow_off_hours_simulation", False):
             return None, ExecutionRefusal(
                 order_id=order_id,
                 reason="MARKET_CLOSED",

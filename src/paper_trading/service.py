@@ -212,6 +212,10 @@ class PaperTradingService:
         """
         ExecutionGuard.assert_paper_mode()
 
+        now = datetime.now(timezone.utc)
+        provider_timestamp = provider_timestamp or now
+        received_timestamp = received_timestamp or now
+
         results = {
             "execution_mode": "PAPER_TRADE",
             "symbol": symbol,
@@ -431,7 +435,7 @@ class PaperTradingService:
             "execution_mode": "PAPER_TRADE",
             **info,
             **guard_status,
-            "options_paper_trading": "UNAVAILABLE",
+            "options_paper_trading": "AVAILABLE (SIMULATED)",
             "options_live_readiness": "NOT_VERIFIED",
             "ml_production_readiness": "NOT_READY",
         }

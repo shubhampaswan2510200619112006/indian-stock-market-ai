@@ -96,33 +96,120 @@ def render_paper_trading_page():
 
     # Order entry form
     st.markdown("### 📝 Place Paper Order")
-    st.caption("⚠️ PAPER ORDER ONLY — no real execution")
+    st.caption("⚠️ SIMULATED PAPER TRADING — Real Market Mechanics with No Real Money at Risk")
+
+    from src.options.pricing import black_scholes_price
+    from datetime import datetime, timezone
+
+    # Instrument selector outside form for reactive strike defaults
+    inst_type = st.radio(
+        "Select Instrument Type",
+        ["Options Contract (CE / PE)", "Index (Spot / Futures)"],
+        horizontal=True,
+    )
+
+    underlying = st.selectbox("Underlying Index", ["NIFTY", "BANKNIFTY", "FINNIFTY"])
+    
+    # Base spot references
+    spot_map = {"NIFTY": 24200.0, "BANKNIFTY": 51500.0, "FINNIFTY": 23800.0}
+    default_step = {"NIFTY": 50, "BANKNIFTY": 100, "FINNIFTY": 50}[underlying]
+    default_lot = {"NIFTY": 25, "BANKNIFTY": 15, "FINNIFTY": 25}[underlying]
+    base_spot = spot_map[underlying]
 
     with st.form("paper_order_form"):
-        oc1, oc2 = st.columns(2)
-        with oc1:
-            symbol = st.selectbox("Symbol", ["NIFTY", "BANKNIFTY", "FINNIFTY"])
-            side = st.selectbox("Side", ["BUY", "SELL"])
-            quantity = st.number_input("Quantity", min_value=1, value=25, step=25)
-        with oc2:
-            order_type = st.selectbox("Order Type", ["MARKET", "LIMIT", "STOP", "STOP_LIMIT"])
-            limit_price = st.number_input("Limit Price", min_value=0.0, value=0.0, step=0.05)
-            strategy = st.text_input("Strategy Name", value="")
+        col_left, col_right = st.columns(2)
+        
+        if "Options" in inst_type:
+            with col_left:
+                opt_type = st.selectbox(
+                    "Option Type",
+                    ["CALL (CE) - Expect Market UP 🟢", "PUT (PE) - Expect Market DOWN 🔴"],
+                )
+                raw_opt = "CE" if "CALL" in opt_type else "PE"
+                
+                strike = st.number_input(
+                    f"Strike Price (Spot ~ ₹{base_spot:,.0f})",
+                    min_value=1000.0,
+                    max_value=100000.0,
+                    value=float(base_spot),
+                    step=float(default_step),
+                )
+                side = st.selectbox("Side", ["BUY", "SELL"])
+                quantity = st.number_input("Quantity (Shares/Units)", min_value=default_lot, value=default_lot, step=default_lot)
+            
+            with col_right:
+                dte = st.slider("Days to Expiry (DTE)", min_value=1, max_value=30, value=4)
+                order_type = st.selectbox("Order Type", ["MARKET", "LIMIT"])
+                limit_price = st.number_input("Limit Price (if LIMIT order)", min_value=0.0, value=0.0, step=0.5)
+                strategy = st.text_input("Trade Notes / Strategy Name", value="Manual Practice Trade")
 
-        submitted = st.form_submit_button("📋 Submit Paper Order")
+            # Estimated premium calculation via Black-Scholes
+            tte_years = max(0.001, dte / 365.0)
+            est_premium = black_scholes_price(
+                spot=base_spot,
+                strike=strike,
+                tte=tte_years,
+                r=0.065,
+                sigma=0.14,
+                option_type=raw_opt,
+            )
+            est_premium = max(1.0, round(est_premium, 2))
+            est_total = est_premium * quantity
+
+            st.info(f"💡 **Estimated Option Premium:** **₹{est_premium:.2f}** per unit | **Estimated Trade Value:** **₹{est_total:,.2f}**")
+            formatted_symbol = f"{underlying}-{int(strike)}-{raw_opt}"
+
+        else:
+            # Index Trading
+            formatted_symbol = underlying
+            raw_opt = None
+            strike = None
+            with col_left:
+                side = st.selectbox("Side", ["BUY", "SELL"])
+                quantity = st.number_input("Quantity", min_value=default_lot, value=default_lot, step=default_lot)
+            with col_right:
+                order_type = st.selectbox("Order Type", ["MARKET", "LIMIT"])
+                limit_price = st.number_input("Limit Price (if LIMIT order)", min_value=0.0, value=0.0, step=0.5)
+                strategy = st.text_input("Trade Notes / Strategy Name", value="Index Trade")
+            est_premium = base_spot
+
+        submitted = st.form_submit_button("📋 Submit Paper Order", use_container_width=True)
         if submitted:
             result = service.place_order(
-                symbol=symbol,
+                symbol=formatted_symbol,
                 side=side,
-                quantity=quantity,
+                quantity=int(quantity),
                 order_type=order_type,
                 limit_price=limit_price if limit_price > 0 else None,
+                instrument_type="OPTION" if "Options" in inst_type else "INDEX",
+                strike=strike,
+                option_type=raw_opt,
                 strategy_name=strategy if strategy else None,
             )
             if result.get("status") == "REJECTED":
                 st.error(f"❌ Order REJECTED: {result.get('rejection_reason')}")
             else:
-                st.success(f"✅ Paper order submitted: {result.get('order_id')} — Status: {result.get('status')}")
+                order_id = result.get("order_id")
+                # For Market orders, simulate instant fill using theoretical market quote
+                if order_type == "MARKET":
+                    fill_p = est_premium
+                    service.fill_engine.allow_off_hours_simulation = True
+                    sim_res = service.process_market_update(
+                        symbol=formatted_symbol,
+                        bid=round(fill_p * 0.995, 2),
+                        ask=round(fill_p * 1.005, 2),
+                        ltp=fill_p,
+                        data_status="DELAYED",
+                        source_provider="THEORETICAL_BS" if "Options" in inst_type else "SIMULATED_SPOT",
+                    )
+                    st.success(
+                        f"✅ **Paper Order FILLED!**  \n"
+                        f"**Contract:** `{formatted_symbol}` &nbsp;|&nbsp; **Side:** `{side}` &nbsp;|&nbsp; **Qty:** `{quantity}`  \n"
+                        f"**Fill Price:** `₹{fill_p:,.2f}` &nbsp;|&nbsp; **Order ID:** `{order_id}`  \n"
+                        f"👉 Head over to **'Paper Positions'** to monitor your live P&L and close the trade!"
+                    )
+                else:
+                    st.success(f"✅ Paper order placed: {order_id} (Status: PENDING LIMIT ORDER at ₹{limit_price})")
 
     st.divider()
 
