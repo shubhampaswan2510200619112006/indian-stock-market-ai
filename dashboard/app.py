@@ -1,7 +1,8 @@
 """
-Indian Options AI — Streamlit Dashboard
-
-Main entry point for the multi-page Streamlit application.
+Indian Stock Market AI — Master Unified Trading Platform.
+Supports seamless toggle between Beginner Mode (Guided, Educational, Essential)
+and Pro Mode (Dense, Institutional, Quant Desks).
+Shares identical backend, market data, portfolio, and safety invariants.
 """
 
 import sys
@@ -16,11 +17,14 @@ import streamlit as st
 
 from src.utils.config import get_config
 from src.utils.time_utils import is_market_open, now_ist
+from dashboard.components.theme import inject_custom_theme
+from dashboard.components.ui_mode import get_current_ui_mode, render_mode_switcher_sidebar
+from src.paper_trading.service import PaperTradingService
 
 # Page configuration — must be first Streamlit command
 st.set_page_config(
-    page_title="Indian Options AI",
-    page_icon="📊",
+    page_title="Indian Stock Market AI — Trading Platform",
+    page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -32,173 +36,200 @@ try:
 except Exception:
     pass
 
+# Inject modern institutional financial styling
+inject_custom_theme()
 
-# Custom CSS for dark professional theme
-st.markdown("""
-<style>
-    /* Dark theme refinements */
-    .stApp { background-color: #0e1117; }
 
-    /* Metric styling */
-    [data-testid="stMetricValue"] {
-        font-size: 1.4rem;
-        font-weight: 600;
-    }
-
-    /* Header styling */
-    h1 { color: #42a5f5 !important; }
-    h2 { color: #90caf9 !important; }
-    h3 { color: #e0e0e0 !important; }
-
-    /* Sidebar */
-    [data-testid="stSidebar"] {
-        background-color: #0a0f18;
-        border-right: 1px solid #1e2530;
-    }
-
-    /* Hide redundant default Streamlit multipage navigation to eliminate duplicate sidebar */
-    [data-testid="stSidebarNav"] {
-        display: none !important;
-    }
-
-    /* Table improvements */
-    .stDataFrame { font-size: 0.85rem; }
-
-    /* Badge styles */
-    .freshness-badge {
-        display: inline-block;
-        padding: 2px 10px;
-        border-radius: 4px;
-        font-size: 0.85em;
-        font-weight: 600;
-    }
-
-    /* Remove Streamlit branding */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-</style>
-""", unsafe_allow_html=True)
+def _get_shared_service() -> PaperTradingService:
+    """Ensure shared single instance of PaperTradingService across all pages & modes."""
+    if "paper_service" not in st.session_state:
+        st.session_state["paper_service"] = PaperTradingService()
+    return st.session_state["paper_service"]
 
 
 def main():
-    """Main Streamlit application."""
+    """Main application orchestrator."""
+    service = _get_shared_service()
+    ui_mode = get_current_ui_mode()
 
     # ----- Sidebar -----
     with st.sidebar:
-        st.image("https://img.icons8.com/color/48/analytics.png", width=40)
-        st.title("Indian Options AI")
-        st.caption("Phase 1 — Options Research")
-
-        st.divider()
-
-        # Market status
-        now = now_ist()
-        market_status = "🟢 OPEN" if is_market_open() else "🔴 CLOSED"
-        st.markdown(f"**Market:** {market_status}")
-        st.markdown(f"**Time (IST):** {now.strftime('%H:%M:%S')}")
-
-        st.divider()
-
-        # Navigation
-        page = st.radio(
-            "Navigate",
-            [
-                "🏛️ Investor Executive Overview",
-                "⚡ AI Live Market Terminal",
-                "📰 Live News Intelligence",
-                "🏥 Provider Data Health",
-                "🔬 Multi-Session Validation",
-                "📋 Paper Trading Terminal",
-                "📊 Paper Positions & Portfolio",
-                "📜 Paper Trade Journal & Audit",
-                "🛡️ Paper Risk & Limits",
-                "🏠 Market Overview",
-                "📋 Option Chain",
-                "⚡ Options Volatility & Greeks",
-                "🎯 Options Strategy Research",
-                "⏳ Backtesting & Validation",
-                "🤖 ML Research Framework",
-                "📈 Technical Analysis",
-                "🌡 Market Regime",
-            ],
-            label_visibility="collapsed",
+        st.markdown(
+            """
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <img src="https://img.icons8.com/color/48/analytics.png" width="36" />
+                <div>
+                    <div style="font-weight: 700; font-size: 17px; color: #f8fafc; line-height: 1.1;">INDIAN MARKET AI</div>
+                    <div style="font-size: 11px; color: #94a3b8;">Quantitative Intelligence Terminal</div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
         st.divider()
 
-        # Underlying selector (global)
+        # Mode Switcher (Beginner vs Pro)
+        render_mode_switcher_sidebar()
+
+        st.divider()
+
+        # Market status indicator
+        now = now_ist()
+        market_open = is_market_open()
+        market_badge = "🟢 OPEN" if market_open else "🔴 CLOSED"
+        st.markdown(f"**NSE Status:** {market_badge} &nbsp;|&nbsp; `{now.strftime('%H:%M:%S IST')}`")
+
+        st.divider()
+
+        # Categorized Navigation based on selected UI Mode
+        if ui_mode == "BEGINNER":
+            beginner_options = [
+                "🏠 Home & Balance",
+                "🎯 Guided Paper Trade",
+                "💼 My Holdings & Positions",
+                "📈 Market Discovery",
+                "🛡️ Safety & Risk Guard",
+                "🎓 Trader Academy & Guide",
+            ]
+            # Handle deep-link transitions from buttons
+            default_idx = 0
+            if "beginner_nav" in st.session_state and st.session_state["beginner_nav"] in beginner_options:
+                default_idx = beginner_options.index(st.session_state["beginner_nav"])
+
+            page = st.radio(
+                "Beginner Navigation",
+                beginner_options,
+                index=default_idx,
+                label_visibility="collapsed",
+                key="radio_beginner_nav",
+            )
+            # Sync back state
+            st.session_state["beginner_nav"] = page
+
+        else:
+            # PRO MODE: Dense, Institutional Terminal Desks
+            pro_options = [
+                "🏛️ Executive Terminal",
+                "⚡ AI Live Market Terminal",
+                "📰 Live News Intelligence",
+                "📋 Option Chain Matrix",
+                "⚡ Volatility & Greeks Surface",
+                "📈 Technical Analysis Desk",
+                "🌡 Market Regime Classifier",
+                "📋 Pro Paper Execution Desk",
+                "📊 Portfolio & Mark-to-Market",
+                "📜 Execution Journal & Audit",
+                "🛡️ Circuit Breakers & Risk Limits",
+                "🎯 Strategy Research Lab",
+                "⏳ Backtesting & Validation Gate",
+                "🤖 ML Predictive Alphas",
+                "🔬 Multi-Session Validation",
+                "🏥 Provider Data Health",
+                "🏠 Market Overview",
+            ]
+            page = st.radio(
+                "Pro Terminal Desks",
+                pro_options,
+                index=0,
+                label_visibility="collapsed",
+                key="radio_pro_nav",
+            )
+
+        st.divider()
+
+        # Global Underlying selector
         config = get_config()
         symbols = [u["symbol"] for u in config.enabled_underlyings]
         selected_symbol = st.selectbox(
-            "Underlying",
+            "Default Underlying",
             symbols,
             index=0 if symbols else None,
             key="global_symbol",
         )
+        st.session_state["selected_symbol"] = selected_symbol
 
         st.divider()
-        st.caption("⚠ Research & Paper-Trading Preparation Only.")
-        st.caption(f"v{config.yaml.get('app', {}).get('version', '0.8.5')}")
+        st.caption("🛡️ **PAPER TRADING SIMULATION ONLY** • No real money used.")
+        st.caption(f"Engine v{config.yaml.get('app', {}).get('version', '0.8.5')} • Invariants Verified")
 
-    # Store in session state for pages
-    st.session_state["selected_symbol"] = selected_symbol
+    # ----- Content Routing -----
+    if ui_mode == "BEGINNER":
+        from dashboard.components.beginner_views import (
+            render_beginner_home,
+            render_beginner_trade,
+            render_beginner_portfolio,
+            render_beginner_risk,
+            render_beginner_academy,
+        )
+        if page == "🏠 Home & Balance":
+            render_beginner_home(service)
+        elif page == "🎯 Guided Paper Trade":
+            render_beginner_trade(service)
+        elif page == "💼 My Holdings & Positions":
+            render_beginner_portfolio(service)
+        elif page == "📈 Market Discovery":
+            from dashboard.pages.live_market import render_live_market_page
+            render_live_market_page()
+        elif page == "🛡️ Safety & Risk Guard":
+            render_beginner_risk(service)
+        elif page == "🎓 Trader Academy & Guide":
+            render_beginner_academy()
 
-    # ----- Page routing -----
-    if page == "🏛️ Investor Executive Overview":
-        from dashboard.pages.investor_overview import render_investor_overview_page
-        render_investor_overview_page()
-    elif page == "⚡ AI Live Market Terminal":
-        from dashboard.pages.live_market import render_live_market_page
-        render_live_market_page()
-    elif page == "📰 Live News Intelligence":
-        from dashboard.pages.live_news import render_live_news_page
-        render_live_news_page()
-    elif page == "🏥 Provider Data Health":
-        from dashboard.pages.data_health import render_data_health_page
-        render_data_health_page()
-    elif page == "🔬 Multi-Session Validation":
-        from dashboard.pages.paper_validation import render_paper_validation_page
-        render_paper_validation_page()
-    elif page == "📋 Paper Trading Terminal":
-        from dashboard.pages.paper_trading import render_paper_trading_page
-        render_paper_trading_page()
-    elif page == "📊 Paper Positions & Portfolio":
-        from dashboard.pages.paper_positions import render_paper_positions_page
-        render_paper_positions_page()
-    elif page == "📜 Paper Trade Journal & Audit":
-        from dashboard.pages.paper_journal import render_paper_journal_page
-        render_paper_journal_page()
-    elif page == "🛡️ Paper Risk & Limits":
-        from dashboard.pages.paper_risk import render_paper_risk_page
-        render_paper_risk_page()
-    elif page == "🏠 Market Overview":
-        from dashboard.pages.market import render_market_page
-        render_market_page()
-    elif page == "📋 Option Chain":
-        from dashboard.pages.options_chain import render_options_chain_page
-        render_options_chain_page()
-    elif page == "⚡ Options Volatility & Greeks":
-        from dashboard.pages.volatility_greeks import render_volatility_greeks_page
-        render_volatility_greeks_page()
-    elif page == "🎯 Options Strategy Research":
-        from dashboard.pages.strategy_research import render_strategy_research_page
-        render_strategy_research_page()
-    elif page == "⏳ Backtesting & Validation":
-        from dashboard.pages.backtest_validation import render_backtest_validation_page
-        render_backtest_validation_page()
-    elif page == "🤖 ML Research Framework":
-        from dashboard.pages.ml_research import render as render_ml_page
-        render_ml_page()
-    elif page == "📈 Technical Analysis":
-        from dashboard.pages.technical_analysis import render_technical_analysis_page
-        render_technical_analysis_page()
-    elif page == "🌡 Market Regime":
-        from dashboard.pages.market_regime import render_market_regime_page
-        render_market_regime_page()
+    else:
+        # Pro Mode Routing
+        if page == "🏛️ Executive Terminal":
+            from dashboard.pages.investor_overview import render_investor_overview_page
+            render_investor_overview_page()
+        elif page == "⚡ AI Live Market Terminal":
+            from dashboard.pages.live_market import render_live_market_page
+            render_live_market_page()
+        elif page == "📰 Live News Intelligence":
+            from dashboard.pages.live_news import render_live_news_page
+            render_live_news_page()
+        elif page == "📋 Option Chain Matrix":
+            from dashboard.pages.options_chain import render_options_chain_page
+            render_options_chain_page()
+        elif page == "⚡ Volatility & Greeks Surface":
+            from dashboard.pages.volatility_greeks import render_volatility_greeks_page
+            render_volatility_greeks_page()
+        elif page == "📈 Technical Analysis Desk":
+            from dashboard.pages.technical_analysis import render_technical_analysis_page
+            render_technical_analysis_page()
+        elif page == "🌡 Market Regime Classifier":
+            from dashboard.pages.market_regime import render_market_regime_page
+            render_market_regime_page()
+        elif page == "📋 Pro Paper Execution Desk":
+            from dashboard.pages.paper_trading import render_paper_trading_page
+            render_paper_trading_page()
+        elif page == "📊 Portfolio & Mark-to-Market":
+            from dashboard.pages.paper_positions import render_paper_positions_page
+            render_paper_positions_page()
+        elif page == "📜 Execution Journal & Audit":
+            from dashboard.pages.paper_journal import render_paper_journal_page
+            render_paper_journal_page()
+        elif page == "🛡️ Circuit Breakers & Risk Limits":
+            from dashboard.pages.paper_risk import render_paper_risk_page
+            render_paper_risk_page()
+        elif page == "🎯 Strategy Research Lab":
+            from dashboard.pages.strategy_research import render_strategy_research_page
+            render_strategy_research_page()
+        elif page == "⏳ Backtesting & Validation Gate":
+            from dashboard.pages.backtest_validation import render_backtest_validation_page
+            render_backtest_validation_page()
+        elif page == "🤖 ML Predictive Alphas":
+            from dashboard.pages.ml_research import render as render_ml_page
+            render_ml_page()
+        elif page == "🔬 Multi-Session Validation":
+            from dashboard.pages.paper_validation import render_paper_validation_page
+            render_paper_validation_page()
+        elif page == "🏥 Provider Data Health":
+            from dashboard.pages.data_health import render_data_health_page
+            render_data_health_page()
+        elif page == "🏠 Market Overview":
+            from dashboard.pages.market import render_market_page
+            render_market_page()
 
 
 if __name__ == "__main__":
     main()
-
-
-
