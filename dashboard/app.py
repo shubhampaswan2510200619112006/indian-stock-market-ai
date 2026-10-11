@@ -85,6 +85,7 @@ def main():
         # Categorized Navigation based on selected UI Mode
         if ui_mode == "BEGINNER":
             beginner_options = [
+                "⚡ 60s Option Decision Terminal",
                 "🏠 Home & Balance",
                 "🎯 Guided Paper Trade",
                 "💼 My Holdings & Positions",
@@ -110,6 +111,7 @@ def main():
         else:
             # PRO MODE: Dense, Institutional Terminal Desks
             pro_options = [
+                "⚡ 60s Option Decision Terminal",
                 "🏛️ Executive Terminal",
                 "⚡ AI Live Market Terminal",
                 "📰 Live News Intelligence",
@@ -153,8 +155,15 @@ def main():
         st.caption("🛡️ **PAPER TRADING SIMULATION ONLY** • No real money used.")
         st.caption(f"Engine v{config.yaml.get('app', {}).get('version', '0.8.5')} • Invariants Verified")
 
+    # ----- Always-Visible Top Decision Bar & Verdict Banner -----
+    from dashboard.components.decision_top_bar import render_decision_top_bar
+    verdict_res = render_decision_top_bar(service)
+
     # ----- Content Routing -----
-    if ui_mode == "BEGINNER":
+    if page == "⚡ 60s Option Decision Terminal":
+        from dashboard.pages.option_decision_terminal import render_decision_terminal_page
+        render_decision_terminal_page(service)
+    elif ui_mode == "BEGINNER":
         from dashboard.components.beginner_views import (
             render_beginner_home,
             render_beginner_trade,
