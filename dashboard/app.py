@@ -169,8 +169,8 @@ def main():
         elif page == "💼 My Holdings & Positions":
             render_beginner_portfolio(service)
         elif page == "📈 Market Discovery":
-            from dashboard.pages.live_market import render_live_market_page
-            render_live_market_page()
+            from dashboard.components.beginner_views import render_beginner_market_discovery
+            render_beginner_market_discovery(selected_symbol or "NIFTY")
         elif page == "🛡️ Safety & Risk Guard":
             render_beginner_risk(service)
         elif page == "🎓 Trader Academy & Guide":

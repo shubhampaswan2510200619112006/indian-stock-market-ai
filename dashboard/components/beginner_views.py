@@ -9,10 +9,13 @@ from __future__ import annotations
 
 import streamlit as st
 import pandas as pd
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
+import plotly.graph_objects as go
 from src.paper_trading.service import PaperTradingService
 from src.options.pricing import black_scholes_price
 from src.utils.time_utils import is_market_open, now_ist
+from src.features.price_action import PriceActionEngine
+from src.ingestion.yfinance_provider import YFinanceProvider
 
 
 def render_beginner_home(service: PaperTradingService):
@@ -177,6 +180,10 @@ def render_beginner_trade(service: PaperTradingService):
 
     is_options = "I expect" in direction
     raw_opt_type = "CE" if "GO UP" in direction else ("PE" if "GO DOWN" in direction else None)
+
+    # Optional Candlestick Chart & Pattern Inspection
+    with st.expander(f"📊 View {underlying_code} Candlestick Chart & Detected Patterns", expanded=False):
+        render_candlestick_and_patterns_widget(underlying_code, days=45)
 
     st.markdown("#### Step 2: Review Strike & Estimated Investment")
     if is_options:
@@ -409,3 +416,121 @@ def render_beginner_academy():
             - This ensures that even if you face 5 losing trades in a row, you still keep 90%+ of your capital safe.
             """
         )
+
+
+def render_candlestick_and_patterns_widget(symbol: str = "NIFTY", days: int = 60):
+    """Render an interactive candlestick chart and detected chart patterns."""
+    st.markdown(f"#### 🕯️ {symbol} Candlestick Chart ({days} Days)")
+
+    try:
+        yf = YFinanceProvider()
+        end = date.today()
+        start = end - timedelta(days=days * 2)
+        df = yf.get_ohlcv(symbol, start, end)
+
+        if df.empty or len(df) < 5:
+            st.info(f"No recent candlestick data returned for {symbol}. Check market hours or provider connection.")
+            return
+
+        df = df.tail(days).reset_index(drop=True)
+
+        # 1. Interactive Candlestick Chart
+        fig = go.Figure()
+        fig.add_trace(
+            go.Candlestick(
+                x=df["date"],
+                open=df["open"],
+                high=df["high"],
+                low=df["low"],
+                close=df["close"],
+                name=f"{symbol} Price",
+                increasing_line_color="#10b981",  # Crisp green
+                decreasing_line_color="#ef4444",  # Crisp red
+            )
+        )
+
+        # Add 20 SMA line
+        if len(df) >= 20:
+            df["sma20"] = df["close"].rolling(window=20).mean()
+            fig.add_trace(
+                go.Scatter(
+                    x=df["date"],
+                    y=df["sma20"],
+                    name="20-Day SMA",
+                    line=dict(color="#38bdf8", width=1.5),
+                )
+            )
+
+        fig.update_layout(
+            template="plotly_dark",
+            height=420,
+            margin=dict(l=10, r=10, t=30, b=10),
+            xaxis_rangeslider_visible=False,
+            paper_bgcolor="#0d121f",
+            plot_bgcolor="#090d16",
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        # 2. Detect & Display Candlestick Patterns
+        st.markdown(f"#### 🔍 Detected Candlestick Patterns ({symbol})")
+        pa_engine = PriceActionEngine()
+        patterns = pa_engine.detect_patterns(df)
+
+        if patterns:
+            for p in patterns:
+                pat_name = p.pattern
+                conf = int(p.confidence * 100)
+                ctx = p.context
+                invalidation = p.invalidation_conditions
+
+                # Color badge based on bullish / bearish / indecision
+                is_bullish = any(b in pat_name.lower() for b in ["hammer", "bullish", "morning"])
+                is_bearish = any(b in pat_name.lower() for b in ["shooting", "bearish", "evening"])
+                color_class = "text-profit" if is_bullish else ("text-loss" if is_bearish else "text-muted")
+                bias_tag = "🟢 BULLISH SIGNAL" if is_bullish else ("🔴 BEARISH SIGNAL" if is_bearish else "🟡 CONSOLIDATION / NEUTRAL")
+
+                st.markdown(
+                    f"""
+                    <div class="fin-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <span style="font-size: 16px; font-weight: 700; color: #f8fafc;">{pat_name} Pattern</span>
+                                <span style="font-size: 11px; margin-left: 8px;" class="{color_class}"><b>{bias_tag}</b></span>
+                            </div>
+                            <div style="font-size: 13px; color: #38bdf8; font-weight: 600;">Match: {conf}%</div>
+                        </div>
+                        <div style="font-size: 13px; color: #cbd5e1; margin-top: 6px;"><b>Meaning:</b> {ctx}</div>
+                        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;"><b>Invalidation Rule:</b> {invalidation}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+        else:
+            st.info("ℹ️ No classic reversal patterns on the latest candle. Market is consolidating within normal ranges.")
+
+    except Exception as e:
+        st.warning(f"Unable to load candlestick chart right now: {e}")
+
+
+def render_beginner_market_discovery(symbol: str = "NIFTY"):
+    """Render the simplified Market Discovery page with Candlestick Chart & Patterns."""
+    st.markdown(
+        """
+        <div style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); padding: 16px 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h2 style="color: white; margin: 0; font-size: 20px;">📈 Market Discovery & Price Charts</h2>
+            <p style="color: #cbd5e1; margin: 4px 0 0 0; font-size: 13px;">
+                Inspect interactive candlestick charts, moving averages, and automated pattern detection.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    sym_col, days_col = st.columns([2, 2])
+    with sym_col:
+        selected_sym = st.selectbox("Select Asset", ["NIFTY", "BANKNIFTY", "FINNIFTY"], index=0)
+    with days_col:
+        history_days = st.slider("Candlestick History (Days)", min_value=15, max_value=120, value=60, step=15)
+
+    render_candlestick_and_patterns_widget(selected_sym, history_days)
+
