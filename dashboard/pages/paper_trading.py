@@ -6,6 +6,15 @@ PAPER TRADING MODE — NO LIVE ORDERS — SIMULATED EXECUTION
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 import streamlit as st
 
 from src.paper_trading.execution_guard import ExecutionGuard
@@ -136,3 +145,8 @@ def render_paper_trading_page():
         st.success("✅ Risk controls normal")
 
     st.caption(f"Limits label: {risk.get('configured_limits', {}).get('label', 'CONFIGURED PAPER RISK LIMITS')}")
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Paper Trading", layout="wide")
+    render_paper_trading_page()
+

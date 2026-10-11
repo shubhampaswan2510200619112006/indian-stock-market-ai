@@ -30,12 +30,12 @@ def _get_service() -> PaperTradingService:
 
 
 class PaperOrderRequest(BaseModel):
-    symbol: str
-    side: str  # BUY, SELL
-    quantity: int
-    order_type: str = "MARKET"
-    limit_price: Optional[float] = None
-    stop_price: Optional[float] = None
+    symbol: str = Field(..., min_length=1, max_length=25)
+    side: str = Field(..., pattern="^(?i)(BUY|SELL)$")
+    quantity: int = Field(..., gt=0, le=100000)
+    order_type: str = Field("MARKET", pattern="^(?i)(MARKET|LIMIT|STOP|STOP_LIMIT)$")
+    limit_price: Optional[float] = Field(None, gt=0)
+    stop_price: Optional[float] = Field(None, gt=0)
     instrument_type: str = "INDEX"
     strategy_name: Optional[str] = None
     strike: Optional[float] = None
@@ -45,16 +45,24 @@ class PaperOrderRequest(BaseModel):
 
 
 class MarketUpdateRequest(BaseModel):
-    symbol: str
-    bid: Optional[float] = None
-    ask: Optional[float] = None
-    ltp: Optional[float] = None
+    symbol: str = Field(..., min_length=1, max_length=25)
+    bid: Optional[float] = Field(None, ge=0)
+    ask: Optional[float] = Field(None, ge=0)
+    ltp: Optional[float] = Field(None, ge=0)
     data_status: str = "DELAYED"
     source_provider: str = "YFINANCE"
 
 
 class ResetRequest(BaseModel):
     confirm: bool = False
+
+
+class TripBreakerRequest(BaseModel):
+    reason: str = Field("MANUAL_EMERGENCY_HALT", max_length=100)
+
+
+class ClosePositionRequest(BaseModel):
+    quantity: Optional[int] = Field(None, gt=0)
 
 
 @router.post("/orders")
@@ -171,3 +179,29 @@ async def reset_paper_account(request: ResetRequest):
     """Reset paper trading account. Requires confirmation."""
     service = _get_service()
     return service.reset_paper_account(confirm=request.confirm)
+
+
+@router.post("/risk/trip")
+async def trip_emergency_breaker(request: TripBreakerRequest):
+    """Manually trip emergency circuit breakers and cancel pending orders."""
+    service = _get_service()
+    return service.trip_breaker(reason=request.reason)
+
+
+@router.post("/risk/reset")
+async def reset_circuit_breakers():
+    """Reset paper trading circuit breakers."""
+    service = _get_service()
+    return service.reset_breakers()
+
+
+@router.post("/positions/{position_id}/close")
+async def close_paper_position(position_id: str, request: Optional[ClosePositionRequest] = None):
+    """Close an open paper position with offsetting execution."""
+    service = _get_service()
+    qty = request.quantity if request else None
+    result = service.close_position(position_id, quantity=qty)
+    if result.get("status") == "REJECTED":
+        raise HTTPException(status_code=400, detail=result.get("rejection_reason"))
+    return result
+

@@ -4,6 +4,15 @@ Options Volatility & Greeks Page for Streamlit Dashboard.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 from datetime import date, datetime, timedelta
 
 import numpy as np
@@ -172,3 +181,8 @@ def render_volatility_greeks_page():
         st.dataframe(pd.DataFrame(chain_rows), use_container_width=True)
 
     st.caption("ℹ Greeks & IV observations are mathematically computed at timestamp T. Values are unavailable (N/A) when market prices violate intrinsic bounds.")
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Volatility Greeks", layout="wide")
+    render_volatility_greeks_page()
+

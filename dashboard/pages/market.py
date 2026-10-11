@@ -7,6 +7,15 @@ All data comes from real providers — no fake data.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 from datetime import date, timedelta
 
 import streamlit as st
@@ -146,3 +155,8 @@ def render_market_page():
 
     if underlying_data:
         st.dataframe(underlying_data, use_container_width=True, hide_index=True)
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Market", layout="wide")
+    render_market_page()
+

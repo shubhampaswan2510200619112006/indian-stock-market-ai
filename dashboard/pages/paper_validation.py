@@ -12,6 +12,15 @@ Displays real-time validation telemetry across 6 dimensions:
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timezone
@@ -173,3 +182,8 @@ def render_paper_validation_page():
             else:
                 st.success(f"✅ {res.get('message')} (New Session: {res.get('new_session_id')})")
                 st.rerun()
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Paper Validation", layout="wide")
+    render_paper_validation_page()
+

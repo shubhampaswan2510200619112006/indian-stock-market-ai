@@ -7,6 +7,15 @@ risk check events, cancellations, and session snapshots.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 import streamlit as st
 import pandas as pd
 
@@ -67,3 +76,8 @@ def render_paper_journal_page():
             st.success(f"✅ Portfolio Reconciled: Cash ₹{rec_res.get('cash', 0):,.2f}, Positions {rec_res.get('positions_count', 0)}")
         else:
             st.error(f"❌ RECONCILIATION FAILURE: {rec_res.get('discrepancies')}")
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Paper Journal", layout="wide")
+    render_paper_journal_page()
+

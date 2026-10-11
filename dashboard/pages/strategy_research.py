@@ -4,6 +4,15 @@ Options Strategy Research Page for Streamlit Dashboard.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 from datetime import date, timedelta
 
 import plotly.graph_objects as go
@@ -250,3 +259,8 @@ def render_strategy_research_page():
         st.markdown(f"- **Max Defined Risk:** ₹{size_res.max_loss_amount:,.2f} ({size_res.actual_risk_pct_of_account:.2f}% of Account)")
 
         st.warning(f"⚠️ **Disclaimer:** {cand.disclaimer}")
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Strategy Research", layout="wide")
+    render_strategy_research_page()
+

@@ -4,6 +4,15 @@ Streamlit Dashboard Page — Phase 7 Live News Intelligence Terminal.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 import pandas as pd
 import streamlit as st
 

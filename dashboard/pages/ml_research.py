@@ -12,6 +12,16 @@ Presents rigorous quantitative research results:
 - Final Primary Research Classification & Readiness Matrix
 """
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
+
 from datetime import date
 import json
 from pathlib import Path
@@ -347,4 +357,8 @@ def render():
                 st.success(f"Shortlisted Hypotheses: {shortlist}")
     else:
         st.info("Phase 9.6 results file `data/phase9_6_research_validation.json` not found.")
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Ml Research", layout="wide")
+    render()
 

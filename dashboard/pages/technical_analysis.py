@@ -4,6 +4,15 @@ Technical Analysis Page for Streamlit Dashboard.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 from datetime import date, timedelta
 
 import plotly.graph_objects as go
@@ -202,3 +211,8 @@ def render_technical_analysis_page():
         st.info("No notable candlestick patterns detected on recent price bars.")
 
     st.caption("ℹ Technical indicators & price patterns are quantitative features with probabilistic interpretations — NEVER deterministic buy/sell signals.")
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Technical Analysis", layout="wide")
+    render_technical_analysis_page()
+

@@ -11,6 +11,15 @@ FEATURES & SCIENTIFIC AUDIT:
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 from datetime import date, timedelta
 import pandas as pd
 import plotly.express as px
@@ -251,3 +260,8 @@ def render_backtest_validation_page():
         for item in gate_status.checklist:
             icon = "✅" if item.is_satisfied else "❌"
             st.write(f"{icon} **{item.criterion}**: {item.details}")
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Backtest Validation", layout="wide")
+    render_backtest_validation_page()
+

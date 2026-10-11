@@ -18,6 +18,15 @@ Missing data shows UNAVAILABLE — never fake values.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 from datetime import date, datetime
 
 import pandas as pd
@@ -369,3 +378,8 @@ def _render_chain_table(strikes, spot: float, atm_strike: float | None):
         )
     else:
         st.warning("No strike data to display.")
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Options Chain", layout="wide")
+    render_options_chain_page()
+

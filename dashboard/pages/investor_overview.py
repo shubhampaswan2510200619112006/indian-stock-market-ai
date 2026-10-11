@@ -5,6 +5,15 @@ Phase 17A Final Investor-Readiness Hardened Interface.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Ensure project root is on Python path
+_project_root = Path(__file__).resolve().parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+
 from datetime import datetime
 import pandas as pd
 import streamlit as st
@@ -250,3 +259,8 @@ def render_investor_overview_page():
         "✅ **INVESTOR READINESS CONCLUSION**: The platform demonstrates mature software engineering, rigorous derivatives mathematics, "
         "transparent statistical accounting, and ironclad capital protection. It is ready for institutional due diligence demonstration."
     )
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="Investor Overview", layout="wide")
+    render_investor_overview_page()
+

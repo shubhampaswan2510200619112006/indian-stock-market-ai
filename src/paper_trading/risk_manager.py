@@ -15,6 +15,7 @@ from src.paper_trading.models import (
     PaperOrder,
     PaperOrderSide,
     PaperOrderStatus,
+    PaperOrderType,
     PaperPosition,
     RiskCheckResult,
 )
@@ -88,6 +89,16 @@ class PaperRiskManager:
             rejection_reasons.append(
                 f"OPEN_POSITIONS: {open_count} open positions reaches CONFIGURED PAPER RISK LIMIT of {self.max_open_positions}."
             )
+
+        # 0. Basic viability checks
+        if current_equity <= 0:
+            rejection_reasons.append("ZERO_EQUITY: Account equity is zero or negative. New orders rejected.")
+
+        if order.quantity <= 0:
+            rejection_reasons.append("INVALID_QUANTITY: Order quantity must be greater than zero.")
+
+        if order.order_type == PaperOrderType.LIMIT and (order.limit_price is None or order.limit_price <= 0):
+            rejection_reasons.append("INVALID_LIMIT_PRICE: Limit price must be greater than zero for LIMIT orders.")
 
         # 4. Per-trade risk limit
         if current_equity > 0:
