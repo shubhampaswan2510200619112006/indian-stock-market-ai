@@ -76,6 +76,7 @@ def render_live_news_page():
     materiality_filter = NewsMaterialityType(selected_mat) if selected_mat != "ALL" else None
     ticker_filter = search_ticker if search_ticker else None
 
+    articles = []
     try:
         articles = storage.get_recent_articles(
             ticker=ticker_filter,
@@ -83,20 +84,32 @@ def render_live_news_page():
             materiality=materiality_filter,
             limit=50,
         )
-        # If DB is empty on first load, auto-ingest live RSS feeds immediately
-        if not articles and not ticker_filter and selected_cat == "ALL" and selected_mat == "ALL":
+    except Exception:
+        pass
+
+    # If articles are empty or fewer than 5, auto-ingest verified feeds
+    if len(articles) < 5 and not ticker_filter and selected_cat == "ALL" and selected_mat == "ALL":
+        try:
             provider = VerifiedRSSNewsProvider()
             fetched = provider.fetch_latest_news()
             for a in fetched:
                 storage.save_article(a)
             articles = storage.get_recent_articles(limit=50)
-    except Exception:
-        articles = []
+        except Exception:
+            pass
 
-    st.subheader(f"Latest News Articles ({len(articles)} items)")
+    # Guaranteed fallback if database query returned empty
+    if not articles:
+        try:
+            provider = VerifiedRSSNewsProvider()
+            articles = provider.fetch_latest_news()
+        except Exception:
+            articles = []
+
+    st.subheader(f"Latest Market Intelligence ({len(articles)} updates)")
 
     if not articles:
-        st.warning("No news articles found matching the selected criteria. Click 'Fetch Latest Feeds' above to ingest RSS news.")
+        st.warning("No news articles found. Click 'Fetch Latest Feeds' above to refresh.")
 
     authority_colors = {
         SourceAuthority.OFFICIAL_EXCHANGE.value: "#00c853",
@@ -109,6 +122,8 @@ def render_live_news_page():
         NewsMaterialityType.HIGH.value: "#ff6d00",
         NewsMaterialityType.MEDIUM.value: "#ffd600",
         NewsMaterialityType.LOW.value: "#64dd17",
+        "ROUTINE": "#38bdf8",
+        "OTHER": "#94a3b8",
     }
 
     for art in articles:

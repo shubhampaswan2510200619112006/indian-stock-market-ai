@@ -20,6 +20,7 @@ import streamlit as st
 import pandas as pd
 
 from src.paper_trading.service import PaperTradingService
+from dashboard.components.portfolio_pnl_card import render_groww_pnl_header
 
 
 def _get_service() -> PaperTradingService:
@@ -30,31 +31,16 @@ def _get_service() -> PaperTradingService:
 
 def render_paper_positions_page():
     """Render the paper positions and portfolio tracker page."""
-    st.markdown(
-        """
-        <div style="background: linear-gradient(135deg, #1e3c72, #2a5298); padding: 12px 20px; border-radius: 10px; margin-bottom: 20px;">
-            <h2 style="color: white; margin: 0;">📊 PAPER POSITIONS & PORTFOLIO</h2>
-            <p style="color: white; margin: 4px 0 0 0; font-size: 14px;">
-                SIMULATED POSITIONS &nbsp;•&nbsp; GENUINE MARKS ONLY &nbsp;•&nbsp; NO FABRICATED VALUES
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
     service = _get_service()
 
-    # Portfolio overview
-    summary = service.get_portfolio_summary()
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        st.metric("Total Equity", f"₹{summary['equity']:,.2f}")
-    with c2:
-        st.metric("Cash Balance", f"₹{summary['cash']:,.2f}")
-    with c3:
-        st.metric("Total Realized P&L", f"₹{summary['realized_pnl']:,.2f}")
-    with c4:
-        st.metric("Total Unrealized P&L", f"₹{summary['unrealized_pnl']:,.2f}")
+    # Prominent Groww & Zerodha Style Real-Time P&L Header
+    render_groww_pnl_header(
+        service,
+        title="💼 PORTFOLIO & LIVE P&L",
+        subtitle="Institutional Mark-to-Market P&L Tracking • Simulated Execution • Verified Marks",
+        show_positions_table=False,
+        key_prefix="pro_paper_pnl",
+    )
 
     st.divider()
 

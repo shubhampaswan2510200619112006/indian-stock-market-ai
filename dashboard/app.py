@@ -124,8 +124,10 @@ def main():
             beginner_options = [
                 "⚡ 60s Option Decision Terminal",
                 "🏠 Home & Balance",
+                "📋 Option Chain & Buy Strikes",
+                "💼 My Portfolio & Live P&L",
+                "📰 Live Market News",
                 "🎯 Guided Paper Trade",
-                "💼 My Holdings & Positions",
                 "📈 Market Discovery",
                 "🛡️ Safety & Risk Guard",
                 "🎓 Trader Academy & Guide",
@@ -210,6 +212,14 @@ def main():
         )
         if page == "🏠 Home & Balance":
             render_beginner_home(service)
+        elif page == "📋 Option Chain & Buy Strikes":
+            from dashboard.pages.options_chain import render_options_chain_page
+            render_options_chain_page()
+        elif page == "💼 My Portfolio & Live P&L":
+            render_beginner_portfolio(service)
+        elif page == "📰 Live Market News":
+            from dashboard.pages.live_news import render_live_news_page
+            render_live_news_page()
         elif page == "🎯 Guided Paper Trade":
             render_beginner_trade(service)
         elif page == "💼 My Holdings & Positions":

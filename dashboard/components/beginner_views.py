@@ -149,7 +149,7 @@ def render_beginner_home(service: PaperTradingService):
         st.markdown("#### 💼 View My Open Trades")
         st.write("Track your active holdings, monitor live profit/loss, and exit trades.")
         if st.button("Check My Trades ➔", use_container_width=True, key="btn_home_to_pos"):
-            st.session_state["beginner_nav"] = "💼 My Holdings & Positions"
+            st.session_state["beginner_nav"] = "💼 My Portfolio & Live P&L"
             st.rerun()
 
     with qc3:
@@ -288,68 +288,22 @@ def render_beginner_trade(service: PaperTradingService):
                 f"Your new position is active! Click below to check your live profit/loss."
             )
             if st.button("View My Open Positions ➔"):
-                st.session_state["beginner_nav"] = "💼 My Holdings & Positions"
+                st.session_state["beginner_nav"] = "💼 My Portfolio & Live P&L"
                 st.rerun()
+
+
+from dashboard.components.portfolio_pnl_card import render_groww_pnl_header
 
 
 def render_beginner_portfolio(service: PaperTradingService):
     """Render a clean holdings view tailored for Beginners."""
-    st.markdown("### 💼 My Active Holdings & Open Trades")
-    st.caption("Track the current value of your trades and exit when you reach your profit goal.")
-
-    positions = service.get_positions().get("positions", [])
-    if not positions:
-        st.info("ℹ️ You do not have any active trades right now. Head over to **Guided Trade** to make your first practice investment.")
-        if st.button("Place a Trade Now ➔"):
-            st.session_state["beginner_nav"] = "🎯 Guided Paper Trade"
-            st.rerun()
-        return
-
-    df_pos = pd.DataFrame(positions)
-    for idx, pos in enumerate(positions):
-        pid = pos.get("position_id")
-        sym = pos.get("symbol")
-        qty = pos.get("quantity")
-        entry = pos.get("avg_entry_price", 0)
-        curr = pos.get("current_price", entry)
-        pnl = pos.get("unrealized_pnl", 0)
-        pnl_pct = (pnl / (entry * qty)) * 100 if (entry * qty) > 0 else 0
-
-        pnl_color = "text-profit" if pnl >= 0 else "text-loss"
-        pnl_prefix = "+" if pnl >= 0 else ""
-
-        with st.container():
-            st.markdown(
-                f"""
-                <div class="fin-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <span style="font-size: 16px; font-weight: 700; color: #38bdf8;">{sym}</span>
-                            <span style="font-size: 12px; color: #94a3b8; margin-left: 10px;">ID: {pid}</span>
-                        </div>
-                        <div class="{pnl_color}" style="font-size: 18px;" class="metric-mono">
-                            {pnl_prefix}₹{pnl:,.2f} ({pnl_prefix}{pnl_pct:.2f}%)
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 24px; margin-top: 10px; font-size: 13px; color: #cbd5e1;">
-                        <div><b>Quantity:</b> {qty} units</div>
-                        <div><b>Bought At:</b> ₹{entry:,.2f}</div>
-                        <div><b>Current Price:</b> ₹{curr:,.2f}</div>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-            col_exit, col_spacer = st.columns([1, 3])
-            with col_exit:
-                if st.button(f"🚪 Exit Trade ({sym})", key=f"btn_close_{pid}_{idx}", type="secondary"):
-                    res = service.close_position(pid)
-                    if res.get("status") == "REJECTED":
-                        st.error(f"Could not exit: {res.get('rejection_reason')}")
-                    else:
-                        st.success(f"Trade closed successfully! Profit/Loss locked into your cash balance.")
-                        st.rerun()
+    render_groww_pnl_header(
+        service,
+        title="💼 My Portfolio & Live P&L",
+        subtitle="Track your active holdings, monitor live profit/loss, and square off trades with 1-click",
+        show_positions_table=True,
+        key_prefix="beg_portfolio_pnl",
+    )
 
 
 def render_beginner_risk(service: PaperTradingService):
