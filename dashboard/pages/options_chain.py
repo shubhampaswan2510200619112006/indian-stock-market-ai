@@ -73,12 +73,15 @@ def render_options_chain_page():
     """Render the Option Chain analysis and Groww-style strike picker page."""
     st.markdown(
         """
-        <div style="background: linear-gradient(135deg, #091e3a 0%, #173860 100%); padding: 18px 22px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #1e4b85;">
+        <div style="background: linear-gradient(135deg, #0c1322, #101a2e); padding: 18px 22px; border-radius: 14px; margin-bottom: 20px; border: 1px solid rgba(212,175,55,0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                 <div>
-                    <h2 style="color: white; margin: 0; font-size: 24px; font-weight: 800;">📋 OPTION CHAIN & STRIKE PICKER</h2>
+                    <div style="font-size: 11px; font-family: monospace; font-weight: 700; color: #d4af37; text-transform: uppercase; letter-spacing: 1px;">
+                        INSTITUTIONAL DERIVATIVES INTELLIGENCE
+                    </div>
+                    <h2 style="color: white; margin: 2px 0 0 0; font-size: 22px; font-weight: 800;">📋 Option Chain & Live Strike Matrix</h2>
                     <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 13px;">
-                        Interactive Groww-Style Strike Selector • Live Black-Scholes Greeks • 1-Click Paper Execution
+                        Real-Time Strike Matrix • Black-Scholes Greeks • Integrated Open Interest Concentrations & Paper Execution
                     </p>
                 </div>
             </div>
@@ -286,13 +289,18 @@ def render_options_chain_page():
     trd_dte = trading_days_to_expiry(expiry_date)
     m5.metric("DTE", f"{cal_dte}d ({trd_dte} trd)")
 
+    # =========================================================================
+    # DUAL WORKSPACE: REAL-TIME TECHNICAL CANDLESTICK CHART & AI PATTERNS
+    # =========================================================================
+    _render_integrated_technical_chart(symbol)
+
     st.divider()
 
     # =========================================================================
-    # GROWW-STYLE OPTION ORDER PLACEMENT DESK & STRIKE PICKER
+    # UNIFIED OPTION STRIKE EXECUTION DESK & MATRIX
     # =========================================================================
-    st.markdown("### 🛒 Groww-Style Option Picker & 1-Click Buy")
-    st.caption("Pick any strike (ATM, ITM, OTM) with transparent NSE statutory charges and instant execution.")
+    st.markdown("### ⚡ Integrated Option Strike Matrix & 1-Click Execution")
+    st.caption("Pick any strike (ATM, ITM, OTM) with real-time NSE Greeks, algorithmic statutory charges, and live paper execution.")
 
     spec = INDEX_SPECS.get(symbol.upper(), INDEX_SPECS["NIFTY"])
     lot_size = spec["lot_size"]
@@ -326,9 +334,14 @@ def render_options_chain_page():
     with st.container():
         st.markdown(
             f"""
-            <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid #334155; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px;">
-                <div style="font-size: 13px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">
-                    ⚡ RAPID ORDER TICKET — {symbol} ({expiry_date.strftime('%d-%b-%Y')})
+            <div style="background: rgba(13, 20, 36, 0.95); border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 13px; color: #d4af37; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+                        ⚡ RAPID EXECUTION TICKET — {symbol} ({expiry_date.strftime('%d-%b-%Y')})
+                    </div>
+                    <div style="font-size: 11px; color: #10b981; font-weight: 600; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                        LOT SIZE: {lot_size} UNITS
+                    </div>
                 </div>
             </div>
             """,
@@ -382,15 +395,22 @@ def render_options_chain_page():
         notional_premium = exec_price * tot_qty
 
         # Statutory NSE Charges
-        charges = calculate_nse_charges(premium=exec_price, lots=num_lots, lot_size=lot_size)
-        total_order_cost = notional_premium + charges["total_charges"]
+        charges = calculate_nse_charges(
+            entry_price=exec_price,
+            target_1=exec_price * 1.3,
+            target_2=exec_price * 1.5,
+            quantity=tot_qty,
+            lots=num_lots,
+            is_buy_first=True,
+        )
+        total_order_cost = notional_premium + charges.total_charges
 
         # Order Summary Preview Card
         c_p1, c_p2, c_p3, c_p4 = st.columns(4)
         c_p1.metric("Contract", f"{symbol} {int(selected_strike_val)} {'CE' if is_call else 'PE'}")
         c_p2.metric("Market LTP", f"₹{exec_price:.2f}")
         c_p3.metric("Required Margin", f"₹{notional_premium:,.2f}")
-        c_p4.metric("Govt/NSE Taxes", f"₹{charges['total_charges']:.2f}")
+        c_p4.metric("Govt/NSE Taxes", f"₹{charges.total_charges:.2f}")
 
         # Execution Button
         col_btn, col_info = st.columns([2, 3])
@@ -437,17 +457,17 @@ def render_options_chain_page():
     st.divider()
 
     # =========================================================================
-    # OPTION CHAIN TABS (GROWW TABLE + CHARTS)
+    # OPTION CHAIN TABS (DERIVATIVES TABLE + ADVANCED VOLATILITY CHARTS)
     # =========================================================================
     tab_chain, tab_oi, tab_change, tab_iv = st.tabs([
-        "📋 Groww Option Chain Grid",
+        "📋 Derivatives Strike Chain Grid",
         "📊 OI Distribution",
         "📈 OI Change",
         "📉 IV Smile / Skew",
     ])
 
     with tab_chain:
-        _render_groww_interactive_grid(active_strikes, snapshot.spot_price, analysis.atm_strike, symbol, lot_size)
+        _render_derivatives_strike_grid(active_strikes, snapshot.spot_price, analysis.atm_strike, symbol, lot_size)
 
     with tab_oi:
         strikes = [r.strike_price for r in active_strikes]
@@ -489,8 +509,124 @@ def render_options_chain_page():
         render_data_quality_summary(quality_report.model_dump())
 
 
-def _render_groww_interactive_grid(strikes: List[OptionStrikeRow], spot: float, atm_strike: Optional[float], symbol: str, lot_size: int):
-    """Render the Option Chain table styled like Groww with CE on left, PE on right."""
+def _render_integrated_technical_chart(symbol: str):
+    """Embed real-time candlestick price action chart with AI pattern overlays directly in the options terminal."""
+    from datetime import timedelta
+    from src.features.price_action import PriceActionEngine
+    from src.features.technical import compute_technical_features_df
+    from src.ingestion.provider_factory import get_market_data_provider
+    import plotly.graph_objects as go
+
+    with st.expander("📈 Real-Time Candlestick Chart & AI Pattern Overlay", expanded=True):
+        try:
+            provider = get_market_data_provider()
+            end_date = date.today()
+            start_date = end_date - timedelta(days=120)
+            df = provider.get_ohlcv(symbol=symbol, start=start_date, end=end_date)
+
+            if df.empty or len(df) < 10:
+                st.info(f"Candlestick price action data loading for {symbol}...")
+                return
+
+            df_feat = compute_technical_features_df(df=df, symbol=symbol)
+            pa_engine = PriceActionEngine()
+            pattern_markers = pa_engine.scan_all_patterns(df_feat)
+            key_levels = pa_engine.get_key_levels(df_feat)
+
+            col_chart, col_intel = st.columns([3, 1])
+
+            with col_chart:
+                fig = go.Figure()
+                fig.add_trace(
+                    go.Candlestick(
+                        x=df_feat["timestamp"],
+                        open=df_feat["open"],
+                        high=df_feat["high"],
+                        low=df_feat["low"],
+                        close=df_feat["close"],
+                        name=f"{symbol} Spot",
+                        increasing_line_color="#10b981",
+                        decreasing_line_color="#f43f5e",
+                    )
+                )
+
+                if "sma_20" in df_feat.columns:
+                    fig.add_trace(go.Scatter(x=df_feat["timestamp"], y=df_feat["sma_20"], name="SMA 20", line=dict(color="#d4af37", width=1.5)))
+                if "sma_50" in df_feat.columns:
+                    fig.add_trace(go.Scatter(x=df_feat["timestamp"], y=df_feat["sma_50"], name="SMA 50", line=dict(color="#38bdf8", width=1.5)))
+
+                if key_levels.get("resistance_20", 0) > 0:
+                    fig.add_hline(y=key_levels["resistance_20"], line_dash="dash", line_color="#f43f5e",
+                                  annotation_text=f"Resistance: ₹{key_levels['resistance_20']:,.0f}", annotation_position="top left")
+                if key_levels.get("support_20", 0) > 0:
+                    fig.add_hline(y=key_levels["support_20"], line_dash="dash", line_color="#10b981",
+                                  annotation_text=f"Support: ₹{key_levels['support_20']:,.0f}", annotation_position="bottom left")
+
+                bull_markers = [m for m in pattern_markers if m["type"] == "BULLISH"]
+                bear_markers = [m for m in pattern_markers if m["type"] == "BEARISH"]
+
+                if bull_markers:
+                    fig.add_trace(
+                        go.Scatter(
+                            x=[m["timestamp"] for m in bull_markers],
+                            y=[m["price"] * 0.995 for m in bull_markers],
+                            mode="markers+text",
+                            marker=dict(symbol="triangle-up", size=10, color="#10b981"),
+                            text=[m["pattern"] for m in bull_markers],
+                            textposition="bottom center",
+                            textfont=dict(size=9, color="#10b981"),
+                            name="Bullish Pattern",
+                        )
+                    )
+                if bear_markers:
+                    fig.add_trace(
+                        go.Scatter(
+                            x=[m["timestamp"] for m in bear_markers],
+                            y=[m["price"] * 1.005 for m in bear_markers],
+                            mode="markers+text",
+                            marker=dict(symbol="triangle-down", size=10, color="#f43f5e"),
+                            text=[m["pattern"] for m in bear_markers],
+                            textposition="top center",
+                            textfont=dict(size=9, color="#f43f5e"),
+                            name="Bearish Pattern",
+                        )
+                    )
+
+                fig.update_layout(
+                    height=380,
+                    margin=dict(l=10, r=10, t=10, b=10),
+                    template="plotly_dark",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(7, 9, 14, 0.8)",
+                    xaxis_rangeslider_visible=False,
+                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+            with col_intel:
+                st.markdown(
+                    f"""
+                    <div style="background: rgba(13, 20, 36, 0.9); border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;">
+                        <div style="font-size: 11px; color: #d4af37; font-weight: 700; text-transform: uppercase;">AI PATTERN SCANNER</div>
+                        <div style="font-size: 13px; font-weight: 700; color: #f8fafc; margin-top: 4px;">{key_levels.get('market_structure', 'Consolidation')}</div>
+                        <hr style="border-color: rgba(255,255,255,0.08); margin: 8px 0;" />
+                        <div style="font-size: 11px; color: #94a3b8;"><b>20D Support:</b> ₹{key_levels.get('support_20', 0):,.1f}</div>
+                        <div style="font-size: 11px; color: #94a3b8;"><b>20D Resistance:</b> ₹{key_levels.get('resistance_20', 0):,.1f}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                if pattern_markers:
+                    st.caption(f"**Detected Formations ({len(pattern_markers)}):**")
+                    for pm in pattern_markers[-3:]:
+                        icon = "🟢" if pm["type"] == "BULLISH" else ("🔴" if pm["type"] == "BEARISH" else "🟡")
+                        st.caption(f"{icon} **{pm['pattern']}**: {pm['context'][:50]}...")
+        except Exception as e:
+            st.info(f"Candlestick chart preview: {e}")
+
+
+def _render_derivatives_strike_grid(strikes: List[OptionStrikeRow], spot: float, atm_strike: Optional[float], symbol: str, lot_size: int):
+    """Render the Derivatives Option Chain table with CE on left, Strike in center, PE on right."""
     rows = []
     for r in strikes:
         k = r.strike_price

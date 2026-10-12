@@ -12,12 +12,17 @@ def inject_custom_theme():
     st.markdown(
         """
         <style>
-        /* Import clean Inter font */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        /* Import Outfit, Plus Jakarta Sans, and JetBrains Mono */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
         html, body, [class*="css"] {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            letter-spacing: -0.011em;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif !important;
+            letter-spacing: -0.02em;
         }
 
         /* Monospace for currency, strikes, and quantitative numbers */
@@ -28,14 +33,14 @@ def inject_custom_theme():
 
         /* App Background & Surfaces */
         .stApp {
-            background-color: #090d16;
+            background-color: #07090e;
             color: #f1f5f9;
         }
 
         /* Sidebar Styling */
         [data-testid="stSidebar"] {
-            background-color: #0d121f;
-            border-right: 1px solid #1e293b;
+            background-color: #0a0e18;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         /* Hide duplicate default multipage nav */
@@ -45,52 +50,56 @@ def inject_custom_theme():
 
         /* Primary and Secondary Button Refinements */
         .stButton button {
-            border-radius: 6px;
-            font-weight: 500;
+            border-radius: 8px;
+            font-weight: 600;
             font-size: 13px;
             transition: all 0.15s ease-in-out;
-            border: 1px solid #334155;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #101626;
+            color: #f8fafc;
         }
 
         .stButton button:hover {
-            border-color: #64748b;
+            border-color: rgba(212, 175, 55, 0.5);
+            background-color: #141c30;
+            color: #fef08a;
         }
 
         /* Metric Value Enhancements */
         [data-testid="stMetricValue"] {
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.35rem !important;
-            font-weight: 600;
+            font-weight: 700;
             color: #f8fafc;
         }
 
         [data-testid="stMetricLabel"] {
             font-size: 0.8rem !important;
             color: #94a3b8 !important;
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         /* Cards and Containers */
         .fin-card {
-            background-color: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 8px;
+            background-color: #0d1424;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
             padding: 16px;
             margin-bottom: 14px;
         }
 
         .fin-card-interactive {
-            background-color: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 8px;
+            background-color: #0d1424;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
             padding: 16px;
             margin-bottom: 14px;
             transition: border-color 0.2s ease, transform 0.1s ease;
         }
         .fin-card-interactive:hover {
-            border-color: #3b82f6;
+            border-color: rgba(212, 175, 55, 0.4);
         }
 
         /* Mode Badges */

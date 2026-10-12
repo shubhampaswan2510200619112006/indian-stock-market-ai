@@ -31,39 +31,39 @@ export const OptionsCommandView: React.FC<OptionsCommandViewProps> = ({ chain, e
   return (
     <div className="space-y-6">
       {/* View Mode Toggle: Interactive Chain vs Institutional Matrix */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-[#0a0f21] border border-white/[0.08] rounded-xl text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-[#080d19]/95 border border-[#d4af37]/25 rounded-xl text-xs backdrop-blur-xl">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          <span className="text-slate-200 font-semibold tracking-wide">
-            Options Derivatives Workspace
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-white font-bold tracking-wide uppercase font-['Outfit']">
+            Unified Derivatives Strike Matrix & Execution Hub
           </span>
         </div>
 
-        <div className="flex items-center bg-[#101524] p-0.5 rounded-lg border border-white/[0.06] gap-1 font-medium">
+        <div className="flex items-center bg-[#060a14] p-1 rounded-lg border border-white/[0.08] gap-1 font-medium">
           <button
             type="button"
             onClick={() => setViewMode('standard')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all cursor-pointer ${
               viewMode === 'standard'
-                ? 'bg-slate-700 text-white font-semibold shadow-sm'
+                ? 'bg-[#d4af37]/20 text-[#f6d776] font-bold border border-[#d4af37]/40 shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <Layers className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Options Chain (Live Execution)</span>
+            <span>Interactive Strike Matrix & Order Desk</span>
           </button>
 
           <button
             type="button"
             onClick={() => setViewMode('matrix')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all cursor-pointer ${
               viewMode === 'matrix'
-                ? 'bg-slate-700 text-white font-semibold shadow-sm'
+                ? 'bg-[#d4af37]/20 text-[#f6d776] font-bold border border-[#d4af37]/40 shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Activity className="w-3.5 h-3.5 text-amber-400" />
-            <span>Black-76 Greeks & PCR Analytics</span>
+            <Activity className="w-3.5 h-3.5 text-[#d4af37]" />
+            <span>Black-76 Greeks & PCR Heatmap</span>
           </button>
         </div>
       </div>

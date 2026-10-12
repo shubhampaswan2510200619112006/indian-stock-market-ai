@@ -61,41 +61,53 @@ export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
   };
 
   return (
-    <div className="w-full bg-[#0a0e18]/95 border border-white/[0.08] rounded-2xl overflow-hidden shadow-2xl transition-all backdrop-blur-xl">
-      {/* 1. Instrument Switcher Bar */}
-      <div className="px-5 py-3 bg-[#070a12] border-b border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
-        {/* Instrument Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
-          {Object.keys(instruments).map((sym) => {
-            const inst = instruments[sym];
-            const isSelected = selectedSymbol === sym;
-            const instUp = inst.change >= 0;
+    <div className="w-full bg-[#080d19]/95 border border-[#d4af37]/25 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-all backdrop-blur-xl">
+      {/* 1. Integrated Controls Bar */}
+      <div className="px-4 py-2.5 bg-[#060a14] border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
+        {!compact ? (
+          /* Full Page Instrument Pills */
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
+            {Object.keys(instruments).map((sym) => {
+              const inst = instruments[sym];
+              const isSelected = selectedSymbol === sym;
+              const instUp = inst.change >= 0;
 
-            return (
-              <button
-                key={sym}
-                onClick={() => onSelectSymbol(sym)}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap cursor-pointer ${
-                  isSelected
-                    ? 'bg-[#d4af37]/15 text-[#f6d776] font-bold border border-[#d4af37]/40 shadow-sm'
-                    : 'bg-white/[0.03] text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
-                }`}
-              >
-                <span className="font-semibold">{inst.name}</span>
-                <span
-                  className={`font-mono text-[11px] ${
-                    instUp ? 'text-emerald-400' : 'text-rose-400'
+              return (
+                <button
+                  key={sym}
+                  onClick={() => onSelectSymbol(sym)}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#d4af37]/15 text-[#f6d776] font-bold border border-[#d4af37]/40 shadow-sm'
+                      : 'bg-white/[0.03] text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
                   }`}
                 >
-                  ₹{inst.spot_price.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+                  <span className="font-semibold">{inst.name}</span>
+                  <span
+                    className={`font-mono text-[11px] ${
+                      instUp ? 'text-emerald-400' : 'text-rose-400'
+                    }`}
+                  >
+                    ₹{inst.spot_price.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-[#f6d776] font-['Outfit'] tracking-wider uppercase flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5 text-[#d4af37]" />
+              {instrument.name} • DERIVATIVES EXECUTION MATRIX
+            </span>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#d4af37]/15 text-[#d4af37] border border-[#d4af37]/30 font-semibold">
+              Lot: {instrument.lot_size} Units
+            </span>
+          </div>
+        )}
 
         {/* Expiry Selector Dropdown */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-auto">
           <span className="text-slate-400 text-xs font-medium">Expiry:</span>
           <div className="relative">
             <select
@@ -115,64 +127,61 @@ export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
       </div>
 
       {/* 2. Underlying Quote Header Banner */}
-      <div className="px-5 py-3.5 bg-gradient-to-r from-[#0d1322] via-[#101729] to-[#0d1322] border-b border-white/[0.06] flex flex-wrap items-center justify-between gap-4">
+      <div className={`px-4 py-2 bg-gradient-to-r from-[#0d1322] via-[#101729] to-[#0d1322] border-b border-white/[0.06] flex flex-wrap items-center justify-between gap-3 ${compact ? 'text-xs' : ''}`}>
         {/* Left: Spot Price Readout */}
-        <div className="flex items-baseline gap-4">
+        <div className="flex items-baseline gap-3">
           <div>
-            <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
-              <span>{instrument.name} SPOT PRICE</span>
+            <div className="flex items-center gap-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+              <span>{instrument.name} SPOT</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-emerald-400 font-mono">100% REAL-TIME</span>
+              <span className="text-emerald-400 font-mono">LIVE</span>
             </div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-2xl sm:text-3xl font-extrabold font-['Outfit'] text-white tracking-tight">
+            <div className="flex items-baseline gap-2">
+              <span className="text-xl sm:text-2xl font-extrabold font-['Outfit'] text-white tracking-tight">
                 ₹{instrument.spot_price.toLocaleString('en-IN', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 1,
+                  maximumFractionDigits: 1,
                 })}
               </span>
 
               <span
-                className={`flex items-center gap-1 font-mono text-xs font-bold px-2.5 py-0.5 rounded-md ${
+                className={`flex items-center gap-1 font-mono text-[11px] font-bold px-2 py-0.5 rounded ${
                   isUp
                     ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25'
                     : 'bg-rose-500/15 text-rose-400 border border-rose-500/25'
                 }`}
               >
-                {isUp ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
-                <span>
-                  {isUp ? '+' : ''}
-                  {instrument.change.toFixed(2)} ({isUp ? '+' : ''}
-                  {instrument.change_pct.toFixed(2)}%)
-                </span>
+                {isUp ? '+' : ''}{instrument.change_pct.toFixed(2)}%
               </span>
             </div>
           </div>
 
-          <div className="hidden lg:flex items-center gap-5 text-xs text-slate-400 pl-5 border-l border-white/[0.08] font-mono">
-            <div>
-              <span className="text-slate-500 block text-[9px] uppercase font-bold">DAY RANGE</span>
-              <span className="text-slate-300 font-semibold">{instrument.low.toFixed(1)} – {instrument.high.toFixed(1)}</span>
+          {!compact && (
+            <div className="hidden lg:flex items-center gap-4 text-xs text-slate-400 pl-4 border-l border-white/[0.08] font-mono">
+              <div>
+                <span className="text-slate-500 block text-[9px] uppercase font-bold">DAY RANGE</span>
+                <span className="text-slate-300 font-semibold">{instrument.low.toFixed(1)} – {instrument.high.toFixed(1)}</span>
+              </div>
+              <div>
+                <span className="text-slate-500 block text-[9px] uppercase font-bold">LOT SIZE</span>
+                <span className="font-bold text-white bg-white/[0.08] px-2 py-0.5 rounded">{instrument.lot_size} Units</span>
+              </div>
             </div>
-            <div>
-              <span className="text-slate-500 block text-[9px] uppercase font-bold">LOT SIZE</span>
-              <span className="font-bold text-white bg-white/[0.08] px-2 py-0.5 rounded">{instrument.lot_size} Units</span>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Right: Key Options Analytics & Side Filter */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2.5 text-xs font-mono">
-            <div className="bg-[#101626] px-3 py-1 rounded-lg border border-white/[0.08] text-center">
-              <span className="text-[9px] text-slate-400 block uppercase font-bold">PCR</span>
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 text-xs font-mono">
+            <div className="bg-[#101626] px-2.5 py-1 rounded-lg border border-white/[0.08] text-center">
+              <span className="text-[8px] text-slate-400 block uppercase font-bold">PCR</span>
               <span className={`font-bold ${instrument.pcr >= 1.0 ? 'text-emerald-400' : 'text-slate-200'}`}>
                 {instrument.pcr.toFixed(2)}
               </span>
             </div>
 
-            <div className="bg-[#101626] px-3 py-1 rounded-lg border border-[#d4af37]/30 text-center">
-              <span className="text-[9px] text-[#f6d776] block uppercase font-bold">MAX PAIN</span>
+            <div className="bg-[#101626] px-2.5 py-1 rounded-lg border border-[#d4af37]/30 text-center">
+              <span className="text-[8px] text-[#f6d776] block uppercase font-bold">MAX PAIN</span>
               <span className="font-bold text-[#f6d776]">
                 {instrument.max_pain}
               </span>
@@ -183,7 +192,7 @@ export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
           <div className="flex items-center bg-[#070a12] p-0.5 rounded-lg border border-white/[0.08] text-xs font-medium">
             <button
               onClick={() => setFilterSide('ALL')}
-              className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+              className={`px-2.5 py-0.5 rounded text-[11px] transition-all cursor-pointer ${
                 filterSide === 'ALL'
                   ? 'bg-slate-800 text-white font-bold shadow-sm'
                   : 'text-slate-400 hover:text-white'
@@ -193,7 +202,7 @@ export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
             </button>
             <button
               onClick={() => setFilterSide('CE')}
-              className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+              className={`px-2.5 py-0.5 rounded text-[11px] transition-all cursor-pointer ${
                 filterSide === 'CE'
                   ? 'bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30'
                   : 'text-slate-400 hover:text-emerald-300'
@@ -203,7 +212,7 @@ export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
             </button>
             <button
               onClick={() => setFilterSide('PE')}
-              className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+              className={`px-2.5 py-0.5 rounded text-[11px] transition-all cursor-pointer ${
                 filterSide === 'PE'
                   ? 'bg-rose-500/20 text-rose-300 font-bold border border-rose-500/30'
                   : 'text-slate-400 hover:text-rose-300'
@@ -334,14 +343,14 @@ export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
                             <button
                               type="button"
                               onClick={() => handleOpenTrade(row.strike, 'CE', row.ce.ltp, 'BUY')}
-                              className="px-2.5 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded text-[10px] shadow-sm transition-transform active:scale-95 cursor-pointer"
+                              className="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500 hover:text-black text-emerald-300 font-bold rounded text-[10px] border border-emerald-500/40 shadow-sm transition-all active:scale-95 cursor-pointer tracking-wider"
                             >
                               BUY
                             </button>
                             <button
                               type="button"
                               onClick={() => handleOpenTrade(row.strike, 'CE', row.ce.ltp, 'SELL')}
-                              className="px-2.5 py-0.5 bg-rose-500 hover:bg-rose-400 text-white font-bold rounded text-[10px] shadow-sm transition-transform active:scale-95 cursor-pointer"
+                              className="px-2.5 py-1 bg-rose-500/20 hover:bg-rose-500 hover:text-white text-rose-300 font-bold rounded text-[10px] border border-rose-500/40 shadow-sm transition-all active:scale-95 cursor-pointer tracking-wider"
                             >
                               SELL
                             </button>
@@ -387,14 +396,14 @@ export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
                             <button
                               type="button"
                               onClick={() => handleOpenTrade(row.strike, 'PE', row.pe.ltp, 'BUY')}
-                              className="px-2.5 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded text-[10px] shadow-sm transition-transform active:scale-95 cursor-pointer"
+                              className="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500 hover:text-black text-emerald-300 font-bold rounded text-[10px] border border-emerald-500/40 shadow-sm transition-all active:scale-95 cursor-pointer tracking-wider"
                             >
                               BUY
                             </button>
                             <button
                               type="button"
                               onClick={() => handleOpenTrade(row.strike, 'PE', row.pe.ltp, 'SELL')}
-                              className="px-2.5 py-0.5 bg-rose-500 hover:bg-rose-400 text-white font-bold rounded text-[10px] shadow-sm transition-transform active:scale-95 cursor-pointer"
+                              className="px-2.5 py-1 bg-rose-500/20 hover:bg-rose-500 hover:text-white text-rose-300 font-bold rounded text-[10px] border border-rose-500/40 shadow-sm transition-all active:scale-95 cursor-pointer tracking-wider"
                             >
                               SELL
                             </button>

@@ -119,7 +119,7 @@ def main():
                 "📈 Market Discovery",
                 "🛡️ Safety & Risk Guard",
                 "🎓 Trader Academy & Guide",
-                "🚀 Executive Terminal (Dual-Split React Pro)",
+                "🚀 Unified Master Trading Terminal",
             ]
             # Handle deep-link transitions from buttons
             default_idx = 0
@@ -139,12 +139,12 @@ def main():
         else:
             # PRO MODE: Dense, Institutional Terminal Desks
             pro_options = [
-                "🚀 Executive Terminal (Dual-Split React Pro)",
+                "🚀 Unified Master Trading Terminal",
                 "⚡ 60s Option Decision Terminal",
                 "🏛️ Executive Terminal",
                 "⚡ AI Live Market Terminal",
                 "📰 Live News Intelligence",
-                "📋 Option Chain Matrix",
+                "📋 Option Chain & Technical Desk",
                 "⚡ Volatility & Greeks Surface",
                 "📈 Technical Analysis Desk",
                 "🌡 Market Regime Classifier",
@@ -210,9 +210,9 @@ def main():
     verdict_res = render_decision_top_bar(service)
 
     # ----- Content Routing -----
-    if page == "🚀 Executive Terminal (Dual-Split React Pro)":
-        st.markdown("### 🚀 Executive Dual-Split Quantitative Terminal")
-        st.caption("Live Groww-Style Option Chain • Automated Candlestick Pattern AI • Synchronized P&L Ledger")
+    if page == "🚀 Unified Master Trading Terminal":
+        st.markdown("### 🚀 Unified Master Trading Terminal")
+        st.caption("Integrated Derivatives Strike Matrix • Automated Candlestick Pattern AI • Synchronized P&L Ledger")
         st.components.v1.iframe("http://localhost:3000", height=950, scrolling=True)
     elif page in ("🎯 Guided Paper Trade & Catalysts", "🎯 Guided Paper Trade"):
         from dashboard.components.beginner_views import render_beginner_trade
@@ -230,7 +230,7 @@ def main():
         )
         if page == "🏠 Home & Balance":
             render_beginner_home(service)
-        elif page == "📋 Option Chain & Buy Strikes":
+        elif page in ("📋 Option Chain & Buy Strikes", "📋 Option Chain & Technical Desk"):
             from dashboard.pages.options_chain import render_options_chain_page
             render_options_chain_page()
         elif page == "💼 My Portfolio & Live P&L":
@@ -259,7 +259,7 @@ def main():
         elif page == "📰 Live News Intelligence":
             from dashboard.pages.live_news import render_live_news_page
             render_live_news_page()
-        elif page == "📋 Option Chain Matrix":
+        elif page in ("📋 Option Chain Matrix", "📋 Option Chain & Technical Desk"):
             from dashboard.pages.options_chain import render_options_chain_page
             render_options_chain_page()
         elif page == "⚡ Volatility & Greeks Surface":

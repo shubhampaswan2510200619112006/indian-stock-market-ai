@@ -44,37 +44,42 @@ def oi_distribution_chart(
     """
     fig = go.Figure()
 
+    clean_strikes = [float(s) for s in strikes]
+    clean_ce_oi = [int(v) if v is not None else 0 for v in ce_oi]
+    clean_pe_oi = [int(v) if v is not None else 0 for v in pe_oi]
+
     # Calls (negative for left side)
     fig.add_trace(go.Bar(
-        y=[str(s) for s in strikes],
-        x=[-oi for oi in ce_oi],
+        y=clean_strikes,
+        x=[-oi for oi in clean_ce_oi],
         orientation="h",
         name="Call OI",
         marker_color=CHART_THEME["ce_color"],
         opacity=0.8,
-        hovertemplate="Strike: %{y}<br>Call OI: %{customdata:,.0f}<extra></extra>",
-        customdata=ce_oi,
+        hovertemplate="Strike: ₹%{y:,.0f}<br>Call OI: %{customdata:,.0f}<extra></extra>",
+        customdata=clean_ce_oi,
     ))
 
     # Puts
     fig.add_trace(go.Bar(
-        y=[str(s) for s in strikes],
-        x=pe_oi,
+        y=clean_strikes,
+        x=clean_pe_oi,
         orientation="h",
         name="Put OI",
         marker_color=CHART_THEME["pe_color"],
         opacity=0.8,
-        hovertemplate="Strike: %{y}<br>Put OI: %{x:,.0f}<extra></extra>",
+        hovertemplate="Strike: ₹%{y:,.0f}<br>Put OI: %{x:,.0f}<extra></extra>",
     ))
 
     # Spot price line
-    fig.add_hline(
-        y=str(min(strikes, key=lambda s: abs(s - spot_price))),
-        line_dash="dash",
-        line_color=CHART_THEME["spot_color"],
-        annotation_text=f"Spot: {spot_price:,.2f}",
-        annotation_position="top right",
-    )
+    if spot_price and clean_strikes:
+        fig.add_hline(
+            y=float(spot_price),
+            line_dash="dash",
+            line_color=CHART_THEME["spot_color"],
+            annotation_text=f"Spot: ₹{spot_price:,.2f}",
+            annotation_position="top right",
+        )
 
     fig.update_layout(
         title=title,
