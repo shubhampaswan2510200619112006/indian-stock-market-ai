@@ -2,17 +2,23 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Compass, BarChart3, Layers, Box, FileCheck, Server,
-  Zap, Clock, Search, TrendingUp, Newspaper, DollarSign, LogOut
+  Zap, Clock, Search, TrendingUp, Newspaper, DollarSign, LogOut,
+  Sparkles, PieChart, ShieldCheck, Bookmark, Activity
 } from 'lucide-react';
 
 export type NavTab =
+  | 'markets'
+  | 'explorer'
+  | 'options'
+  | 'ai-analyst'
+  | 'strategy-lab'
+  | 'paper-trading'
+  | 'portfolio'
+  | 'tools'
   | 'trading'
   | 'technical'
   | 'news'
-  | 'options'
   | 'positions'
-  | 'tools'
-  | 'markets'
   | 'overview'
   | 'volatility'
   | 'research'
@@ -35,12 +41,15 @@ export interface NavigationProps {
 }
 
 const navItems: { id: NavTab; label: string; short: string; icon: React.ElementType }[] = [
-  { id: 'trading',   label: 'Trading Desk',        short: 'TRADE', icon: TrendingUp },
-  { id: 'technical', label: 'Technical Analysis',  short: 'TECH',  icon: BarChart3  },
-  { id: 'news',      label: 'News',                short: 'NEWS',  icon: Newspaper },
-  { id: 'options',   label: 'Option Chain',        short: 'OPT',   icon: Layers    },
-  { id: 'positions', label: 'Position & P&L',      short: 'P&L',   icon: DollarSign },
-  { id: 'tools',     label: 'Others Tools',        short: 'TOOLS', icon: Compass   },
+  { id: 'trading',      label: 'Trading Desk',        short: 'TRADE', icon: TrendingUp },
+  { id: 'news',         label: 'Market News',         short: 'NEWS',  icon: Newspaper  },
+  { id: 'options',      label: 'Option Chain',        short: 'OPT',   icon: Layers     },
+  { id: 'technical',    label: 'Technical Analysis',  short: 'TECH',  icon: BarChart3  },
+  { id: 'ai-analyst',   label: 'AI Analyst',          short: 'AI',    icon: Sparkles   },
+  { id: 'strategy-lab', label: 'Strategy Lab',        short: 'LAB',   icon: PieChart   },
+  { id: 'positions',    label: 'Position & P&L',      short: 'P&L',   icon: DollarSign },
+  { id: 'markets',      label: 'Market Overview',     short: 'MKT',   icon: Activity   },
+  { id: 'tools',        label: 'Others Tools',        short: 'TOOLS', icon: Compass    },
 ];
 
 export const Navigation: React.FC<NavigationProps> = ({

@@ -181,13 +181,36 @@ def test_state_persistence_and_recovery():
         assert fresh_svc.portfolio.realized_pnl == 50000.0
 
 
-def test_api_validation_and_safety_routes():
-    """Verify FastAPI routes reject malformed payloads with 422 and LIVE with 403."""
+def test_api_validation_and_safety_routes(tmp_path):
+    """Verify FastAPI routes reject unauthenticated requests with 401, malformed with 422, and LIVE with 403."""
+    import os
+    os.environ["USERS_DB_PATH"] = str(tmp_path / "test_api_users.db")
     app = create_app()
     client = TestClient(app)
 
-    # 1. LIVE execution mode rejected with 403
-    res_live = client.post("/api/v1/paper/orders", json={
+    # 1. Unauthenticated request to /orders rejected with 401
+    res_unauth = client.post("/api/v1/paper/orders", json={
+        "symbol": "NIFTY",
+        "side": "BUY",
+        "quantity": 25,
+        "execution_mode": "PAPER",
+    })
+    assert res_unauth.status_code == 401
+
+    # 2. Register user to obtain access token
+    reg_res = client.post("/api/v1/auth/register", json={
+        "username": "apitesttrader",
+        "email": "apitest@market.ai",
+        "password": "Password123!",
+        "full_name": "API Tester",
+        "starting_capital": 1000000.0,
+    })
+    assert reg_res.status_code == 201
+    token = reg_res.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # 3. Authenticated LIVE execution mode rejected with 403
+    res_live = client.post("/api/v1/paper/orders", headers=headers, json={
         "symbol": "NIFTY",
         "side": "BUY",
         "quantity": 25,
@@ -195,8 +218,8 @@ def test_api_validation_and_safety_routes():
     })
     assert res_live.status_code == 403
 
-    # 2. Zero quantity rejected by Pydantic schema with 422
-    res_zero = client.post("/api/v1/paper/orders", json={
+    # 4. Zero quantity rejected by Pydantic schema with 422
+    res_zero = client.post("/api/v1/paper/orders", headers=headers, json={
         "symbol": "NIFTY",
         "side": "BUY",
         "quantity": 0,
@@ -204,8 +227,8 @@ def test_api_validation_and_safety_routes():
     })
     assert res_zero.status_code == 422
 
-    # 3. Negative quantity rejected with 422
-    res_neg = client.post("/api/v1/paper/orders", json={
+    # 5. Negative quantity rejected with 422
+    res_neg = client.post("/api/v1/paper/orders", headers=headers, json={
         "symbol": "NIFTY",
         "side": "BUY",
         "quantity": -25,
@@ -213,11 +236,12 @@ def test_api_validation_and_safety_routes():
     })
     assert res_neg.status_code == 422
 
-    # 4. Trip and reset breaker routes
-    res_trip = client.post("/api/v1/paper/risk/trip", json={"reason": "TEST"})
+    # 6. Authenticated Trip and reset breaker routes
+    res_trip = client.post("/api/v1/paper/risk/trip", headers=headers, json={"reason": "TEST"})
     assert res_trip.status_code == 200
     assert res_trip.json()["status"] == "TRIPPED"
 
-    res_reset = client.post("/api/v1/paper/risk/reset")
+    res_reset = client.post("/api/v1/paper/risk/reset", headers=headers)
     assert res_reset.status_code == 200
     assert res_reset.json()["status"] == "RESET"
+

@@ -74,11 +74,13 @@ class PaperTradingService:
         delayed_data_max_age_seconds: float = 300.0,
         state_dir: str = "data/paper_state",
         auto_restore: bool = False,
+        user_id: Optional[str] = None,
     ):
         # Safety: validate paper mode at construction
         ExecutionGuard.assert_paper_mode()
         ExecutionGuard.validate_execution_mode("PAPER")
 
+        self.user_id = user_id
         self.state_dir = Path(state_dir)
         self.state_dir.mkdir(parents=True, exist_ok=True)
 
@@ -539,25 +541,75 @@ class PaperTradingService:
         d = target_dir or self.state_dir
         d.mkdir(parents=True, exist_ok=True)
 
+        p_state = self.portfolio.get_state()
         p_path = d / "portfolio_state.json"
         with open(p_path, "w", encoding="utf-8") as f:
-            json.dump(self.portfolio.get_state(), f, indent=2, default=str)
+            json.dump(p_state, f, indent=2, default=str)
 
-        o_path = d / "orders_state.json"
         orders_dict = {
             oid: o.model_dump(mode="json")
             for oid, o in self.order_manager.get_all_orders().items()
         }
+        o_path = d / "orders_state.json"
         with open(o_path, "w", encoding="utf-8") as f:
             json.dump(orders_dict, f, indent=2, default=str)
 
-        f_path = d / "fills_state.json"
         fills_list = [f.model_dump(mode="json") for f in self._all_fills]
+        f_path = d / "fills_state.json"
         with open(f_path, "w", encoding="utf-8") as f:
             json.dump(fills_list, f, indent=2, default=str)
 
+        # Durable DB persistence if user_id is bound
+        if self.user_id:
+            try:
+                from src.database.connection import get_session
+                from src.database.models import UserPaperStateDB
+                with get_session() as session:
+                    db_state = session.query(UserPaperStateDB).filter_by(user_id=self.user_id).first()
+                    if not db_state:
+                        db_state = UserPaperStateDB(
+                            user_id=self.user_id,
+                            session_id=self.session_manager.session_id,
+                            portfolio_state=p_state,
+                            orders_state=orders_dict,
+                            fills_state=fills_list,
+                        )
+                        session.add(db_state)
+                    else:
+                        db_state.session_id = self.session_manager.session_id
+                        db_state.portfolio_state = p_state
+                        db_state.orders_state = orders_dict
+                        db_state.fills_state = fills_list
+                    session.commit()
+            except Exception:
+                pass
+
     def restore_state(self, source_dir: Optional[Path] = None) -> bool:
         """Restore complete service state after crash or restart."""
+        # 1. Try DB first if user_id is bound
+        if self.user_id:
+            try:
+                from src.database.connection import get_session
+                from src.database.models import UserPaperStateDB
+                with get_session() as session:
+                    db_state = session.query(UserPaperStateDB).filter_by(user_id=self.user_id).first()
+                    if db_state and db_state.portfolio_state:
+                        self.portfolio.load_state(db_state.portfolio_state)
+                        if db_state.session_id:
+                            self.portfolio.session_id = db_state.session_id
+                        if db_state.orders_state:
+                            recovered_orders = {
+                                oid: PaperOrder(**odata)
+                                for oid, odata in db_state.orders_state.items()
+                            }
+                            self.order_manager.load_orders(recovered_orders)
+                        if db_state.fills_state:
+                            self._all_fills = [PaperFill(**fdata) for fdata in db_state.fills_state]
+                        return True
+            except Exception:
+                pass
+
+        # 2. Disk fallback
         d = source_dir or self.state_dir
         p_path = d / "portfolio_state.json"
         o_path = d / "orders_state.json"

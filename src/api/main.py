@@ -7,12 +7,14 @@ CORS is enabled for Streamlit dashboard communication.
 
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routes import (
+    auth,
     backtest,
     data_infrastructure,
     health,
@@ -70,16 +72,38 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # CORS — allow Streamlit (default port 8501) and localhost
+    # Secure CORS configuration: Restrict to explicit domains or configurable environment origins
+    cors_origins_env = os.getenv("CORS_ORIGINS", "")
+    if cors_origins_env.strip():
+        allowed_origins = [o.strip() for o in cors_origins_env.split(",") if o.strip()]
+    else:
+        # Default trusted origins for local Streamlit dashboard and dev frontend
+        allowed_origins = [
+            "http://localhost:8501",
+            "http://127.0.0.1:8501",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "http://localhost:8000",
+            "http://127.0.0.1:8000",
+        ]
+
+    # Regex pattern to securely allow Streamlit Community Cloud deployments
+    origin_regex = os.getenv("CORS_ORIGIN_REGEX", r"^https:\/\/.*\.streamlit\.app$")
+    allow_credentials = True
+    if allowed_origins == ["*"]:
+        allow_credentials = False  # W3C CORS forbids credentials when allow_origins is wildcard '*'
+
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # Restrict in production
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_origins=allowed_origins,
+        allow_origin_regex=origin_regex,
+        allow_credentials=allow_credentials,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
+        allow_headers=["Authorization", "Content-Type", "X-API-Key", "Accept", "Origin"],
     )
 
     # Register routers
+    app.include_router(auth.router)
     app.include_router(health.router, prefix="/api/v1", tags=["Health"])
     app.include_router(market.router, prefix="/api/v1/market", tags=["Market Data"])
     app.include_router(options.router, prefix="/api/v1/options", tags=["Options"])

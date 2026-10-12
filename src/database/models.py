@@ -1020,4 +1020,47 @@ class MacroFeatureDB(Base):
     )
 
 
+# =============================================================================
+# User Accounts, API Tokens & Multi-Tenant Paper Trading State
+# =============================================================================
+
+class UserAccountDB(Base):
+    """Trader account credentials and starting capital."""
+    __tablename__ = "users"
+
+    id = Column(String(50), primary_key=True)
+    username = Column(String(50), unique=True, nullable=False, index=True)
+    email = Column(String(100), unique=True, nullable=False, index=True)
+    full_name = Column(String(100), nullable=False)
+    salt = Column(String(64), nullable=False)
+    password_hash = Column(String(128), nullable=False)
+    starting_capital = Column(Float, default=1_000_000.0)
+    created_at = Column(String(50), nullable=False)
+    last_login = Column(String(50))
+
+
+class ApiTokenDB(Base):
+    """Bearer/API access tokens with user binding."""
+    __tablename__ = "api_tokens"
+
+    token = Column(String(128), primary_key=True)
+    user_id = Column(String(50), ForeignKey("users.id"), nullable=False, index=True)
+    description = Column(String(100))
+    created_at = Column(String(50), nullable=False)
+    last_used_at = Column(String(50))
+
+
+class UserPaperStateDB(Base):
+    """Durable JSON-serialized portfolio, orders, and fills per user."""
+    __tablename__ = "user_paper_states"
+
+    user_id = Column(String(50), primary_key=True)
+    session_id = Column(String(50))
+    portfolio_state = Column(JSON, nullable=False)
+    orders_state = Column(JSON)
+    fills_state = Column(JSON)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
+
+
 

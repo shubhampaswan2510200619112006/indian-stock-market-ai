@@ -10,7 +10,7 @@ interface CandlestickChartProps {
   candles: Candle[];
   symbol: string;
   timeframe: string;
-  onTimeframeChange: (tf: string) => void;
+  onTimeframeChange?: (tf: string) => void;
   currentPrice?: number;
   istTime?: string;
 }
@@ -675,7 +675,7 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({
             {timeframes.map((tf) => (
               <button
                 key={tf}
-                onClick={() => onTimeframeChange(tf)}
+                onClick={() => onTimeframeChange?.(tf)}
                 className={`px-2.5 py-1 rounded-lg text-[11px] transition-all font-semibold ${
                   timeframe === tf
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-bold shadow-sm'

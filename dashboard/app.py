@@ -57,7 +57,9 @@ def _get_shared_service(user: Optional[UserAccount] = None) -> PaperTradingServi
             initial_capital=starting_cap,
             state_dir=user_state_dir,
             auto_restore=True,
+            user_id=user_id,
         )
+    st.session_state["paper_service"] = st.session_state[service_key]
     return st.session_state[service_key]
 
 
@@ -66,23 +68,8 @@ def main():
     # 1. User Authentication Gate
     user = st.session_state.get("authenticated_user")
     if not user:
-        from src.auth.service import AuthService
-        auth_svc = AuthService()
-        success, msg, user = auth_svc.login("demotrader", "Demo1234!")
-        if not success:
-            success, msg, user = auth_svc.register(
-                username="demotrader",
-                password="Demo1234!",
-                full_name="Executive Trader VIP",
-                email="trader@indianmarket.ai",
-                starting_capital=1_000_000.0,
-            )
-        if user:
-            st.session_state["authenticated_user"] = user
-            st.session_state["user_id"] = user.id
-        else:
-            render_auth_page()
-            return
+        render_auth_page()
+        return
 
     service = _get_shared_service(user)
     ui_mode = get_current_ui_mode()

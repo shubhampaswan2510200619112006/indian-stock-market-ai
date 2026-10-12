@@ -59,6 +59,7 @@ pythonenv*/
 # Research data outputs (large, reproducible via pipeline)
 data/phase*/
 data/paper_state/archives/
+data/user_state/
 data/bhavcopy/
 
 # Keep these data files (small JSON research gates):

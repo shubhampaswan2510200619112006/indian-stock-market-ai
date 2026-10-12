@@ -44,7 +44,7 @@ class AuthService:
     def _init_db(self) -> None:
         """Create users table if it does not exist."""
         with self._get_connection() as conn:
-            conn.execute(
+            conn.executescript(
                 """
                 CREATE TABLE IF NOT EXISTS users (
                     id TEXT PRIMARY KEY,
@@ -56,7 +56,15 @@ class AuthService:
                     starting_capital REAL DEFAULT 1000000.0,
                     created_at TEXT NOT NULL,
                     last_login TEXT
-                )
+                );
+                CREATE TABLE IF NOT EXISTS api_tokens (
+                    token TEXT PRIMARY KEY,
+                    user_id TEXT NOT NULL,
+                    description TEXT,
+                    created_at TEXT NOT NULL,
+                    last_used_at TEXT,
+                    FOREIGN KEY(user_id) REFERENCES users(id)
+                );
                 """
             )
             conn.commit()
@@ -189,3 +197,70 @@ class AuthService:
             created_at=row["created_at"],
             last_login=row["last_login"],
         )
+
+    def create_token_for_user(self, user_id: str, description: str = "api") -> str:
+        """Issues a new secure API token for the specified user."""
+        token = secrets.token_urlsafe(32)
+        now_iso = datetime.now(timezone.utc).isoformat()
+        with self._get_connection() as conn:
+            conn.execute(
+                """
+                INSERT INTO api_tokens (token, user_id, description, created_at, last_used_at)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                (token, user_id, description, now_iso, now_iso),
+            )
+            conn.commit()
+        return token
+
+    def verify_token(self, token: str) -> Optional[UserAccount]:
+        """
+        Validates an API token and returns the corresponding UserAccount.
+        Returns None if token is invalid or user does not exist.
+        """
+        if not token:
+            return None
+        with self._get_connection() as conn:
+            cursor = conn.execute(
+                """
+                SELECT u.* FROM users u
+                JOIN api_tokens t ON u.id = t.user_id
+                WHERE t.token = ?
+                """,
+                (token,),
+            )
+            row = cursor.fetchone()
+            if not row:
+                return None
+            now_iso = datetime.now(timezone.utc).isoformat()
+            conn.execute("UPDATE api_tokens SET last_used_at = ? WHERE token = ?", (now_iso, token))
+            conn.commit()
+
+        return UserAccount(
+            id=row["id"],
+            username=row["username"],
+            email=row["email"],
+            full_name=row["full_name"],
+            starting_capital=row["starting_capital"],
+            created_at=row["created_at"],
+            last_login=row["last_login"],
+        )
+
+    def login_with_token(self, username_or_email: str, password: str) -> Tuple[bool, str, Optional[UserAccount], Optional[str]]:
+        """
+        Authenticates user and generates an API access token in one step.
+        """
+        success, msg, user = self.login(username_or_email, password)
+        if not success or not user:
+            return False, msg, None, None
+        token = self.create_token_for_user(user.id, description="login_session")
+        return True, msg, user, token
+
+    def revoke_token(self, token: str) -> bool:
+        """Revokes an API token."""
+        if not token:
+            return False
+        with self._get_connection() as conn:
+            cursor = conn.execute("DELETE FROM api_tokens WHERE token = ?", (token,))
+            conn.commit()
+            return cursor.rowcount > 0

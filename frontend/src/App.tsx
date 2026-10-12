@@ -10,6 +10,13 @@ import { TradingTerminalView } from './views/TradingTerminalView';
 import { TechnicalAnalysisDeskView } from './views/TechnicalAnalysisDeskView';
 import { NewsView } from './views/NewsView';
 import { OthersToolsView } from './views/OthersToolsView';
+import { HomeMarketOverviewView } from './views/HomeMarketOverviewView';
+import { StockExplorerView } from './views/StockExplorerView';
+import { OptionsChainPageView } from './views/OptionsChainPageView';
+import { AIMarketAnalystView } from './views/AIMarketAnalystView';
+import { StrategyLabView } from './views/StrategyLabView';
+import { PaperTradingPageView } from './views/PaperTradingPageView';
+import { WatchlistPortfolioView } from './views/WatchlistPortfolioView';
 import { LandingLoginPage } from './components/auth/LandingLoginPage';
 import { PaperTradingProvider } from './context/PaperTradingContext';
 import { AuthProvider, useAuth, ExperienceLevel } from './context/AuthContext';
@@ -152,39 +159,58 @@ function AppInner() {
         activeTab={activeTab}
       />
 
-      {/* Main Terminal Viewport (The 6 Sections) */}
+      {/* Main Terminal Viewport (The Interactive Terminal Desks) */}
       <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-5 pb-16 relative z-10">
         <AnimatePresence mode="wait">
-          {/* Section 1: Trading Desk */}
+          {/* Tab 1: Flagship Interactive Trading Terminal Desk */}
           {activeTab === 'trading' && (
             <PageTransition tabKey="trading">
               <TradingTerminalView onNavigateToOptions={() => setActiveTab('options')} />
             </PageTransition>
           )}
 
-          {/* Section 2: Technical Analysis */}
-          {activeTab === 'technical' && (
-            <PageTransition tabKey="technical">
-              <TechnicalAnalysisDeskView />
-            </PageTransition>
-          )}
-
-          {/* Section 3: News */}
+          {/* Tab 2: Market News & Institutional Flow */}
           {activeTab === 'news' && (
             <PageTransition tabKey="news">
               <NewsView />
             </PageTransition>
           )}
 
-          {/* Section 4: Option Chain */}
+          {/* Tab 3: Dedicated Options Chain */}
           {activeTab === 'options' && (
             <PageTransition tabKey="options">
-              <OptionsCommandView chain={chain} expiries={expiries} />
+              <OptionsChainPageView chain={chain} expiries={expiries} />
             </PageTransition>
           )}
 
-          {/* Section 5: Position & P&L */}
-          {activeTab === 'positions' && (
+          {/* Tab 4: Technical Analysis Desk */}
+          {(activeTab === 'technical' || activeTab === 'explorer') && (
+            <PageTransition tabKey="technical">
+              <TechnicalAnalysisDeskView />
+            </PageTransition>
+          )}
+
+          {/* Tab 5: AI Market Analyst */}
+          {activeTab === 'ai-analyst' && (
+            <PageTransition tabKey="ai-analyst">
+              <AIMarketAnalystView
+                onNavigateToOptions={() => setActiveTab('options')}
+                onNavigateToStrategy={() => setActiveTab('strategy-lab')}
+              />
+            </PageTransition>
+          )}
+
+          {/* Tab 6: Strategy Lab and Backtesting */}
+          {activeTab === 'strategy-lab' && (
+            <PageTransition tabKey="strategy-lab">
+              <StrategyLabView
+                onNavigateToPaper={() => setActiveTab('positions')}
+              />
+            </PageTransition>
+          )}
+
+          {/* Tab 7: Position & P&L Portfolio Desk */}
+          {(activeTab === 'positions' || activeTab === 'paper-trading') && (
             <PageTransition tabKey="positions">
               <div className="space-y-4">
                 <PortfolioDesk onNavigateToOptions={() => setActiveTab('trading')} />
@@ -192,7 +218,17 @@ function AppInner() {
             </PageTransition>
           )}
 
-          {/* Section 6: Others Tools */}
+          {/* Tab 8: Market Overview & Global Search */}
+          {(activeTab === 'markets' || activeTab === 'overview') && (
+            <PageTransition tabKey="markets">
+              <HomeMarketOverviewView
+                onNavigate={setActiveTab}
+                onSelectSymbol={() => setActiveTab('trading')}
+              />
+            </PageTransition>
+          )}
+
+          {/* Tab 9: Advanced Tools (3D Volatility, Regime, Health) */}
           {activeTab === 'tools' && (
             <PageTransition tabKey="tools">
               <OthersToolsView
@@ -202,6 +238,16 @@ function AppInner() {
                 regime={regime}
                 providers={providers}
                 isLowPerf={isLowPerf}
+              />
+            </PageTransition>
+          )}
+
+          {/* Tab 10: Watchlist & Portfolio */}
+          {activeTab === 'portfolio' && (
+            <PageTransition tabKey="portfolio">
+              <WatchlistPortfolioView
+                onNavigateToOptions={() => setActiveTab('options')}
+                onNavigateToExplorer={() => setActiveTab('technical')}
               />
             </PageTransition>
           )}
