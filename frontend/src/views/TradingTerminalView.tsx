@@ -4,7 +4,15 @@ import { PrecisionMarketClock } from '../components/market/PrecisionMarketClock'
 import { OptionChainTableDesk } from '../components/options/OptionChainTableDesk';
 import { PortfolioDesk } from '../components/trading/PortfolioDesk';
 import { CandlestickChart } from '../components/market/CandlestickChart';
-export const TradingTerminalView: React.FC = () => {
+import { MLEngineSignalCard } from '../components/trading/MLEngineSignalCard';
+
+interface TradingTerminalViewProps {
+  onNavigateToOptions?: () => void;
+}
+
+export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
+  onNavigateToOptions,
+}) => {
   const {
     instruments,
     selectedSymbol,
@@ -24,7 +32,13 @@ export const TradingTerminalView: React.FC = () => {
       {/* 1. Precision Market Clock & High-Frequency Session Strip */}
       <PrecisionMarketClock timeState={timeState} />
 
-      {/* 2. Executive Underlying Intelligence Strip */}
+      {/* 2. AI ML Predictive Alpha Signals Engine (What to Buy & What to Sell) */}
+      <MLEngineSignalCard
+        currentSpot={activeInstrument.spot_price}
+        onNavigateToOptions={onNavigateToOptions}
+      />
+
+      {/* 3. Executive Underlying Intelligence Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {Object.keys(instruments).map((sym) => {
           const inst = instruments[sym];

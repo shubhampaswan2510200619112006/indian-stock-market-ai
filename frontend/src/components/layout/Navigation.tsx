@@ -1,11 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Compass, BarChart3, Layers, Box, FileCheck, Server,
-  Zap, Clock, Search, TrendingUp, Newspaper,
+  Zap, Clock, Search, TrendingUp, Newspaper, DollarSign, LogOut
 } from 'lucide-react';
 
-export type NavTab = 'trading' | 'positions' | 'options' | 'news' | 'markets' | 'overview' | 'volatility' | 'research' | 'data-health';
+export type NavTab =
+  | 'trading'
+  | 'technical'
+  | 'news'
+  | 'options'
+  | 'positions'
+  | 'tools'
+  | 'markets'
+  | 'overview'
+  | 'volatility'
+  | 'research'
+  | 'data-health';
 
 import { getISTTime } from '../../utils/istTime';
 import { CyberLogo } from './CyberLogo';
@@ -24,16 +35,19 @@ export interface NavigationProps {
 }
 
 const navItems: { id: NavTab; label: string; short: string; icon: React.ElementType }[] = [
-  { id: 'trading',   label: 'TRADING DESK',   short: 'TRADE', icon: TrendingUp },
-  { id: 'positions', label: 'POSITIONS & P&L', short: 'POS',   icon: Layers    },
-  { id: 'news',      label: 'MARKET NEWS',     short: 'NEWS',  icon: Newspaper },
+  { id: 'trading',   label: 'Trading Desk',        short: 'TRADE', icon: TrendingUp },
+  { id: 'technical', label: 'Technical Analysis',  short: 'TECH',  icon: BarChart3  },
+  { id: 'news',      label: 'News',                short: 'NEWS',  icon: Newspaper },
+  { id: 'options',   label: 'Option Chain',        short: 'OPT',   icon: Layers    },
+  { id: 'positions', label: 'Position & P&L',      short: 'P&L',   icon: DollarSign },
+  { id: 'tools',     label: 'Others Tools',        short: 'TOOLS', icon: Compass   },
 ];
 
 export const Navigation: React.FC<NavigationProps> = ({
   activeTab, onSelectTab, isLowPerf, onToggleLowPerf, marketOpen: _propMarketOpen, onOpenCommandPalette,
   experienceMode: _expMode, onSelectExperienceMode: _onSelectExp,
 }) => {
-  const { user, openAuthModal } = useAuth();
+  const { user, openAuthModal, logout } = useAuth();
   const { themeConfig, cycleTheme } = useTheme();
   const [istData, setIstData] = useState(() => getISTTime());
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -63,7 +77,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     });
   }, [activeTab]);
 
-  // Keyboard shortcuts 1-3
+  // Keyboard shortcuts 1-6
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -84,7 +98,49 @@ export const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <>
-      {/* ── Desktop Header ─────────────────────────────────── */}
+      {/* ── 1. Top Welcome & Indian Index Tickers Strip ───────────────── */}
+      <div className="w-full bg-[#050811]/95 border-b border-white/[0.08] py-2 px-4 backdrop-blur-xl">
+        <div className="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+          {/* Welcome Tagline */}
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f6d776] text-[11px] font-extrabold shadow-sm font-['Outfit']">
+              ✨ Welcome to Indian Financial Trading AI
+            </span>
+            <span className="text-slate-400 hidden xl:inline text-[11px]">
+              Autonomous Quantitative Derivatives & Execution Platform
+            </span>
+          </div>
+
+          {/* Major Indian Indices Strip (NIFTY, BANK NIFTY, SENSEX, FINNIFTY) */}
+          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto text-[11px] font-mono scrollbar-none">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0a0f1d] border border-white/[0.08]">
+              <span className="text-slate-400 font-bold">🏛️ NIFTY:</span>
+              <span className="text-white font-extrabold">₹24,652.8</span>
+              <span className="text-emerald-400 font-bold">+0.52%</span>
+            </div>
+
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0a0f1d] border border-white/[0.08]">
+              <span className="text-slate-400 font-bold">🏦 BANK NIFTY:</span>
+              <span className="text-white font-extrabold">₹51,240.5</span>
+              <span className="text-rose-400 font-bold">-0.22%</span>
+            </div>
+
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0a0f1d] border border-white/[0.08]">
+              <span className="text-slate-400 font-bold">📈 SENSEX:</span>
+              <span className="text-white font-extrabold">₹81,380.0</span>
+              <span className="text-emerald-400 font-bold">+0.48%</span>
+            </div>
+
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0a0f1d] border border-white/[0.08] hidden sm:flex">
+              <span className="text-slate-400 font-bold">💳 FINNIFTY:</span>
+              <span className="text-white font-extrabold">₹23,892.2</span>
+              <span className="text-emerald-400 font-bold">+0.31%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 2. Primary Desktop Navigation Header ───────────────────────── */}
       <header style={{
         position: 'sticky',
         top: 0,
@@ -99,20 +155,20 @@ export const Navigation: React.FC<NavigationProps> = ({
         <div style={{
           maxWidth: 1600,
           margin: '0 auto',
-          padding: '0 24px',
+          padding: '0 20px',
           height: 64,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 16,
+          gap: 12,
         }}>
           {/* Brand & Logo */}
           <div onClick={() => onSelectTab('trading')} className="cursor-pointer flex-shrink-0">
             <CyberLogo size="md" />
           </div>
 
-          {/* Desktop Nav Tabs (Simple & Sweet: 3 Core Items) */}
-          <nav className="hidden md:flex" style={{ position: 'relative', alignItems: 'center', gap: 6 }}>
+          {/* Desktop Nav Tabs: 1. Trading Desk 2. Technical Analysis 3. News 4. Option Chain 5. Position & P&L 6. Others Tools */}
+          <nav className="hidden lg:flex" style={{ position: 'relative', alignItems: 'center', gap: 4 }}>
             {/* Sliding gold underline */}
             <div
               className="nav-indicator"
@@ -134,13 +190,13 @@ export const Navigation: React.FC<NavigationProps> = ({
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 7,
-                    padding: '8px 16px',
+                    gap: 6,
+                    padding: '8px 14px',
                     borderRadius: 10,
                     fontFamily: '"Outfit", sans-serif',
-                    fontSize: 13,
+                    fontSize: 12,
                     fontWeight: isActive ? 700 : 500,
-                    letterSpacing: '0.04em',
+                    letterSpacing: '0.03em',
                     cursor: 'pointer',
                     border: isActive ? '1px solid rgba(212, 175, 55, 0.4)' : '1px solid transparent',
                     background: isActive ? 'rgba(212, 175, 55, 0.12)' : 'transparent',
@@ -163,16 +219,16 @@ export const Navigation: React.FC<NavigationProps> = ({
                     }
                   }}
                 >
-                  <Icon style={{ width: 15, height: 15, flexShrink: 0 }} />
+                  <Icon style={{ width: 14, height: 14, flexShrink: 0 }} />
                   {item.label}
                 </button>
               );
             })}
           </nav>
 
-          {/* Right Controls (Clean, Minimal, User-Friendly) */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
-            {/* Trader Account Button */}
+          {/* Right Controls: User Profile + Logout + Theme + Live Clock */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+            {/* Active Trader Profile Pill */}
             <button
               onClick={openAuthModal}
               className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#111726] hover:bg-[#182136] border border-white/[0.1] hover:border-[#d4af37]/40 transition-all text-xs flex-shrink-0 cursor-pointer shadow-sm"
@@ -180,37 +236,36 @@ export const Navigation: React.FC<NavigationProps> = ({
             >
               <span className="text-sm">{user ? user.avatar : '👤'}</span>
               <div className="text-left hidden sm:block">
-                <div className="font-bold text-white text-[12px] font-['Outfit']">
+                <div className="font-bold text-white text-[11px] font-['Outfit']">
                   {user ? user.fullName.split(' ')[0] : 'Trader'}
                 </div>
                 <div className="text-[10px] text-emerald-400 font-mono font-bold">
-                  ₹10,00,000 Demo
+                  ₹{(user ? user.startingCapital : 1000000).toLocaleString('en-IN')} Demo
                 </div>
               </div>
             </button>
 
-            {/* Elegant Theme Switcher Pill */}
+            {/* Sign Out Button (returns user to landing login page) */}
+            <button
+              onClick={logout}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-rose-500/15 border border-white/[0.08] hover:border-rose-500/30 text-slate-400 hover:text-rose-300 transition-all text-xs cursor-pointer shadow-sm"
+              title="Sign Out & Lock Terminal"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden xl:inline text-[11px] font-medium">Sign Out</span>
+            </button>
+
+            {/* Theme Switcher */}
             <button
               onClick={cycleTheme}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#111726] hover:bg-[#182136] border border-white/[0.1] hover:border-[#d4af37]/40 text-xs font-bold text-slate-200 transition-all shadow-sm hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer"
-              title={`Current Theme: ${themeConfig.name} — Click to switch`}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#111726] hover:bg-[#182136] border border-white/[0.1] hover:border-[#d4af37]/40 text-xs font-bold text-slate-200 transition-all shadow-sm flex-shrink-0 cursor-pointer"
+              title={`Current Theme: ${themeConfig.name}`}
             >
               <span className="text-sm">{themeConfig.icon}</span>
-              <span className="hidden sm:inline font-['Outfit'] text-[12px]">{themeConfig.name.split(' ')[1] || 'Theme'}</span>
+              <span className="hidden sm:inline font-['Outfit'] text-[11px]">{themeConfig.name.split(' ')[1] || 'Theme'}</span>
             </button>
 
-            {/* Search / Command Palette — 2xl only */}
-            <button
-              onClick={onOpenCommandPalette}
-              title="Command Palette (⌘K)"
-              className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[var(--z3)] border border-[var(--border-1)] text-xs text-[var(--text-muted)] cursor-pointer hover:border-[var(--border-gold)]"
-            >
-              <Search style={{ width: 12, height: 12 }} />
-              <span>Search</span>
-              <kbd className="px-1 py-0.5 rounded bg-[var(--z5)] border border-[var(--border-1)] text-[9px] font-mono text-[var(--text-faint)]">⌘K</kbd>
-            </button>
-
-            {/* Clock + Session */}
+            {/* Clock + Market Status */}
             <div className="hidden md:flex flex-shrink-0 flex-col items-end gap-0.5">
               <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-secondary)' }}>
                 <Clock style={{ width: 11, height: 11, color: 'var(--text-muted)' }} />
@@ -246,7 +301,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 gap: 4,
-                padding: '5px 10px',
+                padding: '5px 8px',
                 borderRadius: 7,
                 border: `1px solid ${isLowPerf ? 'rgba(212,175,55,0.4)' : 'var(--border-1)'}`,
                 background: isLowPerf ? 'var(--gold-glow)' : 'var(--z3)',
@@ -255,10 +310,9 @@ export const Navigation: React.FC<NavigationProps> = ({
                 fontFamily: 'JetBrains Mono, monospace',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
-                letterSpacing: '0.04em',
               }}
             >
-              <Zap style={{ width: 11, height: 11 }} />
+              <Zap style={{ width: 10, height: 10 }} />
               <span>{isLowPerf ? 'ECO' : '3D'}</span>
             </button>
           </div>
@@ -266,7 +320,7 @@ export const Navigation: React.FC<NavigationProps> = ({
       </header>
 
       {/* ── Mobile Bottom Tab Bar ─────────────────────────── */}
-      <div className="md:hidden mobile-tab-bar">
+      <div className="lg:hidden mobile-tab-bar">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -277,7 +331,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               className={`mobile-tab-item ${isActive ? 'active' : ''}`}
             >
               <div style={{ position: 'relative' }}>
-                <Icon style={{ width: 20, height: 20 }} />
+                <Icon style={{ width: 18, height: 18 }} />
                 {isActive && (
                   <motion.div
                     layoutId="mobile-active-dot"
@@ -296,7 +350,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                   />
                 )}
               </div>
-              {item.short}
+              <span className="text-[10px]">{item.short}</span>
             </button>
           );
         })}

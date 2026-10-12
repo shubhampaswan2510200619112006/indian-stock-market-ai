@@ -87,8 +87,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.warn('Failed to parse saved auth state:', err);
       }
     }
-    // Default to Rahul Sharma (Pro) so users start with a fully initialized trader profile
-    return DEMO_PROFILES.pro;
+    // Require login or 1-click registration entry on initial visit
+    return null;
   });
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);

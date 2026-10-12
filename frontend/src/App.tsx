@@ -1,30 +1,27 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Navigation, NavTab } from './components/layout/Navigation';
-import { StatusBanner } from './components/layout/StatusBanner';
 import { Footer } from './components/layout/Footer';
 import { CommandPalette } from './components/ui/CommandPalette';
 import { ToastProvider, useToast } from './components/ui/Toast';
 import { PageTransition } from './components/ui/PageTransition';
-import { OverviewView } from './views/OverviewView';
-import { MarketsView } from './views/MarketsView';
 import { OptionsCommandView } from './views/OptionsCommandView';
-import { VolatilityStudioView } from './views/VolatilityStudioView';
-import { ResearchGovernanceView } from './views/ResearchGovernanceView';
-import { DataHealthView } from './views/DataHealthView';
 import { TradingTerminalView } from './views/TradingTerminalView';
-import { BeginnerTerminalView } from './views/BeginnerTerminalView';
+import { TechnicalAnalysisDeskView } from './views/TechnicalAnalysisDeskView';
 import { NewsView } from './views/NewsView';
+import { OthersToolsView } from './views/OthersToolsView';
+import { LandingLoginPage } from './components/auth/LandingLoginPage';
 import { PaperTradingProvider } from './context/PaperTradingContext';
-import { AuthProvider, ExperienceLevel } from './context/AuthContext';
+import { AuthProvider, useAuth, ExperienceLevel } from './context/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
 import { CyberMarketBackground } from './components/background/CyberMarketBackground';
 import { OrderPadModal } from './components/trading/OrderPadModal';
 import { PortfolioDesk } from './components/trading/PortfolioDesk';
+import { ThemeProvider } from './context/ThemeContext';
 import { api } from './api/client';
 import {
   MarketQuote, Candle, OptionChainSnapshot,
-  ProviderHealth, MarketRegime, GovernanceState,
+  ProviderHealth, MarketRegime,
 } from './types/market';
 
 // ─── Default state (shown while loading / backend offline) ──────────────────
@@ -55,14 +52,15 @@ const DEFAULT_REGIME: MarketRegime = {
   data_status: 'HISTORICAL',
 };
 
-// ─── Inner app (needs access to toast context) ───────────────────────────────
+// ─── Inner app (needs access to toast and auth context) ───────────────────────
 function AppInner() {
+  const { user } = useAuth();
   const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState<NavTab>('trading');
   const [commandOpen, setCommandOpen] = useState(false);
   const [isLowPerf, setIsLowPerf] = useState(false);
   const [marketOpen, setMarketOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [backendOnline, setBackendOnline] = useState<boolean | null>(null);
 
   // Data state
@@ -73,7 +71,6 @@ function AppInner() {
   const [expiries, setExpiries] = useState<string[]>([]);
   const [providers, setProviders] = useState<ProviderHealth[]>([]);
   const [regime, setRegime] = useState<MarketRegime>(DEFAULT_REGIME);
-  const governance: GovernanceState = api.getGovernanceState();
 
   const fetchAll = useCallback(async (isInitial = false) => {
     let online = false;
@@ -82,11 +79,11 @@ function AppInner() {
       setMarketOpen(health.market_open);
       online = true;
       if (backendOnline === false) {
-        addToast('Backend reconnected — data refreshed.', 'success');
+        addToast('Backend reconnected — live data streaming.', 'success');
       }
     } catch {
       if (backendOnline !== false) {
-        addToast('Backend offline — showing cached data.', 'error', 6000);
+        addToast('Showing simulated exchange data.', 'info', 4000);
       }
     }
 
@@ -106,7 +103,6 @@ function AppInner() {
     if (isInitial) setLoading(false);
   }, [backendOnline, addToast]);
 
-  // Experience Mode State (BEGINNER vs PRO vs QUANT)
   const [experienceMode, setExperienceMode] = useState<ExperienceLevel>('PRO');
 
   // Initial load
@@ -119,6 +115,12 @@ function AppInner() {
     return () => clearInterval(interval);
   }, [marketOpen, fetchAll]);
 
+  // 1. Initial Gate: If user is not authenticated, show Landing Login / Registration Page!
+  if (!user) {
+    return <LandingLoginPage />;
+  }
+
+  // 2. Authenticated State: Full Website Experience
   return (
     <div
       className="min-h-screen flex flex-col relative overflow-x-hidden"
@@ -127,10 +129,10 @@ function AppInner() {
         color: 'var(--text-primary)',
       }}
     >
-      {/* 1. Live Ambient Market Background */}
+      {/* Live Animated Background */}
       <CyberMarketBackground isLowPerf={isLowPerf} />
 
-      {/* 2. Sticky Clean Navigation */}
+      {/* Sticky Navigation (Contains Top Welcome Tagline, Live Index Tickers & 6 Nav Tabs) */}
       <Navigation
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -142,7 +144,7 @@ function AppInner() {
         onSelectExperienceMode={(mode) => setExperienceMode(mode)}
       />
 
-      {/* 3. Command palette */}
+      {/* Command palette */}
       <CommandPalette
         open={commandOpen}
         onClose={() => setCommandOpen(false)}
@@ -150,14 +152,38 @@ function AppInner() {
         activeTab={activeTab}
       />
 
-      {/* 4. Main content (Simple, Sweet & Focused) */}
-      <main className="flex-1 max-w-[1500px] w-full mx-auto px-4 py-5 pb-16 relative z-10">
+      {/* Main Terminal Viewport (The 6 Sections) */}
+      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-5 pb-16 relative z-10">
         <AnimatePresence mode="wait">
+          {/* Section 1: Trading Desk */}
           {activeTab === 'trading' && (
             <PageTransition tabKey="trading">
-              <TradingTerminalView />
+              <TradingTerminalView onNavigateToOptions={() => setActiveTab('options')} />
             </PageTransition>
           )}
+
+          {/* Section 2: Technical Analysis */}
+          {activeTab === 'technical' && (
+            <PageTransition tabKey="technical">
+              <TechnicalAnalysisDeskView />
+            </PageTransition>
+          )}
+
+          {/* Section 3: News */}
+          {activeTab === 'news' && (
+            <PageTransition tabKey="news">
+              <NewsView />
+            </PageTransition>
+          )}
+
+          {/* Section 4: Option Chain */}
+          {activeTab === 'options' && (
+            <PageTransition tabKey="options">
+              <OptionsCommandView chain={chain} expiries={expiries} />
+            </PageTransition>
+          )}
+
+          {/* Section 5: Position & P&L */}
           {activeTab === 'positions' && (
             <PageTransition tabKey="positions">
               <div className="space-y-4">
@@ -165,50 +191,18 @@ function AppInner() {
               </div>
             </PageTransition>
           )}
-          {activeTab === 'news' && (
-            <PageTransition tabKey="news">
-              <NewsView />
-            </PageTransition>
-          )}
-          {activeTab === 'overview' && (
-            <PageTransition tabKey="overview">
-              <OverviewView
-                niftyQuote={niftyQuote}
-                bankniftyQuote={bankniftyQuote}
-                regime={regime}
-                isLowPerf={isLowPerf}
-                onNavigate={setActiveTab}
-              />
-            </PageTransition>
-          )}
-          {activeTab === 'markets' && (
-            <PageTransition tabKey="markets">
-              <MarketsView
+
+          {/* Section 6: Others Tools */}
+          {activeTab === 'tools' && (
+            <PageTransition tabKey="tools">
+              <OthersToolsView
                 niftyQuote={niftyQuote}
                 bankniftyQuote={bankniftyQuote}
                 candles={candles}
                 regime={regime}
+                providers={providers}
+                isLowPerf={isLowPerf}
               />
-            </PageTransition>
-          )}
-          {activeTab === 'options' && (
-            <PageTransition tabKey="options">
-              <OptionsCommandView chain={chain} expiries={expiries} />
-            </PageTransition>
-          )}
-          {activeTab === 'volatility' && (
-            <PageTransition tabKey="volatility">
-              <VolatilityStudioView isLowPerf={isLowPerf} />
-            </PageTransition>
-          )}
-          {activeTab === 'research' && (
-            <PageTransition tabKey="research">
-              <ResearchGovernanceView />
-            </PageTransition>
-          )}
-          {activeTab === 'data-health' && (
-            <PageTransition tabKey="data-health">
-              <DataHealthView providers={providers} />
             </PageTransition>
           )}
         </AnimatePresence>
@@ -218,8 +212,6 @@ function AppInner() {
     </div>
   );
 }
-
-import { ThemeProvider } from './context/ThemeContext';
 
 // ─── Root with providers ─────────────────────────────────────────────────────
 export const App: React.FC = () => (
