@@ -20,6 +20,7 @@ import { AuthProvider, ExperienceLevel } from './context/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
 import { CyberMarketBackground } from './components/background/CyberMarketBackground';
 import { OrderPadModal } from './components/trading/OrderPadModal';
+import { PortfolioDesk } from './components/trading/PortfolioDesk';
 import { api } from './api/client';
 import {
   MarketQuote, Candle, OptionChainSnapshot,
@@ -126,13 +127,10 @@ function AppInner() {
         color: 'var(--text-primary)',
       }}
     >
-      {/* 1. Live Cybernetic Moving Market Background */}
+      {/* 1. Live Ambient Market Background */}
       <CyberMarketBackground isLowPerf={isLowPerf} />
 
-      {/* 2. Governance ribbon */}
-      <StatusBanner governance={governance} />
-
-      {/* 3. Sticky nav with Logo, Experience Mode switcher, and Trader Profile */}
+      {/* 2. Sticky Clean Navigation */}
       <Navigation
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -141,14 +139,10 @@ function AppInner() {
         marketOpen={marketOpen}
         onOpenCommandPalette={() => setCommandOpen(true)}
         experienceMode={experienceMode}
-        onSelectExperienceMode={(mode) => {
-          setExperienceMode(mode);
-          if (mode === 'QUANT') setActiveTab('volatility');
-          else setActiveTab('trading');
-        }}
+        onSelectExperienceMode={(mode) => setExperienceMode(mode)}
       />
 
-      {/* 4. Command palette */}
+      {/* 3. Command palette */}
       <CommandPalette
         open={commandOpen}
         onClose={() => setCommandOpen(false)}
@@ -156,16 +150,24 @@ function AppInner() {
         activeTab={activeTab}
       />
 
-      {/* 5. Main content */}
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-5 py-6 pb-20 md:pb-8 relative z-10">
+      {/* 4. Main content (Simple, Sweet & Focused) */}
+      <main className="flex-1 max-w-[1500px] w-full mx-auto px-4 py-5 pb-16 relative z-10">
         <AnimatePresence mode="wait">
           {activeTab === 'trading' && (
-            <PageTransition tabKey={`trading-${experienceMode}`}>
-              {experienceMode === 'BEGINNER' ? (
-                <BeginnerTerminalView onSwitchToPro={() => setExperienceMode('PRO')} />
-              ) : (
-                <TradingTerminalView />
-              )}
+            <PageTransition tabKey="trading">
+              <TradingTerminalView />
+            </PageTransition>
+          )}
+          {activeTab === 'positions' && (
+            <PageTransition tabKey="positions">
+              <div className="space-y-4">
+                <PortfolioDesk onNavigateToOptions={() => setActiveTab('trading')} />
+              </div>
+            </PageTransition>
+          )}
+          {activeTab === 'news' && (
+            <PageTransition tabKey="news">
+              <NewsView />
             </PageTransition>
           )}
           {activeTab === 'overview' && (
@@ -192,11 +194,6 @@ function AppInner() {
           {activeTab === 'options' && (
             <PageTransition tabKey="options">
               <OptionsCommandView chain={chain} expiries={expiries} />
-            </PageTransition>
-          )}
-          {activeTab === 'news' && (
-            <PageTransition tabKey="news">
-              <NewsView />
             </PageTransition>
           )}
           {activeTab === 'volatility' && (

@@ -102,69 +102,42 @@ def main():
             unsafe_allow_html=True,
         )
 
-        # Mode Switcher (Beginner vs Pro)
-        render_mode_switcher_sidebar()
+        # Sweet, Simple & User-Friendly Navigation (Zero Clutter)
+        main_nav_options = [
+            "🚀 Trading Desk",
+            "💼 Positions & P&L",
+            "📰 Market News & AI",
+            "⚙️ Advanced Tools",
+        ]
 
-        st.divider()
+        # Check if deep-link requested
+        default_idx = 0
+        if "main_nav" in st.session_state and st.session_state["main_nav"] in main_nav_options:
+            default_idx = main_nav_options.index(st.session_state["main_nav"])
 
-        # Categorized Navigation based on selected UI Mode
-        if ui_mode == "BEGINNER":
-            beginner_options = [
-                "🎯 Guided Paper Trade & Catalysts",
-                "⚡ 60s Option Decision Terminal",
-                "🏠 Home & Balance",
-                "📋 Option Chain & Buy Strikes",
-                "💼 My Portfolio & Live P&L",
-                "📰 Live Market News",
-                "📈 Market Discovery",
-                "🛡️ Safety & Risk Guard",
-                "🎓 Trader Academy & Guide",
-                "🚀 Unified Master Trading Terminal",
-            ]
-            # Handle deep-link transitions from buttons
-            default_idx = 0
-            if "beginner_nav" in st.session_state and st.session_state["beginner_nav"] in beginner_options:
-                default_idx = beginner_options.index(st.session_state["beginner_nav"])
+        page = st.radio(
+            "Navigation",
+            main_nav_options,
+            index=default_idx,
+            label_visibility="collapsed",
+            key="radio_main_nav",
+        )
+        st.session_state["main_nav"] = page
 
-            page = st.radio(
-                "Beginner Navigation",
-                beginner_options,
-                index=default_idx,
-                label_visibility="collapsed",
-                key="radio_beginner_nav",
-            )
-            # Sync back state
-            st.session_state["beginner_nav"] = page
-
-        else:
-            # PRO MODE: Dense, Institutional Terminal Desks
-            pro_options = [
-                "🚀 Unified Master Trading Terminal",
-                "⚡ 60s Option Decision Terminal",
-                "🏛️ Executive Terminal",
-                "⚡ AI Live Market Terminal",
-                "📰 Live News Intelligence",
-                "📋 Option Chain & Technical Desk",
-                "⚡ Volatility & Greeks Surface",
-                "📈 Technical Analysis Desk",
-                "🌡 Market Regime Classifier",
-                "📋 Pro Paper Execution Desk",
-                "📊 Portfolio & Mark-to-Market",
-                "📜 Execution Journal & Audit",
-                "🛡️ Circuit Breakers & Risk Limits",
-                "🎯 Strategy Research Lab",
-                "⏳ Backtesting & Validation Gate",
-                "🤖 ML Predictive Alphas",
-                "🔬 Multi-Session Validation",
-                "🏥 Provider Data Health",
-                "🏠 Market Overview",
-            ]
-            page = st.radio(
-                "Pro Terminal Desks",
-                pro_options,
-                index=0,
-                label_visibility="collapsed",
-                key="radio_pro_nav",
+        adv_tool = None
+        if page == "⚙️ Advanced Tools":
+            adv_tool = st.selectbox(
+                "Select Advanced Tool",
+                [
+                    "⚡ Volatility & Greeks Surface",
+                    "📈 Technical Analysis Desk",
+                    "🌡 Market Regime Classifier",
+                    "⏳ Backtesting & Validation Gate",
+                    "🎯 Strategy Research Lab",
+                    "🛡️ Circuit Breakers & Risk Limits",
+                    "🏥 Provider Data Health",
+                ],
+                key="adv_tool_select",
             )
 
         st.divider()
@@ -173,7 +146,7 @@ def main():
         config = get_config()
         symbols = [u["symbol"] for u in config.enabled_underlyings]
         selected_symbol = st.selectbox(
-            "Default Underlying",
+            "Underlying Index",
             symbols,
             index=0 if symbols else None,
             key="global_symbol",
@@ -188,7 +161,7 @@ def main():
             <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;">
                 <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">ACTIVE TRADER</div>
                 <div style="font-size: 14px; font-weight: 700; color: #f8fafc;">{user.full_name}</div>
-                <div style="font-size: 11px; color: #38bdf8;">@{user.username} &nbsp;•&nbsp; {user.email}</div>
+                <div style="font-size: 11px; color: #38bdf8;">@{user.username}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -203,104 +176,42 @@ def main():
         market_open = is_market_open()
         market_badge = "🟢 OPEN" if market_open else "🔴 CLOSED"
         st.caption(f"**NSE Status:** {market_badge} • `{now.strftime('%H:%M:%S IST')}`")
-        st.caption("🛡️ **PAPER TRADING SIMULATION ONLY** • No real money used.")
 
-    # ----- Always-Visible Top Decision Bar & Verdict Banner -----
+    # ----- Always-Visible Top Decision Bar (Clean & Compact) -----
     from dashboard.components.decision_top_bar import render_decision_top_bar
     verdict_res = render_decision_top_bar(service)
 
-    # ----- Content Routing -----
-    if page == "🚀 Unified Master Trading Terminal":
-        st.markdown("### 🚀 Unified Master Trading Terminal")
-        st.caption("Integrated Derivatives Strike Matrix • Automated Candlestick Pattern AI • Synchronized P&L Ledger")
-        st.components.v1.iframe("http://localhost:3000", height=950, scrolling=True)
-    elif page in ("🎯 Guided Paper Trade & Catalysts", "🎯 Guided Paper Trade"):
-        from dashboard.components.beginner_views import render_beginner_trade
-        render_beginner_trade(service)
-    elif page == "⚡ 60s Option Decision Terminal":
-        from dashboard.pages.option_decision_terminal import render_decision_terminal_page
-        render_decision_terminal_page(service)
-    elif ui_mode == "BEGINNER":
-        from dashboard.components.beginner_views import (
-            render_beginner_home,
-            render_beginner_trade,
-            render_beginner_portfolio,
-            render_beginner_risk,
-            render_beginner_academy,
-        )
-        if page == "🏠 Home & Balance":
-            render_beginner_home(service)
-        elif page in ("📋 Option Chain & Buy Strikes", "📋 Option Chain & Technical Desk"):
-            from dashboard.pages.options_chain import render_options_chain_page
-            render_options_chain_page()
-        elif page == "💼 My Portfolio & Live P&L":
-            render_beginner_portfolio(service)
-        elif page == "📰 Live Market News":
-            from dashboard.pages.live_news import render_live_news_page
-            render_live_news_page()
-        elif page == "💼 My Holdings & Positions":
-            render_beginner_portfolio(service)
-        elif page == "📈 Market Discovery":
-            from dashboard.components.beginner_views import render_beginner_market_discovery
-            render_beginner_market_discovery(selected_symbol or "NIFTY")
-        elif page == "🛡️ Safety & Risk Guard":
-            render_beginner_risk(service)
-        elif page == "🎓 Trader Academy & Guide":
-            render_beginner_academy()
-
-    else:
-        # Pro Mode Routing
-        if page == "🏛️ Executive Terminal":
-            from dashboard.pages.investor_overview import render_investor_overview_page
-            render_investor_overview_page()
-        elif page == "⚡ AI Live Market Terminal":
-            from dashboard.pages.live_market import render_live_market_page
-            render_live_market_page()
-        elif page == "📰 Live News Intelligence":
-            from dashboard.pages.live_news import render_live_news_page
-            render_live_news_page()
-        elif page in ("📋 Option Chain Matrix", "📋 Option Chain & Technical Desk"):
-            from dashboard.pages.options_chain import render_options_chain_page
-            render_options_chain_page()
-        elif page == "⚡ Volatility & Greeks Surface":
+    # ----- Clean, Sweet Content Routing -----
+    if page == "🚀 Trading Desk":
+        st.components.v1.iframe("http://localhost:3000", height=980, scrolling=True)
+    elif page == "💼 Positions & P&L":
+        from dashboard.pages.paper_positions import render_paper_positions_page
+        render_paper_positions_page()
+    elif page == "📰 Market News & AI":
+        from dashboard.pages.live_news import render_live_news_page
+        render_live_news_page()
+    elif page == "⚙️ Advanced Tools":
+        if adv_tool == "⚡ Volatility & Greeks Surface":
             from dashboard.pages.volatility_greeks import render_volatility_greeks_page
             render_volatility_greeks_page()
-        elif page == "📈 Technical Analysis Desk":
+        elif adv_tool == "📈 Technical Analysis Desk":
             from dashboard.pages.technical_analysis import render_technical_analysis_page
             render_technical_analysis_page()
-        elif page == "🌡 Market Regime Classifier":
+        elif adv_tool == "🌡 Market Regime Classifier":
             from dashboard.pages.market_regime import render_market_regime_page
             render_market_regime_page()
-        elif page == "📋 Pro Paper Execution Desk":
-            from dashboard.pages.paper_trading import render_paper_trading_page
-            render_paper_trading_page()
-        elif page == "📊 Portfolio & Mark-to-Market":
-            from dashboard.pages.paper_positions import render_paper_positions_page
-            render_paper_positions_page()
-        elif page == "📜 Execution Journal & Audit":
-            from dashboard.pages.paper_journal import render_paper_journal_page
-            render_paper_journal_page()
-        elif page == "🛡️ Circuit Breakers & Risk Limits":
-            from dashboard.pages.paper_risk import render_paper_risk_page
-            render_paper_risk_page()
-        elif page == "🎯 Strategy Research Lab":
-            from dashboard.pages.strategy_research import render_strategy_research_page
-            render_strategy_research_page()
-        elif page == "⏳ Backtesting & Validation Gate":
+        elif adv_tool == "⏳ Backtesting & Validation Gate":
             from dashboard.pages.backtest_validation import render_backtest_validation_page
             render_backtest_validation_page()
-        elif page == "🤖 ML Predictive Alphas":
-            from dashboard.pages.ml_research import render as render_ml_page
-            render_ml_page()
-        elif page == "🔬 Multi-Session Validation":
-            from dashboard.pages.paper_validation import render_paper_validation_page
-            render_paper_validation_page()
-        elif page == "🏥 Provider Data Health":
+        elif adv_tool == "🎯 Strategy Research Lab":
+            from dashboard.pages.strategy_research import render_strategy_research_page
+            render_strategy_research_page()
+        elif adv_tool == "🛡️ Circuit Breakers & Risk Limits":
+            from dashboard.pages.paper_risk import render_paper_risk_page
+            render_paper_risk_page()
+        elif adv_tool == "🏥 Provider Data Health":
             from dashboard.pages.data_health import render_data_health_page
             render_data_health_page()
-        elif page == "🏠 Market Overview":
-            from dashboard.pages.market import render_market_page
-            render_market_page()
 
 
 if __name__ == "__main__":

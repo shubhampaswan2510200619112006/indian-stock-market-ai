@@ -5,7 +5,7 @@ import {
   Zap, Clock, Search, TrendingUp, Newspaper,
 } from 'lucide-react';
 
-export type NavTab = 'trading' | 'options' | 'news' | 'markets' | 'overview' | 'volatility' | 'research' | 'data-health';
+export type NavTab = 'trading' | 'positions' | 'options' | 'news' | 'markets' | 'overview' | 'volatility' | 'research' | 'data-health';
 
 import { getISTTime } from '../../utils/istTime';
 import { CyberLogo } from './CyberLogo';
@@ -24,30 +24,17 @@ export interface NavigationProps {
 }
 
 const navItems: { id: NavTab; label: string; short: string; icon: React.ElementType }[] = [
-  { id: 'trading',     label: 'TERMINAL', short: 'TRM', icon: TrendingUp },
-  { id: 'options',     label: 'OPTIONS',  short: 'OPT', icon: Layers    },
-  { id: 'news',        label: 'NEWS',     short: 'NWS', icon: Newspaper },
-  { id: 'markets',     label: 'MARKETS',  short: 'MKT', icon: BarChart3 },
-  { id: 'overview',    label: 'OVERVIEW', short: 'OVR', icon: Compass   },
-  { id: 'volatility',  label: '3D VOL',   short: '3DV', icon: Box       },
-  { id: 'research',    label: 'RESEARCH', short: 'RES', icon: FileCheck },
-  { id: 'data-health', label: 'HEALTH',   short: 'DAT', icon: Server    },
+  { id: 'trading',   label: 'TRADING DESK',   short: 'TRADE', icon: TrendingUp },
+  { id: 'positions', label: 'POSITIONS & P&L', short: 'POS',   icon: Layers    },
+  { id: 'news',      label: 'MARKET NEWS',     short: 'NEWS',  icon: Newspaper },
 ];
 
 export const Navigation: React.FC<NavigationProps> = ({
   activeTab, onSelectTab, isLowPerf, onToggleLowPerf, marketOpen: _propMarketOpen, onOpenCommandPalette,
-  experienceMode, onSelectExperienceMode,
+  experienceMode: _expMode, onSelectExperienceMode: _onSelectExp,
 }) => {
-  const { user, openAuthModal, updateExperienceLevel } = useAuth();
+  const { user, openAuthModal } = useAuth();
   const { themeConfig, cycleTheme } = useTheme();
-  const currentMode = experienceMode || user?.experienceLevel || 'PRO';
-
-  const handleModeSwitch = (mode: ExperienceLevel) => {
-    updateExperienceLevel(mode);
-    if (onSelectExperienceMode) {
-      onSelectExperienceMode(mode);
-    }
-  };
   const [istData, setIstData] = useState(() => getISTTime());
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
@@ -76,16 +63,14 @@ export const Navigation: React.FC<NavigationProps> = ({
     });
   }, [activeTab]);
 
-  // Keyboard shortcuts 1-6
+  // Keyboard shortcuts 1-3
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      // Cmd/Ctrl+K → command palette
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         onOpenCommandPalette();
         return;
       }
-      // 1–6 tab shortcuts (only when no input focused)
       const active = document.activeElement?.tagName;
       if (active === 'INPUT' || active === 'TEXTAREA') return;
       const idx = parseInt(e.key) - 1;
@@ -122,12 +107,12 @@ export const Navigation: React.FC<NavigationProps> = ({
           gap: 16,
         }}>
           {/* Brand & Logo */}
-          <div onClick={() => onSelectTab('overview')} className="cursor-pointer flex-shrink-0">
+          <div onClick={() => onSelectTab('trading')} className="cursor-pointer flex-shrink-0">
             <CyberLogo size="md" />
           </div>
 
-          {/* Desktop Nav Tabs */}
-          <nav className="hidden md:flex" style={{ position: 'relative', alignItems: 'center', gap: 4 }}>
+          {/* Desktop Nav Tabs (Simple & Sweet: 3 Core Items) */}
+          <nav className="hidden md:flex" style={{ position: 'relative', alignItems: 'center', gap: 6 }}>
             {/* Sliding gold underline */}
             <div
               className="nav-indicator"
@@ -149,17 +134,17 @@ export const Navigation: React.FC<NavigationProps> = ({
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 6,
-                    padding: '7px 14px',
+                    gap: 7,
+                    padding: '8px 16px',
                     borderRadius: 10,
                     fontFamily: '"Outfit", sans-serif',
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: isActive ? 700 : 500,
                     letterSpacing: '0.04em',
                     cursor: 'pointer',
                     border: isActive ? '1px solid rgba(212, 175, 55, 0.4)' : '1px solid transparent',
                     background: isActive ? 'rgba(212, 175, 55, 0.12)' : 'transparent',
-                    color: isActive ? '#f6d776' : 'rgba(255, 255, 255, 0.65)',
+                    color: isActive ? '#f6d776' : 'rgba(255, 255, 255, 0.7)',
                     boxShadow: isActive ? '0 0 15px rgba(212, 175, 55, 0.15)' : 'none',
                     transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                     position: 'relative',
@@ -173,73 +158,33 @@ export const Navigation: React.FC<NavigationProps> = ({
                   }}
                   onMouseLeave={e => {
                     if (!isActive) {
-                      (e.currentTarget as HTMLElement).style.color = 'rgba(255, 255, 255, 0.65)';
+                      (e.currentTarget as HTMLElement).style.color = 'rgba(255, 255, 255, 0.7)';
                       (e.currentTarget as HTMLElement).style.background = 'transparent';
                     }
                   }}
                 >
-                  <Icon style={{ width: 14, height: 14, flexShrink: 0 }} />
+                  <Icon style={{ width: 15, height: 15, flexShrink: 0 }} />
                   {item.label}
                 </button>
               );
             })}
           </nav>
 
-          {/* Right Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-            {/* Experience Level Switcher (Beginner vs Pro vs Quant) */}
-            <div className="flex items-center bg-[#0d121e] p-1 rounded-xl border border-white/[0.08] text-xs shadow-sm">
-              <button
-                onClick={() => handleModeSwitch('BEGINNER')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-                  currentMode === 'BEGINNER'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-                title="Beginner Guided Mode: 3-step trade wizard, educational guidance & zero jargon"
-              >
-                <span>🔰</span>
-                <span className="hidden xl:inline">Beginner</span>
-              </button>
-              <button
-                onClick={() => handleModeSwitch('PRO')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-                  currentMode === 'PRO'
-                    ? 'bg-[#d4af37]/20 text-[#f6d776] border border-[#d4af37]/40 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-                title="Pro Terminal: Full Kite/Sensibull Options Chain, Greek analytics & order pad"
-              >
-                <span>⚡</span>
-                <span className="hidden xl:inline">Pro</span>
-              </button>
-              <button
-                onClick={() => handleModeSwitch('QUANT')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-                  currentMode === 'QUANT'
-                    ? 'bg-purple-500/20 text-purple-300 border border-purple-400/40 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-                title="Quant Lab: 3D Volatility surfaces, Markov regimes & Black-Scholes pricing"
-              >
-                <span>🧠</span>
-                <span className="hidden xl:inline">Quant</span>
-              </button>
-            </div>
-
-            {/* Trader Account / Login Button */}
+          {/* Right Controls (Clean, Minimal, User-Friendly) */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+            {/* Trader Account Button */}
             <button
               onClick={openAuthModal}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#111726] to-[#182136] hover:from-[#161f33] hover:to-[#212c48] border border-white/[0.12] hover:border-[#d4af37]/50 transition-all text-xs flex-shrink-0 shadow-sm cursor-pointer"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#111726] hover:bg-[#182136] border border-white/[0.1] hover:border-[#d4af37]/40 transition-all text-xs flex-shrink-0 cursor-pointer shadow-sm"
               title="Trader Account & Virtual Funds"
             >
               <span className="text-sm">{user ? user.avatar : '👤'}</span>
               <div className="text-left hidden sm:block">
-                <div className="font-extrabold text-white leading-tight text-[11px] font-['Outfit']">
-                  {user ? user.fullName.split(' ')[0] : 'Sign In'}
+                <div className="font-bold text-white text-[12px] font-['Outfit']">
+                  {user ? user.fullName.split(' ')[0] : 'Trader'}
                 </div>
-                <div className="text-[9px] text-[#f6d776] font-mono font-bold">
-                  {user ? `${user.experienceLevel} VIP` : 'Executive Pro'}
+                <div className="text-[10px] text-emerald-400 font-mono font-bold">
+                  ₹10,00,000 Demo
                 </div>
               </div>
             </button>

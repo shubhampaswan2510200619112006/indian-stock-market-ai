@@ -40,99 +40,50 @@ def render_decision_top_bar(service: PaperTradingService) -> VerdictResult:
         daily_loss_pct=daily_loss_pct,
     )
 
-    # Real-Time Gateway Status Strip
-    st.markdown(
-        f"""
-        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 8px; padding: 5px 14px; margin-bottom: 10px; font-size: 11px;">
-            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <span style="display: inline-block; width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981;"></span>
-                <span style="color: #f8fafc; font-weight: 700; letter-spacing: 0.5px;">LIVE EXCHANGE FEED</span>
-                <span style="color: #475569;">•</span>
-                <span style="color: #38bdf8; font-weight: 600;">{snapshot.feed_provider}</span>
-                <span style="color: #475569;">•</span>
-                <span style="color: #cbd5e1;">Tick: <b>{snapshot.feed_time}</b></span>
-            </div>
-            <div style="color: #94a3b8; font-family: monospace;">
-                ⚡ Feed Latency: <b style="color: {'#10b981' if snapshot.feed_latency_ms < 600 else '#f59e0b'};">{snapshot.feed_latency_ms:.0f}ms</b>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    # 1. TOP TICKER ROW (Rendered via native responsive columns)
+    # 1. SLEEK, SWEET TICKER ROW & VERDICT
     with st.container():
-        col_nifty, col_bn, col_vix, col_gift, col_fii, col_regime = st.columns(6)
+        col_nifty, col_bn, col_vix, col_verdict = st.columns([1.2, 1.2, 1, 1.6])
 
         with col_nifty:
             st.metric(
-                "🏛️ NIFTY 50",
+                "NIFTY 50",
                 f"₹{snapshot.nifty_price:,.0f}",
                 f"{snapshot.nifty_change_pct:+.2f}%",
             )
 
         with col_bn:
             st.metric(
-                "🏦 BANK NIFTY",
+                "BANK NIFTY",
                 f"₹{snapshot.banknifty_price:,.0f}",
                 f"{snapshot.banknifty_change_pct:+.2f}%",
             )
 
         with col_vix:
             st.metric(
-                "⚡ INDIA VIX",
+                "INDIA VIX",
                 f"{snapshot.vix_value:.2f}",
                 f"{snapshot.vix_change_pct:+.2f}%",
                 delta_color="inverse",
             )
 
-        with col_gift:
-            st.metric(
-                "🌐 GIFT NIFTY",
-                f"₹{snapshot.gift_nifty_price:,.0f}",
-                f"{snapshot.gift_nifty_change_pct:+.2f}%",
+        with col_verdict:
+            badge_color = "#10b981" if verdict_res.verdict == "GOOD TO TRADE" else ("#f59e0b" if verdict_res.verdict == "CAUTION" else "#ef4444")
+            badge_icon = "🟢" if verdict_res.verdict == "GOOD TO TRADE" else ("🟡" if verdict_res.verdict == "CAUTION" else "🔴")
+            st.markdown(
+                f"""
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid {badge_color}40; border-radius: 8px; padding: 10px 14px; margin-top: 2px;">
+                    <div style="font-size: 10px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">AI Market Verdict</div>
+                    <div style="font-size: 15px; font-weight: 700; color: {badge_color};">{badge_icon} {verdict_res.verdict}</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
             )
 
-        with col_fii:
-            st.metric(
-                "💼 FII / DII (Cr)",
-                f"FII: {snapshot.fii_net_cr:+,.0f}",
-                f"DII: {snapshot.dii_net_cr:+,.0f}",
-            )
+    # Optional Collapsed Details for AI Market Analysis
+    if verdict_res.top_reasons:
+        with st.expander("💡 View Market Analysis & Key Reasons", expanded=False):
+            for r in verdict_res.top_reasons:
+                st.markdown(f"- {r}")
 
-        with col_regime:
-            st.metric(
-                "🏷️ MARKET REGIME",
-                snapshot.regime_tag,
-                "Macro Context",
-                delta_color="off",
-            )
-
-    # 2. PROMINENT VERDICT BANNER
-    reasons_text = "\n".join([f"- **{r}**" for r in verdict_res.top_reasons])
-    header_subtitle = "Deterministic rule-based gating • Strong bias toward capital preservation"
-
-    if verdict_res.verdict == "GOOD TO TRADE":
-        st.success(
-            f"### 🟢 GOOD TO TRADE — 60-Second Verdict\n"
-            f"*{header_subtitle}*\n\n"
-            f"**Key Catalysts:**\n"
-            f"{reasons_text}"
-        )
-    elif verdict_res.verdict == "CAUTION":
-        st.warning(
-            f"### 🟡 CAUTION — 60-Second Verdict\n"
-            f"*{header_subtitle}*\n\n"
-            f"**Key Cautionary Factors:**\n"
-            f"{reasons_text}"
-        )
-    else:  # NO TRADE
-        st.error(
-            f"### 🔴 NO TRADE — 60-Second Verdict (Risk Protection Active)\n"
-            f"*{header_subtitle}*\n\n"
-            f"**Mandatory Lockout Reasons:**\n"
-            f"{reasons_text}"
-        )
-
-    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 4px;'></div>", unsafe_allow_html=True)
     return verdict_res
