@@ -6,12 +6,12 @@ import {
   Clock, ArrowUpRight, ArrowDownRight, Layers, XSquare, Activity,
 } from 'lucide-react';
 
-interface GrowwPortfolioDashboardProps {
+export interface PortfolioDeskProps {
   onNavigateToOptions?: () => void;
   compact?: boolean;
 }
 
-export const GrowwPortfolioDashboard: React.FC<GrowwPortfolioDashboardProps> = ({
+export const PortfolioDesk: React.FC<PortfolioDeskProps> = ({
   onNavigateToOptions,
   compact = false,
 }) => {
@@ -369,3 +369,4 @@ export const GrowwPortfolioDashboard: React.FC<GrowwPortfolioDashboardProps> = (
     </div>
   );
 };
+

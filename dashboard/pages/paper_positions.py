@@ -20,7 +20,7 @@ import streamlit as st
 import pandas as pd
 
 from src.paper_trading.service import PaperTradingService
-from dashboard.components.portfolio_pnl_card import render_groww_pnl_header
+from dashboard.components.portfolio_pnl_card import render_portfolio_pnl_header
 
 
 def _get_service() -> PaperTradingService:
@@ -33,8 +33,8 @@ def render_paper_positions_page():
     """Render the paper positions and portfolio tracker page."""
     service = _get_service()
 
-    # Prominent Groww & Zerodha Style Real-Time P&L Header
-    render_groww_pnl_header(
+    # Prominent Real-Time P&L Header
+    render_portfolio_pnl_header(
         service,
         title="💼 PORTFOLIO & LIVE P&L",
         subtitle="Institutional Mark-to-Market P&L Tracking • Simulated Execution • Verified Marks",

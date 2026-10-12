@@ -362,12 +362,12 @@ def render_beginner_trade(service: PaperTradingService):
                 st.rerun()
 
 
-from dashboard.components.portfolio_pnl_card import render_groww_pnl_header
+from dashboard.components.portfolio_pnl_card import render_portfolio_pnl_header
 
 
 def render_beginner_portfolio(service: PaperTradingService):
     """Render a clean holdings view tailored for Beginners."""
-    render_groww_pnl_header(
+    render_portfolio_pnl_header(
         service,
         title="💼 My Portfolio & Live P&L",
         subtitle="Track your active holdings, monitor live profit/loss, and square off trades with 1-click",

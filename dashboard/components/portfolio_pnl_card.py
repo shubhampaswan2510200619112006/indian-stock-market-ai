@@ -1,7 +1,7 @@
 """
-Groww & Zerodha Style Real-Time Portfolio P&L Card Component.
+Executive Real-Time Portfolio P&L Card Component.
 
-Displays prominent, color-coded, retail-broker-grade profit and loss metrics:
+Displays prominent, color-coded, institutional-grade profit and loss metrics:
 - Overall Total P&L (₹ and %) with dynamic profit green / loss red styling
 - Invested Capital vs Current Portfolio Value
 - Booked / Realized P&L vs Open / Unrealized P&L
@@ -18,7 +18,7 @@ from typing import Optional
 from src.paper_trading.service import PaperTradingService
 
 
-def render_groww_pnl_header(
+def render_portfolio_pnl_header(
     service: PaperTradingService,
     title: str = "💼 Portfolio & Live P&L",
     subtitle: str = "Real-time Mark-to-Market Profit/Loss tracking across your active options and index trades",
@@ -26,7 +26,7 @@ def render_groww_pnl_header(
     key_prefix: str = "pnl_hdr",
 ):
     """
-    Renders an institutional retail-broker style P&L card inspired by Groww and Zerodha Kite.
+    Renders an institutional real-time P&L card and position desk.
     """
     summary = service.get_portfolio_summary()
     equity = float(summary.get("equity", 1_000_000.0))
@@ -232,3 +232,4 @@ def render_groww_pnl_header(
                     else:
                         st.success(f"Position {sym} squared off successfully! Realized P&L booked.")
                         st.rerun()
+

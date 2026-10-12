@@ -3,7 +3,7 @@ import { OptionChainSnapshot } from '../types/market';
 import { PCRMaxPainCard } from '../components/options/PCRMaxPainCard';
 import { OptionChainTable } from '../components/options/OptionChainTable';
 import { GreeksMatrix } from '../components/options/GreeksMatrix';
-import { GrowwOptionChain } from '../components/options/GrowwOptionChain';
+import { OptionChainTableDesk } from '../components/options/OptionChainTableDesk';
 import { useRealtimeMarket } from '../hooks/useRealtimeMarket';
 import { Layers, Activity } from 'lucide-react';
 
@@ -70,7 +70,7 @@ export const OptionsCommandView: React.FC<OptionsCommandViewProps> = ({ chain, e
 
       {viewMode === 'standard' ? (
         /* ── Interactive Options Chain with Buy/Sell Order Pad ── */
-        <GrowwOptionChain
+        <OptionChainTableDesk
           instrument={activeInstrument}
           instruments={instruments}
           selectedSymbol={selectedSymbol}

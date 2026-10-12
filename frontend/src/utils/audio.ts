@@ -18,7 +18,7 @@ class SoundFx {
     return this.ctx;
   }
 
-  // Play crisp Groww-style order execution success chime
+  // Play crisp order execution success chime
   playOrderSuccess() {
     try {
       const ctx = this.getContext();

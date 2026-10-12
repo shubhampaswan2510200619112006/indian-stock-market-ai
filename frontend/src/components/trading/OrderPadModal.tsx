@@ -5,7 +5,7 @@ import { OrderSide, ProductType, OrderType } from '../../types/trading';
 import { X, CheckCircle2, AlertCircle, ChevronRight, ArrowRight } from 'lucide-react';
 import { sound } from '../../utils/audio';
 
-export const GrowwOrderPadModal: React.FC = () => {
+export const OrderPadModal: React.FC = () => {
   const { isOrderModalOpen, orderModalData, closeOrderModal, placeOrder, account } = usePaperTrading();
 
   if (!isOrderModalOpen || !orderModalData) return null;
@@ -433,3 +433,4 @@ export const GrowwOrderPadModal: React.FC = () => {
     </AnimatePresence>
   );
 };
+

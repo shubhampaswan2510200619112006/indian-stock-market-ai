@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useRealtimeMarket } from '../hooks/useRealtimeMarket';
 import { PrecisionMarketClock } from '../components/market/PrecisionMarketClock';
-import { GrowwOptionChain } from '../components/options/GrowwOptionChain';
-import { GrowwPortfolioDashboard } from '../components/trading/GrowwPortfolioDashboard';
+import { OptionChainTableDesk } from '../components/options/OptionChainTableDesk';
+import { PortfolioDesk } from '../components/trading/PortfolioDesk';
 import { CandlestickChart } from '../components/market/CandlestickChart';
 import { LayoutGrid, Layers, BarChart2, TrendingUp, Activity, ShieldCheck, Zap } from 'lucide-react';
 
@@ -137,7 +137,7 @@ export const TradingTerminalView: React.FC = () => {
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
             {/* Left 7 Columns (58%): Real-time Derivatives Chain */}
             <div className="xl:col-span-7 space-y-5">
-              <GrowwOptionChain
+              <OptionChainTableDesk
                 instrument={activeInstrument}
                 instruments={instruments}
                 selectedSymbol={selectedSymbol}
@@ -149,7 +149,7 @@ export const TradingTerminalView: React.FC = () => {
               />
 
               {/* Integrated Positions Dock below Chain for instant trade monitoring */}
-              <GrowwPortfolioDashboard
+              <PortfolioDesk
                 onNavigateToOptions={() => setLayoutMode('options-only')}
                 compact={true}
               />
@@ -173,7 +173,7 @@ export const TradingTerminalView: React.FC = () => {
       {/* B. EXPANDED OPTIONS VIEW */}
       {layoutMode === 'options-only' && (
         <div className="space-y-5">
-          <GrowwOptionChain
+          <OptionChainTableDesk
             instrument={activeInstrument}
             instruments={instruments}
             selectedSymbol={selectedSymbol}
@@ -202,7 +202,7 @@ export const TradingTerminalView: React.FC = () => {
       {/* D. EXPANDED PORTFOLIO VIEW */}
       {layoutMode === 'portfolio-only' && (
         <div className="space-y-5">
-          <GrowwPortfolioDashboard
+          <PortfolioDesk
             onNavigateToOptions={() => setLayoutMode('options-only')}
           />
         </div>

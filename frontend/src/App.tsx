@@ -19,7 +19,7 @@ import { PaperTradingProvider } from './context/PaperTradingContext';
 import { AuthProvider, ExperienceLevel } from './context/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
 import { CyberMarketBackground } from './components/background/CyberMarketBackground';
-import { GrowwOrderPadModal } from './components/trading/GrowwOrderPadModal';
+import { OrderPadModal } from './components/trading/OrderPadModal';
 import { api } from './api/client';
 import {
   MarketQuote, Candle, OptionChainSnapshot,
@@ -231,7 +231,7 @@ export const App: React.FC = () => (
       <AuthProvider>
         <PaperTradingProvider>
           <AppInner />
-          <GrowwOrderPadModal />
+          <OrderPadModal />
           <AuthModal />
         </PaperTradingProvider>
       </AuthProvider>

@@ -1,12 +1,12 @@
 """
-Option Chain Page — Flagship Phase 1 & Groww-Style Strike Picker Terminal.
+Option Chain Page — Real-Time Derivatives Matrix & Strike Execution Terminal.
 
 Displays:
 - Resilient, always-available Option Chain matrix for NSE Indices (NIFTY, BANKNIFTY, etc.)
-- Groww-style strike picker: Pick ATM, ITM, OTM strikes with 1-click paper execution
+- Native strike picker: Pick ATM, ITM, OTM strikes with 1-click paper execution
 - Live broker feed with automatic high-fidelity real-time Black-Scholes Greeks fallback
 - Color-coded ATM/ITM/OTM rows
-- Embedded Groww/Zerodha-style portfolio P&L tracker
+- Embedded real-time portfolio P&L tracker
 - OI distribution, OI change, and IV smile charts
 - PCR, Max Pain, and OI concentration zones
 """
@@ -37,7 +37,7 @@ from dashboard.components.data_quality import (
     render_freshness_badge,
     render_provider_info,
 )
-from dashboard.components.portfolio_pnl_card import render_groww_pnl_header
+from dashboard.components.portfolio_pnl_card import render_portfolio_pnl_header
 from src.features.trade_card import calculate_nse_charges
 from src.ingestion.schemas import (
     DataQualityStatus,
@@ -70,7 +70,7 @@ def _get_paper_service() -> PaperTradingService:
 
 
 def render_options_chain_page():
-    """Render the Option Chain analysis and Groww-style strike picker page."""
+    """Render the Option Chain analysis and strike execution matrix page."""
     st.markdown(
         """
         <div style="background: linear-gradient(135deg, #0c1322, #101a2e); padding: 18px 22px; border-radius: 14px; margin-bottom: 20px; border: 1px solid rgba(212,175,55,0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
@@ -92,9 +92,9 @@ def render_options_chain_page():
 
     paper_service = _get_paper_service()
 
-    # --- Collapsible Live P&L Header (Groww Style) ---
+    # --- Collapsible Live P&L Header ---
     with st.expander("💼 View My Live Portfolio & Total P&L", expanded=False):
-        render_groww_pnl_header(
+        render_portfolio_pnl_header(
             paper_service,
             title="Active Trading Portfolio",
             subtitle="Live P&L across all executed options contracts",
@@ -355,7 +355,7 @@ def render_options_chain_page():
                 "I want to Buy:",
                 ["🟢 CALL (CE)", "🔴 PUT (PE)"],
                 index=0,
-                key="groww_trade_side",
+                key="opt_trade_side",
             )
             is_call = "CALL" in trade_side
             opt_type = OptionType.CE if is_call else OptionType.PE
@@ -374,7 +374,7 @@ def render_options_chain_page():
                 options=[s[0] for s in strike_options],
                 format_func=lambda val: next((s[1] for s in strike_options if s[0] == val), str(val)),
                 index=min(len(strike_options) // 2, max(0, len(strike_options) - 1)),
-                key="groww_strike_val",
+                key="opt_strike_val",
             )
 
         with col_lots:
@@ -384,7 +384,7 @@ def render_options_chain_page():
                 max_value=50,
                 value=1,
                 step=1,
-                key="groww_num_lots",
+                key="opt_num_lots",
             )
 
         # Calculate exact selected option price
@@ -416,7 +416,7 @@ def render_options_chain_page():
         col_btn, col_info = st.columns([2, 3])
         with col_btn:
             btn_label = f"🚀 Buy {'Call (CE)' if is_call else 'Put (PE)'} — ₹{total_order_cost:,.2f}"
-            if st.button(btn_label, type="primary", use_container_width=True, key="groww_execute_order_btn"):
+            if st.button(btn_label, type="primary", use_container_width=True, key="opt_execute_order_btn"):
                 contract_symbol = f"{symbol}-{int(selected_strike_val)}-{'CE' if is_call else 'PE'}"
                 res = paper_service.place_order(
                     symbol=contract_symbol,
@@ -425,7 +425,7 @@ def render_options_chain_page():
                     order_type="MARKET",
                     price=exec_price,
                     asset_class="OPTIONS",
-                    strategy_tag="GROWW_OPTION_CHAIN",
+                    strategy_tag="DERIVATIVES_STRIKE_DESK",
                 )
 
                 if res.get("status") == "REJECTED":
@@ -437,7 +437,7 @@ def render_options_chain_page():
                         ask=round(exec_price * 1.005, 2),
                         ltp=exec_price,
                         data_status="DELAYED",
-                        source_provider="GROWW_CHAIN_EXECUTION",
+                        source_provider="INSTITUTIONAL_EXECUTION",
                     )
                     st.success(
                         f"🎉 **Trade Executed Successfully!** Order ID: `{res.get('order_id')}` | "

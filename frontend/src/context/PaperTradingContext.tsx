@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, Rea
 import { PaperAccount, PaperPosition, PaperOrder, OrderSide, ProductType, OrderType, OptionType } from '../types/trading';
 import { sound } from '../utils/audio';
 
-const STORAGE_KEY = 'groww_indian_market_ai_paper_account_v1';
+const STORAGE_KEY = 'indian_market_ai_paper_account_v1';
 const DEFAULT_INITIAL_BALANCE = 1000000; // ₹10,00,000 (10 Lakhs)
 
 interface PlaceOrderParams {

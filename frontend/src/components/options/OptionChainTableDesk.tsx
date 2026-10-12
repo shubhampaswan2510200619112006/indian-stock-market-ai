@@ -3,7 +3,7 @@ import { OptionStrikeRow, IndexInstrument } from '../../types/trading';
 import { usePaperTrading } from '../../context/PaperTradingContext';
 import { TrendingUp, TrendingDown, ChevronDown, Layers, Activity } from 'lucide-react';
 
-interface GrowwOptionChainProps {
+export interface OptionChainTableDeskProps {
   instrument: IndexInstrument;
   instruments: Record<string, IndexInstrument>;
   selectedSymbol: string;
@@ -14,7 +14,7 @@ interface GrowwOptionChainProps {
   compact?: boolean;
 }
 
-export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
+export const OptionChainTableDesk: React.FC<OptionChainTableDeskProps> = ({
   instrument,
   instruments,
   selectedSymbol,
@@ -455,3 +455,4 @@ export const GrowwOptionChain: React.FC<GrowwOptionChainProps> = ({
     </div>
   );
 };
+
