@@ -6,13 +6,13 @@
    ═══════════════════════════════════════════════ */
 @layer base {
   :root {
-    /* Background depths */
-    --z0: #02040a;
-    --z1: #05070e;
-    --z2: #080d18;
-    --z3: #0c1220;
-    --z4: #111829;
-    --z5: #1a2235;
+    /* Executive Obsidian Depth System */
+    --z0: #07090e;
+    --z1: #0c101a;
+    --z2: #121724;
+    --z3: #181f30;
+    --z4: #202a40;
+    --z5: #283450;
 
     /* Legacy compat */
     --bg-primary: var(--z1);
@@ -20,47 +20,52 @@
     --bg-card: var(--z3);
     --bg-card-hover: var(--z4);
 
-    /* Signal palette */
+    /* Executive Luxury Palette */
+    --accent-luxury: #d4af37;
+    --accent-luxury-glow: rgba(212, 175, 55, 0.25);
+    --card-border-luxury: rgba(212, 175, 55, 0.2);
+    --card-shadow-luxury: 0 12px 35px -5px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.08);
+
     --gold-primary: #d4af37;
     --gold-bright: #fbbf24;
-    --gold-dim: #92740f;
-    --gold-glow: rgba(212, 175, 55, 0.18);
+    --gold-dim: #997819;
+    --gold-glow: rgba(212, 175, 55, 0.2);
 
-    --violet-primary: #8b5cf6;
-    --violet-dim: #6d28d9;
-    --violet-glow: rgba(139, 92, 246, 0.15);
+    --violet-primary: #818cf8;
+    --violet-dim: #6366f1;
+    --violet-glow: rgba(129, 140, 248, 0.2);
 
-    --cyan-accent: #22d3ee;
-    --cyan-dim: #0891b2;
-    --cyan-glow: rgba(34, 211, 238, 0.12);
+    --cyan-accent: #38bdf8;
+    --cyan-dim: #0284c7;
+    --cyan-glow: rgba(56, 189, 248, 0.18);
 
     --emerald-accent: #10b981;
-    --emerald-glow: rgba(16, 185, 129, 0.12);
+    --emerald-glow: rgba(16, 185, 129, 0.18);
 
     --rose-accent: #f43f5e;
-    --rose-glow: rgba(244, 63, 94, 0.12);
+    --rose-glow: rgba(244, 63, 94, 0.2);
 
     /* Text */
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-    --text-faint: #334155;
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-faint: #64748b;
 
     /* Borders */
-    --border-0: rgba(255, 255, 255, 0.04);
-    --border-1: rgba(255, 255, 255, 0.07);
-    --border-2: rgba(255, 255, 255, 0.11);
-    --border-gold: rgba(212, 175, 55, 0.28);
-    --border-violet: rgba(139, 92, 246, 0.28);
+    --border-0: rgba(255, 255, 255, 0.06);
+    --border-1: rgba(255, 107, 149, 0.14);
+    --border-2: rgba(255, 107, 149, 0.24);
+    --border-gold: rgba(251, 191, 36, 0.35);
+    --border-violet: rgba(192, 132, 252, 0.35);
 
     /* Shadows — each elevation level */
     --shadow-z1: 0 1px 3px rgba(0,0,0,0.5);
-    --shadow-z2: 0 4px 12px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
-    --shadow-z3: 0 8px 24px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.4);
-    --shadow-z4: 0 16px 40px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.5);
-    --shadow-z5: 0 24px 64px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.5);
-    --shadow-gold: 0 0 24px rgba(212,175,55,0.12), 0 0 8px rgba(212,175,55,0.08);
-    --shadow-violet: 0 0 24px rgba(139,92,246,0.14), 0 0 8px rgba(139,92,246,0.1);
+    --shadow-z2: 0 4px 14px rgba(0,0,0,0.5), 0 0 15px rgba(255,107,149,0.06);
+    --shadow-z3: 0 10px 28px rgba(0,0,0,0.55), 0 0 20px rgba(255,107,149,0.09);
+    --shadow-z4: 0 16px 42px rgba(0,0,0,0.6), 0 0 30px rgba(255,107,149,0.12);
+    --shadow-z5: 0 24px 64px rgba(0,0,0,0.7), 0 0 40px rgba(255,107,149,0.16);
+    --shadow-gold: 0 0 28px rgba(251,191,36,0.18), 0 0 10px rgba(251,191,36,0.1);
+    --shadow-violet: 0 0 28px rgba(192,132,252,0.18), 0 0 10px rgba(192,132,252,0.12);
 
     /* Spacing scale (8px base) */
     --sp-1: 8px;
@@ -74,7 +79,7 @@
   html, body {
     background-color: var(--z0);
     color: var(--text-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
@@ -83,11 +88,12 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* JetBrains Mono for all numeric + code output */
+  /* JetBrains Mono for all numeric + code output with tabular numbers */
   .font-mono,
   [class*="font-mono"],
   code, kbd, pre, samp {
     font-family: 'JetBrains Mono', 'IBM Plex Mono', 'Courier New', monospace !important;
+    font-variant-numeric: tabular-nums lining-nums;
   }
 
   /* Refined scrollbar */
@@ -489,6 +495,12 @@ body::before {
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border-1);
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (min-width: 768px) {
+  .mobile-tab-bar {
+    display: none !important;
+  }
 }
 
 .mobile-tab-item {

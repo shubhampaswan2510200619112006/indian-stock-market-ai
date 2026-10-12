@@ -3,7 +3,7 @@ import { Command } from 'cmdk';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Compass, BarChart3, Layers, Box, FileCheck, Server,
-  Keyboard, ArrowRight,
+  Keyboard, ArrowRight, TrendingUp, Newspaper,
 } from 'lucide-react';
 import type { NavTab } from '../layout/Navigation';
 
@@ -15,12 +15,14 @@ interface CommandPaletteProps {
 }
 
 const NAV_ITEMS: { id: NavTab; label: string; description: string; icon: React.ElementType; shortcut: string }[] = [
-  { id: 'overview', label: 'Overview', description: 'Executive command flagship', icon: Compass, shortcut: '1' },
-  { id: 'markets', label: 'Markets', description: 'NIFTY & BANKNIFTY terminal', icon: BarChart3, shortcut: '2' },
-  { id: 'options', label: 'Options', description: 'Option chain & Greeks matrix', icon: Layers, shortcut: '3' },
-  { id: 'volatility', label: '3D Volatility Studio', description: 'IV surface & OI landscape', icon: Box, shortcut: '4' },
-  { id: 'research', label: 'Research Governance', description: 'Hypothesis registry & audit', icon: FileCheck, shortcut: '5' },
-  { id: 'data-health', label: 'Data Health', description: 'Provider topology & coverage', icon: Server, shortcut: '6' },
+  { id: 'trading', label: 'Derivatives Terminal & P&L', description: 'Options execution terminal & portfolio P&L', icon: TrendingUp, shortcut: '1' },
+  { id: 'options', label: 'Options Chain', description: 'Full options chain & Black-76 matrix', icon: Layers, shortcut: '2' },
+  { id: 'news', label: 'Live Financial News & Sentiment', description: 'Real-time breaking market headlines & AI sentiment', icon: Newspaper, shortcut: '3' },
+  { id: 'markets', label: 'Markets', description: 'NIFTY & BANKNIFTY terminal', icon: BarChart3, shortcut: '4' },
+  { id: 'overview', label: 'Overview', description: 'Executive command flagship', icon: Compass, shortcut: '5' },
+  { id: 'volatility', label: '3D Volatility Studio', description: 'IV surface & OI landscape', icon: Box, shortcut: '6' },
+  { id: 'research', label: 'Research Governance', description: 'Hypothesis registry & audit', icon: FileCheck, shortcut: '7' },
+  { id: 'data-health', label: 'Data Health', description: 'Provider topology & coverage', icon: Server, shortcut: '8' },
 ];
 
 export const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose, onNavigate, activeTab }) => {

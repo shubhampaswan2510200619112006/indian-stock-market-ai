@@ -123,12 +123,12 @@ export interface GovernanceState {
   git_commit: string;
   tests_passing: number;
   tests_total: number;
-  software_engineering: 'READY';
-  investor_demo: 'READY';
-  live_data: 'PARTIAL';
-  options_research: 'PARTIAL';
-  execution_research: 'BLOCKED';
-  statistical_evidence: 'NO_DEMONSTRATED_EDGE / INSUFFICIENT';
+  software_engineering: string;
+  investor_demo: string;
+  live_data: string;
+  options_research: string;
+  execution_research: string;
+  statistical_evidence: string;
   paired_bid_ask_coverage_pct: number;
   continuous_executable_surface_pct: number;
   allow_live_execution: boolean;

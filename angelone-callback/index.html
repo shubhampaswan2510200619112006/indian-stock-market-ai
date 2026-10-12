@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indian Stock Market AI — Angel One Auth</title>
+  <meta name="description" content="Angel One SmartAPI OAuth callback handler for Indian Stock Market AI platform." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#070d1a;--surface:#0d1b2e;--border:rgba(99,179,255,.12);--accent:#3b82f6;--accent2:#6366f1;--success:#10b981;--text:#e2e8f0;--muted:#64748b;--glow:rgba(59,130,246,.25)}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 40%,rgba(59,130,246,.08) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 70%,rgba(99,102,241,.06) 0%,transparent 60%);pointer-events:none;z-index:0}
+    body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(59,130,246,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.04) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0}
+    .container{position:relative;z-index:1;text-align:center;padding:2rem;max-width:520px;width:100%}
+    .card{background:rgba(13,27,46,.85);border:1px solid var(--border);border-radius:20px;padding:3rem 2.5rem;backdrop-filter:blur(20px);box-shadow:0 0 0 1px rgba(59,130,246,.06),0 20px 60px rgba(0,0,0,.5),0 0 80px var(--glow);animation:cardIn .6s cubic-bezier(.16,1,.3,1) both}
+    @keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .logo-ring{width:80px;height:80px;border-radius:50%;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;position:relative}
+    .logo-ring::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 0deg,var(--accent),var(--accent2),var(--accent));animation:spin 3s linear infinite}
+    .logo-ring::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--surface)}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .logo-icon{position:relative;z-index:1;font-size:2rem}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--success);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .8rem;border-radius:100px;margin-bottom:1.25rem}
+    .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:blink 1.2s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    h1{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.6rem;background:linear-gradient(135deg,#e2e8f0 0%,#93c5fd 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .subtitle{color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:2rem}
+    .token-box{background:rgba(7,13,26,.8);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem;text-align:left}
+    .token-label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+    .token-value{font-family:'Courier New',monospace;font-size:.85rem;color:#93c5fd;word-break:break-all;line-height:1.5}
+    .token-value.empty{color:var(--muted);font-style:italic;font-family:'Inter',sans-serif}
+    .divider{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+    .info-row{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted);padding:.4rem 0}
+    .info-row span:last-child{color:var(--text);font-weight:500}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:10px;font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:all .2s ease;text-decoration:none;font-family:'Inter',sans-serif}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 15px rgba(59,130,246,.35)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(59,130,246,.5)}
+    .btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)}
+    .btn-ghost:hover{background:rgba(255,255,255,.08);color:var(--text)}
+    .actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem}
+    .footer{margin-top:2rem;color:var(--muted);font-size:.75rem}
+    .footer a{color:#60a5fa;text-decoration:none}
+    .footer a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="logo-ring"><span class="logo-icon">📈</span></div>
+      <div class="badge"><div class="badge-dot"></div><span id="status-text">Checking...</span></div>
+      <h1>Indian Stock Market AI</h1>
+      <p class="subtitle">Angel One SmartAPI OAuth callback.<br/>Your authentication details are below.</p>
+      <div class="token-box">
+        <div class="token-label">Auth Token</div>
+        <div class="token-value" id="auth-token">—</div>
+      </div>
+      <div class="token-box">
+        <div class="token-label">Request Token</div>
+        <div class="token-value" id="request-token">—</div>
+      </div>
+      <hr class="divider" />
+      <div class="info-row"><span>Status</span><span id="auth-status">Waiting</span></div>
+      <div class="info-row"><span>Timestamp</span><span id="timestamp">—</span></div>
+      <div class="info-row"><span>Source</span><span>Angel One SmartAPI</span></div>
+      <div class="actions">
+        <button class="btn btn-primary" id="copy-btn" onclick="copyToken()">📋 Copy Token</button>
+        <button class="btn btn-ghost" onclick="window.close()">✕ Close</button>
+      </div>
+    </div>
+    <div class="footer">Indian Stock Market AI &nbsp;·&nbsp; Powered by <a href="https://smartapi.angelone.in" target="_blank">Angel One SmartAPI</a></div>
+  </div>
+  <script>
+    function getParam(n){const u=new URL(location.href);return u.searchParams.get(n)||null}
+    function setEl(id,val,fb){const e=document.getElementById(id);if(val){e.textContent=val;e.classList.remove('empty')}else{e.textContent=fb||'Not provided';e.classList.add('empty')}}
+    function init(){
+      const at=getParam('auth_token')||getParam('authToken');
+      const rt=getParam('request_token')||getParam('requestToken')||getParam('code');
+      const st=getParam('status');
+      setEl('auth-token',at,'No auth_token in URL');
+      setEl('request-token',rt,'No request_token in URL');
+      document.getElementById('timestamp').textContent=new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+      const ok=at||rt||(st&&st.toLowerCase()==='success');
+      document.getElementById('status-text').textContent=ok?'Authenticated':st||'Ready';
+      document.getElementById('auth-status').textContent=ok?'Success':st||'Waiting for redirect';
+      if(at)localStorage.setItem('angel_auth_token',at);
+      if(rt)localStorage.setItem('angel_request_token',rt);
+    }
+    function copyToken(){
+      const t=document.getElementById('auth-token').textContent;
+      const rt=document.getElementById('request-token').textContent;
+      const val=(t&&!t.includes('No '))?t:(rt&&!rt.includes('No '))?rt:null;
+      if(val){navigator.clipboard.writeText(val).then(()=>{const b=document.getElementById('copy-btn');b.innerHTML='✅ Copied!';setTimeout(()=>b.innerHTML='📋 Copy Token',2000)})}
+    }
+    init();
+  </script>
+</body>
+</html>

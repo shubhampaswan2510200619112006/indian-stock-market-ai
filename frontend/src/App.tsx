@@ -12,6 +12,14 @@ import { OptionsCommandView } from './views/OptionsCommandView';
 import { VolatilityStudioView } from './views/VolatilityStudioView';
 import { ResearchGovernanceView } from './views/ResearchGovernanceView';
 import { DataHealthView } from './views/DataHealthView';
+import { TradingTerminalView } from './views/TradingTerminalView';
+import { BeginnerTerminalView } from './views/BeginnerTerminalView';
+import { NewsView } from './views/NewsView';
+import { PaperTradingProvider } from './context/PaperTradingContext';
+import { AuthProvider, ExperienceLevel } from './context/AuthContext';
+import { AuthModal } from './components/auth/AuthModal';
+import { CyberMarketBackground } from './components/background/CyberMarketBackground';
+import { GrowwOrderPadModal } from './components/trading/GrowwOrderPadModal';
 import { api } from './api/client';
 import {
   MarketQuote, Candle, OptionChainSnapshot,
@@ -49,7 +57,7 @@ const DEFAULT_REGIME: MarketRegime = {
 // ─── Inner app (needs access to toast context) ───────────────────────────────
 function AppInner() {
   const { addToast } = useToast();
-  const [activeTab, setActiveTab] = useState<NavTab>('overview');
+  const [activeTab, setActiveTab] = useState<NavTab>('trading');
   const [commandOpen, setCommandOpen] = useState(false);
   const [isLowPerf, setIsLowPerf] = useState(false);
   const [marketOpen, setMarketOpen] = useState(false);
@@ -97,6 +105,9 @@ function AppInner() {
     if (isInitial) setLoading(false);
   }, [backendOnline, addToast]);
 
+  // Experience Mode State (BEGINNER vs PRO vs QUANT)
+  const [experienceMode, setExperienceMode] = useState<ExperienceLevel>('PRO');
+
   // Initial load
   useEffect(() => { fetchAll(true); }, []); // eslint-disable-line
 
@@ -107,21 +118,21 @@ function AppInner() {
     return () => clearInterval(interval);
   }, [marketOpen, fetchAll]);
 
-  // Add bottom padding on mobile for the tab bar
-  const mobileTabBarHeight = 72;
-
   return (
     <div
-      className="min-h-screen flex flex-col"
+      className="min-h-screen flex flex-col relative overflow-x-hidden"
       style={{
-        background: 'var(--z0)',
+        background: 'transparent',
         color: 'var(--text-primary)',
       }}
     >
-      {/* Governance ribbon */}
+      {/* 1. Live Cybernetic Moving Market Background */}
+      <CyberMarketBackground isLowPerf={isLowPerf} />
+
+      {/* 2. Governance ribbon */}
       <StatusBanner governance={governance} />
 
-      {/* Sticky nav */}
+      {/* 3. Sticky nav with Logo, Experience Mode switcher, and Trader Profile */}
       <Navigation
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -129,9 +140,15 @@ function AppInner() {
         onToggleLowPerf={() => setIsLowPerf(p => !p)}
         marketOpen={marketOpen}
         onOpenCommandPalette={() => setCommandOpen(true)}
+        experienceMode={experienceMode}
+        onSelectExperienceMode={(mode) => {
+          setExperienceMode(mode);
+          if (mode === 'QUANT') setActiveTab('volatility');
+          else setActiveTab('trading');
+        }}
       />
 
-      {/* Command palette */}
+      {/* 4. Command palette */}
       <CommandPalette
         open={commandOpen}
         onClose={() => setCommandOpen(false)}
@@ -139,16 +156,18 @@ function AppInner() {
         activeTab={activeTab}
       />
 
-      {/* Main content */}
-      <main style={{
-        flex: 1,
-        maxWidth: 1280,
-        width: '100%',
-        margin: '0 auto',
-        padding: '28px 20px',
-        paddingBottom: `calc(28px + ${mobileTabBarHeight}px)`, // mobile bottom bar clearance
-      }}>
+      {/* 5. Main content */}
+      <main className="flex-1 max-w-[1400px] w-full mx-auto px-5 py-6 pb-20 md:pb-8 relative z-10">
         <AnimatePresence mode="wait">
+          {activeTab === 'trading' && (
+            <PageTransition tabKey={`trading-${experienceMode}`}>
+              {experienceMode === 'BEGINNER' ? (
+                <BeginnerTerminalView onSwitchToPro={() => setExperienceMode('PRO')} />
+              ) : (
+                <TradingTerminalView />
+              )}
+            </PageTransition>
+          )}
           {activeTab === 'overview' && (
             <PageTransition tabKey="overview">
               <OverviewView
@@ -175,6 +194,11 @@ function AppInner() {
               <OptionsCommandView chain={chain} expiries={expiries} />
             </PageTransition>
           )}
+          {activeTab === 'news' && (
+            <PageTransition tabKey="news">
+              <NewsView />
+            </PageTransition>
+          )}
           {activeTab === 'volatility' && (
             <PageTransition tabKey="volatility">
               <VolatilityStudioView isLowPerf={isLowPerf} />
@@ -198,10 +222,20 @@ function AppInner() {
   );
 }
 
+import { ThemeProvider } from './context/ThemeContext';
+
 // ─── Root with providers ─────────────────────────────────────────────────────
 export const App: React.FC = () => (
   <ToastProvider>
-    <AppInner />
+    <ThemeProvider>
+      <AuthProvider>
+        <PaperTradingProvider>
+          <AppInner />
+          <GrowwOrderPadModal />
+          <AuthModal />
+        </PaperTradingProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </ToastProvider>
 );
 

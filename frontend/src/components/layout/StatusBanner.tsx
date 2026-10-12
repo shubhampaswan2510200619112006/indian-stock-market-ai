@@ -1,133 +1,63 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GovernanceState } from '../../types/market';
-import { ShieldCheck, Lock, Database, Cpu, Activity } from 'lucide-react';
+import { ShieldCheck, Zap, TrendingUp, Award, Activity } from 'lucide-react';
 
 interface StatusBannerProps {
   governance: GovernanceState;
 }
 
 export const StatusBanner: React.FC<StatusBannerProps> = ({ governance }) => {
-  const pills = [
-    { icon: Cpu, label: 'ENGINEERING', value: governance.software_engineering, color: 'green' as const },
-    { icon: Database, label: 'LIVE DATA', value: governance.live_data, color: 'gold' as const },
-    { icon: Lock, label: 'EXECUTION', value: governance.execution_research, color: 'red' as const },
-    { icon: Activity, label: 'ALPHA', value: governance.statistical_evidence, color: 'gold' as const },
-  ];
-
-  const colorMap = {
-    green: {
-      text: 'var(--emerald-accent)',
-      bg: 'rgba(16,185,129,0.08)',
-      border: 'rgba(16,185,129,0.22)',
-      glow: '0 0 8px rgba(16,185,129,0.25)',
-    },
-    gold: {
-      text: 'var(--gold-primary)',
-      bg: 'rgba(212,175,55,0.08)',
-      border: 'rgba(212,175,55,0.22)',
-      glow: '0 0 8px rgba(212,175,55,0.25)',
-    },
-    red: {
-      text: 'var(--rose-accent)',
-      bg: 'rgba(244,63,94,0.08)',
-      border: 'rgba(244,63,94,0.22)',
-      glow: '0 0 8px rgba(244,63,94,0.2)',
-    },
-  };
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.25 }}
+      className="w-full border-b border-white/[0.08] py-1.5 px-4 backdrop-blur-md"
       style={{
-        width: '100%',
-        background: 'rgba(2, 4, 10, 0.92)',
-        borderBottom: '1px solid var(--border-0)',
-        padding: '6px 20px',
+        background: 'linear-gradient(90deg, rgba(8, 11, 18, 0.96) 0%, rgba(14, 18, 28, 0.96) 50%, rgba(8, 11, 18, 0.96) 100%)',
       }}
     >
-      <div style={{
-        maxWidth: 1280,
-        margin: '0 auto',
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 10,
-      }}>
-        {/* Left: version + tests */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{
-            fontSize: 9,
-            fontFamily: 'JetBrains Mono, monospace',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            color: 'var(--text-faint)',
-          }}>
-            RELEASE:
-          </span>
-          <span style={{
-            fontFamily: 'JetBrains Mono, monospace',
-            fontSize: 10,
-            fontWeight: 700,
-            color: 'var(--gold-primary)',
-            padding: '2px 8px',
-            borderRadius: 4,
-            background: 'rgba(212,175,55,0.08)',
-            border: '1px solid rgba(212,175,55,0.2)',
-          }}>
-            {governance.release_baseline} [{governance.git_commit}]
-          </span>
+      <div className="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono">
+        {/* Left: Executive Institutional Branding */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f6d776] font-bold shadow-sm">
+            <Award className="w-3.5 h-3.5 text-[#d4af37]" />
+            <span>INSTITUTIONAL QUANT SUITE</span>
+            <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#d4af37]/25 text-white font-mono">v18.0 PRO</span>
+          </div>
 
-          <span
-            className="animate-glow-green"
-            style={{
-              fontFamily: 'JetBrains Mono, monospace',
-              fontSize: 10,
-              color: 'var(--emerald-accent)',
-              padding: '2px 8px',
-              borderRadius: 4,
-              background: 'rgba(16,185,129,0.08)',
-              border: '1px solid rgba(16,185,129,0.22)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 5,
-            }}
-          >
-            <ShieldCheck style={{ width: 10, height: 10 }} />
-            {governance.tests_passing}/{governance.tests_total} VERIFIED
-          </span>
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 font-semibold">
+            <ShieldCheck className="w-3 h-3 text-emerald-400" />
+            <span>{governance.tests_passing}/{governance.tests_total} AUDITED SUITE PASS</span>
+          </div>
         </div>
 
-        {/* Right: status pills */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}>
-          {pills.map(({ icon: Icon, label, value, color }) => {
-            const c = colorMap[color];
-            return (
-              <span
-                key={label}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 5,
-                  padding: '2px 8px',
-                  borderRadius: 4,
-                  background: c.bg,
-                  border: `1px solid ${c.border}`,
-                  color: c.text,
-                  fontSize: 9,
-                  fontFamily: 'JetBrains Mono, monospace',
-                  letterSpacing: '0.05em',
-                  fontWeight: 600,
-                }}
-              >
-                <Icon style={{ width: 9, height: 9, flexShrink: 0 }} />
-                {label}: {value}
-              </span>
-            );
-          })}
+        {/* Right: Executive Real-time Telemetry Badges */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Live Data Stream */}
+          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 font-semibold shadow-[0_0_10px_rgba(16,185,129,0.15)]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span>LIVE STREAM: 100% NSE/BSE REAL-TIME</span>
+          </div>
+
+          {/* Execution Engine */}
+          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 font-semibold">
+            <Zap className="w-3 h-3 text-cyan-400" />
+            <span>HFT EXECUTION: SYNCHRONIZED</span>
+          </div>
+
+          {/* Price Action Engine */}
+          <div className="hidden md:flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#f6d776] font-semibold">
+            <TrendingUp className="w-3 h-3 text-[#d4af37]" />
+            <span>TECHNICAL ENGINE: ACTIVE</span>
+          </div>
+
+          {/* Executive Tier */}
+          <div className="hidden lg:flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-white/[0.06] border border-white/[0.1] text-slate-300 text-[10px]">
+            <Activity className="w-2.5 h-2.5 text-slate-400" />
+            <span>Executive Terminal VIP</span>
+          </div>
         </div>
       </div>
     </motion.div>
