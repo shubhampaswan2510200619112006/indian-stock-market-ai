@@ -220,9 +220,14 @@ class AngelOneProvider(MarketDataProvider, OptionsDataProvider):
         Automatically logs in and obtains JWT on first call.
         """
         headers = self._auth_headers()
+        from src.ingestion.realtime_feed import INDEX_TOKEN_MAP
+
+        sym_clean = symbol.upper().replace("^", "")
+        token = INDEX_TOKEN_MAP.get(symbol.upper()) or INDEX_TOKEN_MAP.get(sym_clean) or symbol.upper()
+
         payload = {
             "mode": "FULL",
-            "exchangeTokens": {"NSE": [symbol.upper()]},
+            "exchangeTokens": {"NSE": [token]},
         }
 
         try:
@@ -245,9 +250,15 @@ class AngelOneProvider(MarketDataProvider, OptionsDataProvider):
                 raise DataUnavailableError(f"No quote data returned for {symbol}")
 
             item = data[0]
+            ltp = float(item.get("ltp", 0.0))
+            chg_pct = float(item.get("percentChange", 0.0))
+            net_chg = float(item.get("netChange", 0.0))
+
             return Quote(
                 symbol=symbol.upper(),
-                last_price=float(item.get("ltp", 0.0)),
+                last_price=ltp,
+                change=net_chg,
+                change_pct=chg_pct,
                 open=float(item.get("open", 0.0)),
                 high=float(item.get("high", 0.0)),
                 low=float(item.get("low", 0.0)),
@@ -255,8 +266,7 @@ class AngelOneProvider(MarketDataProvider, OptionsDataProvider):
                 volume=int(item.get("tradeVolume", 0)),
                 timestamp=datetime.now(),
                 source="angelone",
-                data_quality=DataQualityStatus.VALIDATED,
-                freshness=DataFreshnessLevel.LIVE,
+                data_quality=DataQualityStatus.GOOD,
             )
         except (AuthenticationError, RateLimitError, DataUnavailableError):
             raise

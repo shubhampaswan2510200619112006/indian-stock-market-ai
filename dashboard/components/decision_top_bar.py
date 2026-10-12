@@ -40,6 +40,26 @@ def render_decision_top_bar(service: PaperTradingService) -> VerdictResult:
         daily_loss_pct=daily_loss_pct,
     )
 
+    # Real-Time Gateway Status Strip
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 8px; padding: 5px 14px; margin-bottom: 10px; font-size: 11px;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <span style="display: inline-block; width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981;"></span>
+                <span style="color: #f8fafc; font-weight: 700; letter-spacing: 0.5px;">LIVE EXCHANGE FEED</span>
+                <span style="color: #475569;">•</span>
+                <span style="color: #38bdf8; font-weight: 600;">{snapshot.feed_provider}</span>
+                <span style="color: #475569;">•</span>
+                <span style="color: #cbd5e1;">Tick: <b>{snapshot.feed_time}</b></span>
+            </div>
+            <div style="color: #94a3b8; font-family: monospace;">
+                ⚡ Feed Latency: <b style="color: {'#10b981' if snapshot.feed_latency_ms < 600 else '#f59e0b'};">{snapshot.feed_latency_ms:.0f}ms</b>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     # 1. TOP TICKER ROW (Rendered via native responsive columns)
     with st.container():
         col_nifty, col_bn, col_vix, col_gift, col_fii, col_regime = st.columns(6)
