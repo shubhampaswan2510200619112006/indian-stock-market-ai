@@ -3,7 +3,8 @@ Top Decision Bar Component — Always Visible Terminal Header.
 
 Displays:
 - Real-time ticker cards: Nifty, Bank Nifty, India VIX, GIFT Nifty, FII/DII Net, Market Regime.
-- Prominent Verdict Card: GOOD TO TRADE / CAUTION / NO TRADE with Top 3 Deterministic Reasons.
+- Prominent Verdict Banner: GOOD TO TRADE / CAUTION / NO TRADE with Top 3 Deterministic Reasons.
+Rendered cleanly using native Streamlit layout to guarantee zero raw code block escaping.
 """
 
 from __future__ import annotations
@@ -39,108 +40,79 @@ def render_decision_top_bar(service: PaperTradingService) -> VerdictResult:
         daily_loss_pct=daily_loss_pct,
     )
 
-    # Styling helpers
-    def _chg_color(val: float) -> str:
-        return "#10b981" if val >= 0 else "#ef4444"
+    # 1. TOP TICKER ROW (Rendered via native responsive columns)
+    with st.container():
+        col_nifty, col_bn, col_vix, col_gift, col_fii, col_regime = st.columns(6)
 
-    def _chg_sign(val: float) -> str:
-        return f"+{val:.2f}%" if val >= 0 else f"{val:.2f}%"
+        with col_nifty:
+            st.metric(
+                "🏛️ NIFTY 50",
+                f"₹{snapshot.nifty_price:,.0f}",
+                f"{snapshot.nifty_change_pct:+.2f}%",
+            )
 
-    # 1. TOP TICKER ROW
-    st.markdown(
-        f"""
-        <div style="background-color: #0b0f19; border: 1px solid #1e293b; border-radius: 8px; padding: 10px 14px; margin-bottom: 10px;">
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;">
-                <!-- NIFTY 50 -->
-                <div style="min-width: 130px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">🏛️ NIFTY 50</div>
-                    <div style="font-size: 15px; font-weight: 700; color: #f8fafc;" class="metric-mono">
-                        ₹{snapshot.nifty_price:,.0f} 
-                        <span style="font-size: 11px; color: {_chg_color(snapshot.nifty_change_pct)}; font-weight: 600;">{_chg_sign(snapshot.nifty_change_pct)}</span>
-                    </div>
-                </div>
+        with col_bn:
+            st.metric(
+                "🏦 BANK NIFTY",
+                f"₹{snapshot.banknifty_price:,.0f}",
+                f"{snapshot.banknifty_change_pct:+.2f}%",
+            )
 
-                <!-- BANK NIFTY -->
-                <div style="min-width: 140px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">🏦 BANK NIFTY</div>
-                    <div style="font-size: 15px; font-weight: 700; color: #f8fafc;" class="metric-mono">
-                        ₹{snapshot.banknifty_price:,.0f} 
-                        <span style="font-size: 11px; color: {_chg_color(snapshot.banknifty_change_pct)}; font-weight: 600;">{_chg_sign(snapshot.banknifty_change_pct)}</span>
-                    </div>
-                </div>
+        with col_vix:
+            st.metric(
+                "⚡ INDIA VIX",
+                f"{snapshot.vix_value:.2f}",
+                f"{snapshot.vix_change_pct:+.2f}%",
+                delta_color="inverse",
+            )
 
-                <!-- INDIA VIX -->
-                <div style="min-width: 120px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">⚡ INDIA VIX</div>
-                    <div style="font-size: 15px; font-weight: 700; color: #f8fafc;" class="metric-mono">
-                        {snapshot.vix_value:.2f} 
-                        <span style="font-size: 11px; color: {'#ef4444' if snapshot.vix_change_pct > 0 else '#10b981'}; font-weight: 600;">{_chg_sign(snapshot.vix_change_pct)}</span>
-                    </div>
-                </div>
+        with col_gift:
+            st.metric(
+                "🌐 GIFT NIFTY",
+                f"₹{snapshot.gift_nifty_price:,.0f}",
+                f"{snapshot.gift_nifty_change_pct:+.2f}%",
+            )
 
-                <!-- GIFT NIFTY -->
-                <div style="min-width: 120px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">🌐 GIFT NIFTY</div>
-                    <div style="font-size: 15px; font-weight: 700; color: #f8fafc;" class="metric-mono">
-                        ₹{snapshot.gift_nifty_price:,.0f}
-                        <span style="font-size: 11px; color: {_chg_color(snapshot.gift_nifty_change_pct)}; font-weight: 600;">{_chg_sign(snapshot.gift_nifty_change_pct)}</span>
-                    </div>
-                </div>
+        with col_fii:
+            st.metric(
+                "💼 FII / DII (Cr)",
+                f"FII: {snapshot.fii_net_cr:+,.0f}",
+                f"DII: {snapshot.dii_net_cr:+,.0f}",
+            )
 
-                <!-- FII / DII NET -->
-                <div style="min-width: 150px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">💼 FII / DII NET (Cr)</div>
-                    <div style="font-size: 13px; font-weight: 600;" class="metric-mono">
-                        <span style="color: {_chg_color(snapshot.fii_net_cr)};">FII: {snapshot.fii_net_cr:+,.0f}</span> &nbsp;|&nbsp; 
-                        <span style="color: {_chg_color(snapshot.dii_net_cr)};">DII: {snapshot.dii_net_cr:+,.0f}</span>
-                    </div>
-                </div>
-
-                <!-- REGIME TAG -->
-                <div style="min-width: 140px; text-align: right;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">🏷️ MARKET REGIME</div>
-                    <div style="font-size: 13px; font-weight: 700; color: #38bdf8; background: #0f172a; padding: 2px 8px; border-radius: 4px; display: inline-block; border: 1px solid #1e293b;">
-                        {snapshot.regime_tag}
-                    </div>
-                </div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+        with col_regime:
+            st.metric(
+                "🏷️ MARKET REGIME",
+                snapshot.regime_tag,
+                "Macro Context",
+                delta_color="off",
+            )
 
     # 2. PROMINENT VERDICT BANNER
-    verdict_txt = verdict_res.verdict
-    color = verdict_res.badge_color
+    reasons_text = "\n".join([f"- **{r}**" for r in verdict_res.top_reasons])
+    header_subtitle = "Deterministic rule-based gating • Strong bias toward capital preservation"
 
-    # Pre-render top 3 reasons HTML
-    reasons_html = "".join([f"<li style='margin-bottom: 3px;'>{r}</li>" for r in verdict_res.top_reasons])
+    if verdict_res.verdict == "GOOD TO TRADE":
+        st.success(
+            f"### 🟢 GOOD TO TRADE — 60-Second Verdict\n"
+            f"*{header_subtitle}*\n\n"
+            f"**Key Catalysts:**\n"
+            f"{reasons_text}"
+        )
+    elif verdict_res.verdict == "CAUTION":
+        st.warning(
+            f"### 🟡 CAUTION — 60-Second Verdict\n"
+            f"*{header_subtitle}*\n\n"
+            f"**Key Cautionary Factors:**\n"
+            f"{reasons_text}"
+        )
+    else:  # NO TRADE
+        st.error(
+            f"### 🔴 NO TRADE — 60-Second Verdict (Risk Protection Active)\n"
+            f"*{header_subtitle}*\n\n"
+            f"**Mandatory Lockout Reasons:**\n"
+            f"{reasons_text}"
+        )
 
-    st.markdown(
-        f"""
-        <div style="background-color: #0e1526; border-left: 5px solid {color}; border-top: 1px solid #1e293b; border-right: 1px solid #1e293b; border-bottom: 1px solid #1e293b; border-radius: 8px; padding: 12px 18px; margin-bottom: 18px;">
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;">
-                <!-- Big Verdict Badge -->
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="background-color: {color}22; border: 2px solid {color}; color: {color}; font-size: 18px; font-weight: 800; padding: 6px 14px; border-radius: 6px; letter-spacing: 0.5px;">
-                        {verdict_txt}
-                    </div>
-                    <div>
-                        <div style="font-size: 13px; font-weight: 700; color: #f8fafc;">60-Second Trade Decision Verdict</div>
-                        <div style="font-size: 11px; color: #94a3b8;">Deterministic rule-based gating • Strong bias toward capital preservation</div>
-                    </div>
-                </div>
-
-                <!-- Top 3 Reasons -->
-                <div style="flex: 1; min-width: 280px; max-width: 650px;">
-                    <ul style="margin: 0; padding-left: 18px; font-size: 12px; color: #cbd5e1; line-height: 1.4;">
-                        {reasons_html}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
     return verdict_res

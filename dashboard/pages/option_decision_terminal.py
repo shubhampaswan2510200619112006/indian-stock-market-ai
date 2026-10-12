@@ -8,6 +8,7 @@ Flagship decision engine designed to let a trader decide in under 60 seconds:
 - Exact Greeks, real NSE transaction costs & itemized statutory taxes
 - Mandatory 'Why NOT to take this trade' cautionary boxes
 - One-click paper execution
+Rendered using 100% native Streamlit components to prevent any code-block formatting issues.
 """
 
 from __future__ import annotations
@@ -22,27 +23,8 @@ from src.ingestion.provider_factory import get_market_data_provider
 
 def render_decision_terminal_page(service: PaperTradingService):
     """Renders the 60-Second Option Decision Terminal."""
-    st.markdown(
-        """
-        <div style="background: linear-gradient(135deg, #091a28, #102a43, #1e3a5f); padding: 18px 22px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #1e40af;">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <div>
-                    <span style="background: #38bdf8; color: #0b1120; font-weight: 800; font-size: 11px; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.5px;">
-                        INSTITUTIONAL SPEED • CAPITAL PRESERVATION FIRST
-                    </span>
-                    <h2 style="color: white; margin: 8px 0 4px 0; font-size: 24px; font-weight: 800;">
-                        ⚡ 60-Second Trade Decision Terminal
-                    </h2>
-                    <p style="color: #94a3b8; margin: 0; font-size: 14px;">
-                        Evaluate actionable index and stock option setups in under 60 seconds with full Greek visibility, 
-                        real statutory NSE taxes, and a mandatory <b>bias toward NOT trading</b> unless edge is undeniable.
-                    </p>
-                </div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown("## ⚡ 60-Second Trade Decision Terminal")
+    st.caption("Institutional speed • Capital preservation first • Strict liquidity rejection • Exact NSE statutory taxes")
 
     # 1. Terminal Configuration Controls
     col_sym, col_cap, col_risk = st.columns([1.5, 1.5, 1.5])
@@ -81,7 +63,7 @@ def render_decision_terminal_page(service: PaperTradingService):
             help="Strict limit: No single idea may risk more than this % of your total account capital.",
         )
 
-    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+    st.divider()
 
     # 2. Fetch Spot Price & Generate Trade Ideas
     with st.spinner(f"Analyzing option chain, Greeks surface & liquidity for {selected_symbol}..."):
@@ -103,25 +85,15 @@ def render_decision_terminal_page(service: PaperTradingService):
     executable_count = sum(1 for i in ideas if i.is_executable)
     rejected_count = sum(1 for i in ideas if not i.is_executable)
 
-    st.markdown(
-        f"""
-        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
-            <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; flex: 1;">
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">ACTIVE CANDIDATE SETUPS</div>
-                <div style="font-size: 20px; font-weight: 800; color: #f8fafc;">{len(ideas)} Ideas Evaluated</div>
-            </div>
-            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 8px; padding: 10px 16px; flex: 1;">
-                <div style="font-size: 11px; color: #a7f3d0; font-weight: 600;">EXECUTABLE CANDIDATES</div>
-                <div style="font-size: 20px; font-weight: 800; color: #34d399;">{executable_count} Setups</div>
-            </div>
-            <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; border-radius: 8px; padding: 10px 16px; flex: 1;">
-                <div style="font-size: 11px; color: #fca5a5; font-weight: 600;">REJECTED BY SAFETY GATES</div>
-                <div style="font-size: 20px; font-weight: 800; color: #f87171;">{rejected_count} Illiquid / High-Risk</div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    sum_col1, sum_col2, sum_col3 = st.columns(3)
+    with sum_col1:
+        st.metric("Total Setups Evaluated", f"{len(ideas)} Ideas")
+    with sum_col2:
+        st.metric("Executable Setups", f"{executable_count} Liquid")
+    with sum_col3:
+        st.metric("Rejected by Safety Gates", f"{rejected_count} Illiquid / High-Risk", delta_color="inverse")
+
+    st.divider()
 
     # 4. Render Trade Cards
     for idx, idea in enumerate(ideas):
@@ -132,3 +104,9 @@ def render_decision_terminal_page(service: PaperTradingService):
             default_risk_pct=trade_risk_pct,
             card_index=idx,
         )
+
+
+if __name__ == "__main__":
+    st.set_page_config(page_title="60-Second Option Decision Terminal", layout="wide")
+    from src.paper_trading.service import PaperTradingService
+    render_decision_terminal_page(PaperTradingService())
