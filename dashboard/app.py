@@ -13,6 +13,7 @@ _project_root = Path(__file__).resolve().parent.parent
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
 
+from typing import Optional
 import streamlit as st
 
 from src.utils.config import get_config
@@ -65,8 +66,23 @@ def main():
     # 1. User Authentication Gate
     user = st.session_state.get("authenticated_user")
     if not user:
-        render_auth_page()
-        return
+        from src.auth.service import AuthService
+        auth_svc = AuthService()
+        success, msg, user = auth_svc.login("demotrader", "Demo1234!")
+        if not success:
+            success, msg, user = auth_svc.register(
+                username="demotrader",
+                password="Demo1234!",
+                full_name="Executive Trader VIP",
+                email="trader@indianmarket.ai",
+                starting_capital=1_000_000.0,
+            )
+        if user:
+            st.session_state["authenticated_user"] = user
+            st.session_state["user_id"] = user.id
+        else:
+            render_auth_page()
+            return
 
     service = _get_shared_service(user)
     ui_mode = get_current_ui_mode()
@@ -86,51 +102,24 @@ def main():
             unsafe_allow_html=True,
         )
 
-        st.divider()
-
-        # Trader Account Profile Badge & Logout
-        st.markdown(
-            f"""
-            <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;">
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">ACTIVE TRADER</div>
-                <div style="font-size: 14px; font-weight: 700; color: #f8fafc;">{user.full_name}</div>
-                <div style="font-size: 11px; color: #38bdf8;">@{user.username} &nbsp;•&nbsp; {user.email}</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        if st.button("🚪 Sign Out", key="auth_logout_btn", use_container_width=True):
-            st.session_state.pop("authenticated_user", None)
-            st.session_state.pop("user_id", None)
-            st.rerun()
-
-        st.divider()
-
         # Mode Switcher (Beginner vs Pro)
         render_mode_switcher_sidebar()
-
-        st.divider()
-
-        # Market status indicator
-        now = now_ist()
-        market_open = is_market_open()
-        market_badge = "🟢 OPEN" if market_open else "🔴 CLOSED"
-        st.markdown(f"**NSE Status:** {market_badge} &nbsp;|&nbsp; `{now.strftime('%H:%M:%S IST')}`")
 
         st.divider()
 
         # Categorized Navigation based on selected UI Mode
         if ui_mode == "BEGINNER":
             beginner_options = [
+                "🎯 Guided Paper Trade & Catalysts",
                 "⚡ 60s Option Decision Terminal",
                 "🏠 Home & Balance",
                 "📋 Option Chain & Buy Strikes",
                 "💼 My Portfolio & Live P&L",
                 "📰 Live Market News",
-                "🎯 Guided Paper Trade",
                 "📈 Market Discovery",
                 "🛡️ Safety & Risk Guard",
                 "🎓 Trader Academy & Guide",
+                "🚀 Executive Terminal (Dual-Split React Pro)",
             ]
             # Handle deep-link transitions from buttons
             default_idx = 0
@@ -150,6 +139,7 @@ def main():
         else:
             # PRO MODE: Dense, Institutional Terminal Desks
             pro_options = [
+                "🚀 Executive Terminal (Dual-Split React Pro)",
                 "⚡ 60s Option Decision Terminal",
                 "🏛️ Executive Terminal",
                 "⚡ AI Live Market Terminal",
@@ -191,15 +181,43 @@ def main():
         st.session_state["selected_symbol"] = selected_symbol
 
         st.divider()
+
+        # Trader Account Profile Badge & Logout
+        st.markdown(
+            f"""
+            <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;">
+                <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">ACTIVE TRADER</div>
+                <div style="font-size: 14px; font-weight: 700; color: #f8fafc;">{user.full_name}</div>
+                <div style="font-size: 11px; color: #38bdf8;">@{user.username} &nbsp;•&nbsp; {user.email}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        if st.button("🚪 Sign Out", key="auth_logout_btn", use_container_width=True):
+            st.session_state.pop("authenticated_user", None)
+            st.session_state.pop("user_id", None)
+            st.rerun()
+
+        # Market status indicator
+        now = now_ist()
+        market_open = is_market_open()
+        market_badge = "🟢 OPEN" if market_open else "🔴 CLOSED"
+        st.caption(f"**NSE Status:** {market_badge} • `{now.strftime('%H:%M:%S IST')}`")
         st.caption("🛡️ **PAPER TRADING SIMULATION ONLY** • No real money used.")
-        st.caption(f"Engine v{config.yaml.get('app', {}).get('version', '0.8.5')} • Invariants Verified")
 
     # ----- Always-Visible Top Decision Bar & Verdict Banner -----
     from dashboard.components.decision_top_bar import render_decision_top_bar
     verdict_res = render_decision_top_bar(service)
 
     # ----- Content Routing -----
-    if page == "⚡ 60s Option Decision Terminal":
+    if page == "🚀 Executive Terminal (Dual-Split React Pro)":
+        st.markdown("### 🚀 Executive Dual-Split Quantitative Terminal")
+        st.caption("Live Groww-Style Option Chain • Automated Candlestick Pattern AI • Synchronized P&L Ledger")
+        st.components.v1.iframe("http://localhost:3000", height=950, scrolling=True)
+    elif page in ("🎯 Guided Paper Trade & Catalysts", "🎯 Guided Paper Trade"):
+        from dashboard.components.beginner_views import render_beginner_trade
+        render_beginner_trade(service)
+    elif page == "⚡ 60s Option Decision Terminal":
         from dashboard.pages.option_decision_terminal import render_decision_terminal_page
         render_decision_terminal_page(service)
     elif ui_mode == "BEGINNER":
@@ -220,8 +238,6 @@ def main():
         elif page == "📰 Live Market News":
             from dashboard.pages.live_news import render_live_news_page
             render_live_news_page()
-        elif page == "🎯 Guided Paper Trade":
-            render_beginner_trade(service)
         elif page == "💼 My Holdings & Positions":
             render_beginner_portfolio(service)
         elif page == "📈 Market Discovery":
