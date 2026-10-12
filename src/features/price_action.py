@@ -244,3 +244,157 @@ class PriceActionEngine:
                 ))
 
         return patterns
+
+    def scan_all_patterns(self, df: pd.DataFrame, max_bars: int = 50) -> list[dict]:
+        """
+        Scans across historical candles to detect pattern locations for chart overlays.
+        Returns a list of pattern marker records with exact coordinates and directional bias.
+        """
+        if len(df) < 5:
+            return []
+
+        df = df.copy()
+        if "date" in df.columns:
+            df["timestamp"] = pd.to_datetime(df["date"])
+        else:
+            df["timestamp"] = pd.to_datetime(df["timestamp"])
+        df = df.sort_values("timestamp").reset_index(drop=True)
+
+        start_idx = max(2, len(df) - max_bars)
+        results: list[dict] = []
+
+        for i in range(start_idx, len(df)):
+            curr = df.iloc[i]
+            prev = df.iloc[i - 1]
+
+            ts = curr["timestamp"]
+            c_open, c_high, c_low, c_close = float(curr["open"]), float(curr["high"]), float(curr["low"]), float(curr["close"])
+            p_open, p_high, p_low, p_close = float(prev["open"]), float(prev["high"]), float(prev["low"]), float(prev["close"])
+
+            c_range = c_high - c_low
+            c_body = abs(c_close - c_open)
+            if c_range <= 0:
+                continue
+
+            lower_shadow = min(c_open, c_close) - c_low
+            upper_shadow = c_high - max(c_open, c_close)
+
+            # 1. Hammer (Bullish Reversal)
+            if (c_body / c_range) <= 0.35 and (lower_shadow / c_range) >= 0.55 and (upper_shadow / c_range) <= 0.15:
+                results.append({
+                    "timestamp": ts,
+                    "pattern": "Hammer",
+                    "type": "BULLISH",
+                    "price": c_low,
+                    "confidence": 0.70,
+                    "marker": "triangle-up",
+                    "color": "#10b981",
+                    "context": f"Lower shadow rejection at ₹{c_low:,.2f}",
+                })
+
+            # 2. Shooting Star (Bearish Reversal)
+            elif (c_body / c_range) <= 0.35 and (upper_shadow / c_range) >= 0.55 and (lower_shadow / c_range) <= 0.15:
+                results.append({
+                    "timestamp": ts,
+                    "pattern": "Shooting Star",
+                    "type": "BEARISH",
+                    "price": c_high,
+                    "confidence": 0.70,
+                    "marker": "triangle-down",
+                    "color": "#ef4444",
+                    "context": f"Upper shadow rejection at ₹{c_high:,.2f}",
+                })
+
+            # 3. Bullish Engulfing
+            elif p_close < p_open and c_close > c_open and c_open <= p_close and c_close >= p_open:
+                results.append({
+                    "timestamp": ts,
+                    "pattern": "Bullish Engulfing",
+                    "type": "BULLISH",
+                    "price": c_low,
+                    "confidence": 0.75,
+                    "marker": "triangle-up",
+                    "color": "#10b981",
+                    "context": f"Bullish body engulfed previous bearish candle ({c_open:.2f} -> {c_close:.2f})",
+                })
+
+            # 4. Bearish Engulfing
+            elif p_close > p_open and c_close < c_open and c_open >= p_close and c_close <= p_open:
+                results.append({
+                    "timestamp": ts,
+                    "pattern": "Bearish Engulfing",
+                    "type": "BEARISH",
+                    "price": c_high,
+                    "confidence": 0.75,
+                    "marker": "triangle-down",
+                    "color": "#ef4444",
+                    "context": f"Bearish body engulfed previous bullish candle ({c_open:.2f} -> {c_close:.2f})",
+                })
+
+            # 5. Doji
+            elif (c_body / c_range) <= 0.10:
+                results.append({
+                    "timestamp": ts,
+                    "pattern": "Doji",
+                    "type": "NEUTRAL",
+                    "price": (c_high + c_low) / 2.0,
+                    "confidence": 0.60,
+                    "marker": "diamond",
+                    "color": "#f59e0b",
+                    "context": f"Indecision bar near ₹{c_close:,.2f}",
+                })
+
+        return results
+
+    def get_key_levels(self, df: pd.DataFrame) -> dict:
+        """
+        Extracts key institutional support and resistance levels, recent breakouts,
+        and market structure trend.
+        """
+        if len(df) < 10:
+            return {
+                "support_20": 0.0,
+                "resistance_20": 0.0,
+                "market_structure": "INSUFFICIENT_DATA",
+                "current_price": 0.0,
+            }
+
+        curr_close = float(df["close"].iloc[-1])
+        lookback_window = min(20, len(df))
+        recent_df = df.iloc[-lookback_window:]
+
+        res_20 = float(recent_df["high"].max())
+        sup_20 = float(recent_df["low"].min())
+
+        # Determine structural trend
+        if len(df) >= 3:
+            c_high = float(df["high"].iloc[-1])
+            c_low = float(df["low"].iloc[-1])
+            p_high = float(df["high"].iloc[-2])
+            p_low = float(df["low"].iloc[-2])
+
+            if c_high > p_high and c_low > p_low:
+                structure = "BULLISH (Higher Highs & Higher Lows)"
+            elif c_high < p_high and c_low < p_low:
+                structure = "BEARISH (Lower Highs & Lower Lows)"
+            else:
+                structure = "RANGE-BOUND (Consolidation)"
+        else:
+            structure = "RANGE-BOUND"
+
+        dist_to_res = (res_20 - curr_close)
+        dist_to_res_pct = (dist_to_res / curr_close) * 100.0 if curr_close > 0 else 0.0
+
+        dist_to_sup = (curr_close - sup_20)
+        dist_to_sup_pct = (dist_to_sup / curr_close) * 100.0 if curr_close > 0 else 0.0
+
+        return {
+            "current_price": curr_close,
+            "resistance_20": res_20,
+            "support_20": sup_20,
+            "distance_to_resistance_pts": round(dist_to_res, 2),
+            "distance_to_resistance_pct": round(dist_to_res_pct, 2),
+            "distance_to_support_pts": round(dist_to_sup, 2),
+            "distance_to_support_pct": round(dist_to_sup_pct, 2),
+            "market_structure": structure,
+        }

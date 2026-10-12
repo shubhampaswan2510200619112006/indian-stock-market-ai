@@ -110,3 +110,42 @@ def test_gap_up_detection():
 
     p_names = [p.pattern for p in patterns]
     assert "Gap Up" in p_names
+
+
+def test_scan_all_patterns():
+    rows = [(100, 105, 95, 101, 1000)] * 5
+    # Add a Hammer
+    rows.append((100.0, 101.0, 80.0, 99.0, 1000))
+    # Add an Engulfing
+    rows.append((98.0, 105.0, 97.0, 104.0, 1500))
+    df = make_df(rows)
+
+    engine = PriceActionEngine(timeframe=TimeFrame.DAILY)
+    scanned = engine.scan_all_patterns(df, max_bars=10)
+
+    assert len(scanned) >= 1
+    patterns_found = [s["pattern"] for s in scanned]
+    assert "Hammer" in patterns_found or "Bullish Engulfing" in patterns_found
+    for s in scanned:
+        assert "marker" in s
+        assert "color" in s
+        assert "type" in s
+
+
+def test_get_key_levels():
+    rows = [
+        (100, 110, 90, 105, 1000),
+        (105, 115, 100, 112, 1200),
+        (112, 120, 108, 118, 1500),
+        (118, 122, 115, 121, 1100),
+    ] * 5
+    df = make_df(rows)
+
+    engine = PriceActionEngine(timeframe=TimeFrame.DAILY)
+    levels = engine.get_key_levels(df)
+
+    assert levels["resistance_20"] >= 120.0
+    assert levels["support_20"] <= 95.0
+    assert "market_structure" in levels
+    assert levels["distance_to_resistance_pts"] >= 0.0
+
