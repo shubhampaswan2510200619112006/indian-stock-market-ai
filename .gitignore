@@ -141,7 +141,7 @@ $RECYCLE.BIN/
 
 # ── STREAMLIT ────────────────────────────────────────────────────
 .streamlit/secrets.toml
-.streamlit/*.toml
+
 
 # ── JUPYTER ──────────────────────────────────────────────────────
 .ipynb_checkpoints/
