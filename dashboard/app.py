@@ -47,7 +47,17 @@ except Exception:
 # Inject modern institutional financial CSS theme
 inject_custom_theme()
 
-# Additional website-grade styling
+# Stock Market Chart Background Video & Dynamic Cyber Grid
+st.markdown(
+    """
+    <div class="market-cyber-grid"></div>
+    <video autoplay loop muted playsinline class="market-video-bg">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-stock-market-candlestick-chart-display-42021-large.mp4" type="video/mp4">
+    </video>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.markdown(
     """
     <style>
@@ -165,14 +175,17 @@ def _get_shared_service() -> PaperTradingService:
 
 
 def render_website_header():
-    """Top Website Branding & Live Index Bar."""
+    """Top Website Branding, Trader Identity & Live Index Bar."""
     now = now_ist()
     market_open = is_market_open()
     status_color = "#10b981" if market_open else "#f43f5e"
-    status_text = "🟢 NSE LIVE" if market_open else "🔴 MARKET CLOSED (SESSION ENDED 15:30 IST)"
+    status_text = "🟢 NSE LIVE" if market_open else "🔴 MARKET CLOSED (15:30 IST)"
+
+    from dashboard.pages.trader_login import get_current_user
+    curr_user = get_current_user()
 
     # Header Row
-    c_brand, c_status = st.columns([2, 1.2])
+    c_brand, c_user, c_status = st.columns([1.6, 1.2, 1.0])
     with c_brand:
         st.markdown(
             """
@@ -188,6 +201,25 @@ def render_website_header():
             """,
             unsafe_allow_html=True,
         )
+
+    with c_user:
+        if curr_user:
+            st.markdown(
+                f"""
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 10px; padding: 6px 12px; display: flex; align-items: center; gap: 10px; margin-top: 4px;">
+                    <span style="font-size: 20px;">{curr_user.get('avatar', '👤')}</span>
+                    <div>
+                        <div style="font-size: 11px; font-weight: 700; color: #f8fafc;">
+                            {curr_user.get('name')} <span style="font-size: 9px; color: #d4af37; background: rgba(212,175,55,0.15); padding: 1px 5px; border-radius: 4px;">{curr_user.get('badge', '')}</span>
+                        </div>
+                        <div style="font-size: 10px; color: #94a3b8; font-family: monospace;">
+                            Margin: <span style="color: #38bdf8;">₹{curr_user.get('capital', 1000000.0):,.0f}</span>
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
     with c_status:
         st.markdown(
@@ -439,6 +471,7 @@ def main():
         "📈 Technical Analysis Desk",
         "📰 Market Intelligence Wire",
         "💼 Positions & P&L Desk",
+        "🔐 Trader Login & Accounts",
         "🔬 Quant Research Due Diligence",
     ])
 
@@ -465,6 +498,10 @@ def main():
         render_paper_positions_page()
 
     with tabs[6]:
+        from dashboard.pages.trader_login import render_trader_login_page
+        render_trader_login_page(service)
+
+    with tabs[7]:
         from dashboard.pages.investor_overview import render_investor_overview_page
         render_investor_overview_page()
 

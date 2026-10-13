@@ -62,82 +62,48 @@ def render_portfolio_pnl_header(
     )
     border_color = "rgba(16, 185, 129, 0.4)" if is_profit else "rgba(239, 68, 68, 0.4)"
 
-    # Header Card
-    st.markdown(
-        f"""
-        <div style="
-            background: {card_bg_gradient};
-            border: 1px solid {border_color};
-            border-radius: 12px;
-            padding: 20px 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        ">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
-                <div>
-                    <div style="font-size: 13px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
-                        {title}
-                    </div>
-                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
-                        {subtitle}
-                    </div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">
-                        TOTAL P&amp;L (ALL TIME)
-                    </div>
-                    <div style="font-size: 28px; font-weight: 800; color: {pnl_text_color}; line-height: 1.1; font-family: monospace;">
-                        {pnl_sign}₹{total_pnl:,.2f}
-                        <span style="font-size: 16px; font-weight: 700; margin-left: 6px;">
-                            ({pnl_sign}{total_pnl_pct:.2f}%)
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-                gap: 12px;
-                margin-top: 18px;
-                padding-top: 14px;
-                border-top: 1px solid rgba(255, 255, 255, 0.08);
-            ">
-                <div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">💼 Invested Amount</div>
-                    <div style="font-size: 16px; font-weight: 700; color: #f8fafc; font-family: monospace; margin-top: 2px;">
-                        ₹{invested_value:,.2f}
-                    </div>
-                </div>
-                <div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">📈 Current Value</div>
-                    <div style="font-size: 16px; font-weight: 700; color: #38bdf8; font-family: monospace; margin-top: 2px;">
-                        ₹{current_market_value:,.2f}
-                    </div>
-                </div>
-                <div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">⚡ Unrealized P&amp;L</div>
-                    <div style="font-size: 16px; font-weight: 700; color: {'#10b981' if unrealized_pnl >= 0 else '#ef4444'}; font-family: monospace; margin-top: 2px;">
-                        {'+' if unrealized_pnl >= 0 else ''}₹{unrealized_pnl:,.2f}
-                    </div>
-                </div>
-                <div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">🔒 Booked (Realized) P&amp;L</div>
-                    <div style="font-size: 16px; font-weight: 700; color: {'#10b981' if realized_pnl >= 0 else '#ef4444'}; font-family: monospace; margin-top: 2px;">
-                        {'+' if realized_pnl >= 0 else ''}₹{realized_pnl:,.2f}
-                    </div>
-                </div>
-                <div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 600;">🏦 Available Cash Margin</div>
-                    <div style="font-size: 16px; font-weight: 700; color: #f8fafc; font-family: monospace; margin-top: 2px;">
-                        ₹{cash:,.2f}
-                    </div>
-                </div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    # Header Card - Clean non-indented HTML to prevent CommonMark code-block escaping
+    import textwrap
+    header_html = textwrap.dedent(f"""
+<div style="background: {card_bg_gradient}; border: 1px solid {border_color}; border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+<div>
+<div style="font-size: 13px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">{title}</div>
+<div style="font-size: 12px; color: #64748b; margin-top: 2px;">{subtitle}</div>
+</div>
+<div style="text-align: right;">
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">TOTAL P&amp;L (ALL TIME)</div>
+<div style="font-size: 28px; font-weight: 800; color: {pnl_text_color}; line-height: 1.1; font-family: monospace;">{pnl_sign}₹{total_pnl:,.2f} <span style="font-size: 16px; font-weight: 700; margin-left: 6px;">({pnl_sign}{total_pnl_pct:.2f}%)</span></div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+<div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600;">💼 Invested Amount</div>
+<div style="font-size: 16px; font-weight: 700; color: #f8fafc; font-family: monospace; margin-top: 2px;">₹{invested_value:,.2f}</div>
+</div>
+<div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600;">📈 Current Value</div>
+<div style="font-size: 16px; font-weight: 700; color: #38bdf8; font-family: monospace; margin-top: 2px;">₹{current_market_value:,.2f}</div>
+</div>
+<div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600;">⚡ Unrealized P&amp;L</div>
+<div style="font-size: 16px; font-weight: 700; color: {'#10b981' if unrealized_pnl >= 0 else '#ef4444'}; font-family: monospace; margin-top: 2px;">{'+' if unrealized_pnl >= 0 else ''}₹{unrealized_pnl:,.2f}</div>
+</div>
+<div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600;">🔒 Booked (Realized) P&amp;L</div>
+<div style="font-size: 16px; font-weight: 700; color: {'#10b981' if realized_pnl >= 0 else '#ef4444'}; font-family: monospace; margin-top: 2px;">{'+' if realized_pnl >= 0 else ''}₹{realized_pnl:,.2f}</div>
+</div>
+<div style="background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600;">🏦 Available Cash Margin</div>
+<div style="font-size: 16px; font-weight: 700; color: #f8fafc; font-family: monospace; margin-top: 2px;">₹{cash:,.2f}</div>
+</div>
+</div>
+</div>
+""").strip()
+    if hasattr(st, "html"):
+        st.html(header_html)
+    else:
+        st.markdown(header_html, unsafe_allow_html=True)
 
     if not show_positions_table:
         return
@@ -169,54 +135,31 @@ def render_portfolio_pnl_header(
         type_badge = "🟢 CALL" if is_ce else ("🔴 PUT" if is_pe else "🏛️ INDEX")
 
         with st.container():
-            st.markdown(
-                f"""
-                <div style="
-                    background: #1e293b;
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 10px;
-                    padding: 14px 18px;
-                    margin-bottom: 12px;
-                ">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                        <div>
-                            <span style="font-size: 12px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-weight: 700; margin-right: 8px;">
-                                {type_badge}
-                            </span>
-                            <span style="font-size: 16px; font-weight: 700; color: #f8fafc;">
-                                {sym}
-                            </span>
-                            <span style="font-size: 11px; color: #64748b; margin-left: 8px;">
-                                ID: {pid}
-                            </span>
-                        </div>
-                        <div style="text-align: right; font-family: monospace;">
-                            <span style="font-size: 18px; font-weight: 800; color: {pos_pnl_color};">
-                                {pos_sign}₹{pnl:,.2f}
-                            </span>
-                            <span style="font-size: 12px; font-weight: 700; color: {pos_pnl_color}; margin-left: 6px;">
-                                ({pos_sign}{pnl_pct:.2f}%)
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div style="
-                        display: flex;
-                        gap: 24px;
-                        margin-top: 10px;
-                        font-size: 12px;
-                        color: #94a3b8;
-                        flex-wrap: wrap;
-                    ">
-                        <div>Quantity: <b style="color: #f8fafc;">{qty} shares</b></div>
-                        <div>Buy Price: <b style="color: #f8fafc;">₹{entry:,.2f}</b></div>
-                        <div>Market LTP: <b style="color: #38bdf8;">₹{curr:,.2f}</b></div>
-                        <div>Invested: <b style="color: #f8fafc;">₹{invested:,.2f}</b></div>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+            pos_html = textwrap.dedent(f"""
+<div style="background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+<div>
+<span style="font-size: 12px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-weight: 700; margin-right: 8px;">{type_badge}</span>
+<span style="font-size: 16px; font-weight: 700; color: #f8fafc;">{sym}</span>
+<span style="font-size: 11px; color: #64748b; margin-left: 8px;">ID: {pid}</span>
+</div>
+<div style="text-align: right; font-family: monospace;">
+<span style="font-size: 18px; font-weight: 800; color: {pos_pnl_color};">{pos_sign}₹{pnl:,.2f}</span>
+<span style="font-size: 12px; font-weight: 700; color: {pos_pnl_color}; margin-left: 6px;">({pos_sign}{pnl_pct:.2f}%)</span>
+</div>
+</div>
+<div style="display: flex; gap: 24px; margin-top: 10px; font-size: 12px; color: #94a3b8; flex-wrap: wrap;">
+<div>Quantity: <b style="color: #f8fafc;">{qty} shares</b></div>
+<div>Buy Price: <b style="color: #f8fafc;">₹{entry:,.2f}</b></div>
+<div>Market LTP: <b style="color: #38bdf8;">₹{curr:,.2f}</b></div>
+<div>Invested: <b style="color: #f8fafc;">₹{invested:,.2f}</b></div>
+</div>
+</div>
+""").strip()
+            if hasattr(st, "html"):
+                st.html(pos_html)
+            else:
+                st.markdown(pos_html, unsafe_allow_html=True)
 
             col_exit, col_space = st.columns([1.5, 4])
             with col_exit:

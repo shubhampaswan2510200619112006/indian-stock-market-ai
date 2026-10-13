@@ -277,17 +277,72 @@ def render_options_chain_page():
     analyzer = OptionChainAnalyzer()
     analysis = analyzer.analyze(snapshot)
 
-    # Metrics Strip
-    m1, m2, m3, m4, m5 = st.columns(5)
-    m1.metric("Spot Price", f"₹{snapshot.spot_price:,.2f}")
-    m2.metric("ATM Strike", f"{analysis.atm_strike:,.0f}" if analysis.atm_strike else "N/A")
-    m3.metric("PCR (OI)", f"{analysis.put_call_ratio_oi:.3f}" if analysis.put_call_ratio_oi else "N/A")
-    m4.metric("Max Pain", f"{analysis.max_pain_strike:,.0f}" if analysis.max_pain_strike else "N/A")
+    # ATM Straddle & Expected Expiry Range calculation
+    atm_row = next((r for r in snapshot.strikes if r.strike_price == analysis.atm_strike), None)
+    atm_ce = float(atm_row.ce.last_price) if (atm_row and atm_row.ce and atm_row.ce.last_price) else 115.0
+    atm_pe = float(atm_row.pe.last_price) if (atm_row and atm_row.pe and atm_row.pe.last_price) else 95.0
+    straddle_price = atm_ce + atm_pe
+    expected_low = snapshot.spot_price - straddle_price
+    expected_high = snapshot.spot_price + straddle_price
+
+    pcr_val = float(analysis.put_call_ratio_oi or 1.0)
+    if pcr_val >= 1.25:
+        pcr_tag = "🟢 Strong Put Writing (Bullish)"
+        pcr_color = "#10b981"
+    elif pcr_val >= 1.0:
+        pcr_tag = "🟢 Mildly Bullish Bias"
+        pcr_color = "#34d399"
+    elif pcr_val <= 0.75:
+        pcr_tag = "🔴 Heavy Call Writing (Bearish)"
+        pcr_color = "#f43f5e"
+    else:
+        pcr_tag = "🟡 Neutral / Rangebound"
+        pcr_color = "#facc15"
+
+    tot_ce = snapshot.total_ce_oi or 1
+    tot_pe = snapshot.total_pe_oi or 1
+    tot_oi = tot_ce + tot_pe
+    ce_pct = (tot_ce / tot_oi) * 100.0 if tot_oi > 0 else 50.0
+    pe_pct = (tot_pe / tot_oi) * 100.0 if tot_oi > 0 else 50.0
 
     from src.utils.time_utils import calendar_days_to_expiry, trading_days_to_expiry
     cal_dte = calendar_days_to_expiry(expiry_date)
     trd_dte = trading_days_to_expiry(expiry_date)
+
+    # Top KPI Metrics Strip
+    m1, m2, m3, m4, m5 = st.columns(5)
+    m1.metric("Spot Price", f"₹{snapshot.spot_price:,.2f}")
+    m2.metric("ATM Strike", f"{analysis.atm_strike:,.0f}" if analysis.atm_strike else "N/A", f"Straddle: ₹{straddle_price:,.1f}")
+    m3.metric("PCR (OI)", f"{pcr_val:.3f}", pcr_tag.split()[1])
+    mp_diff = (analysis.max_pain_strike - snapshot.spot_price) if analysis.max_pain_strike else 0.0
+    m4.metric("Max Pain", f"{analysis.max_pain_strike:,.0f}" if analysis.max_pain_strike else "N/A", f"{mp_diff:+.0f} pts")
     m5.metric("DTE", f"{cal_dte}d ({trd_dte} trd)")
+
+    # Institutional Volatility Corridor & Market Sentiment Strip
+    import textwrap
+    vol_corridor_html = textwrap.dedent(f"""
+<div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 12px 18px; margin: 12px 0 18px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+<div>
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Implied Expiry Expected Range (ATM Straddle Corridor)</div>
+<div style="font-size: 15px; font-weight: 700; color: #38bdf8; font-family: monospace; margin-top: 2px;">
+₹{expected_low:,.0f} &nbsp;⟵&nbsp; <span style="color: #f8fafc;">Spot ₹{snapshot.spot_price:,.2f} (±{straddle_price:,.1f} pts)</span> &nbsp;⟶&nbsp; ₹{expected_high:,.0f}
+</div>
+</div>
+<div>
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">OI Market Sentiment</div>
+<div style="font-size: 14px; font-weight: 700; color: {pcr_color}; margin-top: 2px;">
+{pcr_tag}
+</div>
+</div>
+<div style="text-align: right;">
+<div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Total Open Interest Split</div>
+<div style="font-size: 13px; font-weight: 700; font-family: monospace; margin-top: 2px;">
+<span style="color: #f43f5e;">CALL {ce_pct:.1f}% ({tot_ce:,})</span> &nbsp;|&nbsp; <span style="color: #10b981;">PUT {pe_pct:.1f}% ({tot_pe:,})</span>
+</div>
+</div>
+</div>
+""").strip()
+    st.markdown(vol_corridor_html, unsafe_allow_html=True)
 
     # =========================================================================
     # DUAL WORKSPACE: REAL-TIME TECHNICAL CANDLESTICK CHART & AI PATTERNS
@@ -627,6 +682,13 @@ def _render_integrated_technical_chart(symbol: str):
 
 def _render_derivatives_strike_grid(strikes: List[OptionStrikeRow], spot: float, atm_strike: Optional[float], symbol: str, lot_size: int):
     """Render the Derivatives Option Chain table with CE on left, Strike in center, PE on right."""
+    c_ctrl1, c_ctrl2 = st.columns([2, 1])
+    with c_ctrl1:
+        st.markdown("**📊 Professional Strike Matrix**")
+    with c_ctrl2:
+        show_greeks = st.checkbox("🔬 Show Greeks (Delta & Theta)", value=False, key="opt_show_greeks_toggle")
+
+    from src.options.pricing import black_scholes_greeks
     rows = []
     for r in strikes:
         k = r.strike_price
@@ -636,8 +698,10 @@ def _render_derivatives_strike_grid(strikes: List[OptionStrikeRow], spot: float,
 
         ce_ltp = f"₹{r.ce.last_price:.2f}" if r.ce and r.ce.last_price else "—"
         pe_ltp = f"₹{r.pe.last_price:.2f}" if r.pe and r.pe.last_price else "—"
-        ce_iv = f"{r.ce.implied_volatility:.1f}%" if r.ce and r.ce.implied_volatility else "—"
-        pe_iv = f"{r.pe.implied_volatility:.1f}%" if r.pe and r.pe.implied_volatility else "—"
+        ce_iv_val = r.ce.implied_volatility if r.ce and r.ce.implied_volatility else 15.0
+        pe_iv_val = r.pe.implied_volatility if r.pe and r.pe.implied_volatility else 15.0
+        ce_iv = f"{ce_iv_val:.1f}%" if r.ce and r.ce.implied_volatility else "—"
+        pe_iv = f"{pe_iv_val:.1f}%" if r.pe and r.pe.implied_volatility else "—"
         ce_oi = f"{r.ce.open_interest:,}" if r.ce and r.ce.open_interest else "—"
         pe_oi = f"{r.pe.open_interest:,}" if r.pe and r.pe.open_interest else "—"
         ce_doi = f"{r.ce.change_in_oi:+,}" if r.ce and r.ce.change_in_oi else "—"
@@ -645,17 +709,39 @@ def _render_derivatives_strike_grid(strikes: List[OptionStrikeRow], spot: float,
 
         status_tag = "🎯 ATM" if is_atm else ("ITM" if moneyness_ce == Moneyness.ITM else "OTM")
 
-        rows.append({
+        row_dict = {
             "CALL OI": ce_oi,
             "CALL ΔOI": ce_doi,
             "CALL IV": ce_iv,
-            "CALL LTP": ce_ltp,
-            "STRIKE": f"{k:,.0f} ({status_tag})",
-            "PUT LTP": pe_ltp,
-            "PUT IV": pe_iv,
-            "PUT ΔOI": pe_doi,
-            "PUT OI": pe_oi,
-        })
+        }
+
+        if show_greeks:
+            try:
+                g_ce = black_scholes_greeks(spot=spot, strike=k, tte=7/365.0, r=0.07, sigma=ce_iv_val/100.0, option_type=OptionType.CE)
+                g_pe = black_scholes_greeks(spot=spot, strike=k, tte=7/365.0, r=0.07, sigma=pe_iv_val/100.0, option_type=OptionType.PE)
+                row_dict["CALL Δ"] = f"{g_ce.delta:+.2f}"
+                row_dict["CALL Θ"] = f"{g_ce.theta:.1f}"
+            except Exception:
+                row_dict["CALL Δ"] = "—"
+                row_dict["CALL Θ"] = "—"
+
+        row_dict["CALL LTP"] = ce_ltp
+        row_dict["STRIKE"] = f"{k:,.0f} ({status_tag})"
+        row_dict["PUT LTP"] = pe_ltp
+
+        if show_greeks:
+            try:
+                row_dict["PUT Δ"] = f"{g_pe.delta:+.2f}"
+                row_dict["PUT Θ"] = f"{g_pe.theta:.1f}"
+            except Exception:
+                row_dict["PUT Δ"] = "—"
+                row_dict["PUT Θ"] = "—"
+
+        row_dict["PUT IV"] = pe_iv
+        row_dict["PUT ΔOI"] = pe_doi
+        row_dict["PUT OI"] = pe_oi
+
+        rows.append(row_dict)
 
     if rows:
         df = pd.DataFrame(rows)

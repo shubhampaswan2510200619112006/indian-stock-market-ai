@@ -31,32 +31,72 @@ def inject_custom_theme():
             font-variant-numeric: tabular-nums;
         }
 
-        /* App Background & Surfaces */
+        /* App Background & Transparent Layering */
         .stApp {
-            background-color: #07090e;
+            background-color: transparent !important;
             color: #f1f5f9;
         }
 
-        /* Sidebar Styling */
-        [data-testid="stSidebar"] {
-            background-color: #0a0e18;
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        [data-testid="stAppViewContainer"] {
+            background: radial-gradient(circle at 50% 10%, rgba(13, 20, 36, 0.4) 0%, rgba(7, 9, 14, 0.94) 80%) !important;
+            min-height: 100vh;
         }
 
-        /* Hide duplicate default multipage nav */
-        [data-testid="stSidebarNav"] {
-            display: none !important;
+        /* Stock Market Chart Video Background */
+        .market-video-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100vw;
+            min-height: 100vh;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            z-index: -999;
+            opacity: 0.18;
+            filter: saturate(1.4) brightness(0.65) contrast(1.2);
+            object-fit: cover;
+            pointer-events: none;
         }
 
-        /* Primary and Secondary Button Refinements */
-        .stButton button {
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.15s ease-in-out;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background-color: #101626;
-            color: #f8fafc;
+        /* Moving Cyber Financial Candlestick Grid Overlay */
+        .market-cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: -998;
+        }
+
+        /* Tab Bar Styling with Glassmorphism */
+        .stTabs [data-baseweb="tab-list"] {
+            background: rgba(13, 20, 36, 0.85) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            padding: 6px 8px !important;
+            gap: 4px !important;
+        }
+
+        .stTabs [data-baseweb="tab"] {
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            color: #94a3b8 !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .stTabs [aria-selected="true"] {
+            background: rgba(212, 175, 55, 0.15) !important;
+            color: #fef08a !important;
+            border: 1px solid rgba(212, 175, 55, 0.35) !important;
         }
 
         .stButton button:hover {
