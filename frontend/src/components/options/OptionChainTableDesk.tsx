@@ -61,7 +61,7 @@ export const OptionChainTableDesk: React.FC<OptionChainTableDeskProps> = ({
   };
 
   return (
-    <div className="w-full bg-[#080d19]/95 border border-[#d4af37]/25 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-all backdrop-blur-xl">
+    <div className="w-full bg-[#080d19]/95 border border-[#B6FF5C]/25 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-all backdrop-blur-xl">
       {/* 1. Integrated Controls Bar */}
       <div className="px-4 py-2.5 bg-[#060a14] border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
         {!compact ? (
@@ -78,7 +78,7 @@ export const OptionChainTableDesk: React.FC<OptionChainTableDeskProps> = ({
                   onClick={() => onSelectSymbol(sym)}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap cursor-pointer ${
                     isSelected
-                      ? 'bg-[#d4af37]/15 text-[#f6d776] font-bold border border-[#d4af37]/40 shadow-sm'
+                      ? 'bg-[#B6FF5C]/15 text-[#B6FF5C] font-bold border border-[#B6FF5C]/40 shadow-sm'
                       : 'bg-white/[0.03] text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
                   }`}
                 >
@@ -96,11 +96,11 @@ export const OptionChainTableDesk: React.FC<OptionChainTableDeskProps> = ({
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-[#f6d776] font-['Outfit'] tracking-wider uppercase flex items-center gap-1.5">
-              <Activity className="w-3.5 h-3.5 text-[#d4af37]" />
+            <span className="text-xs font-bold text-[#43D9FF] font-['Outfit'] tracking-wider uppercase flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5 text-[#43D9FF]" />
               {instrument.name} • DERIVATIVES EXECUTION MATRIX
             </span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#d4af37]/15 text-[#d4af37] border border-[#d4af37]/30 font-semibold">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#B6FF5C]/15 text-[#B6FF5C] border border-[#B6FF5C]/30 font-semibold">
               Lot: {instrument.lot_size} Units
             </span>
           </div>

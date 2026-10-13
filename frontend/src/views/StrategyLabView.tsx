@@ -350,7 +350,7 @@ export const StrategyLabView: React.FC<StrategyLabViewProps> = ({
 
         {/* Right 4 Cols: Key Strategy Risk Metrics & 1-Click Execution */}
         <div className="xl:col-span-4 space-y-6">
-          <div className="p-5 rounded-2xl bg-[#090d19]/90 border border-[#d4af37]/25 backdrop-blur-xl shadow-xl space-y-4">
+          <div className="p-5 rounded-2xl bg-[#090d19]/90 border border-[#B6FF5C]/25 backdrop-blur-xl shadow-xl space-y-4">
             <h2 className="text-sm font-extrabold text-white font-['Outfit'] uppercase tracking-wider">
               Strategy Risk & Payoff Metrics
             </h2>
@@ -379,7 +379,7 @@ export const StrategyLabView: React.FC<StrategyLabViewProps> = ({
 
               <div className="flex items-center justify-between p-3 rounded-xl bg-[#0c1222]">
                 <span className="text-slate-400">Breakeven Points:</span>
-                <span className="font-bold text-[#f6d776]">
+                <span className="font-bold text-[#43D9FF]">
                   {breakevens.length > 0 ? breakevens.map(b => `₹${b}`).join(' & ') : `₹${atm}`}
                 </span>
               </div>
@@ -387,7 +387,7 @@ export const StrategyLabView: React.FC<StrategyLabViewProps> = ({
 
             <button
               onClick={handleExecuteInPaper}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-[#d4af37] to-amber-500 hover:from-[#c5a030] hover:to-amber-400 text-black font-extrabold text-xs transition-all cursor-pointer shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-[#B6FF5C] to-[#84CC16] hover:brightness-110 text-[#080B12] font-black text-xs transition-all cursor-pointer shadow-lg shadow-[#B6FF5C]/20 flex items-center justify-center gap-2"
             >
               <span>Execute Strategy in Paper Trading</span>
               <ArrowRight className="w-4 h-4" />

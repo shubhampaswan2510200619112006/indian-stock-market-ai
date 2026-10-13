@@ -49,7 +49,7 @@ export const OptionsChainPageView: React.FC<OptionsChainPageViewProps> = ({
   return (
     <div className="space-y-6">
       {/* ── 1. Top Options Control & Mode Header ── */}
-      <div className="p-4 rounded-2xl bg-[#080d19]/95 border border-[#d4af37]/25 backdrop-blur-xl shadow-xl">
+      <div className="p-4 rounded-2xl bg-[#080d19]/95 border border-[#B6FF5C]/25 backdrop-blur-xl shadow-xl">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2.5">
@@ -57,7 +57,7 @@ export const OptionsChainPageView: React.FC<OptionsChainPageViewProps> = ({
               <h1 className="text-lg font-black text-white font-['Outfit'] tracking-tight">
                 NSE Derivatives Option Chain & Strike Matrix
               </h1>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#d4af37]/15 text-[#f6d776] border border-[#d4af37]/30">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#B6FF5C]/15 text-[#B6FF5C] border border-[#B6FF5C]/30">
                 LIVE PAPER EXECUTION
               </span>
             </div>
@@ -72,7 +72,7 @@ export const OptionsChainPageView: React.FC<OptionsChainPageViewProps> = ({
               onClick={() => setViewMode('standard')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-bold ${
                 viewMode === 'standard'
-                  ? 'bg-[#d4af37]/25 text-[#f6d776] border border-[#d4af37]/40 shadow-sm'
+                  ? 'bg-[#B6FF5C]/20 text-[#B6FF5C] border border-[#B6FF5C]/40 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -84,11 +84,11 @@ export const OptionsChainPageView: React.FC<OptionsChainPageViewProps> = ({
               onClick={() => setViewMode('greeks')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-bold ${
                 viewMode === 'greeks'
-                  ? 'bg-[#d4af37]/25 text-[#f6d776] border border-[#d4af37]/40 shadow-sm'
+                  ? 'bg-[#43D9FF]/20 text-[#43D9FF] border border-[#43D9FF]/40 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Activity className="w-3.5 h-3.5 text-[#d4af37]" />
+              <Activity className="w-3.5 h-3.5 text-[#43D9FF]" />
               <span>Black-76 Greeks Desk</span>
             </button>
 
@@ -96,7 +96,7 @@ export const OptionsChainPageView: React.FC<OptionsChainPageViewProps> = ({
               onClick={() => setViewMode('beginner')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-bold ${
                 viewMode === 'beginner'
-                  ? 'bg-[#d4af37]/25 text-[#f6d776] border border-[#d4af37]/40 shadow-sm'
+                  ? 'bg-[#B6FF5C]/20 text-[#B6FF5C] border border-[#B6FF5C]/40 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -139,7 +139,7 @@ export const OptionsChainPageView: React.FC<OptionsChainPageViewProps> = ({
                   onClick={() => setStrikeFilterRange(rng)}
                   className={`px-1.5 py-0.5 rounded text-[10px] uppercase font-bold transition-all cursor-pointer ${
                     strikeFilterRange === rng
-                      ? 'bg-[#d4af37]/30 text-[#f6d776] border border-[#d4af37]/50'
+                      ? 'bg-[#B6FF5C]/25 text-[#B6FF5C] border border-[#B6FF5C]/50'
                       : 'bg-white/[0.06] text-slate-400 hover:text-white'
                   }`}
                 >
@@ -190,7 +190,7 @@ export const OptionsChainPageView: React.FC<OptionsChainPageViewProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-2xl bg-[#090d19]/90 border border-white/[0.08] backdrop-blur-xl">
           <div className="space-y-4">
             <h2 className="text-base font-extrabold text-white font-['Outfit'] flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-[#d4af37]" />
+              <BookOpen className="w-4 h-4 text-[#43D9FF]" />
               How Options Work — Plain Language Guide
             </h2>
 
@@ -230,12 +230,12 @@ export const OptionsChainPageView: React.FC<OptionsChainPageViewProps> = ({
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-slate-400">Institutional Max Pain Pin:</span>
-                <span className="font-bold text-[#f6d776] font-mono">₹{activeInstrument.max_pain}</span>
+                <span className="font-bold text-[#43D9FF] font-mono">₹{activeInstrument.max_pain}</span>
               </div>
 
               <button
                 onClick={() => setViewMode('standard')}
-                className="w-full mt-2 py-2.5 rounded-xl bg-gradient-to-r from-[#d4af37] to-amber-500 text-black font-extrabold text-xs transition-all cursor-pointer shadow-lg shadow-amber-500/20"
+                className="w-full mt-2 py-2.5 rounded-xl bg-gradient-to-r from-[#B6FF5C] to-[#84CC16] text-[#080B12] font-black text-xs transition-all cursor-pointer shadow-lg shadow-[#B6FF5C]/20"
               >
                 Go to Live Order Pad Desk →
               </button>

@@ -69,7 +69,7 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
       {/* ── 1. Top Market Session Header & Status Strip ── */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 rounded-2xl bg-[#090d19]/90 border border-white/[0.08] backdrop-blur-xl shadow-xl">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#d4af37]/30 to-amber-500/10 border border-[#d4af37]/40 flex items-center justify-center text-lg shadow-sm">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#B6FF5C]/20 to-cyan-500/10 border border-[#B6FF5C]/40 flex items-center justify-center text-lg shadow-sm">
             🇮🇳
           </div>
           <div>
@@ -92,7 +92,7 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
 
         {/* Global Stock & Index Search */}
         <div className="relative w-full md:w-80">
-          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#0d1424] border border-white/[0.12] focus-within:border-[#d4af37]/60 focus-within:shadow-[0_0_15px_rgba(212,175,55,0.15)] transition-all">
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#0d1424] border border-white/[0.12] focus-within:border-[#B6FF5C]/60 focus-within:shadow-[0_0_15px_rgba(182,255,92,0.15)] transition-all">
             <Search className="w-4 h-4 text-slate-400" />
             <input
               type="text"
@@ -153,12 +153,12 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
               onClick={() => setSelectedSymbol(sym)}
               className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden backdrop-blur-xl ${
                 isSelected
-                  ? 'bg-gradient-to-br from-[#11192e] to-[#0c1222] border-[#d4af37]/60 shadow-[0_8px_30px_rgba(212,175,55,0.15)] ring-1 ring-[#d4af37]/40'
+                  ? 'bg-gradient-to-br from-[#11192e] to-[#0c1222] border-[#B6FF5C]/60 shadow-[0_8px_30px_rgba(182,255,92,0.15)] ring-1 ring-[#B6FF5C]/40'
                   : 'bg-[#090d19]/80 border-white/[0.08] hover:border-white/[0.18] hover:bg-[#0d1426]'
               }`}
             >
               {isSelected && (
-                <div className="absolute top-0 right-0 w-16 h-16 bg-[#d4af37]/10 rounded-bl-full pointer-events-none" />
+                <div className="absolute top-0 right-0 w-16 h-16 bg-[#B6FF5C]/10 rounded-bl-full pointer-events-none" />
               )}
 
               <div className="flex items-center justify-between mb-2">
@@ -194,7 +194,7 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
 
               <div className="flex items-center justify-between pt-2 mt-2 border-t border-white/[0.06] text-[10px] text-slate-400">
                 <span>PCR: <strong className={inst.pcr >= 1 ? 'text-emerald-400' : 'text-slate-200'}>{inst.pcr.toFixed(2)}</strong></span>
-                <span>Max Pain: <strong className="text-[#f6d776]">₹{inst.max_pain}</strong></span>
+                <span>Max Pain: <strong className="text-[#43D9FF]">₹{inst.max_pain}</strong></span>
               </div>
             </div>
           );
@@ -227,12 +227,12 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
                   onClick={() => onNavigate('explorer')}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-xs font-bold text-white transition-all cursor-pointer border border-white/[0.1]"
                 >
-                  <BarChart2 className="w-3.5 h-3.5 text-[#d4af37]" />
+                  <BarChart2 className="w-3.5 h-3.5 text-[#43D9FF]" />
                   <span>Full Explorer Desk</span>
                 </button>
                 <button
                   onClick={() => onNavigate('options')}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#d4af37]/20 hover:bg-[#d4af37]/30 text-xs font-bold text-[#f6d776] border border-[#d4af37]/40 transition-all cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#B6FF5C]/20 hover:bg-[#B6FF5C]/30 text-xs font-bold text-[#B6FF5C] border border-[#B6FF5C]/40 transition-all cursor-pointer shadow-sm"
                 >
                   <Layers className="w-3.5 h-3.5" />
                   <span>Option Chain</span>
@@ -275,7 +275,7 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
                 <button
                   onClick={() => setActiveMoverTab('volume')}
                   className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                    activeMoverTab === 'volume' ? 'bg-[#d4af37]/20 text-[#f6d776] border border-[#d4af37]/40' : 'text-slate-400 hover:text-white'
+                    activeMoverTab === 'volume' ? 'bg-[#43D9FF]/20 text-[#43D9FF] border border-[#43D9FF]/40' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   Most Active F&O
@@ -325,7 +325,7 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
                 { symbol: 'NIFTY 24650 PE', name: 'Put Strike', price: 122.0, change: -12.4, pct: -9.2, oi: '1.17M Lots' },
                 { symbol: 'BANKNIFTY 51200 CE', name: 'Call Strike', price: 285.0, change: -24.0, pct: -7.7, oi: '840K Lots' },
               ].map((stock) => (
-                <div key={stock.symbol} className="p-3.5 rounded-xl bg-[#0d1424] border border-white/[0.06] hover:border-[#d4af37]/30 transition-all">
+                <div key={stock.symbol} className="p-3.5 rounded-xl bg-[#0d1424] border border-white/[0.06] hover:border-[#43D9FF]/30 transition-all">
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-bold text-white text-xs font-mono">{stock.symbol}</span>
                     <span className={`text-[11px] font-mono font-bold ${stock.pct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
@@ -335,7 +335,7 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
                   <div className="text-base font-extrabold font-mono text-white">₹{stock.price.toFixed(2)}</div>
                   <div className="text-[10px] text-slate-400 mt-1 flex justify-between">
                     <span>{stock.name}</span>
-                    <span className="text-[#f6d776]">{stock.oi}</span>
+                    <span className="text-[#43D9FF]">{stock.oi}</span>
                   </div>
                 </div>
               ))}
@@ -346,23 +346,23 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
         {/* Right 4 Columns: Fast Launchpad & Simulated Portfolio Overview */}
         <div className="xl:col-span-4 space-y-6">
           {/* Quick Action Navigation Launchpad */}
-          <div className="p-5 rounded-2xl bg-[#090d19]/90 border border-[#d4af37]/25 backdrop-blur-xl shadow-xl">
+          <div className="p-5 rounded-2xl bg-[#090d19]/90 border border-[#B6FF5C]/25 backdrop-blur-xl shadow-xl">
             <h2 className="text-sm font-extrabold text-white font-['Outfit'] uppercase tracking-wider mb-3 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#d4af37]" />
+              <Sparkles className="w-4 h-4 text-[#B6FF5C]" />
               Platform Workspaces
             </h2>
 
             <div className="space-y-2.5">
               <button
                 onClick={() => onNavigate('options')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#0d1424] hover:bg-[#121c33] border border-white/[0.08] hover:border-[#d4af37]/50 transition-all text-left cursor-pointer group"
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#0d1424] hover:bg-[#121c33] border border-white/[0.08] hover:border-[#43D9FF]/50 transition-all text-left cursor-pointer group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#d4af37]/15 flex items-center justify-center text-[#f6d776]">
+                  <div className="w-8 h-8 rounded-lg bg-[#43D9FF]/15 flex items-center justify-center text-[#43D9FF]">
                     <Layers className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white group-hover:text-[#f6d776] transition-colors">
+                    <div className="text-xs font-bold text-white group-hover:text-[#43D9FF] transition-colors">
                       Options Chain Desk
                     </div>
                     <div className="text-[11px] text-slate-400">

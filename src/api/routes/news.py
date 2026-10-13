@@ -22,6 +22,7 @@ _deduplicator = NewsDeduplicator()
 
 
 @router.get("/")
+@router.get("/headlines")
 def list_live_news(limit: int = 30, entity: Optional[str] = None):
     """
     Returns verified live news articles with entity mapping, event classification,

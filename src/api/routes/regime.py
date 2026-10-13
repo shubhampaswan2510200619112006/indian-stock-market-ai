@@ -18,8 +18,9 @@ router = APIRouter(prefix="/regime", tags=["Market Regime"])
 
 
 @router.get("/current", response_model=MarketRegimeResult)
+@router.get("/current/{symbol}", response_model=MarketRegimeResult)
 def get_current_market_regime(
-    symbol: str = Query("NIFTY", description="Primary underlying symbol for regime"),
+    symbol: str = "NIFTY",
 ):
     """
     Evaluates current market regime combining NIFTY, BANK NIFTY, technical structure,

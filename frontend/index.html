@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Indian Market Intelligence — 3D Derivatives & Research Terminal</title>
-    <meta name="description" content="Award-winning institutional-grade quantitative research, options intelligence, 3D volatility surface, and statistical calibration terminal for NSE India." />
-    <meta name="theme-color" content="#05070a" />
+    <title>Indian Stock Market AI — Flagship Quantitative Trading Terminal</title>
+    <meta name="description" content="Institutional-grade quantitative research, options intelligence, Black-76 Greeks, and live execution terminal for NSE India." />
+    <meta name="theme-color" content="#080B12" />
 
     <!-- Preconnect for font performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,22 +43,23 @@
         pointer-events: none;
       }
 
-      /* Gold shimmer logo */
+      /* Electric Lime shimmer logo */
       .load-logo {
         width: 56px;
         height: 56px;
         border-radius: 16px;
-        background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, #111829 100%);
-        border: 1px solid rgba(212,175,55,0.3);
+        background: linear-gradient(135deg, rgba(182,255,92,0.15) 0%, #101622 100%);
+        border: 1px solid rgba(182,255,92,0.4);
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: 'JetBrains Mono', monospace;
-        font-weight: 700;
+        font-weight: 800;
         font-size: 22px;
         letter-spacing: -1px;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 0 25px rgba(182,255,92,0.15);
       }
       .load-logo::after {
         content: '';
@@ -67,7 +68,7 @@
         left: -100%;
         width: 60%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
         animation: shimmer-sweep 1.6s ease-in-out infinite;
       }
       @keyframes shimmer-sweep {
@@ -75,7 +76,7 @@
         to { left: 130%; }
       }
       .load-logo span {
-        background: linear-gradient(175deg, #fef9c3 0%, #d4af37 100%);
+        background: linear-gradient(175deg, #ffffff 0%, #B6FF5C 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -83,20 +84,20 @@
         font-family: 'JetBrains Mono', monospace;
         font-size: 10px;
         letter-spacing: 0.18em;
-        color: #64748b;
+        color: #929DB0;
         text-transform: uppercase;
       }
       .load-bar {
         width: 120px;
         height: 2px;
-        background: #1a2235;
+        background: #161F2D;
         border-radius: 2px;
         overflow: hidden;
       }
       .load-bar-fill {
         height: 100%;
         width: 0%;
-        background: linear-gradient(90deg, #92740f, #d4af37, #fbbf24);
+        background: linear-gradient(90deg, #43D9FF, #B6FF5C);
         border-radius: 2px;
         animation: load-progress 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.1s;
       }

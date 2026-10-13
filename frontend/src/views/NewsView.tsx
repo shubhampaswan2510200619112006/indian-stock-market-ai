@@ -154,7 +154,7 @@ export const NewsView: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#d4af37]/20 text-[#f6d776] border border-[#d4af37]/40">
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#43D9FF]/20 text-[#43D9FF] border border-[#43D9FF]/40">
                   REAL-TIME NEWS RADAR
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
@@ -280,12 +280,12 @@ export const NewsView: React.FC = () => {
             return (
               <div
                 key={news.id}
-                className="group p-4 rounded-xl bg-[#0a0e18]/95 hover:bg-[#0f1526] border border-white/[0.08] hover:border-[#d4af37]/40 transition-all duration-200 shadow-md relative overflow-hidden backdrop-blur-xl"
+                className="group p-4 rounded-xl bg-[#0a0e18]/95 hover:bg-[#0f1526] border border-white/[0.08] hover:border-[#43D9FF]/40 transition-all duration-200 shadow-md relative overflow-hidden backdrop-blur-xl"
               >
                 {/* Executive Top Ribbon */}
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs px-2 py-0.5 rounded font-bold bg-white/[0.06] text-[#f6d776] border border-white/[0.1]">
+                    <span className="text-xs px-2 py-0.5 rounded font-bold bg-white/[0.06] text-[#43D9FF] border border-white/[0.1]">
                       {news.topicTag}
                     </span>
                     <span className="text-xs font-mono font-semibold text-slate-400">
