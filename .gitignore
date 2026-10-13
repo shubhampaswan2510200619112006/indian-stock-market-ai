@@ -19,7 +19,7 @@ __pycache__/
 *.so
 *.egg
 *.egg-info/
-dist/
+/dist/
 build/
 .eggs/
 .Python
@@ -84,13 +84,15 @@ models/*.joblib
 # ── NODE / FRONTEND ──────────────────────────────────────────────
 node_modules/
 frontend/node_modules/
-frontend/dist/
 frontend/.vite/
 frontend/dist-ssr/
 frontend/*.local
 
+# Explicitly track frontend build artifacts for Streamlit Cloud & static web serving
+!frontend/dist/
+!frontend/dist/**
+
 # Build outputs
-dist/
 build/
 .output/
 .nuxt/

@@ -34,10 +34,21 @@ try:
 except Exception:
     pass
 
-# Locate frontend distribution directory
-_dist_dir = _project_root / "frontend" / "dist"
-if not _dist_dir.exists():
-    _dist_dir = Path("frontend/dist")
+# Locate frontend distribution directory with multi-tier path resolution
+_candidate_paths = [
+    _project_root / "frontend" / "dist",
+    Path.cwd() / "frontend" / "dist",
+    Path("frontend/dist").resolve(),
+    Path(__file__).resolve().parent.parent / "frontend" / "dist",
+]
+_dist_dir = None
+for p in _candidate_paths:
+    if p.exists() and (p / "index.html").exists():
+        _dist_dir = p
+        break
+
+if _dist_dir is None:
+    _dist_dir = _project_root / "frontend" / "dist"
 
 
 def main():

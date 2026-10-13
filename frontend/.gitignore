@@ -8,9 +8,12 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
 dist-ssr
 *.local
+
+# Track dist for zero-build deployments
+!dist/
+!dist/**
 
 # Editor directories and files
 .vscode/*

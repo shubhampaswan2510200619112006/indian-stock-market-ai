@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Indian Market Intelligence — 3D Derivatives & Research Terminal</title>
+    <meta name="description" content="Award-winning institutional-grade quantitative research, options intelligence, 3D volatility surface, and statistical calibration terminal for NSE India." />
+    <meta name="theme-color" content="#05070a" />
+
+    <!-- Preconnect for font performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+    <!-- Critical inline styles — prevent flash -->
+    <style>*,:before,:after{box-sizing:border-box}html,body{color:#f1f5f9;-webkit-font-smoothing:antialiased;background:#02040a;margin:0;padding:0;font-family:Plus Jakarta Sans,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;overflow-x:hidden}#app-loading{z-index:9999;background:#02040a;flex-direction:column;justify-content:center;align-items:center;gap:20px;transition:opacity .4s;display:flex;position:fixed;inset:0}#app-loading.fade-out{opacity:0;pointer-events:none}.load-logo{letter-spacing:-1px;background:linear-gradient(135deg,#d4af3726 0%,#111829 100%);border:1px solid #d4af374d;border-radius:16px;justify-content:center;align-items:center;width:56px;height:56px;font-family:JetBrains Mono,monospace;font-size:22px;font-weight:700;display:flex;position:relative;overflow:hidden}.load-logo:after{content:"";background:linear-gradient(90deg,#0000,#ffffff1f,#0000);width:60%;height:100%;animation:1.6s ease-in-out infinite shimmer-sweep;position:absolute;top:0;left:-100%}@keyframes shimmer-sweep{0%{left:-60%}to{left:130%}}.load-logo span{background:linear-gradient(175deg,#fef9c3 0%,#d4af37 100%);-webkit-text-fill-color:transparent;-webkit-background-clip:text}.load-text{letter-spacing:.18em;color:#64748b;text-transform:uppercase;font-family:JetBrains Mono,monospace;font-size:10px}.load-bar{background:#1a2235;border-radius:2px;width:120px;height:2px;overflow:hidden}.load-bar-fill{background:linear-gradient(90deg,#92740f,#d4af37,#fbbf24);border-radius:2px;width:0%;height:100%;animation:.9s cubic-bezier(.16,1,.3,1) .1s forwards load-progress}@keyframes load-progress{0%{width:0%}to{width:100%}}</style>
+    <script type="module" crossorigin src="/assets/index-DyKFOd44.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BP_JO5vN.css">
+  </head>
+  <body>
+    <!-- Initial loading screen (fades out after React mounts) -->
+    <div id="app-loading">
+      <div class="load-logo"><span>IM</span></div>
+      <div class="load-text">INITIALIZING TERMINAL</div>
+      <div class="load-bar"><div class="load-bar-fill"></div></div>
+    </div>
+
+    <div id="root"></div>
+
+
+    <!-- Dismiss loading screen once React is ready -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          const el = document.getElementById('app-loading');
+          if (el) {
+            el.classList.add('fade-out');
+            setTimeout(() => el.remove(), 500);
+          }
+        }, 800);
+      });
+
+      // Streamlit iframe auto-resizer and handshake
+      function notifyStreamlitReady() {
+        try {
+          const h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, 1200);
+          window.parent.postMessage({
+            isStreamlitMessage: true,
+            type: "streamlit:setFrameHeight",
+            height: h
+          }, "*");
+        } catch(e) {}
+      }
+      try {
+        window.parent.postMessage({
+          isStreamlitMessage: true,
+          type: "streamlit:componentReady",
+          apiVersion: 1
+        }, "*");
+      } catch(e) {}
+      window.addEventListener('load', notifyStreamlitReady);
+      window.addEventListener('resize', notifyStreamlitReady);
+      setInterval(notifyStreamlitReady, 2500);
+    </script>
+  </body>
+</html>
