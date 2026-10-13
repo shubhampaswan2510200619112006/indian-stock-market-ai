@@ -27,6 +27,8 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
     activeInstrument,
     timeState,
     intradayCandles,
+    chartTimeframe,
+    setChartTimeframe,
   } = useRealtimeMarket();
   const { account } = usePaperTrading();
 
@@ -243,7 +245,9 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
             <CandlestickChart
               candles={intradayCandles}
               symbol={selectedSymbol}
-              timeframe="5m"
+              timeframe={chartTimeframe}
+              onTimeframeChange={setChartTimeframe}
+              currentPrice={activeInstrument.spot_price}
             />
           </div>
 

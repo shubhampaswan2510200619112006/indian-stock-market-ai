@@ -14,9 +14,9 @@ export const TechnicalAnalysisDeskView: React.FC = () => {
     activeInstrument,
     timeState,
     intradayCandles,
+    chartTimeframe,
+    setChartTimeframe,
   } = useRealtimeMarket();
-
-  const [timeframe, setTimeframe] = useState<string>('5m');
 
   const spot = activeInstrument.spot_price;
   const pivot = Math.round(spot / 50) * 50;
@@ -67,8 +67,8 @@ export const TechnicalAnalysisDeskView: React.FC = () => {
           <CandlestickChart
             candles={intradayCandles}
             symbol={activeInstrument.name}
-            timeframe={timeframe}
-            onTimeframeChange={setTimeframe}
+            timeframe={chartTimeframe}
+            onTimeframeChange={setChartTimeframe}
             currentPrice={activeInstrument.spot_price}
             istTime={timeState.timeWithMillis}
           />

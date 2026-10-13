@@ -42,6 +42,7 @@ export const MarketsView: React.FC<MarketsViewProps> = ({
               symbol={selectedSymbol}
               timeframe={timeframe}
               onTimeframeChange={setTimeframe}
+              currentPrice={activeQuote.last_price}
             />
           </div>
           <div>

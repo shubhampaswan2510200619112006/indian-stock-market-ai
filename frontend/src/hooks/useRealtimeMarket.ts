@@ -162,25 +162,145 @@ function generateChainStrikes(spot: number, step: number, expiry: string, symbol
   return rows;
 }
 
-// Generate realistic Indian intraday session candles (from 09:15 AM IST to 03:30 PM IST)
-function generateIntradaySessionCandles(inst: IndexInstrument, ist: ISTTimeData, timeframe: string): Candle[] {
+// Generate realistic Indian market candles for any selected timeframe
+function generateMarketCandles(inst: IndexInstrument, ist: ISTTimeData, timeframe: string): Candle[] {
   const candles: Candle[] = [];
-  let currentPrice = inst.open;
+  const spot = inst.spot_price;
+  const step = inst.strike_step;
 
-  // Session parameters: Market opens 09:15 IST (555 minutes), closes 15:30 IST (930 minutes)
-  const marketOpenMins = 555;
-  const marketCloseMins = 930;
+  // 1. High-frequency 1-second live ticks
+  if (timeframe === '1s Live' || timeframe === '1s') {
+    const totalTicks = 45;
+    let curr = spot - (Math.random() - 0.48) * (step * 0.08);
+
+    for (let i = totalTicks; i >= 0; i--) {
+      const pastMs = ist.epochMs - i * 1000;
+      const t = getISTTime(new Date(pastMs));
+      const delta = (Math.random() - 0.49) * (step * 0.04);
+      const open = curr;
+      const close = parseFloat((curr + delta).toFixed(2));
+      const high = parseFloat((Math.max(open, close) + Math.random() * (step * 0.03)).toFixed(2));
+      const low = parseFloat((Math.min(open, close) - Math.random() * (step * 0.03)).toFixed(2));
+      const vol = Math.round(500 + Math.random() * 4500);
+
+      candles.push({
+        timestamp: `${t.timeString} IST`,
+        open,
+        high,
+        low,
+        close,
+        volume: vol,
+        vwap: parseFloat(((open + high + low + close) / 4).toFixed(2)),
+      });
+      curr = close;
+    }
+
+    if (candles.length > 0) {
+      candles[candles.length - 1].close = spot;
+    }
+    return candles;
+  }
+
+  // 2. Daily Timeframe (1D) — Past 60 trading days with calendar dates
+  if (timeframe === '1D') {
+    const totalDays = 60;
+    const baseDate = new Date(ist.epochMs);
+    let curr = spot * 0.94; // 6% overall upward trend
+
+    for (let d = totalDays; d >= 0; d--) {
+      const dayDate = new Date(baseDate.getTime() - d * 24 * 60 * 60 * 1000);
+      const dayOfWeek = dayDate.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) continue; // Skip weekends
+
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const dateLabel = `${String(dayDate.getDate()).padStart(2, '0')} ${monthNames[dayDate.getMonth()]}`;
+
+      // Trend towards spot
+      const progress = (totalDays - d) / totalDays;
+      const target = (spot * 0.94) + (spot - spot * 0.94) * progress;
+      const noise = (Math.random() - 0.48) * (step * 1.8);
+
+      const open = curr;
+      const close = parseFloat((target + noise).toFixed(2));
+      const high = parseFloat((Math.max(open, close) + Math.random() * (step * 1.2)).toFixed(2));
+      const low = parseFloat((Math.min(open, close) - Math.random() * (step * 1.2)).toFixed(2));
+      const vol = Math.round(1800000 + Math.random() * 6500000);
+
+      candles.push({
+        timestamp: dateLabel,
+        open,
+        high,
+        low,
+        close,
+        volume: vol,
+        vwap: parseFloat(((open + high + low + close) / 4).toFixed(2)),
+      });
+      curr = close;
+    }
+
+    if (candles.length > 0) {
+      candles[candles.length - 1].close = spot;
+    }
+    return candles;
+  }
+
+  // 3. Hourly Timeframe (1h) — Past 5 trading sessions (35 bars)
+  if (timeframe === '1h') {
+    const sessionHours = [
+      { h: 9, m: 15, label: '09:15' },
+      { h: 10, m: 15, label: '10:15' },
+      { h: 11, m: 15, label: '11:15' },
+      { h: 12, m: 15, label: '12:15' },
+      { h: 13, m: 15, label: '13:15' },
+      { h: 14, m: 15, label: '14:15' },
+      { h: 15, m: 15, label: '15:15' },
+    ];
+    let curr = spot - (step * 2.5);
+
+    for (let dayOffset = 4; dayOffset >= 0; dayOffset--) {
+      const d = new Date(ist.epochMs - dayOffset * 24 * 60 * 60 * 1000);
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const dayPrefix = `${String(d.getDate()).padStart(2, '0')} ${monthNames[d.getMonth()]}`;
+
+      sessionHours.forEach((sh) => {
+        const delta = (Math.random() - 0.48) * (step * 0.8);
+        const open = curr;
+        const close = parseFloat((curr + delta).toFixed(2));
+        const high = parseFloat((Math.max(open, close) + Math.random() * (step * 0.5)).toFixed(2));
+        const low = parseFloat((Math.min(open, close) - Math.random() * (step * 0.5)).toFixed(2));
+        const vol = Math.round(250000 + Math.random() * 950000);
+
+        candles.push({
+          timestamp: `${dayPrefix} ${sh.label}`,
+          open,
+          high,
+          low,
+          close,
+          volume: vol,
+          vwap: parseFloat(((open + high + low + close) / 4).toFixed(2)),
+        });
+        curr = close;
+      });
+    }
+
+    if (candles.length > 0) {
+      candles[candles.length - 1].close = spot;
+    }
+    return candles;
+  }
+
+  // 4. Intraday Session Candles (1m, 5m, 15m) — 09:15 AM to 03:30 PM IST
+  let currentPrice = inst.open;
+  const marketOpenMins = 555; // 09:15 IST
+  const marketCloseMins = 930; // 15:30 IST
   const currentTotalMins = ist.hours * 60 + ist.minutes;
 
-  // Determine the end minute for the candles:
-  // If market is closed (current >= 15:30 or weekend or before 09:15), the completed session ends at 15:30 (930 mins)
-  // If market is open, ends at current time
   let endMins = marketCloseMins;
   if (ist.isMarketOpen) {
     endMins = Math.min(marketCloseMins, Math.max(marketOpenMins + 5, currentTotalMins));
   }
 
-  const stepMinutes = timeframe === '1m' ? 1 : timeframe === '15m' ? 15 : timeframe === '1h' ? 60 : 5;
+  const stepMinutes = timeframe === '1m' ? 1 : timeframe === '15m' ? 15 : 5;
   const totalSlots = Math.max(1, Math.floor((endMins - marketOpenMins) / stepMinutes));
 
   for (let slot = 0; slot <= totalSlots; slot++) {
@@ -193,16 +313,16 @@ function generateIntradaySessionCandles(inst: IndexInstrument, ist: ISTTimeData,
     const mm = String(candleMin).padStart(2, '0');
     const timeLabel = `${hh}:${mm} IST`;
 
-    // Drift towards close mark near 15:30
     const progress = slot / (totalSlots || 1);
     const targetPrice = inst.open + (inst.spot_price - inst.open) * progress;
-    const noise = (Math.random() - 0.49) * (inst.strike_step * 0.25);
+    const noiseMultiplier = timeframe === '1m' ? 0.12 : timeframe === '15m' ? 0.35 : 0.22;
+    const noise = (Math.random() - 0.49) * (inst.strike_step * noiseMultiplier);
 
     const open = currentPrice;
     const close = parseFloat((targetPrice + noise).toFixed(2));
-    const high = parseFloat((Math.max(open, close) + Math.random() * (inst.strike_step * 0.2)).toFixed(2));
-    const low = parseFloat((Math.min(open, close) - Math.random() * (inst.strike_step * 0.2)).toFixed(2));
-    const volume = Math.round(40000 + Math.random() * 180000);
+    const high = parseFloat((Math.max(open, close) + Math.random() * (inst.strike_step * noiseMultiplier * 0.9)).toFixed(2));
+    const low = parseFloat((Math.min(open, close) - Math.random() * (inst.strike_step * noiseMultiplier * 0.9)).toFixed(2));
+    const volume = Math.round((timeframe === '1m' ? 8000 : 40000) + Math.random() * (timeframe === '1m' ? 35000 : 180000));
 
     candles.push({
       timestamp: timeLabel,
@@ -246,19 +366,22 @@ export function useRealtimeMarket() {
   // Authoritative IST Time state using UTC+05:30 arithmetic
   const [timeState, setTimeState] = useState<ISTTimeData>(() => getISTTime());
 
-  // Intraday candles for the selected symbol
+  // Active chart timeframe state (shared across desks)
+  const [chartTimeframe, setChartTimeframe] = useState<string>('5m');
+
+  // Intraday candles for the selected symbol and timeframe
   const [intradayCandles, setIntradayCandles] = useState<Candle[]>(() => {
     const inst = INITIAL_INSTRUMENTS.NIFTY;
     const ist = getISTTime();
-    return generateIntradaySessionCandles(inst, ist, '5m');
+    return generateMarketCandles(inst, ist, '5m');
   });
 
-  // Regenerate candles when symbol changes or market closes
+  // Regenerate candles when symbol OR timeframe changes
   useEffect(() => {
     const inst = instruments[selectedSymbol] || instruments.NIFTY;
     const ist = getISTTime();
-    setIntradayCandles(generateIntradaySessionCandles(inst, ist, '5m'));
-  }, [selectedSymbol]);
+    setIntradayCandles(generateMarketCandles(inst, ist, chartTimeframe));
+  }, [selectedSymbol, chartTimeframe]);
 
   // High-precision clock timer updating every 40ms with exact IST
   useEffect(() => {
@@ -379,5 +502,7 @@ export function useRealtimeMarket() {
     chainRows,
     timeState,
     intradayCandles,
+    chartTimeframe,
+    setChartTimeframe,
   };
 }

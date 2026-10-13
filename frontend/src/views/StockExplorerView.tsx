@@ -27,10 +27,10 @@ export const StockExplorerView: React.FC<StockExplorerViewProps> = ({
     activeInstrument,
     intradayCandles,
     timeState,
+    chartTimeframe,
+    setChartTimeframe,
   } = useRealtimeMarket();
   const { openOrderModal } = usePaperTrading();
-
-  const [timeframe, setTimeframe] = useState<'1m' | '5m' | '15m' | '1D'>('5m');
   const [inWatchlist, setInWatchlist] = useState(false);
   const [selectedIndicator, setSelectedIndicator] = useState<'NONE' | 'RSI' | 'MACD' | 'BOLLINGER'>('NONE');
 
@@ -215,13 +215,13 @@ export const StockExplorerView: React.FC<StockExplorerViewProps> = ({
           <div className="flex items-center gap-2">
             {/* Timeframe Selector */}
             <div className="flex items-center bg-[#0d1424] p-1 rounded-xl border border-white/[0.08] text-xs font-mono">
-              {(['1m', '5m', '15m', '1D'] as const).map((tf) => (
+              {(['1s Live', '1m', '5m', '15m', '1h', '1D'] as const).map((tf) => (
                 <button
                   key={tf}
-                  onClick={() => setTimeframe(tf)}
+                  onClick={() => setChartTimeframe(tf)}
                   className={`px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                    timeframe === tf
-                      ? 'bg-[#d4af37]/25 text-[#f6d776] border border-[#d4af37]/40 shadow-sm'
+                    chartTimeframe === tf
+                      ? 'bg-[#B6FF5C] text-[#080B12] shadow-[0_0_12px_rgba(182,255,92,0.3)]'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -252,8 +252,9 @@ export const StockExplorerView: React.FC<StockExplorerViewProps> = ({
         <CandlestickChart
           candles={intradayCandles}
           symbol={selectedSymbol}
-          timeframe={timeframe}
-          onTimeframeChange={(tf) => setTimeframe(tf as any)}
+          timeframe={chartTimeframe}
+          onTimeframeChange={setChartTimeframe}
+          currentPrice={activeInstrument.spot_price}
         />
       </div>
 

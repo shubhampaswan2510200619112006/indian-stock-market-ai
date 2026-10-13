@@ -32,12 +32,13 @@ export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
     chainRows,
     timeState,
     intradayCandles,
+    chartTimeframe,
+    setChartTimeframe,
   } = useRealtimeMarket();
 
   const { account, openOrderModal, placeOrder } = usePaperTrading();
   const { addToast } = useToast();
 
-  const [chartTimeframe, setChartTimeframe] = useState<string>('5m');
   const [watchlistTab, setWatchlistTab] = useState<'ALL' | 'INDICES' | 'F&O' | 'EQUITIES'>('ALL');
   const [watchlistSearch, setWatchlistSearch] = useState('');
   const [activeBottomTab, setActiveBottomTab] = useState<BottomTab>('ORDERS');
@@ -178,7 +179,7 @@ export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
           
           {/* Timeframe Chips */}
           <div className="flex items-center bg-[#0B1220] p-1 rounded-xl border border-[#283345] text-xs font-mono font-bold">
-            {['1m', '5m', '15m', '1h', '1D'].map((tf) => (
+            {['1s Live', '1m', '5m', '15m', '1h', '1D'].map((tf) => (
               <button
                 key={tf}
                 onClick={() => setChartTimeframe(tf)}

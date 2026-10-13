@@ -49,15 +49,165 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({
 
   const istStatus = getISTTime();
 
-  // Generate true Indian intraday session candles (09:15 AM to 15:30 IST)
-  const displayCandles: Candle[] = useMemo(() => {
-    if (candles && candles.length > 0) return candles;
+  // Internal timeframe state (synced with parent prop if provided)
+  const [currentTimeframe, setCurrentTimeframe] = useState<string>(timeframe || '5m');
 
+  useEffect(() => {
+    if (timeframe && timeframe !== currentTimeframe) {
+      setCurrentTimeframe(timeframe);
+    }
+  }, [timeframe]);
+
+  const handleTimeframeChange = (tf: string) => {
+    setCurrentTimeframe(tf);
+    onTimeframeChange?.(tf);
+  };
+
+  // Generate true Indian session candles matching active timeframe
+  const displayCandles: Candle[] = useMemo(() => {
+    // If candles prop is passed and accurately matches the active timeframe, use it
+    if (candles && candles.length > 0) {
+      const first = candles[0];
+      const isSeconds = first.timestamp.split(':').length === 3;
+      const isDaily = !first.timestamp.includes(':');
+      const isHourly = first.timestamp.includes(' ') && first.timestamp.includes(':') && /[A-Za-z]/.test(first.timestamp);
+
+      let matches = false;
+      if ((currentTimeframe === '1s Live' || currentTimeframe === '1s') && isSeconds) matches = true;
+      else if (currentTimeframe === '1D' && isDaily) matches = true;
+      else if (currentTimeframe === '1h' && isHourly) matches = true;
+      else if (currentTimeframe === '1m' && !isSeconds && !isDaily && !isHourly && candles.length > 90) matches = true;
+      else if (currentTimeframe === '5m' && !isSeconds && !isDaily && !isHourly && candles.length <= 80 && candles.length > 25) matches = true;
+      else if (currentTimeframe === '15m' && !isSeconds && !isDaily && !isHourly && candles.length <= 26) matches = true;
+      else if (timeframe === currentTimeframe && candles.length > 0) {
+        // Parent actively passed updated candles for this timeframe
+        matches = true;
+      }
+
+      if (matches) {
+        return candles;
+      }
+    }
+
+    // Otherwise, generate realistic high-definition candles for currentTimeframe
     const list: Candle[] = [];
-    let current = symbol.includes('BANK') ? 51200 : symbol.includes('SENSEX') ? 81400 : 24650;
+    const baseSpot = currentPrice || (symbol.includes('BANK') ? 51240 : symbol.includes('SENSEX') ? 81420 : 24650);
+    const step = symbol.includes('BANK') ? 100 : symbol.includes('SENSEX') ? 100 : 50;
+
+    // A. 1-second live ticks
+    if (currentTimeframe === '1s Live' || currentTimeframe === '1s') {
+      const totalTicks = 45;
+      let curr = baseSpot - (Math.random() - 0.48) * (step * 0.08);
+      for (let i = totalTicks; i >= 0; i--) {
+        const pastMs = istStatus.epochMs - i * 1000;
+        const t = getISTTime(new Date(pastMs));
+        const delta = (Math.random() - 0.49) * (step * 0.04);
+        const open = curr;
+        const close = parseFloat((curr + delta).toFixed(2));
+        const high = parseFloat((Math.max(open, close) + Math.random() * (step * 0.03)).toFixed(2));
+        const low = parseFloat((Math.min(open, close) - Math.random() * (step * 0.03)).toFixed(2));
+        const vol = Math.round(500 + Math.random() * 4500);
+
+        list.push({
+          timestamp: `${t.timeString} IST`,
+          open,
+          high,
+          low,
+          close,
+          volume: vol,
+          vwap: parseFloat(((open + high + low + close) / 4).toFixed(2)),
+        });
+        curr = close;
+      }
+      if (list.length > 0) list[list.length - 1].close = baseSpot;
+      return list;
+    }
+
+    // B. Daily (1D) — Past 60 trading days with dates
+    if (currentTimeframe === '1D') {
+      const totalDays = 60;
+      const baseDate = new Date(istStatus.epochMs);
+      let curr = baseSpot * 0.94;
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      for (let d = totalDays; d >= 0; d--) {
+        const dayDate = new Date(baseDate.getTime() - d * 24 * 60 * 60 * 1000);
+        const dow = dayDate.getDay();
+        if (dow === 0 || dow === 6) continue;
+
+        const dateLabel = `${String(dayDate.getDate()).padStart(2, '0')} ${monthNames[dayDate.getMonth()]}`;
+        const progress = (totalDays - d) / totalDays;
+        const target = (baseSpot * 0.94) + (baseSpot - baseSpot * 0.94) * progress;
+        const noise = (Math.random() - 0.48) * (step * 1.8);
+
+        const open = curr;
+        const close = parseFloat((target + noise).toFixed(2));
+        const high = parseFloat((Math.max(open, close) + Math.random() * (step * 1.2)).toFixed(2));
+        const low = parseFloat((Math.min(open, close) - Math.random() * (step * 1.2)).toFixed(2));
+        const vol = Math.round(1800000 + Math.random() * 6500000);
+
+        list.push({
+          timestamp: dateLabel,
+          open,
+          high,
+          low,
+          close,
+          volume: vol,
+          vwap: parseFloat(((open + high + low + close) / 4).toFixed(2)),
+        });
+        curr = close;
+      }
+      if (list.length > 0) list[list.length - 1].close = baseSpot;
+      return list;
+    }
+
+    // C. Hourly (1h) — Past 5 trading sessions (35 bars)
+    if (currentTimeframe === '1h') {
+      const sessionHours = [
+        { label: '09:15' },
+        { label: '10:15' },
+        { label: '11:15' },
+        { label: '12:15' },
+        { label: '13:15' },
+        { label: '14:15' },
+        { label: '15:15' },
+      ];
+      let curr = baseSpot - (step * 2.5);
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      for (let dayOffset = 4; dayOffset >= 0; dayOffset--) {
+        const d = new Date(istStatus.epochMs - dayOffset * 24 * 60 * 60 * 1000);
+        const dayPrefix = `${String(d.getDate()).padStart(2, '0')} ${monthNames[d.getMonth()]}`;
+
+        sessionHours.forEach((sh) => {
+          const delta = (Math.random() - 0.48) * (step * 0.8);
+          const open = curr;
+          const close = parseFloat((curr + delta).toFixed(2));
+          const high = parseFloat((Math.max(open, close) + Math.random() * (step * 0.5)).toFixed(2));
+          const low = parseFloat((Math.min(open, close) - Math.random() * (step * 0.5)).toFixed(2));
+          const vol = Math.round(250000 + Math.random() * 950000);
+
+          list.push({
+            timestamp: `${dayPrefix} ${sh.label}`,
+            open,
+            high,
+            low,
+            close,
+            volume: vol,
+            vwap: parseFloat(((open + high + low + close) / 4).toFixed(2)),
+          });
+          curr = close;
+        });
+      }
+      if (list.length > 0) list[list.length - 1].close = baseSpot;
+      return list;
+    }
+
+    // D. Intraday Session Candles (1m, 5m, 15m) — 09:15 AM to 03:30 PM IST
+    let current = baseSpot - (step * 0.8);
     const openMins = 555; // 09:15 IST
     const closeMins = 930; // 15:30 IST
-    const stepMins = timeframe === '1m' ? 1 : timeframe === '15m' ? 15 : timeframe === '1h' ? 60 : 5;
+    const stepMins = currentTimeframe === '1m' ? 1 : currentTimeframe === '15m' ? 15 : 5;
     const endMins = istStatus.isMarketOpen
       ? Math.min(closeMins, Math.max(openMins + 5, istStatus.hours * 60 + istStatus.minutes))
       : closeMins;
@@ -72,13 +222,15 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({
       const cm = slotMins % 60;
       const timeStr = `${String(ch).padStart(2, '0')}:${String(cm).padStart(2, '0')} IST`;
 
-      const delta = (Math.random() - 0.49) * 25;
+      const progress = slot / (totalSlots || 1);
+      const target = (baseSpot - step * 0.8) + (step * 0.8) * progress;
+      const noise = (Math.random() - 0.49) * (step * (currentTimeframe === '1m' ? 0.15 : 0.28));
+
       const open = current;
-      const close = parseFloat((current + delta).toFixed(2));
-      const high = parseFloat((Math.max(open, close) + Math.random() * 14).toFixed(2));
-      const low = parseFloat((Math.min(open, close) - Math.random() * 14).toFixed(2));
+      const close = parseFloat((target + noise).toFixed(2));
+      const high = parseFloat((Math.max(open, close) + Math.random() * (step * 0.18)).toFixed(2));
+      const low = parseFloat((Math.min(open, close) - Math.random() * (step * 0.18)).toFixed(2));
       const volume = Math.round(15000 + Math.random() * 85000);
-      current = close;
 
       list.push({
         timestamp: timeStr,
@@ -89,9 +241,12 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({
         volume,
         vwap: parseFloat(((open + high + low + close) / 4).toFixed(2)),
       });
+      current = close;
     }
+
+    if (list.length > 0) list[list.length - 1].close = baseSpot;
     return list;
-  }, [candles, symbol, timeframe, istStatus.isMarketOpen, istStatus.hours, istStatus.minutes]);
+  }, [candles, symbol, currentTimeframe, timeframe, currentPrice, istStatus]);
 
   // Automated Candlestick Pattern Recognition Engine
   const detectedPatterns: DetectedPattern[] = useMemo(() => {
@@ -395,9 +550,10 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({
       ctx.fillStyle = color;
       ctx.fillRect(x - bodyW / 2, topY, bodyW, barH);
 
-      // X-axis IST time marks every 8 candles
-      if (idx % 8 === 0 || idx === count - 1) {
-        ctx.fillStyle = '#64748b';
+      // X-axis time marks evenly distributed across the bottom axis (~6 marks)
+      const stepInterval = Math.max(1, Math.floor(count / 6));
+      if (idx % stepInterval === 0 || idx === count - 1) {
+        ctx.fillStyle = '#94a3b8';
         ctx.font = '9px monospace';
         ctx.textAlign = 'center';
         ctx.fillText(c.timestamp.replace(' IST', ''), x, height - 8);
@@ -585,8 +741,8 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({
         {/* Ticker & Active Candle Readout with Exact IST Time */}
         <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
           <div className="font-bold text-white flex items-center gap-2">
-            <BarChart2 className="w-4 h-4 text-[#d4af37]" />
-            <span className="tracking-wide text-xs">{symbol} INTRADAY PRICE ACTION</span>
+            <BarChart2 className="w-4 h-4 text-[#B6FF5C]" />
+            <span className="tracking-wide text-xs">{symbol} • {currentTimeframe.toUpperCase()} PRICE ACTION</span>
           </div>
 
           {currentCandle && (
@@ -671,15 +827,15 @@ export const CandlestickChart: React.FC<CandlestickChartProps> = ({
           </button>
 
           {/* Timeframe Selector */}
-          <div className="flex items-center bg-slate-900 p-0.5 rounded-xl border border-slate-800 ml-1">
+          <div className="flex items-center bg-[#070a14] p-0.5 rounded-xl border border-white/[0.08] ml-1">
             {timeframes.map((tf) => (
               <button
                 key={tf}
-                onClick={() => onTimeframeChange?.(tf)}
-                className={`px-2.5 py-1 rounded-lg text-[11px] transition-all font-semibold ${
-                  timeframe === tf
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-bold shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
+                onClick={() => handleTimeframeChange(tf)}
+                className={`px-2.5 py-1 rounded-lg text-[11px] transition-all font-mono font-bold cursor-pointer ${
+                  currentTimeframe === tf
+                    ? 'bg-[#B6FF5C] text-[#080B12] shadow-[0_0_12px_rgba(182,255,92,0.3)]'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 {tf}
