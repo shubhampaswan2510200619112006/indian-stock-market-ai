@@ -236,6 +236,10 @@ def render_website_header():
             unsafe_allow_html=True,
         )
 
+    # 60 FPS Continuous Scrolling Live Financial Ticker Tape
+    from dashboard.components.animated_chart_bg import render_live_ticker_marquee
+    render_live_ticker_marquee()
+
 
 def render_overview_landing():
     """Section 1: Executive Website Landing & Feature Showcase."""
@@ -254,6 +258,11 @@ def render_overview_landing():
         """,
         unsafe_allow_html=True,
     )
+
+    # Live 60 FPS Animated Stock Market Candlestick & Price Wave Canvas
+    from dashboard.components.animated_chart_bg import render_animated_market_canvas
+    render_animated_market_canvas(height=240)
+    st.write("")
 
     # 4 Key Quantitative Metrics
     k1, k2, k3, k4 = st.columns(4)
@@ -427,6 +436,10 @@ def render_trading_desk_tab(service: PaperTradingService):
     """Section 2: Flagship Interactive Trading Desk."""
     # Top Decision Bar
     render_decision_top_bar(service)
+
+    # 60 FPS Live Animated Market Action Radar
+    from dashboard.components.animated_chart_bg import render_animated_market_canvas
+    render_animated_market_canvas(height=230)
 
     # Active AI Trade Card
     idea = _get_sample_trade_idea()
