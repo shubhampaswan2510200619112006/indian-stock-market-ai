@@ -66,7 +66,7 @@ const DEFAULT_REGIME: MarketRegime = {
 
 // ─── Inner app (needs access to toast and auth context) ───────────────────────
 function AppInner() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState<NavTab>('overview');
   const [commandOpen, setCommandOpen] = useState(false);
@@ -161,6 +161,13 @@ function AppInner() {
         onSelectExperienceMode={setExperienceMode}
       />
 
+      {/* ── 1.1 Mobile Top Navigation & Floating Trigger ── */}
+      <MobileNavigation
+        activeTab={activeTab}
+        onSelectTab={setActiveTab}
+        onOpenMenu={() => setMobileMenuOpen(true)}
+      />
+
       {/* ── 2. Market Ticker Marquee Strip ── */}
       <MarketTickerTape />
 
@@ -176,7 +183,7 @@ function AppInner() {
         />
 
         {/* Dynamic Viewport Container */}
-        <main className="flex-1 min-w-0 p-3 sm:p-5 pb-24 md:pb-8 overflow-y-auto">
+        <main className="flex-1 min-w-0 p-3 sm:p-5 pb-10 md:pb-8 overflow-y-auto">
           <AnimatePresence mode="wait">
             
             {/* 1. Home Dashboard */}
@@ -288,13 +295,6 @@ function AppInner() {
         </main>
       </div>
 
-      {/* ── 4. Mobile Bottom Navigation Bar ── */}
-      <MobileNavigation
-        activeTab={activeTab}
-        onSelectTab={setActiveTab}
-        onOpenMenu={() => setMobileMenuOpen(true)}
-      />
-
       {/* Mobile Menu Drawer Modal */}
       {mobileMenuOpen && (
         <div
@@ -302,32 +302,54 @@ function AppInner() {
           onClick={() => setMobileMenuOpen(false)}
         >
           <div
-            className="bg-[#101622] border-t border-[#283345] rounded-t-2xl p-5 space-y-4 max-h-[80vh] overflow-y-auto"
+            className="bg-[#101622] border-t border-[#283345] rounded-t-3xl p-5 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-[#283345]">
-              <span className="font-bold text-[#F3F6FC] text-sm font-['Outfit']">Platform Navigation</span>
+            {/* Header: User & Margin Meta */}
+            <div className="flex items-center justify-between pb-3.5 border-b border-[#283345]">
+              <div>
+                <div className="text-xs font-mono text-[#929DB0] uppercase">Active Trading Desk</div>
+                <div className="font-bold text-[#F3F6FC] text-sm font-['Outfit'] flex items-center gap-2">
+                  <span>{user?.fullName || 'VIP HFT Trader'}</span>
+                  <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-[#B6FF5C]/15 text-[#B6FF5C] border border-[#B6FF5C]/30">
+                    LIVE SIM
+                  </span>
+                </div>
+              </div>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-xs font-mono text-[#929DB0] hover:text-[#F3F6FC]"
+                className="p-1.5 rounded-xl bg-[#161F2D] border border-[#283345] text-[#929DB0] hover:text-[#F3F6FC]"
               >
-                Close
+                ✕
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
+            {/* Quick Command Search Trigger */}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setCommandOpen(true);
+              }}
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#0B1220] border border-[#283345] text-xs font-mono text-[#929DB0]"
+            >
+              <span>Search stocks, strikes, commands...</span>
+              <span className="px-1.5 py-0.5 rounded bg-[#161F2D] text-[#43D9FF] text-[10px]">⌘K</span>
+            </button>
+
+            {/* Desk Navigation Matrix */}
+            <div className="grid grid-cols-2 gap-2 text-xs font-mono font-bold">
               {[
-                { id: 'overview', label: 'Dashboard' },
-                { id: 'trading', label: 'Trading Desk' },
-                { id: 'options', label: 'Option Chain' },
-                { id: 'ai-analyst', label: 'AI Intelligence' },
-                { id: 'strategy-lab', label: 'Quant Lab' },
-                { id: 'screener', label: 'Screener & Heatmap' },
-                { id: 'portfolio', label: 'Portfolio & Risk' },
-                { id: 'technical', label: 'Company Research' },
-                { id: 'news', label: 'News & Calendar' },
-                { id: 'positions', label: 'Orders & Execution' },
-                { id: 'settings', label: 'Settings & Brokers' },
+                { id: 'overview', label: 'Dashboard', icon: '⚡' },
+                { id: 'trading', label: 'Trading Desk', icon: '📈' },
+                { id: 'options', label: 'Option Chain', icon: '📊' },
+                { id: 'ai-analyst', label: 'AI Intelligence', icon: '🧠' },
+                { id: 'strategy-lab', label: 'Quant Lab', icon: '🔬' },
+                { id: 'screener', label: 'Screener', icon: '🎯' },
+                { id: 'portfolio', label: 'Portfolio & Risk', icon: '💼' },
+                { id: 'technical', label: 'Technical Desk', icon: '📉' },
+                { id: 'news', label: 'Market News', icon: '📰' },
+                { id: 'positions', label: 'Orders & P&L', icon: '📑' },
+                { id: 'settings', label: 'Brokers & Keys', icon: '⚙️' },
               ].map((m) => (
                 <button
                   key={m.id}
@@ -335,15 +357,29 @@ function AppInner() {
                     setActiveTab(m.id as NavTab);
                     setMobileMenuOpen(false);
                   }}
-                  className={`p-3 rounded-xl text-left border ${
+                  className={`p-3 rounded-xl text-left border transition-all flex items-center gap-2 ${
                     activeTab === m.id
-                      ? 'bg-[#161F2D] text-[#B6FF5C] border-[#B6FF5C]/40'
-                      : 'bg-[#0B1220] text-[#929DB0] border-[#283345]'
+                      ? 'bg-[#161F2D] text-[#B6FF5C] border-[#B6FF5C]/50 shadow-[0_0_15px_rgba(182,255,92,0.15)]'
+                      : 'bg-[#0B1220] text-[#929DB0] border-[#283345] hover:text-[#F3F6FC]'
                   }`}
                 >
-                  {m.label}
+                  <span className="text-sm">{m.icon}</span>
+                  <span className="truncate">{m.label}</span>
                 </button>
               ))}
+            </div>
+
+            {/* Logout / Exit Portal Action */}
+            <div className="pt-2 border-t border-[#283345]">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  logout();
+                }}
+                className="w-full py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-400 font-mono text-xs font-bold hover:bg-rose-500/20 transition-all text-center"
+              >
+                Exit Desk / Return to Landing
+              </button>
             </div>
           </div>
         </div>

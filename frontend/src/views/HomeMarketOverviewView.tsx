@@ -8,6 +8,7 @@ import { useRealtimeMarket } from '../hooks/useRealtimeMarket';
 import { usePaperTrading } from '../context/PaperTradingContext';
 import { PrecisionMarketClock } from '../components/market/PrecisionMarketClock';
 import { CandlestickChart } from '../components/market/CandlestickChart';
+import { AIAlphaPredictorMarquee } from '../components/trading/AIAlphaPredictorMarquee';
 import { useAnimatedNumber, formatIndian } from '../hooks/useAnimatedNumber';
 import { NavTab } from '../components/layout/Navigation';
 
@@ -202,6 +203,13 @@ export const HomeMarketOverviewView: React.FC<HomeMarketOverviewViewProps> = ({
           );
         })}
       </div>
+
+      {/* ── 2.5 Marquee Highlighted AI Alpha Predictor ── */}
+      <AIAlphaPredictorMarquee
+        symbol={selectedSymbol}
+        currentSpot={activeInstrument.spot_price}
+        onNavigateToOptions={() => onNavigate('options')}
+      />
 
       {/* ── 3. Main Market Workspace Grid ── */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">

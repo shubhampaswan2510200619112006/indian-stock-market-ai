@@ -11,6 +11,7 @@ import { CandlestickChart } from '../components/market/CandlestickChart';
 import { OptionChainTableDesk } from '../components/options/OptionChainTableDesk';
 import { PortfolioDesk } from '../components/trading/PortfolioDesk';
 import { MLEngineSignalCard } from '../components/trading/MLEngineSignalCard';
+import { AIAlphaPredictorMarquee } from '../components/trading/AIAlphaPredictorMarquee';
 import { useToast } from '../components/ui/Toast';
 
 interface TradingTerminalViewProps {
@@ -245,6 +246,13 @@ export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
         </div>
 
       </div>
+
+      {/* ── 1.5 Marquee Highlighted AI Alpha Predictor (Flagship Conviction) ── */}
+      <AIAlphaPredictorMarquee
+        symbol={selectedSymbol}
+        currentSpot={spot}
+        onNavigateToOptions={onNavigateToOptions}
+      />
 
       {/* ── 2. Terminal Main Workstation Grid ── */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-start">
@@ -603,7 +611,8 @@ export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
           )}
 
           {activeBottomTab === 'AI_SIGNALS' && (
-            <MLEngineSignalCard
+            <AIAlphaPredictorMarquee
+              symbol={selectedSymbol}
               currentSpot={spot}
               onNavigateToOptions={onNavigateToOptions}
             />
