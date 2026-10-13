@@ -9,9 +9,12 @@ from __future__ import annotations
 
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from src.api.routes import (
     auth,
@@ -117,6 +120,23 @@ def create_app() -> FastAPI:
     app.include_router(paper_trading.router)
     app.include_router(data_infrastructure.router)
     app.include_router(research.router)
+
+    # Mount static assets and SPA handler for web application
+    dist_path = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+    if dist_path.exists():
+        assets_path = dist_path / "assets"
+        if assets_path.exists():
+            app.mount("/assets", StaticFiles(directory=str(assets_path)), name="assets")
+
+        @app.get("/{full_path:path}")
+        async def serve_spa_frontend(full_path: str):
+            target = dist_path / full_path
+            if target.exists() and target.is_file():
+                return FileResponse(target)
+            index_file = dist_path / "index.html"
+            if index_file.exists():
+                return FileResponse(index_file)
+            return {"detail": "Resource not found"}
 
     return app
 

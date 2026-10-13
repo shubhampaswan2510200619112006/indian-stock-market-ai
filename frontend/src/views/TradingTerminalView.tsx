@@ -39,7 +39,7 @@ export const TradingTerminalView: React.FC<TradingTerminalViewProps> = ({
       />
 
       {/* 3. Executive Underlying Intelligence Strip */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {Object.keys(instruments).map((sym) => {
           const inst = instruments[sym];
           const isSelected = selectedSymbol === sym;

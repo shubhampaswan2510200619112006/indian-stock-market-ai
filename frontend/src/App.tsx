@@ -122,12 +122,7 @@ function AppInner() {
     return () => clearInterval(interval);
   }, [marketOpen, fetchAll]);
 
-  // 1. Initial Gate: If user is not authenticated, show Landing Login / Registration Page!
-  if (!user) {
-    return <LandingLoginPage />;
-  }
-
-  // 2. Authenticated State: Full Website Experience
+  // Master Flagship Terminal Experience
   return (
     <div
       className="min-h-screen flex flex-col relative overflow-x-hidden"

@@ -127,8 +127,30 @@
             el.classList.add('fade-out');
             setTimeout(() => el.remove(), 500);
           }
-        }, 1100);
+        }, 800);
       });
+
+      // Streamlit iframe auto-resizer and handshake
+      function notifyStreamlitReady() {
+        try {
+          const h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, 1200);
+          window.parent.postMessage({
+            isStreamlitMessage: true,
+            type: "streamlit:setFrameHeight",
+            height: h
+          }, "*");
+        } catch(e) {}
+      }
+      try {
+        window.parent.postMessage({
+          isStreamlitMessage: true,
+          type: "streamlit:componentReady",
+          apiVersion: 1
+        }, "*");
+      } catch(e) {}
+      window.addEventListener('load', notifyStreamlitReady);
+      window.addEventListener('resize', notifyStreamlitReady);
+      setInterval(notifyStreamlitReady, 2500);
     </script>
   </body>
 </html>

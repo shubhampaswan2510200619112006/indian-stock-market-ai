@@ -87,8 +87,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.warn('Failed to parse saved auth state:', err);
       }
     }
-    // Require login or 1-click registration entry on initial visit
-    return null;
+    // Default to instant Pro Trader mode so user gets into Trading Desk without blocker
+    return DEMO_PROFILES.pro;
   });
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
