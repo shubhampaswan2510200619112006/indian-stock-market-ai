@@ -90,8 +90,8 @@ def create_app() -> FastAPI:
             "http://127.0.0.1:8000",
         ]
 
-    # Regex pattern to securely allow Streamlit Community Cloud deployments
-    origin_regex = os.getenv("CORS_ORIGIN_REGEX", r"^https:\/\/.*\.streamlit\.app$")
+    # Regex pattern to securely allow Streamlit Cloud and Vercel deployments
+    origin_regex = os.getenv("CORS_ORIGIN_REGEX", r"^https:\/\/.*(\.streamlit\.app|\.vercel\.app)$")
     allow_credentials = True
     if allowed_origins == ["*"]:
         allow_credentials = False  # W3C CORS forbids credentials when allow_origins is wildcard '*'
