@@ -22,7 +22,9 @@ export type NavTab =
   | 'overview'
   | 'volatility'
   | 'research'
-  | 'data-health';
+  | 'data-health'
+  | 'screener'
+  | 'settings';
 
 import { getISTTime } from '../../utils/istTime';
 import { CyberLogo } from './CyberLogo';

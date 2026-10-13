@@ -15,14 +15,17 @@ interface CommandPaletteProps {
 }
 
 const NAV_ITEMS: { id: NavTab; label: string; description: string; icon: React.ElementType; shortcut: string }[] = [
-  { id: 'trading', label: 'Derivatives Terminal & P&L', description: 'Options execution terminal & portfolio P&L', icon: TrendingUp, shortcut: '1' },
-  { id: 'options', label: 'Options Chain', description: 'Full options chain & Black-76 matrix', icon: Layers, shortcut: '2' },
-  { id: 'news', label: 'Live Financial News & Sentiment', description: 'Real-time breaking market headlines & AI sentiment', icon: Newspaper, shortcut: '3' },
-  { id: 'markets', label: 'Markets', description: 'NIFTY & BANKNIFTY terminal', icon: BarChart3, shortcut: '4' },
-  { id: 'overview', label: 'Overview', description: 'Executive command flagship', icon: Compass, shortcut: '5' },
-  { id: 'volatility', label: '3D Volatility Studio', description: 'IV surface & OI landscape', icon: Box, shortcut: '6' },
-  { id: 'research', label: 'Research Governance', description: 'Hypothesis registry & audit', icon: FileCheck, shortcut: '7' },
-  { id: 'data-health', label: 'Data Health', description: 'Provider topology & coverage', icon: Server, shortcut: '8' },
+  { id: 'overview', label: 'Home Dashboard', description: 'Executive market overview & index breadth', icon: Compass, shortcut: '1' },
+  { id: 'trading', label: 'Trading Terminal', description: 'Pro candlestick chart & real-time execution', icon: TrendingUp, shortcut: '2' },
+  { id: 'options', label: 'Options Chain', description: 'NSE strike matrix, Greeks & strategy payoff', icon: Layers, shortcut: '3' },
+  { id: 'ai-analyst', label: 'AI Intelligence', description: 'Explainable AI research analyst & reports', icon: Compass, shortcut: '4' },
+  { id: 'strategy-lab', label: 'Quant Lab', description: 'Strategy builder & backtesting engine', icon: Box, shortcut: '5' },
+  { id: 'screener', label: 'Screener & Heatmap', description: 'Momentum stock screener & sector heatmap', icon: BarChart3, shortcut: '6' },
+  { id: 'portfolio', label: 'Portfolio & Risk', description: 'Holdings, P&L & sector allocation', icon: FileCheck, shortcut: '7' },
+  { id: 'technical', label: 'Company Research', description: 'Financial statements & valuation ratios', icon: Server, shortcut: '8' },
+  { id: 'news', label: 'News & Economic Calendar', description: 'Breaking news feeds & macro announcements', icon: Newspaper, shortcut: '9' },
+  { id: 'positions', label: 'Orders & Execution', description: 'Order book, fills & paper trading audit', icon: FileCheck, shortcut: '0' },
+  { id: 'settings', label: 'Settings & Brokers', description: 'Zerodha/Angel/Dhan API keys & risk safeguards', icon: Server, shortcut: 'S' },
 ];
 
 export const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose, onNavigate, activeTab }) => {

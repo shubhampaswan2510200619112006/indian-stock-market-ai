@@ -1,23 +1,27 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Navigation, NavTab } from './components/layout/Navigation';
+import { NavTab } from './components/layout/Navigation';
+import { AppHeader } from './components/layout/AppHeader';
+import { MarketTickerTape } from './components/layout/MarketTickerTape';
+import { DesktopSidebar } from './components/layout/DesktopSidebar';
+import { MobileNavigation } from './components/layout/MobileNavigation';
 import { Footer } from './components/layout/Footer';
 import { CommandPalette } from './components/ui/CommandPalette';
 import { ToastProvider, useToast } from './components/ui/Toast';
 import { PageTransition } from './components/ui/PageTransition';
-import { OptionsCommandView } from './views/OptionsCommandView';
-import { TradingTerminalView } from './views/TradingTerminalView';
-import { TechnicalAnalysisDeskView } from './views/TechnicalAnalysisDeskView';
-import { NewsView } from './views/NewsView';
-import { OthersToolsView } from './views/OthersToolsView';
+
 import { HomeMarketOverviewView } from './views/HomeMarketOverviewView';
-import { StockExplorerView } from './views/StockExplorerView';
+import { TradingTerminalView } from './views/TradingTerminalView';
 import { OptionsChainPageView } from './views/OptionsChainPageView';
 import { AIMarketAnalystView } from './views/AIMarketAnalystView';
 import { StrategyLabView } from './views/StrategyLabView';
-import { PaperTradingPageView } from './views/PaperTradingPageView';
 import { WatchlistPortfolioView } from './views/WatchlistPortfolioView';
-import { LandingLoginPage } from './components/auth/LandingLoginPage';
+import { ScreenerHeatmapView } from './views/ScreenerHeatmapView';
+import { TechnicalAnalysisDeskView } from './views/TechnicalAnalysisDeskView';
+import { NewsView } from './views/NewsView';
+import { SettingsConnectionsView } from './views/SettingsConnectionsView';
+import { OthersToolsView } from './views/OthersToolsView';
+
 import { PaperTradingProvider } from './context/PaperTradingContext';
 import { AuthProvider, useAuth, ExperienceLevel } from './context/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
@@ -63,12 +67,15 @@ const DEFAULT_REGIME: MarketRegime = {
 function AppInner() {
   const { user } = useAuth();
   const { addToast } = useToast();
-  const [activeTab, setActiveTab] = useState<NavTab>('trading');
+  const [activeTab, setActiveTab] = useState<NavTab>('overview');
   const [commandOpen, setCommandOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLowPerf, setIsLowPerf] = useState(false);
   const [marketOpen, setMarketOpen] = useState(false);
   const [, setLoading] = useState(true);
   const [backendOnline, setBackendOnline] = useState<boolean | null>(null);
+  const [experienceMode, setExperienceMode] = useState<ExperienceLevel>('PRO');
 
   // Data state
   const [niftyQuote, setNiftyQuote] = useState<MarketQuote>(DEFAULT_NIFTY);
@@ -89,7 +96,7 @@ function AppInner() {
         addToast('Backend reconnected — live data streaming.', 'success');
       }
     } catch {
-      if (backendOnline !== false) {
+      if (backendOnline !== false && !isInitial) {
         addToast('Showing simulated exchange data.', 'info', 4000);
       }
     }
@@ -110,8 +117,6 @@ function AppInner() {
     if (isInitial) setLoading(false);
   }, [backendOnline, addToast]);
 
-  const [experienceMode, setExperienceMode] = useState<ExperienceLevel>('PRO');
-
   // Initial load
   useEffect(() => { fetchAll(true); }, []); // eslint-disable-line
 
@@ -122,132 +127,233 @@ function AppInner() {
     return () => clearInterval(interval);
   }, [marketOpen, fetchAll]);
 
-  // Master Flagship Terminal Experience
+  // Keyboard shortcut ⌘K
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setCommandOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
+
   return (
     <div
       className="min-h-screen flex flex-col relative overflow-x-hidden"
       style={{
-        background: 'transparent',
-        color: 'var(--text-primary)',
+        background: '#080B12',
+        color: '#F3F6FC',
       }}
     >
-      {/* Live Animated Background */}
+      {/* Background Ambience */}
       <CyberMarketBackground isLowPerf={isLowPerf} />
 
-      {/* Sticky Navigation (Contains Top Welcome Tagline, Live Index Tickers & 6 Nav Tabs) */}
-      <Navigation
-        activeTab={activeTab}
+      {/* ── 1. Top Header ── */}
+      <AppHeader
         onSelectTab={setActiveTab}
-        isLowPerf={isLowPerf}
-        onToggleLowPerf={() => setIsLowPerf(p => !p)}
-        marketOpen={marketOpen}
         onOpenCommandPalette={() => setCommandOpen(true)}
+        backendOnline={backendOnline}
         experienceMode={experienceMode}
-        onSelectExperienceMode={(mode) => setExperienceMode(mode)}
+        onSelectExperienceMode={setExperienceMode}
       />
 
-      {/* Command palette */}
+      {/* ── 2. Market Ticker Marquee Strip ── */}
+      <MarketTickerTape />
+
+      {/* ── 3. Main Split Shell (Sidebar + Viewport) ── */}
+      <div className="flex-1 flex max-w-[1920px] w-full mx-auto relative z-10">
+        
+        {/* Desktop Sidebar Dock */}
+        <DesktopSidebar
+          activeTab={activeTab}
+          onSelectTab={setActiveTab}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(c => !c)}
+        />
+
+        {/* Dynamic Viewport Container */}
+        <main className="flex-1 min-w-0 p-3 sm:p-5 pb-24 md:pb-8 overflow-y-auto">
+          <AnimatePresence mode="wait">
+            
+            {/* 1. Home Dashboard */}
+            {(activeTab === 'overview' || activeTab === 'markets') && (
+              <PageTransition tabKey="overview">
+                <HomeMarketOverviewView
+                  onNavigate={setActiveTab}
+                  onSelectSymbol={() => setActiveTab('trading')}
+                />
+              </PageTransition>
+            )}
+
+            {/* 2. Trading Terminal */}
+            {activeTab === 'trading' && (
+              <PageTransition tabKey="trading">
+                <TradingTerminalView onNavigateToOptions={() => setActiveTab('options')} />
+              </PageTransition>
+            )}
+
+            {/* 3. Options Terminal */}
+            {activeTab === 'options' && (
+              <PageTransition tabKey="options">
+                <OptionsChainPageView chain={chain} expiries={expiries} />
+              </PageTransition>
+            )}
+
+            {/* 4. AI Market Intelligence */}
+            {activeTab === 'ai-analyst' && (
+              <PageTransition tabKey="ai-analyst">
+                <AIMarketAnalystView
+                  onNavigateToOptions={() => setActiveTab('options')}
+                  onNavigateToStrategy={() => setActiveTab('strategy-lab')}
+                />
+              </PageTransition>
+            )}
+
+            {/* 5. Quant Lab & Backtesting */}
+            {activeTab === 'strategy-lab' && (
+              <PageTransition tabKey="strategy-lab">
+                <StrategyLabView
+                  onNavigateToPaper={() => setActiveTab('positions')}
+                />
+              </PageTransition>
+            )}
+
+            {/* 6. Screener & Sector Heatmap */}
+            {activeTab === 'screener' && (
+              <PageTransition tabKey="screener">
+                <ScreenerHeatmapView
+                  onNavigateToTrade={() => setActiveTab('trading')}
+                  onNavigateToOptions={() => setActiveTab('options')}
+                />
+              </PageTransition>
+            )}
+
+            {/* 7. Portfolio & Risk Management */}
+            {activeTab === 'portfolio' && (
+              <PageTransition tabKey="portfolio">
+                <WatchlistPortfolioView
+                  onNavigateToOptions={() => setActiveTab('options')}
+                  onNavigateToExplorer={() => setActiveTab('technical')}
+                />
+              </PageTransition>
+            )}
+
+            {/* 8. Company Research & Financials */}
+            {(activeTab === 'technical' || activeTab === 'explorer') && (
+              <PageTransition tabKey="technical">
+                <TechnicalAnalysisDeskView />
+              </PageTransition>
+            )}
+
+            {/* 9. News & Economic Calendar */}
+            {activeTab === 'news' && (
+              <PageTransition tabKey="news">
+                <NewsView />
+              </PageTransition>
+            )}
+
+            {/* 10. Orders & Execution */}
+            {(activeTab === 'positions' || activeTab === 'paper-trading') && (
+              <PageTransition tabKey="positions">
+                <PortfolioDesk onNavigateToOptions={() => setActiveTab('trading')} />
+              </PageTransition>
+            )}
+
+            {/* 11. Settings & Connections */}
+            {activeTab === 'settings' && (
+              <PageTransition tabKey="settings">
+                <SettingsConnectionsView />
+              </PageTransition>
+            )}
+
+            {/* Supplementary 3D Volatility & Diagnostics */}
+            {activeTab === 'tools' && (
+              <PageTransition tabKey="tools">
+                <OthersToolsView
+                  niftyQuote={niftyQuote}
+                  bankniftyQuote={bankniftyQuote}
+                  candles={candles}
+                  regime={regime}
+                  providers={providers}
+                  isLowPerf={isLowPerf}
+                />
+              </PageTransition>
+            )}
+
+          </AnimatePresence>
+        </main>
+      </div>
+
+      {/* ── 4. Mobile Bottom Navigation Bar ── */}
+      <MobileNavigation
+        activeTab={activeTab}
+        onSelectTab={setActiveTab}
+        onOpenMenu={() => setMobileMenuOpen(true)}
+      />
+
+      {/* Mobile Menu Drawer Modal */}
+      {mobileMenuOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col justify-end"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <div
+            className="bg-[#101622] border-t border-[#283345] rounded-t-2xl p-5 space-y-4 max-h-[80vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-[#283345]">
+              <span className="font-bold text-[#F3F6FC] text-sm font-['Outfit']">Platform Navigation</span>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs font-mono text-[#929DB0] hover:text-[#F3F6FC]"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
+              {[
+                { id: 'overview', label: 'Dashboard' },
+                { id: 'trading', label: 'Trading Desk' },
+                { id: 'options', label: 'Option Chain' },
+                { id: 'ai-analyst', label: 'AI Intelligence' },
+                { id: 'strategy-lab', label: 'Quant Lab' },
+                { id: 'screener', label: 'Screener & Heatmap' },
+                { id: 'portfolio', label: 'Portfolio & Risk' },
+                { id: 'technical', label: 'Company Research' },
+                { id: 'news', label: 'News & Calendar' },
+                { id: 'positions', label: 'Orders & Execution' },
+                { id: 'settings', label: 'Settings & Brokers' },
+              ].map((m) => (
+                <button
+                  key={m.id}
+                  onClick={() => {
+                    setActiveTab(m.id as NavTab);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`p-3 rounded-xl text-left border ${
+                    activeTab === m.id
+                      ? 'bg-[#161F2D] text-[#B6FF5C] border-[#B6FF5C]/40'
+                      : 'bg-[#0B1220] text-[#929DB0] border-[#283345]'
+                  }`}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── 5. Command Palette ── */}
       <CommandPalette
         open={commandOpen}
         onClose={() => setCommandOpen(false)}
         onNavigate={setActiveTab}
         activeTab={activeTab}
       />
-
-      {/* Main Terminal Viewport (The Interactive Terminal Desks) */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-5 pb-16 relative z-10">
-        <AnimatePresence mode="wait">
-          {/* Tab 1: Flagship Interactive Trading Terminal Desk */}
-          {activeTab === 'trading' && (
-            <PageTransition tabKey="trading">
-              <TradingTerminalView onNavigateToOptions={() => setActiveTab('options')} />
-            </PageTransition>
-          )}
-
-          {/* Tab 2: Market News & Institutional Flow */}
-          {activeTab === 'news' && (
-            <PageTransition tabKey="news">
-              <NewsView />
-            </PageTransition>
-          )}
-
-          {/* Tab 3: Dedicated Options Chain */}
-          {activeTab === 'options' && (
-            <PageTransition tabKey="options">
-              <OptionsChainPageView chain={chain} expiries={expiries} />
-            </PageTransition>
-          )}
-
-          {/* Tab 4: Technical Analysis Desk */}
-          {(activeTab === 'technical' || activeTab === 'explorer') && (
-            <PageTransition tabKey="technical">
-              <TechnicalAnalysisDeskView />
-            </PageTransition>
-          )}
-
-          {/* Tab 5: AI Market Analyst */}
-          {activeTab === 'ai-analyst' && (
-            <PageTransition tabKey="ai-analyst">
-              <AIMarketAnalystView
-                onNavigateToOptions={() => setActiveTab('options')}
-                onNavigateToStrategy={() => setActiveTab('strategy-lab')}
-              />
-            </PageTransition>
-          )}
-
-          {/* Tab 6: Strategy Lab and Backtesting */}
-          {activeTab === 'strategy-lab' && (
-            <PageTransition tabKey="strategy-lab">
-              <StrategyLabView
-                onNavigateToPaper={() => setActiveTab('positions')}
-              />
-            </PageTransition>
-          )}
-
-          {/* Tab 7: Position & P&L Portfolio Desk */}
-          {(activeTab === 'positions' || activeTab === 'paper-trading') && (
-            <PageTransition tabKey="positions">
-              <div className="space-y-4">
-                <PortfolioDesk onNavigateToOptions={() => setActiveTab('trading')} />
-              </div>
-            </PageTransition>
-          )}
-
-          {/* Tab 8: Market Overview & Global Search */}
-          {(activeTab === 'markets' || activeTab === 'overview') && (
-            <PageTransition tabKey="markets">
-              <HomeMarketOverviewView
-                onNavigate={setActiveTab}
-                onSelectSymbol={() => setActiveTab('trading')}
-              />
-            </PageTransition>
-          )}
-
-          {/* Tab 9: Advanced Tools (3D Volatility, Regime, Health) */}
-          {activeTab === 'tools' && (
-            <PageTransition tabKey="tools">
-              <OthersToolsView
-                niftyQuote={niftyQuote}
-                bankniftyQuote={bankniftyQuote}
-                candles={candles}
-                regime={regime}
-                providers={providers}
-                isLowPerf={isLowPerf}
-              />
-            </PageTransition>
-          )}
-
-          {/* Tab 10: Watchlist & Portfolio */}
-          {activeTab === 'portfolio' && (
-            <PageTransition tabKey="portfolio">
-              <WatchlistPortfolioView
-                onNavigateToOptions={() => setActiveTab('options')}
-                onNavigateToExplorer={() => setActiveTab('technical')}
-              />
-            </PageTransition>
-          )}
-        </AnimatePresence>
-      </main>
 
       <Footer />
     </div>

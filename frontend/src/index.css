@@ -2,61 +2,70 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════
-   DESIGN TOKENS — 5-Elevation Depth System
+   MANDATORY QUANT DESIGN SYSTEM — OBSIDIAN / VOLT / CYAN
    ═══════════════════════════════════════════════ */
 @layer base {
   :root {
-    /* Executive Obsidian Depth System */
-    --z0: #07090e;
-    --z1: #0c101a;
-    --z2: #121724;
-    --z3: #181f30;
-    --z4: #202a40;
-    --z5: #283450;
+    /* Mandated Palette */
+    --bg-app: #080B12;
+    --surface-primary: #101622;
+    --surface-elevated: #161F2D;
+    --surface-input: #0B1220;
+    --border-subtle: #283345;
+
+    --accent-primary: #B6FF5C;    /* Neon Volt / High Alpha */
+    --accent-secondary: #43D9FF;  /* Electric Cyan / Derivatives */
+    --color-positive: #22C983;    /* Institutional Emerald */
+    --color-negative: #FF5D6C;    /* Controlled Coral Rose */
+    
+    --text-primary: #F3F6FC;      /* Primary High Contrast */
+    --text-secondary: #929DB0;    /* Muted Technical Slate */
+
+    /* Elevation mapping */
+    --z0: #080B12;
+    --z1: #101622;
+    --z2: #161F2D;
+    --z3: #1c2638;
+    --z4: #243046;
+    --z5: #2d3c56;
 
     /* Legacy compat */
     --bg-primary: var(--z1);
     --bg-secondary: var(--z2);
-    --bg-card: var(--z3);
-    --bg-card-hover: var(--z4);
+    --bg-card: var(--z1);
+    --bg-card-hover: var(--z2);
 
-    /* Executive Luxury Palette */
-    --accent-luxury: #d4af37;
-    --accent-luxury-glow: rgba(212, 175, 55, 0.25);
-    --card-border-luxury: rgba(212, 175, 55, 0.2);
-    --card-shadow-luxury: 0 12px 35px -5px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.08);
+    /* Accents */
+    --accent-luxury: #B6FF5C;
+    --accent-luxury-glow: rgba(182, 255, 92, 0.25);
+    --card-border-luxury: rgba(182, 255, 92, 0.2);
+    --card-shadow-luxury: 0 12px 35px -5px rgba(0, 0, 0, 0.7), 0 0 25px rgba(182, 255, 92, 0.08);
 
-    --gold-primary: #d4af37;
-    --gold-bright: #fbbf24;
-    --gold-dim: #997819;
-    --gold-glow: rgba(212, 175, 55, 0.2);
+    --gold-primary: #B6FF5C;
+    --gold-bright: #d4ff8a;
+    --gold-dim: #7fb536;
+    --gold-glow: rgba(182, 255, 92, 0.2);
 
-    --violet-primary: #818cf8;
-    --violet-dim: #6366f1;
-    --violet-glow: rgba(129, 140, 248, 0.2);
-
-    --cyan-accent: #38bdf8;
+    --cyan-accent: #43D9FF;
     --cyan-dim: #0284c7;
-    --cyan-glow: rgba(56, 189, 248, 0.18);
+    --cyan-glow: rgba(67, 217, 255, 0.2);
 
-    --emerald-accent: #10b981;
-    --emerald-glow: rgba(16, 185, 129, 0.18);
+    --emerald-accent: #22C983;
+    --emerald-glow: rgba(34, 201, 131, 0.2);
 
-    --rose-accent: #f43f5e;
-    --rose-glow: rgba(244, 63, 94, 0.2);
+    --rose-accent: #FF5D6C;
+    --rose-glow: rgba(255, 93, 108, 0.2);
 
     /* Text */
-    --text-primary: #ffffff;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
-    --text-faint: #64748b;
+    --text-muted: #929DB0;
+    --text-faint: #5E697D;
 
     /* Borders */
     --border-0: rgba(255, 255, 255, 0.06);
-    --border-1: rgba(255, 107, 149, 0.14);
-    --border-2: rgba(255, 107, 149, 0.24);
-    --border-gold: rgba(251, 191, 36, 0.35);
-    --border-violet: rgba(192, 132, 252, 0.35);
+    --border-1: rgba(40, 51, 69, 0.8);
+    --border-2: #283345;
+    --border-gold: rgba(182, 255, 92, 0.35);
+    --border-violet: rgba(67, 217, 255, 0.35);
 
     /* Shadows — each elevation level */
     --shadow-z1: 0 1px 3px rgba(0,0,0,0.5);

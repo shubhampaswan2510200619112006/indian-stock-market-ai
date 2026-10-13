@@ -17,13 +17,13 @@ export const CyberLogo: React.FC<CyberLogoProps> = ({ size = 'md', showSubtitle 
         style={{
           width: iconSize,
           height: iconSize,
-          background: 'radial-gradient(circle at 30% 30%, rgba(212,175,55,0.25) 0%, rgba(11,15,25,0.95) 100%)',
-          border: '1px solid rgba(212,175,55,0.4)',
-          boxShadow: '0 0 16px rgba(212,175,55,0.18), inset 0 0 8px rgba(0,245,160,0.12)',
+          background: 'radial-gradient(circle at 30% 30%, rgba(182,255,92,0.2) 0%, rgba(16,22,34,0.95) 100%)',
+          border: '1px solid rgba(182,255,92,0.4)',
+          boxShadow: '0 0 16px rgba(182,255,92,0.18), inset 0 0 8px rgba(67,217,255,0.15)',
         }}
       >
         {/* Ambient spinning cyber glow ring */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 via-transparent to-amber-500/20 opacity-70 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#43D9FF]/20 via-transparent to-[#B6FF5C]/20 opacity-70 group-hover:opacity-100 transition-opacity" />
 
         {/* Vector SVG Bull Head with Technical Candlestick Horns & Circuitry */}
         <svg
@@ -38,34 +38,34 @@ export const CyberLogo: React.FC<CyberLogoProps> = ({ size = 'md', showSubtitle 
             fill="url(#bullGoldGrad)"
           />
           {/* Central Candlestick Core */}
-          <line x1="20" y1="12" x2="20" y2="30" stroke="#00F5A0" strokeWidth="1.5" strokeLinecap="round" />
-          <rect x="18" y="18" width="4" height="8" rx="1" fill="#00F5A0" />
+          <line x1="20" y1="12" x2="20" y2="30" stroke="#B6FF5C" strokeWidth="1.5" strokeLinecap="round" />
+          <rect x="18" y="18" width="4" height="8" rx="1" fill="#B6FF5C" />
           
           {/* Holographic Cheek Plates & Eyes */}
           <polygon points="14,24 18,28 16,33 12,27" fill="url(#bullAccent)" opacity="0.85" />
           <polygon points="26,24 22,28 24,33 28,27" fill="url(#bullAccent)" opacity="0.85" />
-          <circle cx="16" cy="22" r="1.2" fill="#00E5FF" />
-          <circle cx="24" cy="22" r="1.2" fill="#00E5FF" />
+          <circle cx="16" cy="22" r="1.2" fill="#43D9FF" />
+          <circle cx="24" cy="22" r="1.2" fill="#43D9FF" />
           
           {/* Cyber Nodes */}
-          <circle cx="8" cy="8" r="1.5" fill="#D4AF37" />
-          <circle cx="32" cy="8" r="1.5" fill="#D4AF37" />
+          <circle cx="8" cy="8" r="1.5" fill="#B6FF5C" />
+          <circle cx="32" cy="8" r="1.5" fill="#B6FF5C" />
 
           <defs>
             <linearGradient id="bullGoldGrad" x1="8" y1="8" x2="32" y2="22" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FDE047" />
-              <stop offset="0.5" stopColor="#D4AF37" />
-              <stop offset="1" stopColor="#B45309" />
+              <stop stopColor="#B6FF5C" />
+              <stop offset="0.6" stopColor="#43D9FF" />
+              <stop offset="1" stopColor="#0B1220" />
             </linearGradient>
             <linearGradient id="bullAccent" x1="12" y1="24" x2="28" y2="33" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#D4AF37" />
-              <stop offset="1" stopColor="#0B132B" />
+              <stop stopColor="#43D9FF" />
+              <stop offset="1" stopColor="#080B12" />
             </linearGradient>
           </defs>
         </svg>
 
         {/* Energy Pulse Dot */}
-        <div className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping opacity-75" />
+        <div className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#43D9FF] animate-ping opacity-75" />
       </div>
 
       {/* Typography & Subtitle */}
@@ -73,11 +73,11 @@ export const CyberLogo: React.FC<CyberLogoProps> = ({ size = 'md', showSubtitle 
         <div className="flex items-center gap-2">
           <span
             style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontWeight: 800,
               fontSize: titleSize,
               letterSpacing: '0.04em',
-              background: 'linear-gradient(135deg, #FFFFFF 30%, #E2E8F0 70%, #94A3B8 100%)',
+              background: 'linear-gradient(135deg, #F3F6FC 30%, #E2E8F0 70%, #929DB0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
@@ -87,12 +87,12 @@ export const CyberLogo: React.FC<CyberLogoProps> = ({ size = 'md', showSubtitle 
           <span
             className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold tracking-wider uppercase border"
             style={{
-              background: 'rgba(212,175,55,0.1)',
-              borderColor: 'rgba(212,175,55,0.35)',
-              color: '#FDE047',
+              background: 'rgba(182,255,92,0.12)',
+              borderColor: 'rgba(182,255,92,0.35)',
+              color: '#B6FF5C',
             }}
           >
-            v17.2 AI
+            QUANT v18.0
           </span>
         </div>
 

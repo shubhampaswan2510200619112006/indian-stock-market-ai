@@ -49,10 +49,22 @@ def get_expiries(symbol: str):
         _cache.set(cache_key, result, ttl_seconds=300)
         return result
     except DataUnavailableError as e:
-        raise HTTPException(
-            status_code=503,
-            detail={"error": "DATA_UNAVAILABLE", "message": str(e)},
-        )
+        try:
+            from src.options.synthetic_chain import get_fallback_expiries
+            expiries = get_fallback_expiries(symbol.upper(), count=4)
+            result = {
+                "symbol": symbol.upper(),
+                "expiries": [e.isoformat() for e in expiries],
+                "count": len(expiries),
+                "provider": "Black-Scholes Synthetic Stream",
+            }
+            _cache.set(cache_key, result, ttl_seconds=300)
+            return result
+        except Exception:
+            raise HTTPException(
+                status_code=503,
+                detail={"error": "DATA_UNAVAILABLE", "message": str(e)},
+            )
     except Exception as e:
         logger.error(f"Error fetching expiries for {symbol}: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -119,10 +131,24 @@ def get_option_chain(
         return result
 
     except DataUnavailableError as e:
-        raise HTTPException(
-            status_code=503,
-            detail={"error": "DATA_UNAVAILABLE", "message": str(e)},
-        )
+        try:
+            from src.options.synthetic_chain import generate_synthetic_option_chain
+            snapshot = generate_synthetic_option_chain(symbol.upper(), expiry_date=expiry_date)
+            quality_report = validate_option_chain(snapshot)
+            result = {
+                "chain": snapshot.model_dump(mode="json"),
+                "data_quality": quality_report.model_dump(),
+                "provider": "Black-Scholes Mathematical Stream",
+                "timestamp": now_ist().isoformat(),
+            }
+            _cache.set(cache_key, result, ttl_seconds=60)
+            return result
+        except Exception as syn_err:
+            logger.error(f"Fallback synthetic chain failed: {syn_err}")
+            raise HTTPException(
+                status_code=503,
+                detail={"error": "DATA_UNAVAILABLE", "message": str(e)},
+            )
     except Exception as e:
         logger.error(f"Error fetching option chain for {symbol}: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
@@ -179,10 +205,25 @@ def get_chain_analysis(
         return result
 
     except DataUnavailableError as e:
-        raise HTTPException(
-            status_code=503,
-            detail={"error": "DATA_UNAVAILABLE", "message": str(e)},
-        )
+        try:
+            from src.options.synthetic_chain import generate_synthetic_option_chain
+            snapshot = generate_synthetic_option_chain(symbol.upper(), expiry_date=expiry_date)
+            analysis = _analyzer.analyze(snapshot)
+            quality_report = validate_option_chain(snapshot)
+            result = {
+                "analysis": analysis.model_dump(mode="json"),
+                "data_quality": quality_report.model_dump(),
+                "provider": "Black-Scholes Mathematical Stream",
+                "timestamp": now_ist().isoformat(),
+            }
+            _cache.set(cache_key, result, ttl_seconds=60)
+            return result
+        except Exception as syn_err:
+            logger.error(f"Fallback analysis failed: {syn_err}")
+            raise HTTPException(
+                status_code=503,
+                detail={"error": "DATA_UNAVAILABLE", "message": str(e)},
+            )
     except Exception as e:
         logger.error(f"Error analyzing chain for {symbol}: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
