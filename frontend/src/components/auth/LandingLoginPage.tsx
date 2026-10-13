@@ -88,7 +88,7 @@ export const LandingLoginPage: React.FC = () => {
 
       {/* 2. Ambient Cyber Grid & Glow Orbs */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-cyan-500/10 via-[#d4af37]/15 to-emerald-500/10 blur-[130px] rounded-full" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-cyan-500/10 via-[#B6FF5C]/15 to-emerald-500/10 blur-[130px] rounded-full" />
       </div>
 
       {/* 3. Launching Transition Screen */}
@@ -101,10 +101,10 @@ export const LandingLoginPage: React.FC = () => {
             className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#070b14]/95 backdrop-blur-2xl text-center p-6"
           >
             <div className="relative mb-6">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#d4af37] via-cyan-400 to-emerald-400 p-[2px] animate-spin">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#B6FF5C] via-cyan-400 to-emerald-400 p-[2px] animate-spin">
                 <div className="w-full h-full bg-[#070b14] rounded-2xl" />
               </div>
-              <Activity className="w-10 h-10 text-[#d4af37] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+              <Activity className="w-10 h-10 text-[#B6FF5C] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
             </div>
 
             <h2 className="text-2xl font-extrabold text-white mb-2 font-['Outfit'] tracking-wide">
@@ -119,7 +119,7 @@ export const LandingLoginPage: React.FC = () => {
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
                 transition={{ duration: 1.2, ease: 'easeInOut' }}
-                className="h-full bg-gradient-to-r from-[#d4af37] to-cyan-400 rounded-full"
+                className="h-full bg-gradient-to-r from-[#B6FF5C] to-cyan-400 rounded-full"
               />
             </div>
           </motion.div>
@@ -131,12 +131,12 @@ export const LandingLoginPage: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="relative z-10 w-full max-w-xl bg-[#0b101d]/90 border border-white/[0.12] rounded-3xl p-6 sm:p-8 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(212,175,55,0.08)]"
+        className="relative z-10 w-full max-w-xl bg-[#0b101d]/90 border border-white/[0.12] rounded-3xl p-6 sm:p-8 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(182,255,92,0.08)]"
       >
         {/* Top Branding */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f6d776] text-xs font-semibold tracking-wider uppercase mb-3 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B6FF5C]/15 border border-[#B6FF5C]/40 text-[#B6FF5C] text-xs font-semibold tracking-wider uppercase mb-3 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-[#B6FF5C]" />
             <span>Autonomous Trading Intelligence</span>
           </div>
 
@@ -155,7 +155,7 @@ export const LandingLoginPage: React.FC = () => {
             onClick={() => { setActiveTab('demo'); setErrorMsg(''); }}
             className={`py-2 px-2 rounded-lg transition-all cursor-pointer ${
               activeTab === 'demo'
-                ? 'bg-gradient-to-r from-[#d4af37] to-amber-500 text-black font-extrabold shadow-md'
+                ? 'bg-gradient-to-r from-[#B6FF5C] to-emerald-400 text-black font-extrabold shadow-md'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -194,9 +194,9 @@ export const LandingLoginPage: React.FC = () => {
         {/* TAB 1: 1-Click Instant Demo Access */}
         {activeTab === 'demo' && (
           <div className="space-y-4">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#121929] to-[#18233a] border border-[#d4af37]/30 shadow-md">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-[#121929] to-[#18233a] border border-[#B6FF5C]/30 shadow-md">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-[#f6d776] uppercase tracking-wider font-mono">
+                <span className="text-xs font-bold text-[#B6FF5C] uppercase tracking-wider font-mono">
                   Recommended Demo Profile
                 </span>
                 <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold">
@@ -213,7 +213,7 @@ export const LandingLoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleDemoLaunch('pro')}
-                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#d4af37] via-amber-400 to-[#d4af37] text-slate-950 font-black text-sm tracking-wide flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99] transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)] cursor-pointer"
+                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#B6FF5C] via-emerald-300 to-[#B6FF5C] text-slate-950 font-black text-sm tracking-wide flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99] transition-all shadow-[0_0_20px_rgba(182,255,92,0.3)] cursor-pointer"
               >
                 <span>🚀 Launch Demo Desk (₹10,00,000 Capital)</span>
                 <ArrowRight className="w-4 h-4 text-black" />

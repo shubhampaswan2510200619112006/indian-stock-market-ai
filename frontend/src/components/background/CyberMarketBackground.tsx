@@ -82,8 +82,8 @@ export const CyberMarketBackground: React.FC<CyberMarketBackgroundProps> = ({ is
         vx: (Math.random() - 0.5) * 0.4,
         vy: -Math.random() * 0.35 - 0.1,
         text: TICKER_POOL[Math.floor(Math.random() * TICKER_POOL.length)],
-        color: i % 2 === 0 ? '#d4af37' : '#38bdf8',
-        alpha: Math.random() * 0.35 + 0.2,
+        color: i % 2 === 0 ? '#B6FF5C' : '#43D9FF',
+        alpha: Math.random() * 0.45 + 0.3,
       });
     }
 
@@ -286,10 +286,32 @@ export const CyberMarketBackground: React.FC<CyberMarketBackgroundProps> = ({ is
   }, [isLowPerf]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none -z-10 w-full h-full"
-      style={{ opacity: 0.95 }}
-    />
+    <>
+      {/* 1. Stock Market Chart Candlestick Display Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover pointer-events-none opacity-20 mix-blend-screen z-0"
+      >
+        <source
+          src="https://assets.mixkit.co/videos/preview/mixkit-stock-market-candlestick-chart-display-42021-large.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      {/* 2. Ambient Cyber Grid & Glow Orbs */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-cyan-500/10 via-[#B6FF5C]/10 to-emerald-500/10 blur-[140px] rounded-full" />
+      </div>
+
+      {/* 3. 60 FPS Interactive Candlestick Canvas & Floating Telemetry */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 pointer-events-none z-0 w-full h-full"
+        style={{ opacity: 0.9 }}
+      />
+    </>
   );
 };

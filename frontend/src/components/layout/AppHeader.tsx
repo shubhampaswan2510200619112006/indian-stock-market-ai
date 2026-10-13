@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Bell, Sparkles, User, Shield, Terminal, Settings } from 'lucide-react';
+import { Search, Bell, Sparkles, User, Shield, Terminal, Settings, LogOut } from 'lucide-react';
 import { CyberLogo } from './CyberLogo';
 import { useAuth, ExperienceLevel } from '../../context/AuthContext';
 import { usePaperTrading } from '../../context/PaperTradingContext';
@@ -20,7 +20,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   experienceMode,
   onSelectExperienceMode,
 }) => {
-  const { user, openAuthModal } = useAuth();
+  const { user, openAuthModal, logout } = useAuth();
   const { account } = usePaperTrading();
 
   const totalBalance = account.available_balance + account.invested_margin;
@@ -142,17 +142,27 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             </span>
           </div>
 
-          {/* User Profile Pill */}
-          <button
-            onClick={openAuthModal}
-            className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-[#161F2D] hover:bg-[#1a2536] border border-[#283345] transition-colors cursor-pointer"
-            title="Account Profile & Settings"
-          >
-            <span className="text-sm">{user ? user.avatar : '👤'}</span>
-            <span className="hidden sm:inline text-xs font-bold text-[#F3F6FC]">
-              {user ? user.fullName.split(' ')[0] : 'Trader'}
-            </span>
-          </button>
+          {/* User Profile Pill & Desk Switcher */}
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={openAuthModal}
+              className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-[#161F2D] hover:bg-[#1a2536] border border-[#283345] transition-colors cursor-pointer"
+              title="Account Profile & Settings"
+            >
+              <span className="text-sm">{user ? user.avatar : '👤'}</span>
+              <span className="hidden sm:inline text-xs font-bold text-[#F3F6FC]">
+                {user ? user.fullName.split(' ')[0] : 'Trader'}
+              </span>
+            </button>
+            <button
+              onClick={logout}
+              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-[#161F2D] hover:bg-rose-500/20 hover:border-rose-500/40 border border-[#283345] text-slate-400 hover:text-rose-400 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-semibold"
+              title="Switch Trading Desk or Log Out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Exit Desk</span>
+            </button>
+          </div>
 
         </div>
 

@@ -25,6 +25,7 @@ import { OthersToolsView } from './views/OthersToolsView';
 import { PaperTradingProvider } from './context/PaperTradingContext';
 import { AuthProvider, useAuth, ExperienceLevel } from './context/AuthContext';
 import { AuthModal } from './components/auth/AuthModal';
+import { LandingLoginPage } from './components/auth/LandingLoginPage';
 import { CyberMarketBackground } from './components/background/CyberMarketBackground';
 import { OrderPadModal } from './components/trading/OrderPadModal';
 import { PortfolioDesk } from './components/trading/PortfolioDesk';
@@ -139,15 +140,16 @@ function AppInner() {
     return () => window.removeEventListener('keydown', handler);
   }, []);
 
+  // Show Landing & Login Page if not authenticated
+  if (!user) {
+    return <LandingLoginPage />;
+  }
+
   return (
     <div
-      className="min-h-screen flex flex-col relative overflow-x-hidden"
-      style={{
-        background: '#080B12',
-        color: '#F3F6FC',
-      }}
+      className="min-h-screen flex flex-col relative overflow-x-hidden bg-[#080B12]/85 text-[#F3F6FC] backdrop-blur-[1px]"
     >
-      {/* Background Ambience */}
+      {/* Background Ambience & Live Candlestick Video Display */}
       <CyberMarketBackground isLowPerf={isLowPerf} />
 
       {/* ── 1. Top Header ── */}
