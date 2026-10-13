@@ -9,6 +9,8 @@ import { Footer } from './components/layout/Footer';
 import { CommandPalette } from './components/ui/CommandPalette';
 import { ToastProvider, useToast } from './components/ui/Toast';
 import { PageTransition } from './components/ui/PageTransition';
+import { ScrollProgressBar } from './components/ui/ScrollProgressBar';
+import { DashboardSkeleton, TradingTerminalSkeleton, OptionChainSkeleton } from './components/ui/Skeleton';
 
 import { HomeMarketOverviewView } from './views/HomeMarketOverviewView';
 import { TradingTerminalView } from './views/TradingTerminalView';
@@ -69,12 +71,19 @@ function AppInner() {
   const { user, logout } = useAuth();
   const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState<NavTab>('overview');
+  const [isTabTransitioning, setIsTabTransitioning] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLowPerf, setIsLowPerf] = useState(false);
   const [marketOpen, setMarketOpen] = useState(false);
   const [, setLoading] = useState(true);
+
+  const handleSelectTab = useCallback((tab: NavTab) => {
+    setIsTabTransitioning(true);
+    setActiveTab(tab);
+    setTimeout(() => setIsTabTransitioning(false), 220);
+  }, []);
   const [backendOnline, setBackendOnline] = useState<boolean | null>(null);
   const [experienceMode, setExperienceMode] = useState<ExperienceLevel>('PRO');
 
@@ -149,12 +158,15 @@ function AppInner() {
     <div
       className="min-h-screen flex flex-col relative overflow-x-hidden bg-[#080B12]/85 text-[#F3F6FC] backdrop-blur-[1px]"
     >
+      {/* ── 0. Scroll Progress Laser Bar ── */}
+      <ScrollProgressBar />
+
       {/* Background Ambience & Live Candlestick Video Display */}
       <CyberMarketBackground isLowPerf={isLowPerf} />
 
       {/* ── 1. Top Header ── */}
       <AppHeader
-        onSelectTab={setActiveTab}
+        onSelectTab={handleSelectTab}
         onOpenCommandPalette={() => setCommandOpen(true)}
         backendOnline={backendOnline}
         experienceMode={experienceMode}
@@ -164,7 +176,7 @@ function AppInner() {
       {/* ── 1.1 Mobile Top Navigation & Floating Trigger ── */}
       <MobileNavigation
         activeTab={activeTab}
-        onSelectTab={setActiveTab}
+        onSelectTab={handleSelectTab}
         onOpenMenu={() => setMobileMenuOpen(true)}
       />
 
@@ -177,21 +189,33 @@ function AppInner() {
         {/* Desktop Sidebar Dock */}
         <DesktopSidebar
           activeTab={activeTab}
-          onSelectTab={setActiveTab}
+          onSelectTab={handleSelectTab}
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(c => !c)}
         />
 
         {/* Dynamic Viewport Container */}
-        <main className="flex-1 min-w-0 p-3 sm:p-5 pb-10 md:pb-8 overflow-y-auto">
+        <main className="flex-1 min-w-0 p-3 sm:p-5 pb-10 md:pb-8">
           <AnimatePresence mode="wait">
-            
+            {/* Show Institutional Shimmer Skeleton during tab switch / hydrating */}
+            {isTabTransitioning ? (
+              <PageTransition tabKey={`skeleton-${activeTab}`}>
+                {activeTab === 'trading' ? (
+                  <TradingTerminalSkeleton />
+                ) : activeTab === 'options' ? (
+                  <OptionChainSkeleton />
+                ) : (
+                  <DashboardSkeleton />
+                )}
+              </PageTransition>
+            ) : (
+              <>
             {/* 1. Home Dashboard */}
             {(activeTab === 'overview' || activeTab === 'markets') && (
               <PageTransition tabKey="overview">
                 <HomeMarketOverviewView
-                  onNavigate={setActiveTab}
-                  onSelectSymbol={() => setActiveTab('trading')}
+                  onNavigate={handleSelectTab}
+                  onSelectSymbol={() => handleSelectTab('trading')}
                 />
               </PageTransition>
             )}
@@ -291,6 +315,8 @@ function AppInner() {
               </PageTransition>
             )}
 
+            </>
+            )}
           </AnimatePresence>
         </main>
       </div>
